@@ -1,0 +1,22 @@
+
+# all settings for usage of the common tfyh modules
+# ther must not be extra blanks or trailing characters.
+
+# module users.php
+users.action_links=["admin: <a href='..\/pages\/nutzer_profil.php?id={#ID}'>anzeigen<\/a>,","admin: <a href='..\/forms\/nutzer_aendern.php?id={#ID}'> \u00e4ndern<\/a>,"]
+users.user_table_name="efaCloudUsers"
+users.user_id_field_name="efaCloudUserID"
+users.user_archive_table_name=""
+users.user_firstname_field_name="Vorname"
+users.user_lastname_field_name="Nachname"
+users.user_subscriptions=false
+users.user_workflows=false
+
+# module config.php
+config.app_name="efaCloud"
+config.changelog_name="efaCloudLog"
+config.parameter_table_name="efaCloudConfig"
+config.pdf_footer_text=""
+config.pdf_document_author="efaCloud c:nmichael.de"
+#left, top, right, header, footer
+config.pdf_margins=[20,15,15,10,10]

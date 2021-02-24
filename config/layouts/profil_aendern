@@ -1,0 +1,20 @@
+tags;required;name;value;label;type;class;size;maxlength
+<div class='w3-row'><div class='w3-col l1'>;*; \
+  Vorname;;Vorname;text;;20;250
+</div></div><div class='w3-row'><div class='w3-col l1'>;*; \
+  Nachname;;Nachname;text;;20;250
+</div></div><div class='w3-row'><div class='w3-col l1'>;*; \
+  EMail;;EMail;text;;20;250
+</div></div><div class='w3-row'><div class='w3-col l1'>;*; \
+  Passwort;;Ihr Passwort;password;;18;240
+</div></div><div class='w3-row'><div class='w3-col l1'>;*; \
+  Passwort_Wdh;;Ihr Passwort wiederholen;password;;18;240
+</div></div><div class='w3-row'><div class='w3-col l1'><div style='float:right'>;; \
+  submit;Profil jetzt ändern;;submit;formbutton;;
+</div></div></div>;;_no_input;;;;;;
+<li><span class='helptext'>;;_help_text;;Hier können Sie Ihre Nutzerdaten ändern.;;;;
+</span></li><li><span class='helptext'>;;_help_text;;"Namenszusätze wie 'von' o. ä. bitte im Nachnamen eintragen (z. B. 'Eckhard' – 'von Hirschhausen')";;;;
+</span></li><li><span class='helptext'>;;_help_text;;Die Änderung wird unmittelbar in die Datenbank übernommen und gleichzeitig im log registriert..;;;;
+</span></li><li><span class='helptext'>;;_help_text;;Ein * vor einer Feldbezeichnung gibt an, dass ein Eintrag erforderlich ist.;;;;
+</span></li><li><span class='helptext'>;;_help_text;;"Das Kennwort muss mindestens 8 Zeichen lang sein. Im Kennwort müssen Zeichen aus drei Gruppen der folgenden vier Gruppen enthalten sein: Ziffern, Kleinbuchstaben, Großbuchstaben, Sonderzeichen. Zulässige Sonderzeichen sind !"#$%&'*+,-./:;<=>?@[\]^_`{|}~";;;;
+</span></li>;;_help_text;;;;;;

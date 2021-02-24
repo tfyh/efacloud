@@ -1,0 +1,6 @@
+id;permission;name;select;from;where;options
+1;board;Nutzer;ID,efaCloudUserID,EMail,Vorname,Nachname,Rolle, \
+  LastModified;efaCloudUsers;NOT (Rolle='anonymous') AND NOT (Rolle='guest');sort=efaCloudUserID
+2;admin;Administratoren;ID,efaCloudUserID,EMail,Vorname,Nachname,Rolle,Passwort_Hash, \
+  LastModified;efaCloudUsers;Rolle='admin';sort=efaCloudUserID
+3;admin;Parameter;ID,Name,Wert;efaCloudConfig;1;sort=ID

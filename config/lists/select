@@ -1,0 +1,2 @@
+id;permission;name;select;from;where;options
+1;board;Konfigurationsparameter;ID,Name;efaCloudConfig;1;sort=Name

@@ -1,0 +1,21 @@
+tags;required;name;value;label;type;class;size;maxlength
+<div class='w3-row'><div class='w3-col l1'>;; \
+  _no_input;;Login zum efaCloud-Server ist mit der efaCloudUserID und dem zugehörigen Kennwort möglich.<br> \
+  Zum Zurücksetzen des Kennworts wenden Sie sich bitte an den Administrator der Anwendung im Verein.<br><br>;;;;
+</div></div><div class='w3-row'><div class='w3-col l1'>;*; \
+  Account;;Login (E-Mail);text;;20;50
+</div></div><div class='w3-row'><div class='w3-col l1'>;; \
+  _no_input;;<br>;;;;
+</div></div><div class='w3-row'><div class='w3-col l1'>;*; \
+  Passwort;;Passwort;password;;20;50
+</div></div><div class='w3-row'><div class='w3-col l1'>;; \
+  _no_input;;<br>;;;;
+</div></div><div class='w3-row'><div class='w3-col l1'>;; \
+  submit;Einloggen;;submit;formbutton;;
+</div></div>;;_no_input;;;;;;
+<li><span class='helptext'>;;_help_text;; \
+  Das Kennwort muss mindestens 8 Zeichen lang sein und von den Zeichengruppen 'Kleinbuchstaben',  \
+  'Großbuchstaben', 'Zahlen' und 'Sonderzeichen' mindestnes drei enthalten.;;;;
+</span></li><li><span class='helptext'>;;_help_text;;Zum Zurücksetzen des Kennworts wenden Sie  \
+  sich bitte an den Administrator der Anwendung im Verein.;;;;
+</span></li>;;_help_text;;;;;;

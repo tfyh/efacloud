@@ -1,0 +1,2 @@
+id;permission;name;select;from;where;options
+1;bths;trips;EntryId,BoatName,BoatId,Date,StartTime,EndTime;efa2logbook;1;sort=EntryId

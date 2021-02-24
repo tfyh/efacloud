@@ -1,0 +1,6 @@
+anonymous=anonymous
+guest=guest,anonymous
+member=member,guest,anonymous
+*bths=bths,member,guest,anonymous
+*board=board,bths,member,guest,anonymous
+*admin=admin,board,bths,member,guest,anonymous

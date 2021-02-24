@@ -1,0 +1,60 @@
+key;en-GB;de-DE
+Done:_;transactions done: ;erledigte Transaktionen: 
+the_transaction_result_comes_w;the transaction result comes with the wrong client transaction ID or the result syntactically invalid or the matched transaction was already closed.;Das Transaktionsergebnis wird mit der falschen Client-Transaktions-ID geliefert oder das Ergebnis ist syntaktisch ungültig oder die übereinstimmende Transaktion wurde bereits geschlossen.
+_for_undefined_transaction.; for undefined transaction.; für eine undefinierte Transaktion.
+_For_transaction:_;"
+For transaction: ";Für die Transaktion:
+undefined;undefined;nicht definiert
+)_returned_#;) returned #;) hat zurückgeliefert #
+IDs_(client/server):_;IDs (client/server): ;IDs (Client / Server):
+not_yet_;not yet ;noch nicht
+sent:_;sent: ;geschickt:
+result:_;result: ;Ergebnis:
+closed:_;closed: ;geschlossen:
+(needed_$1_retries);(needed $1 retries);(benötigte $1 Wiederholungen)
+Error_$1_in_handling_response.;Error $1 in handling response.;Fehler $1 bei der Bearbeitung der Antwort.
+Open:_;Open: ;Öffnen:
+Closed:_;Closed: ;Geschlossen:
+Moving_remaining_retries_from_;Moving remaining retries from last session into transaction queue:;Verbleibende Wiederholungen von der letzten Sitzung in die Transaktionswarteschlange verschieben:
+Processing:_#;Processing: #;Wird bearbeitet: #
+Pending:_;Pending: ;Steht aus:
+Recently_done_(max._10):<br>;Recently done (max. 10):<br>;Kürzlich ausgetauscht (max. 10): <br>
+Failed_[;Failed [;Gescheitert [
+Ok;Ok;OK
+login_to_efacloud_server_failed._Y;login to efacloud server failed. You may try again.;Anmeldung beim efacloud-Server fehlgeschlagen. Sie können es erneut versuchen.
+<table_class='buttongrid'><tr>;"<table class='buttongrid'><tr><td><p><br>Autologin failed.  Please enter login values manually:<br>&nbsp;</p>
+</td></tr> <tr><td><form><p class='center'>Client-Name:<br>
+<input class='efacloud_forminput' type='text' id='clientname'><br>Client-Password:<br>
+<input class='efacloud_forminput' type='password' id='clientkey'></p>
+</form></td></tr>
+<tr><td class='buttongrid' id='log_on'><p>log in</p></td></tr></table>
+";"<table class='buttongrid'><tr><td><p><br>Autologin gescheitert.  Bitte die Login-Daten manuell angeben:<br>&nbsp;</p>
+</td></tr> <tr><td><form><p class='center'>Client-Bezeichnung:<br>
+<input class='efacloud_forminput' type='text' id='clientname'><br>Client-Kennwort:<br>
+<input class='efacloud_forminput' type='password' id='clientkey'></p>
+</form></td></tr>
+<tr><td class='buttongrid' id='log_on'><p>Starten</p></td></tr></table>
+"
+Cannot_read_list.;Cannot read list.;Liste kann nicht gelesen werden.
+_not_loaded_yet)_; not loaded yet) ;  noch nicht geladen)
+_rows,_; rows, ;  Zeilen,
+_(empty)_; (empty) ;  (leer)
+continue_transaction_processin;continue transaction processing;Setze Transaktionsverarbeitung fort.
+Client_session_opened.;Client session opened.;Clientsitzung wurde geöffnet.
+Client_session_closed.;Client session closed.;Clientsitzung geschlossen.
+Transaction_completed.;Transaction completed.;Transaktion abgeschlossen.
+Syntax_error.;Syntax error.;Syntax-Fehler.
+Unknown_client.;Unknown client.;Unbekannter Client.
+Invalid_key_timestamp.;Invalid key timestamp.;Ungültiger Zeitstempel für einen Schlüssel.
+Invalid_challenge.;Invalid challenge.;Ungültige Challenge.
+Invalid_session.;Invalid session.;Ungültige Sitzung.
+Session_expired.;Session expired.;Sitzung abgelaufen.
+Overload_detected.;Overload detected.;Überlast erkannt.
+Internal_server_error.;Internal server error.;Interner Serverfehler.
+Transaction_invalid.;Transaction invalid.;Transaktion ungültig.
+Transaction_failed.;Transaction failed.;Transaktion fehlgeschlagen.
+Invalid_server_response.;Invalid server response.;Ungültige Serverantwort.
+Transaction_timed_out.;Transaction timed out.;Transaktion ist abgelaufen.
+Transaction_aborted.;Transaction aborted.;Transaktion abgebrochen.
+Transaction_max_retries_reache;Transaction max retries reached.;Max. Wiederholungen der Transaktion erreicht.
+Error_$1_in_handling_list_$2.;Error $1 in handling list $2.;Fehler $1 bei der Bearbeitung der der Liste $2.

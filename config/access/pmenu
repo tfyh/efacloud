@@ -1,0 +1,5 @@
+id;permission;headline;link
+Startseite;anonymous;Startseite ;../pages/index.php
+Login;anonymous;Anmelden ;../forms/login.php
+Logout;.anonymous;Abmelden ;../pages/logout.php
+Hilfe;anonymous;Hilfe ;../pages/construction.php

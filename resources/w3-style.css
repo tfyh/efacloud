@@ -1,0 +1,392 @@
+/* W3.CSS 4.13 June 2019 by Jan Egil and Borge Refsnes. Significantly streamlinednand adapted: tfyh.org, Oct 2019 */
+
+/*
+  Colors: all color definitions need to be done within the app-style.css stylesheet. 
+  Fonts: all font definitions likewise
+*/
+
+/* Section formats */
+html {
+	-ms-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
+	box-sizing: border-box;
+	overflow-x: hidden
+}
+
+footer, header, nav {
+	display: block
+}
+
+/* Element formats */
+
+h1, h2, h3, h4, h5, h6, input, p, blockquote, code {
+	line-height: 1.5;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight: 400;
+	margin: 10px 0
+}
+
+h1 {
+	font-size: 36px;
+}
+
+h2 {
+	font-size: 30px;
+}
+
+h3 {
+	font-size: 24px;
+}
+
+h4 {
+	font-size: 20px
+}
+
+h5 {
+	font-size: 18px
+}
+
+h6 {
+	font-size: 16px
+}
+
+p, textarea {
+	font-size: 16px
+}
+
+a {
+	background-color: transparent;
+	text-decoration: none;
+}
+
+a:active, a:hover {
+	outline-width: 0;
+}
+
+img {
+	vertical-align: middle;
+	border-style: none
+}
+
+/* Font size and position formats */
+b {
+	font-weight: bolder
+}
+
+small {
+	font-size: 80%
+}
+
+sub, sup {
+	font-size: 75%;
+	line-height: 0;
+	position: relative;
+	vertical-align: baseline
+}
+
+sub {
+	bottom: -0.25em
+}
+
+sup {
+	top: -0.5em
+}
+
+.w3-small {
+	font-size: 12px !important
+}
+
+.w3-medium {
+	font-size: 15px !important
+}
+
+.w3-large {
+	font-size: 18px !important
+}
+
+.w3-xlarge {
+	font-size: 24px !important
+}
+
+.w3-center {
+	text-align: center !important
+}
+
+/* Form element formats */
+button, [type=button], [type=reset], [type=submit] {
+	-webkit-appearance: button
+}
+
+button::-moz-focus-inner, [type=button]::-moz-focus-inner, [type=reset]::-moz-focus-inner,
+	[type=submit]::-moz-focus-inner {
+	border-style: none;
+	padding: 0
+}
+
+button:-moz-focusring, [type=button]:-moz-focusring, [type=reset]:-moz-focusring,
+	[type=submit]:-moz-focusring {
+	outline: 1px dotted ButtonText
+}
+
+textarea {
+	overflow: auto;
+	width:95%
+}
+
+/* class definitions */
+/* containers */
+.w3-main, #main {
+	transition: margin-left .4s;
+	margin-right: 0 !important
+		/* margin left is controlled by the media section */
+}
+
+.w3-auto, .w3-row {
+	padding-top: 4px;
+	overflow: auto /* expand the div to its childrens height */
+}
+
+.w3-container {
+	padding: 8px;
+}
+
+.w3-sidebar {
+	height: 100%;
+	width: 200px;
+	position: fixed !important;
+	z-index: 1;
+	overflow: auto
+}
+
+.w3-bar-item {
+	padding: 8px;
+	float: left;
+	width: auto;
+	border: none;
+	display: block;
+	outline: 0
+}
+
+.w3-bar-block .w3-bar-item {
+	display: block;
+	padding: 8px;
+	text-align: left;
+	border: none;
+	white-space: normal;
+	float: none;
+	outline: 0
+}
+
+.w3-image {
+	max-width: 100%;
+	height: auto
+}
+
+.w3-col {
+	float: left;
+	width: 100%
+}
+
+/* menu accordion controls */
+.w3-hide {
+	display: none !important
+}
+
+.w3-show {
+	display: block !important
+}
+
+/* responsive layout definition. */
+/* full size screen. */
+@media ( min-width : 1050px) {
+	.w3-hide-large {
+		display: none !important
+	}
+	.w3-sidebar.w3-collapse {
+		display: block !important
+	}
+	.w3-main {
+		margin-left: 250px !important;
+	}
+	.w3-col.l1 {
+		width: 99.99999%
+	}
+	.w3-col.l2 {
+		width: 49.99999%
+	}
+	.w3-col.l3 {
+		width: 33.33333%
+	}
+	.w3-col.l4 {
+		width: 24.99999%
+	}
+}
+
+/* reduced size, but with side menu */
+@media ( max-width : 1049px) and (min-width: 900px) {
+	.w3-hide-large {
+		display: none !important
+	}
+	.w3-sidebar.w3-collapse {
+		display: block !important
+	}
+	.w3-main {
+		margin-left: 220px !important;
+	}
+	.w3-col.l1 {
+		width: 99.99999%
+	}
+	.w3-col.l2 {
+		width: 49.99999%
+	}
+	.w3-col.l3 {
+		width: 33.33333%
+	}
+	.w3-col.l4 {
+		width: 33.33333%
+	}
+}
+
+/* further reduced screen, but with side menu */
+@media ( max-width : 899px) and (min-width: 800px) {
+	.w3-hide-large {
+		display: none !important
+	}
+	.w3-sidebar.w3-collapse {
+		display: block !important
+	}
+	.w3-main {
+		margin-left: 200px !important;
+	}
+	.w3-col.l1 {
+		width: 99.99999%
+	}
+	.w3-col.l2 {
+		width: 99.99999%
+	}
+	.w3-col.l3 {
+		width: 49.99999%
+	}
+	.w3-col.l4 {
+		width: 49.99999%
+	}
+}
+
+/* further reduced screen, without side menu */
+@media ( max-width : 799px) and (min-width: 650px) {
+	.w3-hide-large {
+		display: block
+	}
+	.w3-sidebar.w3-collapse {
+		display: none
+	}
+	.w3-main {
+		margin-left: 0 !important;
+	}
+	.w3-col.l1 {
+		width: 99.99999%
+	}
+	.w3-col.l2 {
+		width: 99.99999%
+	}
+	.w3-col.l3 {
+		width: 49.99999%
+	}
+	.w3-col.l4 {
+		width: 49.99999%
+	}
+}
+
+/* further reduced screen, without side menu */
+@media ( max-width : 649px) {
+	.w3-hide-large {
+		display: block
+	}
+	.w3-sidebar.w3-collapse {
+		display: none
+	}
+	.w3-main {
+		margin-left: 0 !important;
+	}
+	.w3-col.l1 {
+		width: 99.99999%
+	}
+	.w3-col.l2 {
+		width: 99.99999%
+	}
+	.w3-col.l3 {
+		width: 99.99999%
+	}
+	.w3-col.l4 {
+		width: 99.99999%
+	}
+}
+
+
+/* Positionierungen */
+.w3-top, .w3-bottom {
+	position: fixed;
+	width: 100%;
+	z-index: 1
+}
+
+.w3-top {
+	top: 0
+}
+
+.w3-bottom {
+	bottom: 0
+}
+
+.w3-overlay {
+	position: fixed;
+	display: none;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 2
+}
+
+.w3-padding-small {
+	padding: 4px 8px !important
+}
+
+.w3-padding {
+	padding: 8px 16px !important
+}
+
+.w3-padding-large {
+	padding: 12px 24px !important
+}
+
+.w3-padding-16 {
+	padding-top: 16px !important;
+	padding-bottom: 16px !important
+}
+
+.w3-padding-64 {
+	padding-top: 64px !important;
+	padding-bottom: 64px !important
+}
+
+.w3-left {
+	float: left !important
+}
+
+.w3-right {
+	float: right !important
+}
+
+/* Colors */
+.w3-grayscale {
+	filter: grayscale(75%)
+}
+.w3-grayscale:hover {
+	filter: grayscale(0%)
+}

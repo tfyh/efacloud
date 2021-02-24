@@ -1,0 +1,28 @@
+id;permission;name;select;from;where;options
+1;Verwaltung;Alle Nutzer; \
+  Mitgliedsnummer;Mitgliederliste;1;sort=Nachname.Vorname
+2;Katechese;Alle Katecheten und Verwaltung; \
+  Mitgliedsnummer;Mitgliederliste;(Rolle = 'Verwaltung') OR (Rolle = 'Katechese');sort=Nachname.Vorname
+3;Katechese;Firmgruppe Hanna Blaschke und Isabel Fetsch; \
+  Mitgliedsnummer;Mitgliederliste;Firmgruppe='Hanna Blaschke und Isabel Fetsch';sort=Nachname.Vorname
+4;Katechese;Firmgruppe Martin Glade und Bettina Hütte; \
+  Mitgliedsnummer;Mitgliederliste;Firmgruppe='Martin Glade und Bettina Hütte';sort=Nachname.Vorname
+5;Katechese;Firmgruppe Paul Kirschner und Sebastian Kron; \
+  Mitgliedsnummer;Mitgliederliste;Firmgruppe='Paul Kirschner und Sebastian Kron';sort=Nachname.Vorname
+6;Katechese;Firmgruppe Tobit Loevenich und Franziskus Schützeichel; \
+  Mitgliedsnummer;Mitgliederliste;Firmgruppe='Tobit Loevenich und Franziskus Schützeichel';sort=Nachname.Vorname
+7;Katechese;Firmgruppe Julian Röttgen-Burscheid und Igor Tadic; \
+  Mitgliedsnummer;Mitgliederliste;Firmgruppe='Julian Röttgen-Burscheid und Igor Tadic';sort=Nachname.Vorname
+8;Katechese;Firmgruppe Jan Wachendorff und Annette Woelfle; \
+  Mitgliedsnummer;Mitgliederliste;Firmgruppe='Jan Wachendorff und Annette Woelfle';sort=Nachname.Vorname
+9;Katechese;Firmgruppe Andrea Schwarz und Philipp Siemer; \
+  Mitgliedsnummer;Mitgliederliste;Firmgruppe='Andrea Schwarz und Philipp Siemer';sort=Nachname.Vorname
+10;Katechese;Firmgruppe Markus Dockter; \
+  Mitgliedsnummer;Mitgliederliste;Firmgruppe='Markus Dockter';sort=Nachname.Vorname
+11;Katechese;Firmgruppe Bernd Kemmerling und Hanno Wurm; \
+  Mitgliedsnummer;Mitgliederliste;Firmgruppe='Bernd Kemmerling und Hanno Wurm';sort=Nachname.Vorname
+12;Verwaltung;Nachversand, Mitgliedsnummern > 10000; \
+  Mitgliedsnummer;Mitgliederliste;Mitgliedsnummer > 10000;sort=Nachname.Vorname
+13;Verwaltung;Erinnerung Anmeldung Wochenende; \
+  Mitgliedsnummer;Mitgliederliste;(ISNULL(TeilnahmeWE) OR (TeilnahmeWE = ''))  \
+  AND (EMail LIKE '%@%') AND (Mitgliedsnummer > 2000);sort=Nachname.Vorname

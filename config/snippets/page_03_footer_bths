@@ -1,0 +1,38 @@
+  <!-- Footer moved into menu bar -->
+  <!-- End page content -->
+</div>
+
+    <!-- jQuery framework, smaller version for speed reasons -->
+    <script src="../js/jQuery_3.3.1.js"></script>
+
+	<!-- server menu script is also used at client side (open, close submenus) -->
+	<script src="../js/sMenu.js"></script>
+
+    <!-- application script code, generic parts -->
+    <script src="../js/bGlobals.js"></script>
+    <script src="../js/bToolbox.js"></script>
+    <script src="../js/bConfig.js"></script>
+
+    <!-- application script code, UI parts -->
+    <script src="../js/bMenu.js"></script>
+    <script src="../js/bForm.js"></script>
+    <script src="../js/bFormHandler.js"></script>
+    <script src="../js/bModal.js"></script>
+    <script src="../js/bPanel.js"></script>
+
+    <!-- application script code, data handling -->
+    <script src="../js/bLists.js"></script>
+    <script src="../js/bTrip.js"></script>
+    <script src="../js/bBoat.js"></script>
+    <script src="../js/bStatistics.js"></script>
+
+    <!-- application script code, server interface -->
+    <script src="../js/bTxQueue.js"></script>
+    <script src="../js/bTxHandler.js"></script>
+
+    <!-- application script code, event binding -->
+    <script src="../js/bAutocomplete.js"></script>
+    <script src="../js/bEvents.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+id;permission;name;select;from;where;options
+1;admin;eFa autoincrement;ChangeCount,IntValue,LastModified,LongValue,Sequence;efa2autoincrement;1;sort=Sequence
+2;board;eFa boatdamages;BoatId,ChangeCount,Claim,Damage,Description,FixDate,FixTime,Fixed, \
+  FixedByPersonId,LastModified,LogbookText,Notes,ReportDate,ReportTime,ReportedByPersonId, \
+  ReportedByPersonName,Severity;efa2boatdamages;1;sort=Damage
+3;board;eFa boatreservations;BoatId,ChangeCount,Contact,DateFrom,DateTo,LastModified, \
+  PersonId,Reason,Reservation,TimeFrom,TimeTo,Type;efa2boatreservations;1;sort=Reservation
+4;member;eFa boats;ChangeCount,DefaultSessionType,DefaultVariant,Id,InvalidFrom,LastModified, \
+  LastVariant,MaxNotInGroup,Name,NameAffix,Owner,TypeCoxing,TypeDescription,TypeRigging,TypeSeats, \
+  TypeType,TypeVariant,ValidFrom;efa2boats;1;sort=Name
+5;board;eFa boatstatus;BaseStatus,BoatId,BoatText,ChangeCount,Comment,CurrentStatus, \
+  LastModified;efa2boatstatus;1;sort=BaseStatus
+6;admin;eFa crews;ChangeCount,CoxId,Crew1Id,Crew2Id,Crew3Id,Crew4Id,Crew5Id,Crew6Id,Crew7Id, \
+  Crew8Id,Crew9Id,Crew10Id,Crew11Id,Crew12Id,Crew13Id,Crew14Id,Crew15Id,Crew16Id,Crew17Id,Crew18Id, \
+  Crew19Id,Crew20Id,Crew21Id,Crew22Id,Crew23Id,Crew24Id,Id,LastModified,Name;Crews;1;sort=Name
+7;admin;eFa destinations;ChangeCount,Distance,End,Id,InvalidFrom,LastModified,Name,Roundtrip, \
+  Start,StartIsBoathouse,ValidFrom,WatersIdList;efa2destinations;1;sort=Id
+8;admin;eFa fahrtenabzeichen;Abzeichen,AbzeichenAB,ChangeCount,Fahrtenheft,Kilometer, \
+  KilometerAB,LastModified,PersonId;efa2fahrtenabzeichen;1;sort=PersonId
+9;board;eFa groups;ChangeCount,Color,Id,InvalidFrom,LastModified,MemberIdList,Name, \
+  ValidFrom;efa2groups;1;sort=Id
+10;board;eFa logbook;EntryId,BoatId,BoatName,BoatCaptain,BoatVariant,ChangeCount,Comments,CoxId,CoxName,Crew1Id, \
+  Crew1Name,Crew2Id,Crew2Name,Crew3Id,Crew3Name,Crew4Id,Crew4Name,Crew5Id,Crew5Name,Crew6Id,Crew6Name, \
+  Crew7Id,Crew7Name,Crew8Id,Crew8Name,Date,DestinationId,DestinationName,DestinationVariantName, \
+  Distance,EndDate,EndTime,EntryId,LastModified,SessionType,StartTime,WatersIdList, \
+  WatersNameList,Logbookname;efa2logbook;1;sort=EntryId
+11;member;eFa messages;ChangeCount,Date,From,LastModified,MessageId,Read,ReplyTo,Subject,Text, \
+  Time,To;efa2messages;1;sort=MessageId
+12;board;eFa persons;Id,ValidFrom,InvalidFrom,Association,Birthday,ChangeCount,Disability, \
+  Email,ExcludeFromCompetition,FirstName,Freeuse1,Freeuse2,Freeuse3,Gender,InputShortcut,LastName,LastModified, \
+  MembershipNo,NameAffix,StatusId,Title;efa2persons;1;sort=LastName
+13;board;eFa sessiongroups;ActiveDays,ChangeCount,EndDate,Id,LastModified,Logbook,Name,Route, \
+  StartDate;efa2sessionGroups;1;sort=Id
+14;board;eFa statistics;Id,Name,Position,PubliclyAvailable,DateFrom,DateTo,StatisticCategory, \
+  StatisticType,StatisticKey,FilterGender,FilterGenderAll,FilterStatus,FilterStatusAll,FilterSessionType, \
+  FilterSessionTypeAll,FilterBoatType,FilterBoatTypeAll,FilterBoatSeats,FilterBoatSeatsAll,FilterBoatRigging, \
+  FilterBoatRiggingAll,FilterBoatCoxing,FilterBoatCoxingAll,FilterBoatOwner,FilterBoatOwnerAll,FilterByPersonId, \
+  FilterByPersonText,FilterByBoatId,FilterByBoatText,FilterByGroupId,FilterPromptPerson,FilterPromptBoat, \
+  FilterPromptGroup,FilterFromToBoathouse,FilterNameContains,FilterCommentsInclude,FilterCommentsExclude, \
+  FilterMinSessionDistance,FilterOnlyOpenDamages,FilterAlsoOpenSessions,FilterOnlyLogbook,ShowFields, \
+  ShowLogbookFields,ShowOtherFields,Aggregations,AggregationDistanceBarSize,AggregationRowDistanceBarSize, \
+  AggregationCoxDistanceBarSize,AggregationSessionsBarSize,AggregationAvgDistanceBarSize,AggregationDurationBarSize, \
+  AggregationSpeedBarSize,CompYear,CompPercentFulfilled,CompOutputShort,CompOutputRules,CompOutputAdditionalWithRequirements, \
+  CompOutputWithoutDetails,CompOutputAllDestinationAreas,SortingCriteria,SortingOrder,OutputType,OutputFile, \
+  OutputEncoding,OutputHtmlUpdateTable,OutputCsvSeparator,OutputCsvQuotes,OptionDistanceWithUnit,OptionTruncateDistance, \
+  OptionListAllNullEntries,OptionIgnoreNullValues,OptionOnlyMembersWithInsufficientClubwork,OptionSumGuestsAndOthers, \
+  OptionSumGuestsByClub,OptionShowValidLastTrip,ChangeCount,LastModified,LastModification;efa2statistics;1;sort=Id
+15;board;eFa status;Id,ChangeCount,LastModified,Membership,Name,Type;efa2status;1;sort=Id
+16;board;eFa waters;ChangeCount,Details,Id,LastModified,Name;efa2waters;1;sort=Name

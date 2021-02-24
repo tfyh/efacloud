@@ -1,0 +1,35 @@
+id;permission;headline;link
+home;bths;Profil ;
+_home_PublicHome;.anonymous;Startseite ;../pages/index.php
+_home_Startseite;bths;Startseite ;../pages/home.php
+_home_ProfilAnzeigen;bths;Profil anzeigen ;../pages/mein_profil.php
+_home_ProfilAendern;bths;Profil ändern ;../forms/profil_aendern.php
+_home_Logout;bths;Abmelden ;../pages/logout.php
+notices;member;Mitteilungen ;
+_notice_damage;member;Schadensmeldungen ;../pages/construction.php
+_notice_correction;member;Korrekturbitten ;../pages/construction.php
+administration;board;Verwalten ;
+_administration_Finden;board;Nutzer finden ;../forms/nutzer_finden.php
+_administration_Anzeigen;.board;Nutzer anzeigen ;../pages/nutzer_profil.php
+_administration_Aendern;.admin;Nutzer ändern ;../forms/nutzer_aendern.php
+_administration_Anlegen;admin;Nutzer anlegen ;../forms/nutzer_aendern.php?id=0
+_administration_Liste;board;Liste ausgeben ;../pages/show_lists.php
+_administration_masstxs;admin;Sammeltransaktionen ;../pages/sammeltransaktionen.php
+_administration_config;admin;Konfiguration ändern ;../forms/configparameter_aendern.php
+_administration_colors;admin;Farbschema ändern ;../forms/farben_aendern.php
+_administration_upgrade;admin;Versionsupgrade ;../pages/upgrade.php
+logbook;board;Fahrtenbuch ;
+_logbook_find;board;Datensatz finden ;../forms/datensatz_finden.php
+_logbook_change;.board;Datensatz ändern ;../forms/datensatz_aendern.php
+_logbook_apitest;.board;API Test ;../api/apitest.php
+_logbook_tableimp;admin;Tabelle importieren ;../forms/tabelle_importieren.php
+_logbook_tableexp;board;eFa Tabelle ausgeben ;../pages/show_lists.php?satz=efa
+_logbook_struktur;board;Datenstruktur ;../pages/datenstruktur.php
+monitor;admin;Überwachen ;
+_administration_Berechtigungen;admin;Alle Berechtigungen ;../pages/alle_berechtigungen.php
+_administration_Aktivitaeten;admin;Aktivitäten anzeigen ;../pages/show_actions.php
+_administration_Aenderungen;admin;Datenänderungen ;../pages/show_changes.php
+_administration_API_testen;admin;API Test ;../forms/api_test.php
+_administration_Select_statistics;admin;Logs und Grafiken ;../forms/client_tx_statistics.php
+_administration_View_statistics;.admin;Zugriffsstatistik ;../pages/client_tx_statistics.php
+_administration_Show_logs;.admin;eFa logs zeigen ;../pages/show_logs.php

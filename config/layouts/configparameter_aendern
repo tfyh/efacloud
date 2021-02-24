@@ -1,0 +1,21 @@
+tags;required;name;value;label;type;class;size;maxlength
+<p><b>Organisatorisches</b></p><div class='w3-row'><div class='w3-col l1'>;; \
+  mail_admin;;Mail-Adresse für den admin der Server-Anwendung;email;;30;250
+</div></div><div class='w3-row'><div class='w3-col l1'>;; \
+  mail_subscript;;<br>Unterschrift unter Mails, die vom System erzeugt werden;text;;30;250
+</div></div><div class='w3-row'><div class='w3-col l1'>;; \
+  mail_footer;;<br>Fußzeile unter Mails, die vom System erzeugt werden;text;;30;250
+</div></div><div class='w3-row'><div class='w3-col l1'>;; \
+  system_mail_sender;;<br>Absender der Mails, die vom System erzeugt werden;text;;30;250
+;;init__max_inits_per_hour;3000;;hidden;;30;100
+;;init__max_errors_per_hour;100;;hidden;;30;100
+;;init__max_concurrent_sessions;25;;hidden;;30;100
+;;init__max_session_duration;600;;hidden;;30;100
+;;db__user_table_name;efaCloudUsers;;hidden;;30;100
+;;db__user_id_field_name;efaCloudUserID;;hidden;;30;100
+;;db__changelog_table_name;efaCloudLog;;hidden;;30;100
+</div></div><p><b>Ende</b></p><div class='w3-row' style='margin-top:20px'><div class='w3-col l1'><div style='float:right'>;; \
+  submit;Übernehmen;;submit;formbutton;;
+</div></div></div>;;_no_input;;;;;;
+<li><span class='helptext'>;;_help_text;;Bitte achten Sie auf die erforderliche Syntax, es finden keine technischen Prüfungen statt.;;;;
+</span></li>;;_help_text;;;;;;
