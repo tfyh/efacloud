@@ -1,17 +1,15 @@
 id;permission;headline;link
-createtable;admin;Tabelle anlegen ;../api/createtable
-addcolumns;admin;Tabelle konfigurieren ;../api/addcolumns
-autoincrement;admin;Tabelle konfigurieren ;../api/autoincrement
-unique;admin;Tabelle konfigurieren ;../api/unique
-insert;bths;Datensatz anlegen ;../api/insert
-update;bths;Datensatz aktualisieren ;../api/update
+parsing_error;anonymous;Fehler melden ;../api/parsing_error
+nop;guest;Schnittstelle testen ;../api/nop
+info;guest;Information abfragen ;../api/info
+insert;member;Datensatz anlegen ;../api/insert
+update;member;Datensatz aktualisieren ;../api/update
+list;member;Datensätze lesen ;../api/list
 delete;bths;Datensatz löschen ;../api/delete
 keyfixing;bths;Datensatz korrigieren ;../api/keyfixing
 select;bths;Datensätze lesen ;../api/select
 synch;bths;Datensätze lesen ;../api/synch
-list;bths;Datensätze lesen ;../api/list
-nop;guest;Schnittstelle testen ;../api/nop
+verify;bths;Nutzerkennwort verifizieren ;../api/verify
 backup;bths;Backup anstoßen ;../api/backup
 cronjobs;bths;Cronjobs anstoßen ;../api/cronjobs
 upload;bths;Statistik upload ;../api/upload
-parsing_error;anonymous;Fehler melden ;../api/parsing_error

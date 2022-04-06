@@ -1,0 +1,15 @@
+ID;Name;Titel;Beschreibung;Flag
+1;MsgReadAdmin;Nachrichten an Admin lesen;;1
+2;MsgMarkReadAdmin;Nachrichten an Admin als gelesen markieren;;2
+3;MsgAutoMarkReadAdmin;Nachrichten an Admin automatisch als gelesen markieren;;4
+4;MsgReadBoatMaintenance;Nachrichten an Bootswart lesen;;8
+5;MsgMarkReadBoatMaintenance;Nachrichten an Bootswart als gelesen markieren;;16
+6;MsgAutoMarkReadBoatMaintenance;Nachrichten an Bootswart automatisch als gelesen markieren;;32
+7;ewLogbookEntry;efaWeb: Fahrten in das aktuelle Fahrtenbuch eintragen;64
+8;ewMessageEntry;efaWeb: Nachrichten hinterlassen;;128
+9;ewDamageEntry;efaWeb: Schadensmeldungen abgeben;;256
+10;ewReservationEntry;efaWeb: Boote reservieren;;512
+11;ewLogbookView;efaWeb: Das Fahrtenbuch anzeigen;;1024
+12;ewMessageView;efaWeb: Nachrichten lesen;;2048
+13;ewDamageView;efaWeb: Schadensmeldungen lesen;;4096
+14;ewReservationView;efaWeb: Reservierungen lesen;;8192

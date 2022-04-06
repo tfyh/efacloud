@@ -1,6 +1,6 @@
 <?php
 /**
- * The form for upload and import of multiple data records as csv-tables. Based on the Form class, please read
+ * The form for upload and import of multiple data records as csv-tables. Based on the Tfyh_form class, please read
  * instructions their to better understand this PHP-code part.
  * 
  * @author mgSoft
@@ -9,36 +9,31 @@
 // ===== initialize toolbox and socket and start session.
 $user_requested_file = __FILE__;
 include_once "../classes/init.php";
-include_once '../classes/form.php';
+include_once '../classes/tfyh_form.php';
 
 // === APPLICATION LOGIC ==============================================================
-$cdir = (isset($_GET["cdir"])) ? $_GET["cdir"] : "";
-if (strlen($cdir) > 0)
-    $_SESSION["cdir"] = $cdir;
-elseif (strlen($_SESSION["cdir"]) > 0)
-    $cdir = $_SESSION["cdir"];
-else
+$cdir = (isset($_SESSION["getps"][$fs_id]["cdir"])) ? $_SESSION["getps"][$fs_id]["cdir"] : "";
+if (strlen($cdir) == 0)
     $cdir = "../uploads";
+$tmp_upload_file = "";
+if (isset($_GET["top"]) && (intval($_GET["top"]) == 1))
+    $_SESSION["fileupload_level_of_top"] = count(explode("/", $cdir)) - 1;
 
 // if validation fails, the same form will be displayed anew with error messgaes
-$todo = $done;
+$todo = ($done == 0) ? 1 : $done;
 $form_errors = "";
 $form_layout = "../config/layouts/dateiablage";
-$tmp_upload_file = "";
 
-// ======== start with form filled in last step: check of the entered values.
+// ======== Start with form filled in last step: check of the entered values.
 if ($done > 0) {
-    
-    $form_filled = new Form($form_layout, $socket, $toolbox, $toolbox->users->user_table_name, $done, $fs_id);
+    $form_filled = new Tfyh_form($form_layout, $socket, $toolbox, $done, $fs_id);
     $form_filled->read_entered();
     $form_errors = $form_filled->check_validity();
     $entered_data = $form_filled->get_entered();
-    $forms[$done] = $form_filled;
     
     // application logic, step by step
     if (strlen($form_errors) > 0) {
-        // do nothing. This only prevents any logic to apply, if form errors
-        // occured.
+        // do nothing. This avoids any change, if form errors occured.
     } elseif ($done == 1) {
         // step 1 form was filled. Values were valid
         if (isset($entered_data["VerzeichnisNeu"]) && (strlen($entered_data["VerzeichnisNeu"]) > 0)) {
@@ -54,41 +49,40 @@ if ($done > 0) {
             if (! $tmp_upload_file)
                 $form_errors .= "Unbekannter Fehler beim Hochladen. bitte noch einmal versuchen.";
             else {
-                $_SESSION["io_file"] = $_FILES['userfile']["name"];
-                $result = file_put_contents($cdir . "/" . $_SESSION["io_file"], $tmp_upload_file);
-                $uploadResult = ($result === false) ? "Unbekannter Fehler beim Upload." : $result .
-                         " Bytes wurden hochgeladen.";
+                $_SESSION["getps"][$fs_id]["io_file"] = $_FILES['userfile']["name"];
+                $result = file_put_contents($cdir . "/" . $_SESSION["getps"][$fs_id]["io_file"], 
+                        $tmp_upload_file);
+                $uploadResult = ($result === false) ? "Unbekannter Fehler beim Upload auf '" . $cdir . "/" .
+                         $_SESSION["getps"][$fs_id]["io_file"] . "'." : $result . " Bytes wurden hochgeladen.";
                 $todo = $done + 1;
             }
         }
     }
-} elseif (isset($_GET["dfile"])) {
-    $toolbox->return_file_to_user($_GET["dfile"], "application/x-binary");
-} elseif (isset($_GET["xfile"])) {
-    $unlinkres = unlink($_GET["xfile"]);
+} elseif (isset($_SESSION["getps"][$fs_id]["dfile"])) {
+    $toolbox->return_file_to_user($_SESSION["getps"][$fs_id]["dfile"], "application/x-binary");
+} elseif (isset($_SESSION["getps"][$fs_id]["xfile"])) {
+    $unlinkres = unlink($_SESSION["getps"][$fs_id]["xfile"]);
     if ($unlinkres)
-        $uploadResult = $_GET["xfile"] . " wurde gelöscht.";
+        $uploadResult = $_SESSION["getps"][$fs_id]["xfile"] . " wurde gelöscht.";
     else
-        $uploadResult = $_GET["xfile"] . " konnte nicht gelöscht werden.";
+        $uploadResult = $_SESSION["getps"][$fs_id]["xfile"] . " konnte nicht gelöscht werden.";
     $todo = 2;
-} elseif (isset($_GET["xdir"])) {
-    $unlinkres = rmdir($_GET["xdir"]);
+} elseif (isset($_SESSION["getps"][$fs_id]["xdir"])) {
+    $unlinkres = rmdir($_SESSION["getps"][$fs_id]["xdir"]);
     if ($unlinkres)
-        $uploadResult = $_GET["xdir"] . " wurde gelöscht.";
+        $uploadResult = $_SESSION["getps"][$fs_id]["xdir"] . " wurde gelöscht.";
     else
-        $uploadResult = $_GET["xdir"] . " konnte nicht gelöscht werden.";
+        $uploadResult = $_SESSION["getps"][$fs_id]["xdir"] . " konnte nicht gelöscht werden.";
     $todo = 2;
 }
 
-// ==== continue with the definition and eventually initialization of form to fill in this step
-if (($done == 0) || ($todo !== $form_filled->get_index())) {
-    // use a new form for the very first form display or the next step.
-    if (($done == 0) && ($todo < 2))
-        $todo = 1;
-    $form_to_fill = new Form($form_layout, $socket, $toolbox, $toolbox->users->user_table_name, $todo, $fs_id);
-} else {
-    // or reuse the 'done' form, if validation failed.
+// ==== continue with the definition and eventually initialization of form to fill for the next step
+if (isset($form_filled) && ($todo == $form_filled->get_index())) {
+    // redo the 'done' form, if the $todo == $done, i. e. the validation failed.
     $form_to_fill = $form_filled;
+} else {
+    // if it is the start or all is fine, use a form for the coming step.
+    $form_to_fill = new Tfyh_form($form_layout, $socket, $toolbox, $todo, $fs_id);
 }
 
 // === PAGE OUTPUT ===================================================================
@@ -105,7 +99,8 @@ echo file_get_contents('../config/snippets/page_02_nav_to_body');
 	<h3>Dateiablage</h3>
 	<p>Alternativ kann auch ein Verzeichnis erstellt werden.</p>
 	<?php
-echo $toolbox->get_dir_contents($cdir);
+$fileupload_level_of_top = isset($_SESSION["fileupload_level_of_top"]) ? $_SESSION["fileupload_level_of_top"] : 1;
+echo $toolbox->get_dir_contents($cdir, $fileupload_level_of_top);
 echo $toolbox->form_errors_to_html($form_errors);
 
 ?>

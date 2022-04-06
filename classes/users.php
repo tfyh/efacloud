@@ -4,14 +4,15 @@
  * A utility class to read and provide the specific user profile according to the application. It is separated
  * from the user.php to keep the latter generic for all applications.
  */
-include_once '../classes/user_generic.php';
-class Users extends User_generic
+include_once '../classes/tfyh_user.php';
+
+class Users extends Tfyh_user
 {
 
     /**
      * Construct the Userprofile class. This just assigns the toolbox
      */
-    public function __construct (Toolbox $toolbox)
+    public function __construct (Tfyh_toolbox $toolbox)
     {
         parent::__construct($toolbox);
     }
@@ -24,12 +25,12 @@ class Users extends User_generic
      * 
      * @param int $user_id
      *            the users ID (number, not data base record id)
-     * @param Socket $socket
+     * @param Tfyh_socket $socket
      *            the common database socket
      * @param bool $short
      *            set tot true to get a short version of the profile, rather than the full
      */
-    public function get_user_profile (int $user_id, Socket $socket, bool $short = false)
+    public function get_user_profile (int $user_id, Tfyh_socket $socket, bool $short = false)
     {
         $user_to_read = $socket->find_record($this->user_table_name, $this->user_id_field_name, $user_id);
         if ($user_to_read === false)
@@ -46,31 +47,31 @@ class Users extends User_generic
             $html_str .= "<tr><td><b>Telefon</b>&nbsp;&nbsp;&nbsp;</td><td>privat: " .
                      $user_to_read["Telefon_privat"] . " / mobil: " . $user_to_read["Handy"] . "</td></tr>\n";
         }
+        $html_str .= "<tr><th><b>Eigenschaft</th><th>Wert</th></tr>";
+        $no_values_for = "";
         foreach ($user_to_read as $key => $value) {
             $show = ! $short || (strcasecmp($key, "EMail") === 0) || (strcasecmp($key, "Rolle") === 0);
-            if ($value && $show) {
-                if (strcasecmp($key, "IBAN") === 0)
-                    $html_str .= "<tr><td><b>" . $key . "</b>&nbsp;&nbsp;&nbsp;</td><td>" .
-                             substr($value, 0, strlen($value) - 5) . "XXXXX" . "</td></tr>\n";
-                elseif (strcasecmp($key, "Passwort_Hash") === 0)
+            if ($value && $show && (strcasecmp($key, "ecrhis") != 0)) {
+                if (strcasecmp($key, "Passwort_Hash") === 0)
                     $html_str .= "<tr><td><b>" . $key . "</b>&nbsp;&nbsp;&nbsp;</td><td>" .
                              ((strlen($value) > 10) ? "gesetzt" : "nicht gesetzt") . "</td></tr>\n";
                 elseif (strcasecmp($key, "Subskriptionen") === 0)
                     $html_str .= $this->get_user_services("subscriptions", $key, $value);
                 elseif (strcasecmp($key, "Workflows") === 0)
                     $html_str .= $this->get_user_services("workflows", $key, $value);
-                elseif (strcasecmp($key, "Datenschutzmaske") === 0)
-                    $html_str .= $this->get_user_services("Datenschutzmaske", $key, $value);
+                elseif (strcasecmp($key, "Concessions") === 0)
+                    $html_str .= $this->get_user_services("workflows", $key, $value);
                 else
                     $html_str .= "<tr><td><b>" . $key . "</b>&nbsp;&nbsp;&nbsp;</td><td>" . $value .
                              "</td></tr>\n";
             }
+            if ((! $value) && (strcasecmp($key, "ecrhis") != 0) && (strcasecmp($key, "Workflows") != 0) &&
+                     (strcasecmp($key, "Concessions") != 0))
+                $no_values_for .= $key . ", ";
         }
-        
-        $user_id = intval($user_to_read[$this->user_id_field_name]);
-        $html_str .= $this->get_user_attributes($user_id, $socket, "Funktionen", "von - bis", 2, 3, 4);
-        $html_str .= $this->get_user_attributes($user_id, $socket, "Ehrungen", "am", 2, 3, 0);
-        $html_str .= $this->get_user_attributes($user_id, $socket, "Spinde", "seit", 1, 4, 0);
+        if (strlen($no_values_for) > 0)
+            $html_str .= "<tr><td><b>keine Werte gesetzt für</b>&nbsp;&nbsp;&nbsp;</td><td>" . $no_values_for .
+                     "</td></tr>\n";
         
         $html_str .= "</table>";
         return $html_str;
@@ -92,31 +93,13 @@ class Users extends User_generic
         $result = "";
         foreach ($user_to_check as $key => $value) {
             if ($value) {
-                if (strcasecmp($key, "IBAN") === 0) {
-                    $res_IBAN = $this->toolbox->checkIBAN($value);
-                    $datum_intval = intval(
-                            str_replace("-", "", 
-                                    str_replace(".", "", $user_to_check["SEPA_Datum_Mandatsref"])));
-                    if (($res_IBAN == false) || (strcmp(strtoupper($value), $value) != 0))
-                        $result .= "IBAN " . $value . " ungültig (ggf. klein geschrieben). ";
-                    elseif (! $user_to_check["SEPA_Datum_Mandatsref"] || ($datum_intval == 0))
-                        $result .= "SEPA_Datum_Mandatsref " . $user_to_check["SEPA_Datum_Mandatsref"] .
-                                 " zur IBAN erforderlich und ungültig. ";
-                } elseif ((strcasecmp($key, "Geburtsdatum") === 0) && (($this->toolbox->check_and_format_date(
-                        $value) === false) || (intval(substr($value, 0, 4)) < 1910))) {
-                    $result .= "Geburtsdatum " . $value . " ungültig. ";
-                } elseif ((strcasecmp($key, "EMail") === 0) && ! filter_var($value, FILTER_VALIDATE_EMAIL)) {
+                if ((strcasecmp($key, "EMail") === 0) && ! filter_var($value, FILTER_VALIDATE_EMAIL)) {
                     $result .= "EMail-Adresse " . $value . " ist ungültig. ";
                 }
             } else {
                 // mandatory integer fields are not checked. They can always be 0, and show up here
                 // in that case. Affects: Subskriptionen, Workflows, Anzahl Zeitschriften.
                 // mandatory fields for all
-                if ((strcasecmp($key, $this->user_lastname_field_name) === 0) ||
-                         (strcasecmp($key, "Abteilung") === 0) || (strcasecmp($key, "Beitragsart") === 0) ||
-                         (strcasecmp($key, "Zahlweise") === 0) || (strcasecmp($key, "Rolle") === 0) ||
-                         (strcasecmp($key, "SEPA_Kz_Ausfuehrung") === 0))
-                    $result .= "Erforderliches Feld " . $key . " ohne Eintrag. ";
                 // mandatory field which may be "0"
                 // e.g. if ((strlen($value) == 0) && (strcasecmp($key, "Plz") === 0))
                 // $result .= "Erforderliches Feld " . $key . " ohne Eintrag. ";

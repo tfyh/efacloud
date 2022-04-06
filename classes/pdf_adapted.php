@@ -13,7 +13,7 @@ class PDF_adapted extends TCPDF
         $this->SetFont('helvetica', 'I', 8);
         // Page number
         $this->Cell(0, 10, 
-                $this->footer_text . $this->getAliasNumPage() .
+                $this->footer_text . "         " . $this->getAliasNumPage() .
                          '/' . $this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
     }
 }

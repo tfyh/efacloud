@@ -1,6 +1,6 @@
 <?php
 /**
- * The form for upload and import of multiple data records as csv-tables. Based on the Form class, please read
+ * The form for upload and import of multiple data records as csv-tables. Based on the Tfyh_form class, please read
  * instructions their to better understand this PHP-code part.
  * 
  * @author mgSoft
@@ -15,29 +15,27 @@ $idnames = ["efa2autoincrement" => "Sequence","efa2boatstatus" => "BoatId","efa2
 // ===== initialize toolbox and socket and start session.
 $user_requested_file = __FILE__;
 include_once "../classes/init.php";
-include_once '../classes/form.php';
+include_once '../classes/tfyh_form.php';
+
+$tmp_upload_file = "";
 
 // === APPLICATION LOGIC ==============================================================
 // if validation fails, the same form will be displayed anew with error messgaes
-$todo = $done;
+$todo = ($done == 0) ? 1 : $done;
 $form_errors = "";
 $form_layout = "../config/layouts/tabelle_importieren";
-$tmp_upload_file = "";
 
-// ======== start with form filled in last step: check of the entered values.
+// ======== Start with form filled in last step: check of the entered values.
 if ($done > 0) {
-    
-    $form_filled = new Form($form_layout, $socket, $toolbox, $toolbox->users->user_table_name, $done, $fs_id);
+    $form_filled = new Tfyh_form($form_layout, $socket, $toolbox, $done, $fs_id);
     $form_filled->read_entered();
     $form_errors = $form_filled->check_validity();
     $entered_data = $form_filled->get_entered();
-    $forms[$done] = $form_filled;
     $idname = (isset($entered_data["Tabelle"]) && isset($idnames[$entered_data["Tabelle"]])) ? $idnames[$entered_data["Tabelle"]] : "ID";
     
     // application logic, step by step
     if (strlen($form_errors) > 0) {
-        // do nothing. This only prevents any logic to apply, if form errors
-        // occured.
+        // do nothing. This avoids any change, if form errors occured.
     } elseif ($done == 1) {
         // step 1 form was filled. Values were valid
         if (strlen($_FILES['userfile']["name"]) < 1) {
@@ -73,15 +71,13 @@ if ($done > 0) {
     }
 }
 
-// ==== continue with the definition and eventually initialization of form to fill in this step
-if (($done == 0) || ($todo !== $form_filled->get_index())) {
-    // use a new form for the very first form display or the next step.
-    if ($done == 0)
-        $todo = 1;
-    $form_to_fill = new Form($form_layout, $socket, $toolbox, $toolbox->users->user_table_name, $todo, $fs_id);
-} else {
-    // or reuse the 'done' form, if validation failed.
+// ==== continue with the definition and eventually initialization of form to fill for the next step
+if (isset($form_filled) && ($todo == $form_filled->get_index())) {
+    // redo the 'done' form, if the $todo == $done, i. e. the validation failed.
     $form_to_fill = $form_filled;
+} else {
+    // if it is the start or all is fine, use a form for the coming step.
+    $form_to_fill = new Tfyh_form($form_layout, $socket, $toolbox, $todo, $fs_id);
 }
 
 // === PAGE OUTPUT ===================================================================
@@ -117,6 +113,9 @@ if ($todo == 1) { // step 1. Texts for output
 		<?php
     echo $toolbox->form_errors_to_html($form_errors);
     echo $form_to_fill->get_html(true); // enable file upload
+    echo '<h5><br />Ausfüllhilfen</h5><ul>';
+    echo $form_to_fill->get_help_html();
+    echo "</ul>";
 } elseif ($todo == 2) { // step 2. Texts for output
     ?>
 	<p>Der Datei-Upload war erfolgreich. Im Folgenden ist dargestellt, was
@@ -130,6 +129,9 @@ if ($todo == 1) { // step 1. Texts for output
     // no form errors possible at this step. just a button clicked.
     echo $import_result;
     echo $form_to_fill->get_html(false);
+    echo '<h5><br />Ausfüllhilfen</h5><ul>';
+    echo $form_to_fill->get_help_html();
+    echo "</ul>";
 } elseif ($todo == 3) { // step 3. Texts for output
     echo $import_result;
     ?>

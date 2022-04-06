@@ -1,7 +1,7 @@
 <?php
 /**
  * Page display file. Shows all mails available to public from ARB Verteler.
- *
+ * 
  * @author mgSoft
  */
 
@@ -20,8 +20,7 @@ echo file_get_contents('../config/snippets/page_02_nav_to_body');
 	<h2>Änderungen von Daten</h2>
 	<h3>Hier ist die Liste der Änderungen von Daten in der Datenbank</h3>
 	<p>Jede Datenänderung wird mitgeschrieben, hier werden die letzten 100
-		Tage dargestellt.</p>
-		<p>Verwendung nur zum in der Funktion zugestandenen Zweck.</p>
+		Tage dargestellt. Verwendung gestattet nur zum geregelten Zweck.</p>
 <?php
 $socket->cleanse_change_log(100); // keep changes for max. 100 days.
 echo $socket->get_change_log();

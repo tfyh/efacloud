@@ -1,30 +1,32 @@
 <?php
 /**
  * The form for user profile self service.
- * Based on the Form class, please read instructions their to better understand this PHP-code part.
+ * Based on the Tfyh_form class, please read instructions their to better understand this PHP-code part.
  *
  * @author mgSoft
  */
 
 // ===== initialize toolbox and socket and start session.
 $user_requested_file = __FILE__;
+
 // ===== page does not need an active session
 include_once "../classes/init.php";
-include_once '../classes/form.php';
+include_once '../classes/tfyh_form.php';
+
+$only_pw = (isset($_SESSION["getps"][$fs_id]["pw"])) ? intval($_SESSION["getps"][$fs_id]["pw"]) : 0;
+// ===== a dummy for a password which is not the right one. Must nevertheless be a valid one to
+// pass all checks further down, except for the "only passwort case, where a password entry is forced.
+$keep_password = ($only_pw == 1) ? "" : "keuk3HVpxHASrcRn6Mpf";
 
 // === APPLICATION LOGIC ==============================================================
 // if validation fails, the same form will be displayed anew with error messgaes
-$todo = $done;
+$todo = ($done == 0) ? 1 : $done;
 $form_errors = "";
-$form_layout = "../config/layouts/profil_aendern";
-// ===== a dummy for a password which is not the right one. Must nevertheless be a valid one to
-// pass all checks further down.
-$keep_password = "keuk3HVpxHASrcRn6Mpf";
+$form_layout = ($only_pw == 1) ? "../config/layouts/pw_aendern" : "../config/layouts/profil_aendern";
 
-// ======== start with form filled in last step: check of the entered values.
+// ======== Start with form filled in last step: check of the entered values.
 if ($done > 0) {
-    
-    $form_filled = new Form($form_layout, $socket, $toolbox, $toolbox->users->user_table_name, $done, $fs_id);
+    $form_filled = new Tfyh_form($form_layout, $socket, $toolbox, $done, $fs_id);
     $form_filled->read_entered();
     $entered_data = $form_filled->get_entered();
     if (strlen($entered_data["Passwort"]) == 0) {
@@ -32,11 +34,10 @@ if ($done > 0) {
         $form_filled->preset_value("Passwort_Wdh", $keep_password);
     }
     $form_errors = $form_filled->check_validity();
-    $forms[$done] = $form_filled;
+
     // application logic, step by step
     if (strlen($form_errors) > 0) {
-        // do nothing. This only prevents any logic to apply, if form errors
-        // occured.
+        // do nothing. This avoids any change, if form errors occured.
     } elseif ($done == 1) {
         foreach ($entered_data as $key => $value)
             $_SESSION["User"][$key] = $value;
@@ -98,39 +99,39 @@ if ($done > 0) {
             $form_errors = $socket->update_record($_SESSION["User"][$toolbox->users->user_id_field_name], $toolbox->users->user_table_name, $record, false);
             
             // start user feedback creation
-            require_once '../classes/mail_handler.php';
-            $mail_handler = new Mail_handler($toolbox->config->get_cfg());
+            require_once '../classes/tfyh_mail_handler.php';
+            $mail_handler = new Tfyh_mail_handler($toolbox->config->get_cfg());
             $info_html = '<p><b>Daten geändert.</b><br/>Folgende Änderungen wurden vorgenommen:<br>' . $info .
                      '</p><p><a href = "../pages/mein_profil.php">Zurück zum Profil.</a></p>';
-            $toolbox->logger->log(Tfyh_logger::$TYPE_DONE, intval($_SESSION["User"][$toolbox->users->user_id_field_name]), "Profil geändert.");
+            $toolbox->logger->log(0, intval($_SESSION["User"][$toolbox->users->user_id_field_name]), "Profil geändert.");
             
             // if only other data were changed, create a change note to the "Schriftwart"
             $mail_handler->send_mail($mail_handler->system_mail_sender, $mail_handler->system_mail_sender, 
                     $mail_handler->mail_schriftwart, "", "", 
-                    "Änderung der Profildaten bei der BRG von Mitglied #" . $_SESSION["User"][$toolbox->users->user_id_field_name], 
+                    "Änderung der Profildaten bei efaCloud von User #" . $_SESSION["User"][$toolbox->users->user_id_field_name], 
                     'Folgende Änderungen wurden vorgenommen:<br>' . $info);
         } else
             $todo = 1;
     }
 }
 
-// ==== continue with the definition and eventually initialization of form to fill in this step
-if (($done == 0) || ($todo !== $form_filled->get_index())) {
-    // use a new form for the very first form display or the next step.
-    if ($done == 0)
-        $todo = 1;
-        $form_to_fill = new Form($form_layout, $socket, $toolbox, $toolbox->users->user_table_name, $todo, $fs_id);
-    // retrieve current data. The verified user is the user to update.
-    $user_to_update = $socket->find_record_matched($toolbox->users->user_table_name, ["ID" => $_SESSION["User"]["ID"]
-    ], false);
-    // preset password to $keep_password, to know whether it was changed. $keep_password is a
-    // valid password, to survice the checks applied in the second step.
-    $user_to_update["Passwort"] = $keep_password;
-    $user_to_update["Passwort_Wdh"] = $keep_password;
-    $form_to_fill->preset_values($user_to_update);
-} else {
-    // or reuse the 'done' form, if validation failed.
+// ==== continue with the definition and eventually initialization of form to fill for the next step
+if (isset($form_filled) && ($todo == $form_filled->get_index())) {
+    // redo the 'done' form, if the $todo == $done, i. e. the validation failed.
     $form_to_fill = $form_filled;
+} else {
+    // if it is the start or all is fine, use a form for the coming step.
+    $form_to_fill = new Tfyh_form($form_layout, $socket, $toolbox, $todo, $fs_id);
+    if (($todo == 1)) {
+        // retrieve current data. The verified user is the user to update.
+        $user_to_update = $socket->find_record_matched($toolbox->users->user_table_name, ["ID" => $_SESSION["User"]["ID"]
+        ], false);
+        // preset password to $keep_password, to know whether it was changed. $keep_password is a
+        // valid password, to survice the checks applied in the second step.
+        $user_to_update["Passwort"] = $keep_password;
+        $user_to_update["Passwort_Wdh"] = $keep_password;
+        $form_to_fill->preset_values($user_to_update);
+    }
 }
 
 // === PAGE OUTPUT ===================================================================

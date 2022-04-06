@@ -1,22 +1,80 @@
 
 # all settings for usage of the common tfyh modules
-# ther must not be extra blanks or trailing characters.
+# there must not be extra blanks or trailing characters.
 
 # module users.php
-users.action_links=["admin: <a href='..\/pages\/nutzer_profil.php?id={#ID}'>anzeigen<\/a>,","admin: <a href='..\/forms\/nutzer_aendern.php?id={#ID}'> \u00e4ndern<\/a>,"]
+users.action_links=[ \
+ "admin: <a href='..\/pages\/nutzer_profil.php?id={#ID}'> - anzeigen<\/a>,", \
+ "admin: <a href='..\/forms\/nutzer_aendern.php?id={#ID}'> - Profil \u00e4ndern<\/a>,", \
+ "admin: <br><a href='..\/forms\/efa_rechte_aendern.php?id={#ID}&type=efaAdmin'> - efa Admin-Berechtigungen \u00e4ndern</a>,", \
+ "admin: <br><a href='..\/forms\/efa_rechte_aendern.php?id={#ID}&type=efaWeb'> - efaWeb-Berechtigungen \u00e4ndern</a>,", \
+ "admin: <br><a href='..\/pages\/logintoken_versenden.php?id={#ID}'> - Login Token versenden</a>" \
+]
+
 users.user_table_name="efaCloudUsers"
 users.user_id_field_name="efaCloudUserID"
 users.user_archive_table_name=""
+users.user_account_field_name="efaAdminName"
 users.user_firstname_field_name="Vorname"
 users.user_lastname_field_name="Nachname"
-users.user_subscriptions=false
-users.user_workflows=false
+users.use_subscriptions=false
+users.use_workflows=true
+users.use_concessions=true
+users.useradmin_role="admin"
+users.anonymous_role="anonymous"
+users.ownerid_fields=efaCloudLog.Author;efaCloudCleansed.Author
 
 # module config.php
 config.app_name="efaCloud"
+config.app_url="https://www.efacloud.org"
 config.changelog_name="efaCloudLog"
 config.parameter_table_name="efaCloudConfig"
-config.pdf_footer_text=""
-config.pdf_document_author="efaCloud c:nmichael.de"
-#left, top, right, header, footer
-config.pdf_margins=[20,15,15,10,10]
+config.forbidden_dirs="all_mails_localhost,classes,config,config/access,install, \
+  log,log/backup,log/contentsize,log/sessions,log/uploads,pdfs, \
+  tasks_queue,tcpdf,templates,uploads"
+config.public_dirs="api,forms,js,license,pages,public,resources"
+
+# module init.php
+init.max_inits_per_hour=3000
+init.max_errors_per_hour=100
+init.max_concurrent_sessions=25
+init.max_session_duration=600
+
+# module logger
+logger.obsolete=["activities.txt","actPerDay.txt","dones.txt","fails.txt","warns.txt", \
+  "shutdowns.txt","configparameter_aendern.log","ll.csv", \
+  "queries_failed.txt","queries.txt","queries.txt.previous", "tmp" \
+]
+logger.maxsize=200000
+logger.logs=["api_errors.log","api_info.log","api_warnings.log", \
+  "app_audit.log","app_errors.log","app_info.log","app_init_login_error.log","app_bulk_txs.log","app_warnings.log", \
+  "debug_api.log","debug_app.log","sql_debug.log","debug_posttx.log","debug_init.log", \
+  "efa_tools.log", \
+  "sys_cronjobs.log","sys_db_audit.log","sys_shutdowns.log","sys_timestamps.log" \
+]
+
+# module api, client handler.php - not relevant in efaCloud
+
+# module socket.php, record version history - relevant in efaCloud, starting with db layout V2
+# syntax e.g. 'history.efa2boatdamages="ecrhis"' or 'maxversions.efa2boatdamages=25'
+# --- border history section ---
+history.efa2boatdamages="ecrhis"
+maxversions.efa2boatdamages=20
+history.efa2boatreservations="ecrhis"
+maxversions.efa2boatreservations=20
+history.efa2boats="ecrhis"
+maxversions.efa2boats=20
+history.efa2clubwork="ecrhis"
+maxversions.efa2clubwork=20
+history.efa2fahrtenabzeichen="ecrhis"
+maxversions.efa2fahrtenabzeichen=20
+history.efa2logbook="ecrhis"
+maxversions.efa2logbook=20
+history.efa2persons="ecrhis"
+maxversions.efa2persons=20
+history.efa2sessiongroups="ecrhis"
+maxversions.efa2sessiongroups=20
+history.efaCloudUsers="ecrhis"
+maxversions.efaCloudUsers=20
+# --- border history section ---
+#

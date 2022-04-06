@@ -73,7 +73,7 @@ tr:hover {
 /* =================================================== */
 
 .body {
-	max-width: 1200px;
+	max-width: 1280px;
 	margin: auto;
 }
 
@@ -160,6 +160,19 @@ tr:hover {
 
 .helptext {
 	font-size: 90%
+}
+
+.formlink {
+	cursor: pointer;
+	border: 2px solid transparent;
+	border-radius: 0px;
+	color: #171177;
+	font-size: 1.0em;
+	padding: 2px 6px 2px 6px;
+}
+
+.formlink:hover {
+	color: #12125b;
 }
 
 /* --------- CHECKBOX AND RADIO BUTTON STYLES ---------*/
@@ -299,15 +312,41 @@ option {
 
 /* Modal Content/Box */
 .modal-content {
-	margin-top: 5%;
-	width: 75%;
-	max-width: 800px; /* limit for large window sizes */
+	max-width: 960px; /* limit for large window sizes */
 	margin-left: auto; /* 5% from the top and centered */
 	margin-right: auto;
-	margin-bottom: 5%;
-	padding: 20px;
 	border: 1px solid transparent;
 	background-color: #fff;
+}
+
+/* responsive layout definition. */
+@media ( min-width : 1000px) {
+	.modal-content {
+		margin-top: 5%;
+		width: 75%;
+		margin-bottom: 5%;
+		padding: 20px;
+	}
+}
+
+/* reduced size, but with side menu */
+@media ( max-width : 999px) and (min-width: 700px) {
+	.modal-content {
+		margin-top: 3%;
+		width: 90%;
+		margin-bottom: 3%;
+		padding: 12px;
+	}
+}
+
+/* reduced size, but with side menu */
+@media ( max-width : 699px) {
+	.modal-content {
+		margin-top: 2%;
+		width: 96%;
+		margin-bottom: 0%;
+		padding: 4px;
+	}
 }
 
 /* The Close Button */
@@ -335,7 +374,7 @@ option {
 }
 
 .bar {
-	background-color: #261dc6;
+	background-color: #880000;
 }
 
 /* Loader to show spinning circle instead of logo for a busy application */

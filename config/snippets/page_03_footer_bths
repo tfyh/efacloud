@@ -2,6 +2,12 @@
   <!-- End page content -->
 </div>
 
+    <!-- show and hide submenus Javascript -->
+    <script src="../js/sMenu.js"></script>
+
+    <!-- efa Web Scripts -->
+    <!-- =============== -->
+
     <!-- jQuery framework, smaller version for speed reasons -->
     <script src="../js/jQuery_3.3.1.js"></script>
 
@@ -12,9 +18,9 @@
     <script src="../js/bGlobals.js"></script>
     <script src="../js/bToolbox.js"></script>
     <script src="../js/bConfig.js"></script>
+    <script src="../js/bLog.js"></script>
 
     <!-- application script code, UI parts -->
-    <script src="../js/bMenu.js"></script>
     <script src="../js/bForm.js"></script>
     <script src="../js/bFormHandler.js"></script>
     <script src="../js/bModal.js"></script>
@@ -24,6 +30,10 @@
     <script src="../js/bLists.js"></script>
     <script src="../js/bTrip.js"></script>
     <script src="../js/bBoat.js"></script>
+    <script src="../js/bBoatstatus.js"></script>
+    <script src="../js/bReservation.js"></script>
+    <script src="../js/bDamage.js"></script>
+    <script src="../js/bPerson.js"></script>
     <script src="../js/bStatistics.js"></script>
 
     <!-- application script code, server interface -->

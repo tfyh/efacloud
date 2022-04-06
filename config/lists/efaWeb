@@ -1,0 +1,22 @@
+id;permission;name;select;from;where;options
+2;member;efaWeb_boatdamages;Damage,BoatId,Severity,Description,Fixed,ChangeCount,ecrid;efa2boatdamages;(`LastModified` > {LastModified});
+3;member;efaWeb_boatreservations;Reservation,BoatId,DateFrom,DateTo,TimeFrom,TimeTo,Type,Reason,ChangeCount,ecrid;efa2boatreservations;(`LastModified` > {LastModified});
+4;member;efaWeb_boats;Id,InvalidFrom,Name,TypeCoxing,TypeSeats,ecrid;efa2boats;(`LastModified` > {LastModified}) AND (InvalidFrom > 9999999999000);
+5;member;efaWeb_boatstatus;BoatId,Comment,BaseStatus,CurrentStatus,ShowInList,ChangeCount,ecrid;efa2boatstatus;1;
+6;member;efaWeb_crews;Id,Name,ecrid;efa2crews;(`LastModified` > {LastModified});
+7;member;efaWeb_destinations;Id,Distance,End,InvalidFrom,Name,WatersIdList,ecrid;efa2destinations;(`LastModified` > {LastModified}) AND (InvalidFrom > 9999999999000);
+8;member;efaWeb_fahrtenabzeichen;PersonId,Abzeichen,ecrid;efa2fahrtenabzeichen;(`LastModified` > {LastModified});
+9;member;efaWeb_groups;Id,InvalidFrom,Name,ecrid;efa2groups;(`LastModified` > {LastModified}) AND (InvalidFrom > 9999999999000);
+10;member;efaWeb_logbook;EntryId,Open,BoatId,BoatName,Date,DestinationId,DestinationName,Distance,StartTime,EndDate,EndTime,ChangeCount,ecrid;efa2logbook; \
+  (`LastModified` > {LastModified}) AND (Logbookname = '{Logbookname}') AND NOT ISNULL(`BoatId`) And NOT (`BoatId` = '');
+11;member;efaWeb_opentrips;EntryId,BoatId,BoatName,BoatCaptain,BoatVariant,ChangeCount,Comments,CoxId,CoxName, \
+  Crew1Id,Crew1Name,Crew2Id,Crew2Name,Crew3Id,Crew3Name,Crew4Id,Crew4Name,Crew5Id,Crew5Name,Crew6Id,Crew6Name, \
+  Crew7Id,Crew7Name,Crew8Id,Crew8Name,Date,DestinationId,DestinationName,DestinationVariantName,Distance, \
+  EndDate,EndTime,LastModified,LogbookName,Open,SessionType,StartTime,WatersIdList,WatersNameList,ecrid;efa2logbook; \
+  NOT ISNULL(`BoatId`) And NOT (`BoatId` = '') AND (`Open` = 'true');
+12;member;efaWeb_messages;MessageId,Date,From,Subject,Time,To,ChangeCount,ecrid;efa2messages;(`LastModified` > {LastModified});
+13;member;efaWeb_persons;Id,InvalidFrom,FirstName,LastName,StatusId,ecrid;efa2persons; \
+  (`LastModified` > {LastModified});sort=Id.-InvalidFrom&firstofblock=Id
+14;member;efaWeb_sessiongroups;Id,Logbook,Name,ChangeCount,ecrid;efa2sessiongroups;(`LastModified` > {LastModified});
+15;member;efaWeb_status;Id,Membership,Name,Type,ecrid;efa2status;(`LastModified` > {LastModified});
+16;member;efaWeb_waters;Id,Name,ecrid;efa2waters;(`LastModified` > {LastModified});

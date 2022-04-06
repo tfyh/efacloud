@@ -1,7 +1,7 @@
 <?php
 /**
  * The form for user profile self service.
- * Based on the Form class, please read instructions their to better understand this PHP-code part.
+ * Based on the Tfyh_form class, please read instructions their to better understand this PHP-code part.
  *
  * @author mgSoft
  */
@@ -9,30 +9,27 @@
 $user_requested_file = __FILE__;
 // ===== page does not need an active session
 include_once "../classes/init.php";
-include_once '../classes/form.php';
+include_once '../classes/tfyh_form.php';
+
+$users_to_show_html = "";
+$id = (isset($_SESSION["getps"][$fs_id]["id"])) ? intval($_SESSION["getps"][$fs_id]["id"]) : 0;
 
 // === APPLICATION LOGIC ==============================================================
-$action = (isset($_GET["action"])) ? intval($_GET["action"]) : 0;
-$id = (isset($_GET["id"])) ? intval($_GET["id"]) : 0;
 // if validation fails, the same form will be displayed anew with error messgaes
-$todo = $done;
+$todo = ($done == 0) ? 1 : $done;
 $form_errors = "";
 $form_layout = "../config/layouts/nutzer_finden";
-$users_to_show_html = "";
 
-// ======== start with form filled in last step: check of the entered values.
+// ======== Start with form filled in last step: check of the entered values.
 if ($done > 0) {
-    
-    $form_filled = new Form($form_layout, $socket, $toolbox, $toolbox->users->user_table_name, $done, $fs_id);
+    $form_filled = new Tfyh_form($form_layout, $socket, $toolbox, $done, $fs_id);
     $form_filled->read_entered();
     $form_errors = $form_filled->check_validity();
     $entered_data = $form_filled->get_entered();
-    $forms[$done] = $form_filled;
     
     // application logic, step by step
     if (strlen($form_errors) > 0) {
-        // do nothing. This only prevents any logic to apply, if form errors
-        // occured.
+        // do nothing. This avoids any change, if form errors occured.
     } elseif ($done == 1) {
         $is_all_texts = false;
         $sql_cmd = "";
@@ -53,7 +50,7 @@ if ($done > 0) {
         // only proceed if something was entered.
         if (strlen($sql_cmd) > 0) {
             // get all current users
-            $sql_cmd_pref = "SELECT * FROM `efaCloudUsers` WHERE ";
+            $sql_cmd_pref = "SELECT * FROM `" . $toolbox->users->user_table_name . "` WHERE ";
             $res = $socket->query($sql_cmd_pref . $sql_cmd, false);
             // put all values to the array, with numeric autoincrementing key.
             $nutzerliste = [];
@@ -107,15 +104,13 @@ if ($done > 0) {
     }
 }
 
-// ==== continue with the definition and eventually initialization of form to fill in this step
-if (($done == 0) || ($todo !== $form_filled->get_index())) {
-    // use a new form for the very first form display or the next step.
-    if ($done == 0)
-        $todo = 1;
-        $form_to_fill = new Form($form_layout, $socket, $toolbox, $toolbox->users->user_table_name, $todo, $fs_id);
-} else {
-    // or reuse the 'done' form, if validation failed.
+// ==== continue with the definition and eventually initialization of form to fill for the next step
+if (isset($form_filled) && ($todo == $form_filled->get_index())) {
+    // redo the 'done' form, if the $todo == $done, i. e. the validation failed.
     $form_to_fill = $form_filled;
+} else {
+    // if it is the start or all is fine, use a form for the coming step.
+    $form_to_fill = new Tfyh_form($form_layout, $socket, $toolbox, $todo, $fs_id);
 }
 
 // === PAGE OUTPUT ===================================================================
@@ -138,14 +133,14 @@ echo file_get_contents('../config/snippets/page_02_nav_to_body');
 <?php
 
 echo $toolbox->form_errors_to_html($form_errors);
-if ($todo < 2) {
-    echo $form_to_fill->get_html($fs_id);
-    echo '<h5><br />Ausfüllhilfen</h5><ul>';
-    echo $form_to_fill->get_help_html();
-    echo "</ul>";
-} else
-    echo $users_to_show_html;
-
+if ($todo < 2)
+    echo $form_to_fill->get_html();
+    else
+        echo $users_to_show_html;
+        echo '<div class="w3-container"><ul>';
+        echo $form_to_fill->get_help_html();
+        echo "</ul></div>";
+        
 ?></div><?php
 end_script();
 

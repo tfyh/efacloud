@@ -1,6 +1,8 @@
 tags;required;name;value;label;type;class;size;maxlength
 <div class='w3-row'><div class='w3-col l1'>;*; \
   efaCloudUserID;;efaCloudUserID;text;;20;10
+</div></div><div class='w3-row'><div class='w3-col l1'>;; \
+  efaAdminName;;Admin Name in efa für admin login dort;text;;20;250
 </div></div><div class='w3-row'><div class='w3-col l1'>;*; \
   Vorname;;Vorname;text;;20;250
 </div></div><div class='w3-row'><div class='w3-col l1'>;*; \
@@ -10,7 +12,7 @@ tags;required;name;value;label;type;class;size;maxlength
 </div></div><div class='w3-row'><div class='w3-col l1'>;*; \
   Rolle;;Rolle;"select admin=admin;board=board;member=member;bths=bths;anonymous=anonymous";;15;
 </div></div><div class='w3-row'><div class='w3-col l1'>;*; \
-  Passwort;;Passwort !NUR BEI DER ROLLE bths ÄNDERN!;password;;20;250
+  Passwort;;Passwort (nur für neue Nutzer und Nutzer mit der Rolle 'bths' verwendet.);password;;20;250
 </div></div><div class='w3-row'><div class='w3-col l1'>;*; \
   Passwort_Wdh;;Passwort wiederholen;password;;18;240
 </div></div><div class='w3-row'><div class='w3-col l1'><div style='float:right'>;; \
@@ -21,4 +23,4 @@ tags;required;name;value;label;type;class;size;maxlength
 </span></li><li><span class='helptext'>;;_help_text;;Die Änderung wird unmittelbar in die Datenbank übernommen und gleichzeitig im log registriert..;;;;
 </span></li><li><span class='helptext'>;;_help_text;;Ein * vor einer Feldbezeichnung gibt an, dass ein Eintrag erforderlich ist.;;;;
 </span></li><li><span class='helptext'>;;_help_text;;"Das Kennwort muss mindestens 8 Zeichen lang sein. Im Kennwort müssen Zeichen aus drei Gruppen der folgenden vier Gruppen enthalten sein: Ziffern, Kleinbuchstaben, Großbuchstaben, Sonderzeichen. Zulässige Sonderzeichen sind !"#$%&'*+,-./:;<=>?@[\]^_`{|}~";;;;
-</span></li>;;_help_text;;;;;;
+</span></li>;;_help_text;; ;;;;

@@ -1,5 +1,8 @@
 id;permission;headline;link
-Startseite;anonymous;Startseite ;../pages/index.php
-Login;anonymous;Anmelden ;../forms/login.php
+Startseite;.anonymous;Startseite ;../public/index.php
+efaWeb;anonymous;efaWeb starten ;../forms/login.php?goto=pages/efaWeb.php
+Login;anonymous;efaCloud starten ;../forms/login.php
 Logout;.anonymous;Abmelden ;../pages/logout.php
-Hilfe;anonymous;Hilfe ;../pages/construction.php
+ResetPW;.anonymous;Kennwort vergessen ;../forms/reset_password.php
+Hilfe;anonymous;Hilfe ;../public/help.php
+Info;.anonymous;Info ;../public/info.php

@@ -18,7 +18,6 @@ footer, header, nav {
 }
 
 /* Element formats */
-
 h1, h2, h3, h4, h5, h6, input, p, blockquote, code {
 	line-height: 1.5;
 }
@@ -107,7 +106,7 @@ sup {
 }
 
 .w3-xlarge {
-	font-size: 24px !important
+	font-size: 24px !important;
 }
 
 .w3-center {
@@ -132,7 +131,7 @@ button:-moz-focusring, [type=button]:-moz-focusring, [type=reset]:-moz-focusring
 
 textarea {
 	overflow: auto;
-	width:95%
+	width: 95%
 }
 
 /* class definitions */
@@ -157,16 +156,17 @@ textarea {
 	width: 200px;
 	position: fixed !important;
 	z-index: 1;
-	overflow: auto
+	overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .w3-bar-item {
-	padding: 8px;
 	float: left;
-	width: auto;
-	border: none;
-	display: block;
-	outline: 0
+	width: auto
+}
+
+.w3-bar-item-2 {
+	margin-left:8px
 }
 
 .w3-bar-block .w3-bar-item {
@@ -200,7 +200,7 @@ textarea {
 
 /* responsive layout definition. */
 /* full size screen. */
-@media ( min-width : 1050px) {
+@media ( min-width : 1200px) {
 	.w3-hide-large {
 		display: none !important
 	}
@@ -210,22 +210,53 @@ textarea {
 	.w3-main {
 		margin-left: 250px !important;
 	}
+	/* full width */
 	.w3-col.l1 {
 		width: 99.99999%
 	}
+	/* half width */
 	.w3-col.l2 {
 		width: 49.99999%
 	}
+	/* a third width */
 	.w3-col.l3 {
 		width: 33.33333%
 	}
+	/* a third, two times */
+	.w3-col.l32 {
+		width: 66.66666%
+	}
+	/* a fourth width */
 	.w3-col.l4 {
 		width: 24.99999%
+	}
+	/* a fourth, three times. Note: a fourth, two times = a half */
+	.w3-col.l43 {
+		width: 74.99999%
+	}
+	/* a fifth with asf. */
+	.w3-col.l5 {
+		width: 19.99999%
+	}
+	.w3-col.l52 {
+		width: 39.99999%
+	}
+	.w3-col.l53 {
+		width: 59.99999%
+	}
+	.w3-col.l54 {
+		width: 79.99999%
+	}
+	.w3-col.l6 {
+		width: 16.66666%
+	}
+	.w3-col.l65 {
+		width: 83.33333%
 	}
 }
 
 /* reduced size, but with side menu */
-@media ( max-width : 1049px) and (min-width: 900px) {
+@media ( max-width : 1199px) and (min-width: 850px) {
 	.w3-hide-large {
 		display: none !important
 	}
@@ -244,38 +275,37 @@ textarea {
 	.w3-col.l3 {
 		width: 33.33333%
 	}
+	.w3-col.l32 {
+		width: 66.66666%
+	}
 	.w3-col.l4 {
+		width: 49.99999%
+	}
+	.w3-col.l43 {
+		width: 99.99999%
+	}
+	.w3-col.l5 {
 		width: 33.33333%
 	}
-}
-
-/* further reduced screen, but with side menu */
-@media ( max-width : 899px) and (min-width: 800px) {
-	.w3-hide-large {
-		display: none !important
+	.w3-col.l52 {
+		width: 66.66666%
 	}
-	.w3-sidebar.w3-collapse {
-		display: block !important
-	}
-	.w3-main {
-		margin-left: 200px !important;
-	}
-	.w3-col.l1 {
+	.w3-col.l53 {
 		width: 99.99999%
 	}
-	.w3-col.l2 {
+	.w3-col.l54 {
 		width: 99.99999%
 	}
-	.w3-col.l3 {
-		width: 49.99999%
+	.w3-col.l6 {
+		width: 33.33333%
 	}
-	.w3-col.l4 {
-		width: 49.99999%
+	.w3-col.l65 {
+		width: 99.99999%
 	}
 }
 
 /* further reduced screen, without side menu */
-@media ( max-width : 799px) and (min-width: 650px) {
+@media ( max-width : 849px) and (min-width: 700px) {
 	.w3-hide-large {
 		display: block
 	}
@@ -294,13 +324,37 @@ textarea {
 	.w3-col.l3 {
 		width: 49.99999%
 	}
+	.w3-col.l32 {
+		width: 99.99999%
+	}
 	.w3-col.l4 {
 		width: 49.99999%
+	}
+	.w3-col.l43 {
+		width: 99.99999%
+	}
+	.w3-col.l5 {
+		width: 33.33333%
+	}
+	.w3-col.l52 {
+		width: 66.66666%
+	}
+	.w3-col.l53 {
+		width: 99.99999%
+	}
+	.w3-col.l54 {
+		width: 99.99999%
+	}
+	.w3-col.l6 {
+		width: 33.33333%
+	}
+	.w3-col.l65 {
+		width: 99.99999%
 	}
 }
 
 /* further reduced screen, without side menu */
-@media ( max-width : 649px) {
+@media ( max-width : 699px) {
 	.w3-hide-large {
 		display: block
 	}
@@ -319,11 +373,34 @@ textarea {
 	.w3-col.l3 {
 		width: 99.99999%
 	}
+	.w3-col.l32 {
+		width: 99.99999%
+	}
 	.w3-col.l4 {
 		width: 99.99999%
 	}
+	.w3-col.l43 {
+		width: 99.99999%
+	}
+	.w3-col.l5 {
+		width: 49.99999%
+	}
+	.w3-col.l52 {
+		width: 99.99999%
+	}
+	.w3-col.l53 {
+		width: 99.99999%
+	}
+	.w3-col.l54 {
+		width: 99.99999%
+	}
+	.w3-col.l6 {
+		width: 49.99999%
+	}
+	.w3-col.l65 {
+		width: 99.99999%
+	}
 }
-
 
 /* Positionierungen */
 .w3-top, .w3-bottom {
@@ -387,6 +464,7 @@ textarea {
 .w3-grayscale {
 	filter: grayscale(75%)
 }
+
 .w3-grayscale:hover {
 	filter: grayscale(0%)
 }

@@ -1,0 +1,23 @@
+tags;required;name;value;label;type;class;size;maxlength
+<div class='w3-row'><div class='w3-col l2'>;*; \
+  Vorname;;Ihr Vorname;text;;90%;250
+</div><div class='w3-col l2'>;*; \
+  Nachname;;Ihr Nachname;text;;90%;250
+</div></div><div class='w3-row'><div class='w3-col l1'>;*; \
+  EMail;;Ihr E-Mail-Adresse für die Kontaktaufnahme durch den Support;email;;95%;250
+</div></div><div class='w3-row'><div class='w3-col l1'>;*; \
+  Verein;;Der Verein, bei dem efaCloud eingesetzt wird;text;;90%;250
+</div></div><div class='w3-row'><div class='w3-col l1'>;*; \
+  Anliegen;;Ihr Anliegen;textarea;;4;
+</div></div><div class='w3-row'><div class='w3-col l1'>;;_no_input;; ;;;;
+</div></div><div class='w3-row'><div class='w3-col l1'>;; \
+  NamedUser;;Unser Verein nutzt efaCloud und darf auf efacloud.org als nutzender Verein benannt werden.;checkbox;;5;5
+</div></div><div class='w3-row'><div class='w3-col l1'>;; \
+  SendLogs;;Die API-Logs und den Auditlog mit senden (erforderlich bei einer Supportanfrage);checkbox;;5;5
+</div></div><div class='w3-row'><div class='w3-col l1'><div style='float:right'>;; \
+  submit;absenden;;submit;formbutton;;
+</div></div></div>;;_no_input;;;;;;
+<li><span class='helptext'>;;_help_text;;Ein * vor einer Feldbezeichnung gibt an, dass ein Eintrag erforderlich ist.;;;;
+</span></li><li><span class='helptext'>;;_help_text;;Ohne Angabe des Namens und des Vereins werden Supportanfragen nicht  \
+ bearbeitet. Die Reaktionszeit beträgt in der Regel unter einer Woche, in Urlaubszeiten schon mal länger.;;;;
+</span></li>;;_help_text;;;;;;

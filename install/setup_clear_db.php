@@ -1,7 +1,7 @@
 <?php
 /**
  * A data base bootstrap script to create the server side admin tables and the first admin user.
- *
+ * 
  * @author mgSoft
  */
 
@@ -9,16 +9,23 @@
 // be changed to "no access" - even better: or the form deleted from the site.
 
 // ===== initialize toolbox
-include_once '../classes/toolbox.php';
-$toolbox = new Toolbox("../config/settings");
+include_once '../classes/tfyh_toolbox.php';
+$toolbox = new Tfyh_toolbox();
+// init parameters definition
+$cfg = $toolbox->config->get_cfg();
 
 // PRELIMINARY SECURITY CHECKS
 // ===== throttle to prevent from machine attacks.
-$toolbox->load_throttle("inits/", 1000);
+$toolbox->load_throttle("inits/", $toolbox->config->settings_tfyh["init"]["max_inits_per_hour"]);
 
 // Create PHP-wrapper socket to data base
-include_once '../classes/socket.php';
-$socket = new Socket($toolbox);
+include_once '../classes/tfyh_socket.php';
+$socket = new Tfyh_socket($toolbox);
+$connected = $socket->open_socket();
+if ($connected !== true)
+    $toolbox->display_error("Datenbankverbindung fehlgeschlagen", $connected, "../install/setup_clear_db.pbp", 
+            __FILE__);
+
 $db_name = $socket->get_db_name();
 
 // ===== define admin user default configuration
@@ -27,14 +34,16 @@ $cfg_default["ecadmin_vorname"] = "Alex";
 $cfg_default["ecadmin_nachname"] = "Admin";
 $cfg_default["ecadmin_mail"] = "alex.admin@efacloud.org";
 $cfg_default["ecadmin_id"] = "1142";
+$cfg_default["ecadmin_Name"] = "alexa";
 $cfg_default["ecadmin_password"] = "123Test!";
-$cfg_default["ecadmin_password_confirm"] = "123Test!";
+$cfg_default["ecadmin_password_confirm"] = $cfg_default["ecadmin_password"];
 
 // ===== Form texts for admin user configuration
 $cfg_description["ecadmin_vorname"] = "Vorname des efacloud Server Admins";
 $cfg_description["ecadmin_nachname"] = "Nachname des efacloud Server Admins";
 $cfg_description["ecadmin_mail"] = "E-Mail Adresse des efacloud Server Admins";
 $cfg_description["ecadmin_id"] = "userID des efacloud Server Admins (ganze Zahl)";
+$cfg_description["ecadmin_Name"] = "admin Name des efacloud Server Admins (z.B. 'martin', 'admin' ist nicht zulässig!)";
 $cfg_description["ecadmin_password"] = "Passwort des efacloud Server Admins, UNBEDINGT MERKEN";
 $cfg_description["ecadmin_password_confirm"] = "Passwort des efacloud Server Admins wiederholen";
 
@@ -43,52 +52,9 @@ $cfg_type["ecadmin_vorname"] = "text";
 $cfg_type["ecadmin_nachname"] = "text";
 $cfg_type["ecadmin_mail"] = "email";
 $cfg_type["ecadmin_id"] = "text";
+$cfg_type["ecadmin_Name"] = "text";
 $cfg_type["ecadmin_password"] = "password";
 $cfg_type["ecadmin_password_confirm"] = "password";
-
-// ===== data base bootstrap SQL statmenets
-$sql_bootstrap[] = "ALTER DATABASE `#db_name#` CHARACTER SET utf8 COLLATE utf8_german2_ci;";
-$tables_to_drop = [
-        "efa2autoincrement",
-        "efa2boatdamages",
-        "efa2boatreservations",
-        "efa2boats",
-        "efa2boatstatus",
-        "efa2crews",
-        "efa2destinations",
-        "efa2fahrtenabzeichen",
-        "efa2groups",
-        "efa2logbook",
-        "efa2messages",
-        "efa2persons",
-        "efa2sessiongroups",
-        "efa2statistics",
-        "efa2status",
-        "efa2waters",
-        "efaCloudConfig",
-        "efaCloudLog",
-        $toolbox->users->user_table_name
-];
-
-$sql_bootstrap[] = "CREATE TABLE `efaCloudConfig` (`ID` int UNSIGNED NOT NULL, `Name` varchar(64) NOT NULL, " .
-         "`Wert` varchar(4096) NOT NULL, `LastModified` bigint DEFAULT NULL);";
-$sql_bootstrap[] = "ALTER TABLE `efaCloudConfig` ADD PRIMARY KEY (`ID`);";
-$sql_bootstrap[] = "ALTER TABLE `efaCloudConfig` MODIFY `ID` int UNSIGNED NOT NULL AUTO_INCREMENT;";
-$sql_bootstrap[] = "INSERT INTO `efaCloudConfig` (`ID`, `Name`, `Wert`) VALUES (1, 'lastUserID', '1142');";
-
-$sql_bootstrap[] = "CREATE TABLE `efaCloudLog` (`ID` int UNSIGNED NOT NULL, `Author` int NOT NULL, " .
-         "`Time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP, `ChangedTable` varchar(64) NOT NULL DEFAULT 'no_table_set', " .
-         "`ChangedID` varchar(256) DEFAULT NULL, `Modification` varchar(4096) DEFAULT NULL, `LastModified` bigint DEFAULT NULL);";
-$sql_bootstrap[] = "ALTER TABLE `efaCloudLog` ADD PRIMARY KEY (`ID`);";
-$sql_bootstrap[] = "ALTER TABLE `efaCloudLog` MODIFY `ID` int UNSIGNED NOT NULL AUTO_INCREMENT;";
-
-$sql_bootstrap[] = "CREATE TABLE `efaCloudUsers` (`ID` int UNSIGNED NOT NULL, `EMail` varchar(64) NOT NULL DEFAULT 'nn@efacloud.org'," .
-         " `efaCloudUserID` int DEFAULT NULL, `Vorname` varchar(64) NOT NULL, `Nachname` varchar(64) NOT NULL, `Rolle` varchar(64) DEFAULT 'anonymous', " .
-         "`Passwort_Hash` varchar(256) NOT NULL DEFAULT '-', `LastModified` bigint DEFAULT NULL);";
-$sql_bootstrap[] = "ALTER TABLE `efaCloudUsers` ADD PRIMARY KEY (`ID`);";
-$sql_bootstrap[] = "ALTER TABLE `efaCloudUsers` MODIFY `ID` int UNSIGNED NOT NULL AUTO_INCREMENT;";
-$sql_bootstrap[] = "INSERT INTO `efaCloudUsers` (`ID`, `EMail`, `efaCloudUserID`, `Vorname`, `Nachname`, `Rolle`, `Passwort_Hash`, `LastModified`) " .
-         "VALUES (1, '#ecadmin_mail#', #ecadmin_id#, '#ecadmin_vorname#', '#ecadmin_nachname#', 'admin', '#ecadmin_password_hash#', '1582228940000');";
 
 // === PAGE OUTPUT ===================================================================
 
@@ -117,67 +83,59 @@ if ((isset($_GET['done']) && intval($_GET["done"]) == 1)) {
     // check password
     if (strcmp($cfg_to_use["ecadmin_password"], $cfg_to_use["ecadmin_password_confirm"]) != 0) {
         ?>
-	<h3>Die Kennwörter stimmen nicht überein. Bitte korrigieren!</h3>
+	<h4>Die Kennwörter stimmen nicht überein. Bitte korrigieren!</h4>
 	<p>
 		<a href='../install/setup_clear_db.php'>Neuer Versuch</a>
 	</p>
 <?php
         echo "</div>";
-        end_script();
         exit();
     }
     if (strlen($toolbox->check_password($cfg_to_use["ecadmin_password"])) > 0) {
         ?>
-	<h3>Das Kennwort genügt icht den Sicherheitsregeln</h3>
+	<h4>Das Kennwort genügt nicht den Sicherheitsregeln</h4>
 	<p>
 		<a href='../install/setup_clear_db.php'>Neuer Versuch</a>
 	</p>
 <?php
         echo "</div>";
-        end_script();
+        exit();
+    }
+    if (strcasecmp($cfg_to_use["ecadmin_Name"], "admin") == 0) {
+        ?>
+	<h4>Der admin-Name 'admin' ist unzulässig. Bitte verwende einen anderen admin Namen.</h4>
+	<p>
+		<a href='../install/setup_clear_db.php'>Neuer Versuch</a>
+	</p>
+<?php
+        echo "</div>";
         exit();
     }
     
-    // hash password
-    $cfg_to_use["ecadmin_password_hash"] = password_hash($cfg_to_use["ecadmin_password"], PASSWORD_DEFAULT);
-    unset($cfg_to_use["ecadmin_password"]);
+    // set session user to selected admin, in order to be able to manipulate the data base.
+    $_SESSION["User"]["Vorname"] = $cfg_to_use["ecadmin_vorname"];
+    $_SESSION["User"]["Nachname"] = $cfg_to_use["ecadmin_nachname"];
+    $_SESSION["User"]["EMail"] = $cfg_to_use["ecadmin_mail"];
+    $_SESSION["User"]["efaCloudUserID"] = $cfg_to_use["ecadmin_id"];
+    $_SESSION["User"]["efaAdminName"] = $cfg_to_use["ecadmin_Name"];
+    $_SESSION["User"]["Passwort_Hash"] = password_hash($cfg_to_use["ecadmin_password"], PASSWORD_DEFAULT);
+    $_SESSION["User"]["Rolle"] = "admin";
     
-    $result_bootstrap = "<p><b>Löschen der Datenbanktabellen:</b><br>";
-    $existing_tables = $socket->get_table_names(true);
-    foreach ($tables_to_drop as $table_to_drop) {
-        $result_bootstrap .= "Lösche Tabelle: " . $table_to_drop . " ... ";
-        $sql_cmd = "DROP TABLE IF EXISTS `" . $table_to_drop . "`";
-        $res_sql = $socket->query($sql_cmd, true);
-        $result_bootstrap .= (intval($res_sql) == 1) ? "ok." : $res_sql;
-        $result_bootstrap .= "<br>";
-    }
-    $result_bootstrap .= "</p><p><b>Neu-Aufsetzen der Verwaltungstabellen:</b><br>";
-    foreach ($sql_bootstrap as $sql_cmd_template) {
-        $sql_cmd = $sql_cmd_template;
-        foreach ($cfg_to_use as $cfg_key => $cfg_value)
-            $sql_cmd = str_replace('#' . $cfg_key . '#', $cfg_value, $sql_cmd);
-        $sql_cmd = str_replace('#db_name#', $db_name, $sql_cmd);
-        $table_name_start = strpos($sql_cmd, "`") + 1;
-        $table_name_end = strpos($sql_cmd, "`", $table_name_start);
-        $table_name = substr($sql_cmd, $table_name_start, $table_name_end - $table_name_start);
-        if (strpos($sql_cmd, "CREATE TABLE") !== false)
-            $result_bootstrap .= "Erzeuge Tabelle " . $table_name . " ... ";
-        elseif (strpos($sql_cmd, "INSERT INTO") !== false)
-            $result_bootstrap .= "Füge Datensatz hinzu in " . $table_name . " ... ";
-        else
-            $result_bootstrap .= "Konfiguriere in mehreren Schritten " . $table_name . " ... ";
-        $res_sql = $socket->query($sql_cmd, true);
-        $result_bootstrap .= (intval($res_sql) == 1) ? "ok." : $res_sql;
-        $result_bootstrap .= "<br>";
-    }
-    echo $result_bootstrap;
-    echo "</p>";
+    // ===== create data base
+    include_once '../classes/efa_tables.php';
+    $efa_tables = new Efa_tables($toolbox, $socket);
+    include_once '../classes/efa_tools.php';
+    $efa_tools = new Efa_tools($efa_tables, $toolbox);
+    $result_bootstrap = $efa_tools->init_efa_data_base(true, true);
+    
+    echo "<p>" . $result_bootstrap . "</p>";
     // Display result and next steps
     ?>
 	<h3>Fertig</h3>
 	<p>
 		Die Datenbank ist gelöscht und neu aufgesetzt. Die Einrichtung muss
-		nun <a href='../install/setup_finish.php'>hier abgeschlossen</a> werden.
+		nun <a href='../install/setup_finish.php'>hier abgeschlossen</a>
+		werden.
 	</p>
 <?php
 } else {
@@ -194,8 +152,9 @@ if ((isset($_GET['done']) && intval($_GET["done"]) == 1)) {
     <?php
     // Display form fields depending on the installation mode.
     foreach ($cfg_default as $key => $value)
-        echo '<tr><td>' . $key . ':<br>' . $cfg_description[$key] . '&nbsp;</td><td><input class="forminput" type="' .
-                 $cfg_type[$key] . '" size="35" maxlength="250" name="' . $key . '" value="' . $value . '"></td></tr>';
+        echo '<tr><td>' . $key . ':<br>' . $cfg_description[$key] .
+                 '&nbsp;</td><td><input class="forminput" type="' . $cfg_type[$key] .
+                 '" size="35" maxlength="250" name="' . $key . '" value="' . $value . '"></td></tr>';
     ?>
     </table>
 		<br> <input class="formbutton" type="submit"
@@ -204,4 +163,3 @@ if ((isset($_GET['done']) && intval($_GET["done"]) == 1)) {
 	<h2>Achtung: Dadurch werden alle bestehenden Daten in der Datenbank "<?php echo $db_name; ?>" gelöscht!</h2>
 </div><?php
 }
-end_script();

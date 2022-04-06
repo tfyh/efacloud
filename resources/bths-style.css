@@ -1,0 +1,22 @@
+@CHARSET "UTF-8";
+
+#modal-table td, #modal-table th {
+	border: 1px solid #eee;
+	padding: 8px;
+}
+
+#modal-table tr:nth-child(even) {
+	background-color: #eee;
+}
+
+#modal-table tr:hover {
+	background-color: #fff;
+}
+
+#modal-table th {
+	padding-top: 12px;
+	padding-bottom: 12px;
+	text-align: left;
+	background-color: #171177;
+	color: white;
+}

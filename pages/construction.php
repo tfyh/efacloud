@@ -1,6 +1,6 @@
 <?php
 /**
- * Page display file. A generic error message display page.
+ * Page display file. A generic contruction message display page.
  *
  * @author mgSoft
  */

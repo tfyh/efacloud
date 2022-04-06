@@ -10,12 +10,12 @@
   <link rel="shortcut icon" href="../resources/favicon.ico" type="image/x-icon" />
 </head>
 
-<body class="body">
+<body class="body" style='margin-top:50px'>
 
 <!-- Sidebar/menu -->
-<nav class="w3-sidebar w3-bar-block w3-collapse w3-top efacloud-screen menubar" 
+<nav class="w3-sidebar w3-bar-block w3-collapse w3-top menubar" 
             style="z-index:3;width:200px" id="menuSidebar">
   <div class="w3-container">
-    <h3><a href="../pages/index.php"><img src="../resources/efacloud-logo_512.png" alt="efacloud Logo" 
-            style="width:180px"></a></h3>
+    <a href='../public/index.php'><img src="../resources/efacloud-logo_512.png" alt="efacloud Logo" 
+            style="width:180px"></a>
   </div>

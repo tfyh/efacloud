@@ -52,7 +52,7 @@ class Client_tx_statistics
     private $transactions_count_chart_data;
 
     /**
-     * time of last client data upload.
+     * time of last client data upload. Used to display last upload time to user.
      */
     public $last_record;
 
@@ -69,14 +69,14 @@ class Client_tx_statistics
     /**
      * Initialize all field for the statistics to be gathered.
      *
-     * @param Toolbox $toolbox
+     * @param Tfyh_toolbox $toolbox
      *            The toolbox for the csv handling functions.
      * @param int $client_id
      *            The efaCloudUserID of the client, for which the statistics are gathered
      * @param int $count_of_days
      *            The count of days for which the statistics shall be gathered
      */
-    private function read_statistics (Toolbox $toolbox, int $client_id, int $count_of_days)
+    private function read_statistics (Tfyh_toolbox $toolbox, int $client_id, int $count_of_days)
     {
         // initialize graph array headers
         $iam_columns = ["Day" => 0,"completed" => 1,"other" => 2
@@ -114,10 +114,14 @@ class Client_tx_statistics
         for ($i = 0; $i < $count_of_days; $i ++) {
             $this->last_dates[$i] = date("Y-m-d", $now - $i * $secday);
             $this->last_dates_from = strtotime($this->last_dates[$i]);
+            // initiate pivot table for CONTAINER duration. Each element is a record with the date,
+            // and the duration sum for completed and other
             $this->container_duration_chart_data[$i + 1] = [$this->last_dates[$i],0,0
             ];
             $this->container_count_chart_data[$i + 1] = [$this->last_dates[$i],0,0
             ];
+            // initiate pivot table for TRANSACTION duration. Each element is a record with the date,
+            // and the duration sum per type
             $this->transactions_wait_time_chart_data[$i + 1] = [$this->last_dates[$i],0,0,0,0,0,0,0
             ];
             $this->transactions_count_chart_data[$i + 1] = [$this->last_dates[$i],0,0,0,0,0,0,0
@@ -128,18 +132,17 @@ class Client_tx_statistics
         $this->iam_statistics = $toolbox->read_csv_array("../uploads/" . $client_id . "/iamStatistics.csv");
         
         $this->last_record = 0;
-        $this->count_iam_records = 0;
-        $this->count_txq_records = 0;
+        $this->count_iam_records = count($this->iam_statistics);
         
         foreach ($this->iam_statistics as $iam_record) {
             $started = intval(substr($iam_record["started"], 0, 10));
-            $this->count_iam_records ++;
             if ($started > $this->last_record)
                 $this->last_record = $started;
             $duration_millis = intval($iam_record["durationMillis"]);
             $chart_record_index = intval(($now - $started) / $secday) + 1;
             if (($chart_record_index >= 0) && ($chart_record_index < $count_of_days)) {
                 $iam_column = (isset($iam_columns[$iam_record["result"]])) ? $iam_columns[$iam_record["result"]] : $iam_columns["other"];
+                // accumulate time and together with the time count the times accumulated 
                 $this->container_duration_chart_data[$chart_record_index][$iam_column] += $duration_millis;
                 $this->container_count_chart_data[$chart_record_index][$iam_column] ++;
             }
@@ -147,23 +150,22 @@ class Client_tx_statistics
         
         // read transaction queue statistics
         $this->txq_statistics = $toolbox->read_csv_array("../uploads/" . $client_id . "/txqStatistics.csv");
-        $waited_sum = 0;
+        $this->count_txq_records = count($this->txq_statistics);
         foreach ($this->txq_statistics as $txq_record) {
             $started = intval(substr($txq_record["created"], 0, 10));
-            $this->count_txq_records ++;
             if ($started > $this->last_record)
                 $this->last_record = $started;
             $waited_millis = intval($txq_record["waitedMillis"]);
             $chart_record_index = intval(($now - $started) / $secday) + 1;
             if (($chart_record_index >= 0) && ($chart_record_index < $count_of_days)) {
                 $txq_column = (isset($txq_columns[$txq_record["type"]])) ? $txq_columns[$txq_record["type"]] : $txq_columns["other"];
+                // accumulate time and together with the time count the times accumulated
                 $this->transactions_wait_time_chart_data[$chart_record_index][$txq_column] += $waited_millis;
                 $this->transactions_count_chart_data[$chart_record_index][$txq_column] ++;
-                $waited_sum ++;
             }
         }
         
-        // average time values
+        // calculate the average of time values by simple division per data point
         for ($i = 1; $i < (1 + $count_of_days); $i ++) {
             for ($j = 1; $j < 3; $j ++)
                 if ($this->container_count_chart_data[$i][$j] > 0)
@@ -179,12 +181,12 @@ class Client_tx_statistics
     /**
      * Construct the instance. This loads all data for the statistics immediately
      *
-     * @param Toolbox $toolbox
+     * @param Tfyh_toolbox $toolbox
      *            The toolbox for the csv handling functions.
      * @param int $client_id
      *            The efaCloudUserID of the client, for which the statistics are gathered
      */
-    function __construct (Toolbox $toolbox, int $client_id)
+    function __construct (Tfyh_toolbox $toolbox, int $client_id)
     {
         $this->read_statistics($toolbox, $client_id, 14);
     }
@@ -205,11 +207,11 @@ class Client_tx_statistics
                 if (($c == 0) || ($r == 0))
                     $ret .= "'" . $data_array[$r][$c] . "',";
                 else
-                    $ret .= strval($data_array[$r][$c]) . ",";
+                    $ret .= strval(round($data_array[$r][$c], 1)) . ",";
             }
-            $ret = substr($ret, 0, strlen($ret) - 1) . "],";
+            $ret = substr($ret, 0, strlen($ret) - 1) . "],\n";
         }
-        $ret = substr($ret, 0, strlen($ret) - 1) . "]";
+        $ret = substr($ret, 0, strlen($ret) - 2) . "]";
         return $ret;
     }
 

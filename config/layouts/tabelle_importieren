@@ -6,6 +6,7 @@ tags;required;name;value;label;type;class;size;maxlength
 </div></div><div class='w3-row' style='margin-top:20px'><div class='w3-col l1'><div style='float:left'>;; \
   submit;Jetzt hochladen und prüfen;;submit;formbutton;;
 </div></div></div>;;_no_input;;;;;;
-<li><span class='helptext'>;;_help_text;;Hier kannst Du ganze Tabellen ändern.;;;;
+<li><span class='helptext'>;;_help_text;;Hier kannst Du ganze Tabellen ändern, wenn sie eine eindeutige Id haben (die anderen sind nicht auswählbar).;;;;
 </span></li><li><span class='helptext'>;;_help_text;;Agiere mit Vorsicht, denn rückgängig ist nicht möglich.;;;;
+</span></li><li><span class='helptext'>;;_help_text;;Das Importieren von Mitgliedern ist unter einem separaten Menüpunkt möglich.;;;;
 </span></li>;;_help_text;;;;;;
