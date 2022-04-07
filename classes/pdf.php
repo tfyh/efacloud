@@ -1,24 +1,14 @@
 <?php
 
 /**
- * class file for the PDF class
- * 
- * @package IchKomme
- * @subpackage classes
- * @author mgSoft
- */
-/**
  * A class to produce a pdf based on a html layout and a set of data from the data base.
- * 
- * @package IchKomme
- * @subpackage classes
- * @author mgSoft
  */
 class PDF
 {
 
     /**
-     * The data base socket to retrieve the data which shall replace the field-identifiers in the template.
+     * The data base socket to retrieve the data which shall replace the field-identifiers in the
+     * template.
      */
     private $socket;
 
@@ -33,25 +23,15 @@ class PDF
     private $table_name;
 
     /**
-     * The page centered footer text.
-     */
-    public $footer_text = "";
-
-    /**
-     * The page centered footer text.
-     */
-    public $document_author = "";
-
-    /**
      * Constructor just takes the arguments and links it to local fields.
-     * 
-     * @param Socket $socket
-     *            the data base socket to retrieve the data which shall replace the field-identifiers in the
-     *            template.
+     *
+     * @param Tfyh_socket $socket
+     *            the data base socket to retrieve the data which shall replace the
+     *            field-identifiers in the template.
      * @param String $table_name
      *            the name of the table to be used for field identifiers (= column names)
      */
-    public function __construct (Toolbox $toolbox, Socket $socket, String $table_name)
+    public function __construct (Tfyh_toolbox $toolbox, Tfyh_socket $socket, String $table_name)
     {
         $this->table_name = $table_name;
         $this->toolbox = $toolbox;
@@ -60,18 +40,20 @@ class PDF
 
     /**
      * Create a pdf based on the table data
-     * 
+     *
      * @param String $template_name
-     *            name of template to be used. Will be extended by ".html" for template load and by "_$id.pdf"
-     *            for created file. Will be used as document title for PDF file.
+     *            name of template to be used. Will be extended by ".html" for template load and by
+     *            "_$id.pdf" for created file. Will be used as document title for PDF file.
      * @param String $subject
      *            subject of pdf document
      * @param int $id
      *            the id of the data set to be used. Query run on " WHERE `ID` = $id".
      * @param array $direct_values
-     *            (optional) an named array of values which may have been deduced by a separate logic.
+     *            (optional) an named array of values which may have been deduced by a separate
+     *            logic.
      */
-    function create_pdf (String $template_name, String $subject, int $id, array $direct_values = array())
+    function create_pdf (String $template_name, String $subject, int $id, 
+            array $direct_values = array())
     {
         $template_path = "../templates/" . $template_name . ".html";
         $html = $this->fill_html_template($template_path, $id, $direct_values);
@@ -88,10 +70,9 @@ class PDF
     }
 
     /**
-     * Create a pdf document from the provided html String. In order to set a footer text, set the
-     * $this->footer_text variable first. Similar with the document author: to set one, set the
-     * $this->document_author field.
-     * 
+     * Create a pdf document from the provided html String. Margins, footer text and document author
+     * are taken from the app configuration.
+     *
      * @param String $html
      *            string to convert
      * @param String $file_path
@@ -109,11 +90,11 @@ class PDF
         
         // Erstellung des PDF Dokuments
         $pdf = new PDF_adapted(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-        $pdf->footer_text = $this->footer_text;
+        $pdf->footer_text = $this->toolbox->config->pdf_footer_text;
         
         // Dokumenteninformationen
         $pdf->SetCreator(PDF_CREATOR);
-        $pdf->SetAuthor($this->document_author);
+        $pdf->SetAuthor($this->toolbox->config->pdf_document_author);
         $pdf->SetTitle($title);
         $pdf->SetSubject($subject);
         
@@ -124,8 +105,8 @@ class PDF
         ));
         
         // Auswahl der Margins
-        $pdf->SetMargins($this->toolbox->config->pdf_margins[0], $this->toolbox->config->pdf_margins[1], 
-                $this->toolbox->config->pdf_margins[2], true);
+        $pdf->SetMargins($this->toolbox->config->pdf_margins[0], 
+                $this->toolbox->config->pdf_margins[1], $this->toolbox->config->pdf_margins[2], true);
         $pdf->SetHeaderMargin($this->toolbox->config->pdf_margins[3]);
         $pdf->SetFooterMargin($this->toolbox->config->pdf_margins[4]);
         
@@ -154,13 +135,14 @@ class PDF
     }
 
     /**
-     * Fill a template with the values from a single data set of the data base. Referenced values are looked
-     * up.
-     * 
+     * Fill a template with the values from a single data set of the data base. Referenced values
+     * are looked up.
+     *
      * @param String $template_path
      *            the file path for the template, e.g. "../templates/templ1.html"
      * @param int $id
-     *            the id of the data set to be used. Queries the Mitgliederliste on " WHERE `ID` = $id".
+     *            the id of the data set to be used. Queries the Mitgliederliste on " WHERE `ID` =
+     *            $id".
      * @param array $direct_values
      *            an named array of values which may have been deduced by a separate logic.
      */
@@ -174,7 +156,8 @@ class PDF
         $data_set = null;
         while ($snippet_end !== false) {
             // copy snippet and get find-value
-            $filled_string .= substr($template_string, $snippet_start, $snippet_end - $snippet_start);
+            $filled_string .= substr($template_string, $snippet_start, 
+                    $snippet_end - $snippet_start);
             $token_start = $snippet_end + 2;
             $token_end = strpos($template_string, "#}", $token_start);
             $find_string = substr($template_string, $token_start, $token_end - $token_start);
@@ -193,8 +176,8 @@ class PDF
                     $secondary_table_path = $find_elements[0] . "." . $find_elements[1];
                     if (! isset($data_set[$secondary_table_path])) {
                         $secondary_id = $data_set[$find_elements[0]][$find_elements[1]];
-                        $data_set[$secondary_table_path] = $this->socket->get_record($find_elements[1], 
-                                $secondary_id);
+                        $data_set[$secondary_table_path] = $this->socket->get_record(
+                                $find_elements[1], $secondary_id);
                     }
                     $value_to_use = $data_set[$secondary_table_path][$find_elements[2]];
                 } else {
@@ -205,7 +188,8 @@ class PDF
             $filled_string .= (strlen($value_to_use) == 0) ? "-" : $value_to_use;
         }
         // add the remainder of the template to the filled template.
-        $filled_string .= substr($template_string, $snippet_start, strlen($template_string) - $snippet_start);
+        $filled_string .= substr($template_string, $snippet_start, 
+                strlen($template_string) - $snippet_start);
         return $filled_string;
     }
 }

@@ -14,7 +14,8 @@ $client_id = (isset($_GET["clientID"])) ? intval($_GET["clientID"]) : 0; // iden
 if (! $client_id) {
     $toolbox->display_error("Nicht zulässig.", 
             "Die Seite '" . $user_requested_file . "' muss mit der Angabe der efaCloudUserID des zu berichtenden " .
-            "Clients aufgerufen werden.", __FILE__);
+            "Clients aufgerufen werden.",
+            $user_requested_file);
 }
 
 $statistics = new Client_tx_statistics($toolbox, $client_id);

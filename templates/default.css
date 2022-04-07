@@ -1,0 +1,55 @@
+@page {
+	margin: 2cm
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+	font-family: "Arial", sans-serif;
+}
+
+h1, h2, h3 {
+	font-weight: bold;
+}
+
+table, li {
+	font-size: 10pt;
+}
+
+p {
+	margin-bottom: 0.21cm;
+	margin-left: 0.6cm;
+	direction: ltr;
+	font-size: 10pt;
+	page-break-before: auto
+}
+
+h1 {
+	margin-top: 2cm;
+	margin-bottom: 0.4cm;
+	direction: ltr;
+	font-size: 16pt;
+	color: #261dc6;
+	page-break-before: auto;
+	page-break-after: auto
+}
+
+h2 {
+	margin-top: 1cm;
+	margin-bottom: 0.2cm;
+	font-size: 13pt;
+	direction: ltr;
+	color: #261dc6
+}
+
+h3 {
+	margin-top: 0.42cm;
+	font-size: 12pt;
+	direction: ltr;
+	color: #261dc6
+}
+
+h4 {
+	margin-top: 0.2cm;
+	font-size: 11pt;
+	direction: ltr;
+	color: #261dc6
+}

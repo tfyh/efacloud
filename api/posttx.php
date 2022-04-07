@@ -1,106 +1,194 @@
 <?php
 
-// ===== initialize toolbox & access control.
-include_once '../classes/toolbox.php';
-$toolbox = new Toolbox("../config/settings");
-include_once '../classes/menu.php';
-$menu = new Menu("../config/access/api", $toolbox);
+/**
+ * Title: efa - elektronisches Fahrtenbuch für Ruderer Copyright: Copyright (c) 2001-2021 by Nicolas Michael
+ * Website: http://efa.nmichael.de/ License: GNU General Public License v2. Module efaCloud: Copyright (c)
+ * 2020-2021 by Martin Glade Website: https://www.efacloud.org/ License: GNU General Public License v2
+ */
 
-// ===== trigger transactions load throttling.
-$loadTxOk = $toolbox->load_throttle("api_txs/", 3000);
-if ($loadTxOk !== true) {
-    // return overload error. Do not return the txc ID, but the version.
-    $resp = str_replace("=", "_", 
-            str_replace("/", "-", str_replace("+", "*", base64_encode("1;0;407;Overload detected"))));
+// ===== timestamps
+$php_script_started_at = microtime(true);
+$debug = true;
+
+// ===== initialize toolbox & access control.
+include_once '../classes/tfyh_toolbox.php';
+$toolbox = new Tfyh_toolbox("../config/settings");
+// ===== debug initialization
+$debug = ($toolbox->config->debug_level > 0);
+$posttx_debuglog = "../log/debug_posttx.log";
+
+// check for last other write action request. This request is public, very simple, just
+// posttx.php?lowa=[clientId]. Returns the last recorded write access of any other client
+// as unix timestamp in second.
+if (isset($_POST["lowa"])) {
+    $requesting_client = intval($_POST["lowa"]);
+    $valid_client = false;
+    if (! file_exists("../log/lra")) {
+        mkdir("../log/lra");
+        mkdir("../log/lwa");
+    }
+    $clients = scandir("../log/lwa");
+    $lowa = 1;
+    foreach ($clients as $client) {
+        if (($client != ".") && ($client != "..")) {
+            $lwa = (file_exists("../log/lwa/" . $client)) ? intval(
+                    trim(file_get_contents("../log/lwa/" . $client))) : 2;
+            if (intval($client) == $requesting_client)
+                $valid_client = true; // if the write access was by the requesting client, ignore it
+            elseif (($lowa < $lwa) && ($lwa < time())) {
+                // lwa must not be greater than now. Then it may be a 13 digit timestamp, in any case is
+                // erroneous.
+                $lowa = $lwa;
+            }
+        }
+    }
+    // if the request is issued from an unknown client, return a fake value.
+    // That is to not dosclose valid client IDs to the internet.
+    if ($valid_client)
+        file_put_contents("../log/lra/" . $requesting_client, date("Y-m-d H:i:s"));
+    else
+        $lowa = strval(time() - rand(123, 36000));
+    
+    // note: java timestamps are millis, PHP seconds.
+    $resp = $lowa . "000; [" . date("Y-m-d H:i:s", intval($lowa)) . "] was last other write access for " .
+             $requesting_client;
+    include_once "../classes/tx_handler.php";
+    Tx_handler::log_content_size(intval($_SERVER['CONTENT_LENGTH']), strlen($resp), $toolbox, 
+            $requesting_client);
     echo $resp;
-    // setup errors go to the main program log, not to the API logs
-    $toolbox->logger->log(Tfyh_logger::$TYPE_FAIL, 0, "Overload detected.");
+    $toolbox->logger->put_timestamp($requesting_client, "api/lowa", $php_script_started_at);
     exit();
 }
 
 // ===== construct Efa-tables and client handler for the next checks.
-include_once '../classes/socket.php';
-$socket = new Socket($toolbox);
+include_once '../classes/tfyh_socket.php';
+$socket = new Tfyh_socket($toolbox);
 include_once "../classes/efa_tables.php";
 $efa_tables = new Efa_tables($toolbox, $socket);
-
 // ===== parse tx container and return, if the syntax is invalid
 include_once "../classes/tx_handler.php";
 $tx_handler = new Tx_handler($toolbox, $efa_tables);
 $tx_handler->parse_request_container(trim($_POST["txc"]));
-if (! isset($tx_handler->txc["cresult_code"]) || $tx_handler->txc["cresult_code"] >= 400) {
-    // ===== trigger error load throttling.
-    $loadErrOk = $toolbox->load_throttle("api_errors/", 100);
-    if ($loadErrOk !== true) {
-        // return overload error. Do not return the txc ID, but the version.
-        $resp = str_replace("=", "_", 
-                str_replace("/", "-", str_replace("+", "*", base64_encode("1;0;" . $loadErrOk))));
-        file_put_contents($tx_handler->api_error_log_path, 
-                "[" . date("Y-m-d H:i:s") . "] - Container (loadErr): " . $loadErrOk . ".\n", FILE_APPEND);
-        echo $resp;
-        exit();
-    }
-    $tx_handler->send_response();
+if ($tx_handler->txc["cresult_code"] >= 400)
+    $tx_handler->send_response_and_exit();
+
+// ===== trigger transactions load throttling.
+$loadTxOk = $toolbox->load_throttle("api_inits/", 
+        $toolbox->config->settings_tfyh["init"]["max_inits_per_hour"]);
+if ($loadTxOk !== true) {
+    $tx_handler->txc["cresult_code"] = 406;
+    $tx_handler->txc["cresult_message"] = "Overload detected.";
+    // prevent from redoing too frequently
+    sleep(3);
+    if ($debug)
+        file_put_contents($posttx_debuglog, "  Request container rejected due to overload.\n", FILE_APPEND);
+    $tx_handler->send_response_and_exit();
 }
+
+$tx_handler->php_script_started_at = $php_script_started_at;
 
 // ===== Test the data base connection
 $connected = $socket->open_socket();
 if ($connected !== true) {
     $tx_handler->txc["result_code"] = 407;
     $tx_handler->txc["result_message"] = "Web server failed to connect to the data base.";
-    $tx_handler->log_dropped_container_transactions();
-    $tx_handler->send_response();
+    $tx_handler->send_response_and_exit();
 }
 
-// ===== identify user
-$efaCloudUserID = intval($tx_handler->txc["username"]);
-$client_to_verify = $socket->find_record_matched($toolbox->users->user_table_name, 
-        [$toolbox->users->user_id_field_name => $efaCloudUserID
-        ], true);
-if (! $client_to_verify) {
+// ===== Identify the user
+$api_user_id = $tx_handler->txc["userID"];
+$user_to_verify = $socket->find_record($toolbox->users->user_table_name, $toolbox->users->user_id_field_name, 
+        $api_user_id);
+if ($user_to_verify === false) {
     $tx_handler->txc["cresult_code"] = 402;
-    $tx_handler->txc["cresult_message"] = "The user was not found.";
-    file_put_contents($tx_handler->api_warning_log_path, 
-            "[" . date("Y-m-d H:i:s") . "] - Container: An unknown user (ID provided: " . $efaCloudUserID .
-                     ") tried to access the API.");
-    $tx_handler->log_dropped_container_transactions();
-    $tx_handler->send_response();
+    $tx_handler->txc["cresult_message"] = "Unknown client.";
+    $tx_handler->send_response_and_exit();
 }
 
-// ===== check password existence
-if (strlen($client_to_verify["Passwort_Hash"]) < 10) {
-    $tx_handler->txc["cresult_code"] = 403;
-    $tx_handler->txc["cresult_message"] = "The user " . $client_to_verify[$toolbox->users->user_id_field_name] .
-             " has no valid password hash set in the data base.";
-    file_put_contents($tx_handler->api_warning_log_path, 
-            "[" . date("Y-m-d H:i:s") . "] - Container: The user " . $efaCloudUserID .
-                     " tried to access the API, but has no password hash set in data base.");
-    $tx_handler->log_dropped_container_transactions();
-    $tx_handler->send_response();
+// ===== Authenticate the user
+// try by app session: reading the user from an existing session will return false on failure
+$session_user_id = (strlen($tx_handler->txc["password"]) > 20) &&
+         $toolbox->app_sessions->session_user_id($tx_handler->txc["password"]);
+$verified = (($session_user_id !== false) && ($session_user_id == $api_user_id));
+if ($verified) {
+    if ($debug)
+        file_put_contents($posttx_debuglog, 
+                date("Y-m-d H:i:s") . "\n  Existing session: verified '" .
+                         $user_to_verify[$toolbox->users->user_firstname_field_name] . " " .
+                         $user_to_verify[$toolbox->users->user_lastname_field_name] . "' against session ID '" .
+                         $tx_handler->txc["password"] . "'.\n", FILE_APPEND);
+    $api_session_id = $tx_handler->txc["password"];
+    $is_new_session = false;
+    $session_opened = $toolbox->app_sessions->session_open($api_user_id, $api_session_id);
+    if (! $session_opened) {
+        $tx_handler->txc["cresult_code"] = 406;
+        $tx_handler->txc["cresult_message"] = "Failed to reuse your existing session, please try again later.";
+        $tx_handler->send_response_and_exit();
+    }
+    $tx_handler->txc["cresult_code"] = 300;
+    $tx_handler->txc["cresult_message"] = "Ok.";
+} // try by password
+else {
+    if ($debug)
+        file_put_contents($posttx_debuglog, 
+                date("Y-m-d H:i:s") . "\n  New session: verifying '" .
+                         $user_to_verify[$toolbox->users->user_firstname_field_name] . " " .
+                         $user_to_verify[$toolbox->users->user_lastname_field_name] . "' against " .
+                         strlen($tx_handler->txc["password"]) . " characters password.\n", FILE_APPEND);
+    $verified = password_verify($tx_handler->txc["password"], $user_to_verify["Passwort_Hash"]);
+    if ($verified) {
+        $api_session_id = $toolbox->app_sessions->create_app_session_id();
+        $is_new_session = true;
+        // ===== open an app session, if the first transaction of this container is a NOP request
+        if (isset($tx_handler->txc["requests"][0]) && isset($tx_handler->txc["requests"][0]["type"]) &&
+                 strcasecmp($tx_handler->txc["requests"][0]["type"], "NOP") == 0) {
+            $session_open = $verified && $toolbox->app_sessions->session_open($api_user_id, $api_session_id);
+            $session_opened = $toolbox->app_sessions->session_open($api_user_id, $api_session_id);
+            if (! $session_opened) {
+                $tx_handler->txc["cresult_code"] = 406;
+                $tx_handler->txc["cresult_message"] = "Too many sessions open, please try again later.";
+                $tx_handler->send_response_and_exit();
+            }
+            $tx_handler->txc["cresult_code"] = 300;
+            $tx_handler->txc["cresult_message"] = "Ok. New session opened.";
+        } else {
+            $tx_handler->txc["cresult_code"] = 300;
+            $tx_handler->txc["cresult_message"] = "Ok.";
+        }
+    } else {
+        $tx_handler->txc["cresult_code"] = 403;
+        $tx_handler->txc["cresult_message"] = "Authentication failed.";
+        $tx_handler->send_response_and_exit();
+    }
 }
 
-// ===== check password correctness
-$verified = password_verify($tx_handler->txc["password"], $client_to_verify["Passwort_Hash"]);
-if (! $verified) {
-    $tx_handler->txc["cresult_code"] = 403;
-    $tx_handler->txc["cresult_message"] = "Incorrect password";
-    file_put_contents($tx_handler->api_warning_log_path, 
-            "[" . date("Y-m-d H:i:s") . "] - Container: The user " . $efaCloudUserID .
-                     " tried to access the API with an incorrect password.");
-    $tx_handler->log_dropped_container_transactions();
-    $tx_handler->send_response();
+// Set the $_SESSION["User"] for later use in the application.
+if (! isset($_SESSION["User"]))
+    $_SESSION["User"] = $user_to_verify;
+if ($debug)
+    file_put_contents($posttx_debuglog, 
+            date("Y-m-d H:i:s") . "\n  User after session check: appUserID " .
+                     $_SESSION["User"][$toolbox->users->user_id_field_name] . ", Rolle: " .
+                     $_SESSION["User"]["Rolle"] . "\n", FILE_APPEND);
+
+// ===== add listeners to the socket - removed 27.02.2022, V2.3.1_08 as last with the staement
+
+// ===== check for daily cron jobs run only at session opening actions.
+if ($is_new_session) {
+    include_once ("../classes/cron_jobs.php");
+    Cron_jobs::run_daily_jobs($toolbox, $socket, $_SESSION["User"][$toolbox->users->user_id_field_name]);
 }
 
-// ===== handle all transactions
-$tx_handler->handle_request_container($client_to_verify, $menu);
+include_once '../classes/tfyh_menu.php';
+$menu = new Tfyh_menu("../config/access/api", $toolbox);
+if ($debug)
+    file_put_contents($posttx_debuglog, "  Request handling started at " . date("H:i:s") . ".\n", FILE_APPEND);
+$tx_handler->handle_request_container($_SESSION["User"], $menu);
+if ($debug)
+    file_put_contents($posttx_debuglog, "  Request handling completed at " . date("H:i:s") . ".\n", 
+            FILE_APPEND);
 
 // ===== send the result to the client
-$tx_handler->send_response();
-// limit the log file size to 500 kB
-if (filesize($tx_handler->api_log_path) > 500000)
-    rename($tx_handler->api_log_path, $tx_handler->api_log_path . ".previous");
-if (filesize($tx_handler->api_warning_log_path) > 500000)
-    rename($tx_handler->api_warning_log_path, $tx_handler->api_warning_log_path . ".previous");
-if (filesize($tx_handler->api_error_log_path) > 500000)
-    rename($tx_handler->api_error_log_path, $tx_handler->api_error_log_path . ".previous");
-
+// the information on the way of verification is needed, to close the opened session
+// at the end, if this was not a NOP or OPEN request.
+$tx_handler->send_response_and_exit();

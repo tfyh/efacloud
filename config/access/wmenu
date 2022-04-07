@@ -1,0 +1,29 @@
+id;permission;headline;link
+notice;bths,$384;Mitteilung ;
+_notice_postDamage;bths,$256;Schaden melden;event:getForm_postDamage
+_notice_postMessage;bths,$128;Nachricht schreiben ;event:getForm_postMessage
+trips;.bths,.$64;Fahrten ;
+_trips_start;.bths,.$64;Fahrt beginnen;event:getForm_startTrip
+_trips_end;.bths,.$64;Fahrt beenden;event:getForm_endTrip
+damages;bths,$2048;Bootsschäden ;
+_damages_openDamages;bths,$4096;Offene Bootsschäden;event:getStatistics_7
+_damages_readDamage;bths,$4096;Schaden pro Boot;event:getForm_readDamage
+book;bths,$8704;Reservieren ;
+_book_bookAboat;bths,$512;Boot reservieren;event:getForm_bookAboat
+_book_showReservations;bths,$8192;Reservierungen anzeigen;event:getStatistics_6
+logbook;bths;Fahrtenbuch ;
+_logbook_1;bths,$1024;nach Fahrtnummer;event:getStatistics_4
+_logbook_2;bths,$1024;nach Startzeit;event:getStatistics_5
+_logbook_3;bths;aktualisieren;event:refreshEfaWeb
+_logbook_changeLogbook;board;anderes wählen;event:getForm_changeLogbook
+statistics;board;Statistiken ;
+_statistics_name;board;Kilometer nach Name ;event:getStatistics_0
+_statistics_dist;board;Kilometer nach Distanz ;event:getStatistics_1
+efacloud;board;zum efaCloud Server;../pages/home.php
+logout;anonymous;Beenden;../pages/logout.php
+view;.member;Ansehen;
+_view_lastTrips;.bths,.$1024;letzte Fahrten;event:showList_logbook
+_view_reservations;.bths,.$8192;Reservierungen;event:showList_reservations
+_view_damages;.bths,.$4096;Bootsschäden;event:showList_damages
+_view_openBoatGroup;.member;Bootslisten öffnen/schließen;event:openBoatGroup
+_view_datasheet;.member;Stammdaten ansehen;event:getDatasheet

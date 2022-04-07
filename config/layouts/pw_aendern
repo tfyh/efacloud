@@ -1,0 +1,15 @@
+tags;required;name;value;label;type;class;size;maxlength
+<div class='w3-row'><div class='w3-col l1'>;; \
+  _no_input;;<b>Bitte hier ein neues Passwort setzen.</b> (Zu den Regeln siehe die Ausfüllhilfen unten.)<br>;;;;
+</div></div><div class='w3-row'><div class='w3-col l1'>;*; \
+  Passwort;;Neues Passwort;password;;18;240
+</div></div><div class='w3-row'><div class='w3-col l1'>;*; \
+  Passwort_Wdh;;Neues Passwort wiederholen;password;;18;240
+<div class='w3-row'><div class='w3-col l1'>;; \
+  _no_input;; ;;;;
+</div></div><div class='w3-row'><div class='w3-col l1'>;; \
+  submit;Speichern;;submit;formbutton;;
+</div></div>;;_no_input;;;;;;
+<li><span class='helptext'>;;_help_text;;Hier können Sie Ihre Nutzerdaten ändern.;;;;
+</span></li><li><span class='helptext'>;;_help_text;;"Das Kennwort muss mindestens 8 Zeichen lang sein. Im Kennwort müssen Zeichen aus drei Gruppen der folgenden vier Gruppen enthalten sein: Ziffern, Kleinbuchstaben, Großbuchstaben, Sonderzeichen. Zulässige Sonderzeichen sind !&quot;#$%&'*+,-./:;<=>?@[\]^_`{|}~";;;;
+</span></li>;;_help_text;;;;;;

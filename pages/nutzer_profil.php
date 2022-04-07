@@ -21,7 +21,7 @@ if ($user_id == 0) {
             $toolbox->display_error("Nicht zulässig.", 
                     "Die Seite '" . $user_requested_file .
                              "' muss mit der Angabe der id oder efaCloudUserID des zu ändernden " .
-                             "Nutzers aufgerufen werden.", __FILE__);
+                             "Nutzers aufgerufen werden.", $user_requested_file);
         } else {
             $efaCloudUserID = $user_nr;
             $user_id = $user_to_show["ID"];
@@ -50,22 +50,21 @@ echo file_get_contents('../config/snippets/page_02_nav_to_body');
 
 // update user data
 echo $toolbox->users->get_user_profile($efaCloudUserID, $socket, false);
-echo "<p>" . $toolbox->users->get_action_links($user_id) . "</p>";
+echo "<p><b>Für diesen Nutzer stehen die folgenden Aktionen zur Verfügung (bitte auf den Link klicken):</b><br>";
+$_SESSION["search_result"] = [];
+$_SESSION["search_result"][1] = $user_to_show;
+$_SESSION["search_result"]["tablename"] = "efaCöloudUsers";
 
+echo $toolbox->users->get_action_links($user_id) . "<a href='../pages/show_history.php?searchresultindex=1'> - Versionsverlauf</a></p>";
 ?>
 </div>
 <div class="w3-container">
 	<h4>Informationen zum Datenschutz</h4>
 	<ul>
-		<li>Mit der Speicherung, Übermittlung und der Verarbeitung der
-			personenbezogenen Daten für Zwecke der Firmvorbereitung, gemäß den
-			Bestimmungen des Datenschutzgesetzes, hast sich der Nutzer im Rahmen
-			der Anmeldung einverstanden erklärt.</li>
 		<li>Wenn Du diese Seite siehst, bist Du berechtigt, diese Daten zu
-			sehen und zu modifizieren, obwohl es nicht Ihre eigenen Daten sind.
-			Verwende sie nur zum dem in Deiner Funktion zugestandenen Zweck.</li>
+			sehen und ggf. zu modifizieren, obwohl es nicht Deine eigenen Daten
+			sind. Verwendung gestattet nur zum geregelten Zweck.</li>
 		<li>Weitergabe der Information ist ausdrücklich nicht gestattet.</li>
-		<li>weitere Informationen: <a href="../public/datenschutz.php">Datenschutz</a></li>
 	</ul>
 </div>
 

@@ -1,10 +1,12 @@
 tags;required;name;value;label;type;class;size;maxlength
-<div class='w3-row'><div class='w3-col l1'>;; \
-  clientID;;<br>Für welchen Client sollen die Daten angezeigt werden?;select $options;;30;250
-</div></div><div class='w3-row'><div class='w3-col l1'>;; \
-  type;;<br>Was soll angezeigt werden?;"select 1=Logdateien;2=grafische Zugriffsstatistik";;30;250
+<div class='w3-row'><div class='w3-col l2'>;; \
+  clientID;;Für welchen Client?;select $options;;30;250
+</div></div><div class='w3-row'><div class='w3-col l2'><br>;; \
+  type;;;"radio 1=Die Logdatei;2=Die Statistik als Grafik";;30;250
 </div></div><div class='w3-row' style='margin-top:20px'><div class='w3-col l1'><div style='float:right'>;; \
   submit;Anzeigen;;submit;formbutton;;
 </div></div></div>;;_no_input;;;;;;
-<li><span class='helptext'>;;_help_text;;Wenn keine Statistik vorliegt, führt der Klick "Anzeigen" auf einen Fehler.;;;;
+<li><span class='helptext'>;;_help_text;;Du kannst zwischen allen Clients auswählen, für die eine Statistik vorliegt.  \
+	Wenn einer fehlt, hat der Server von diesem Client keine Statistik empfangen.;;;;
+</span></li><li><span class='helptext'>;;_help_text;;Der Log und Statistik-Versand findet in der Regel einmal täglich statt. Die Daten sind also von gestern.;;;;	
 </span></li>;;_help_text;;;;;;

@@ -1,8 +1,8 @@
 <?php
 /**
- * The form for user profile self service.
- * Based on the Form class, please read instructions their to better understand this PHP-code part.
- *
+ * The form for user profile self service. Based on the Tfyh_form class, please read instructions their to better
+ * understand this PHP-code part.
+ * 
  * @author mgSoft
  */
 
@@ -10,13 +10,15 @@
 $user_requested_file = __FILE__;
 // ===== page does not need an active session
 include_once "../classes/init.php";
-include_once '../classes/form.php';
+include_once '../classes/tfyh_form.php';
 
 // === APPLICATION LOGIC ==============================================================
-$search_result_index = (isset($_GET["searchresult"])) ? intval($_GET["searchresult"]) : 0;
+$search_result_index = (isset($_SESSION["getps"][$fs_id]["searchresultindex"])) ? intval(
+        $_SESSION["getps"][$fs_id]["searchresultindex"]) : 0;
 if ($search_result_index == 0)
     $toolbox->display_error("Nicht zulässig.", 
-            "Die Seite '" . $user_requested_file . "' muss als Folgeseite von Datensatz finden aufgerufen werden.", __FILE__);
+            "Die Seite '" . $user_requested_file .
+                     "' muss als Folgeseite von Datensatz finden aufgerufen werden.", __FILE__);
 $tablename = $_SESSION["efa2table"];
 $search_result = $_SESSION["search_result"][$search_result_index];
 
@@ -24,11 +26,19 @@ $search_result = $_SESSION["search_result"][$search_result_index];
 include_once "../classes/efa_tables.php";
 include_once "../classes/efa_dataedit.php";
 $efa_dataedit = new Efa_dataedit($toolbox, $socket);
-$search_result_data_key = $efa_dataedit->get_data_key($tablename, $search_result);
+$boolean_fields = Efa_tables::$boolean_fields;
+$efa_tables = new Efa_tables($toolbox, $socket);
 
-// if validation fails, the same form will be displayed anew with error messgaes
-$todo = $done;
 $form_errors = "";
+$search_result_data_key = $efa_tables->get_data_key($tablename, $search_result);
+if ($search_result_data_key == false) {
+    $form_errors .= "Der Datensatzschlüssel ist leider unvollständig. Der Datensatz kann nicht bearbeitet werden.";
+    $done = 0;
+}
+
+// === APPLICATION LOGIC ==============================================================
+// if validation fails, the same form will be displayed anew with error messgaes
+$todo = ($done == 0) ? 1 : $done;
 $form_layout = "../config/layouts/dataedit";
 
 // ======== start with form filled in last step: check of the entered values.
@@ -36,21 +46,24 @@ if ($done == 0) {
     // create form layout based on the record provided.
     $efa_dataedit->set_data_edit_template($tablename, $search_result);
 } else {
-    $form_filled = new Form($form_layout, $socket, $toolbox, $tablename, $done, $fs_id);
+    $form_filled = new Tfyh_form($form_layout, $socket, $toolbox, $done, $fs_id);
     $form_filled->read_entered();
     $form_errors = $form_filled->check_validity();
     $entered_data = $form_filled->get_entered();
-    $forms[$done] = $form_filled;
+    
+    // fix for boolean (checkbox) values: efa expects "true" or nothing instead of "on" or nothing
+    $entered_data = Efa_tables::fix_boolean_text($tablename, $entered_data);
+    $entered_data = $efa_dataedit->fix_empty_UUIDs($tablename, $entered_data);
     
     // application logic, step by step
     if (strlen($form_errors) > 0) {
-        // do nothing. This only prevents any logic to apply, if form errors
-        // occured.
+        // do nothing. This avoids any change, if form errors occured.
     } elseif ($done == 1) {
         // get entered data
         $search_result_after = [];
         foreach ($entered_data as $key => $value)
             $search_result_after[$key] = $value;
+        $search_result_after["ChangeCount"] = $search_result["ChangeCount"];
         // add unchanged data key
         foreach ($search_result_data_key as $key => $value)
             $search_result_after[$key] = $value;
@@ -66,6 +79,7 @@ if ($done == 0) {
                          htmlspecialchars($search_result_after[$key]) . "'.<br>";
             }
         }
+        // log changes
         if ($changed && ! $form_errors) {
             $search_result_after["LastModified"] = strval(time()) . "000";
             $search_result_after["LastModification"] = "update";
@@ -74,16 +88,21 @@ if ($done == 0) {
             else
                 $search_result_after["ChangeCount"] = 1;
             $lmod = (strlen($value) > 13) ? "unlimited" : date("Y-m-d H:i:s", time());
-            $info .= "LastModified: " . $lmod . ", LastModification: " . $search_result_after["LastModification"] .
-                     ", ChangeCount: " . $search_result_after["ChangeCount"] . "<br>";
-            $change_result = $socket->update_record_matched($_SESSION["User"][$toolbox->users->user_id_field_name], $tablename, 
+            $info .= "LastModified: " . $lmod . ", LastModification: " .
+                     $search_result_after["LastModification"] . ", ChangeCount: " .
+                     $search_result_after["ChangeCount"] . "<br>";
+            $change_result = $socket->update_record_matched(
+                    $_SESSION["User"][$toolbox->users->user_id_field_name], $tablename, 
                     $search_result_data_key, $search_result_after, false);
             if ($change_result) {
                 $form_errors .= "<br/>Datenbank Update-Kommando fehlgeschlagen: " . $change_result;
                 $info = "";
             } else {
-                $toolbox->logger->log(Tfyh_logger::$TYPE_DONE, intval($_SESSION["User"][$toolbox->users->user_id_field_name]), 
-                        "Datensatz von #" . $_SESSION["User"][$toolbox->users->user_id_field_name] . " geändert.");
+                $_SESSION["search_result"][$search_result_index] = $search_result_after;
+                $toolbox->logger->log(0, 
+                        intval($_SESSION["User"][$toolbox->users->user_id_field_name]), 
+                        "Datensatz von #" . $_SESSION["User"][$toolbox->users->user_id_field_name] .
+                                 " geändert.");
             }
         } elseif (! $form_errors) {
             $info = 'Es wurden keine veränderten Daten eingegeben, oder es liegen Fehler vor.' .
@@ -93,16 +112,18 @@ if ($done == 0) {
     }
 }
 
-// ==== continue with the definition and eventually initialization of form to fill in this step
-if (($done == 0) || ($todo !== $form_filled->get_index())) {
-    // use a new form for the very first form display or the next step.
-    if ($done == 0)
-        $todo = 1;
-        $form_to_fill = new Form($form_layout, $socket, $toolbox, $tablename, $todo, $fs_id);
-    $form_to_fill->preset_values($search_result);
-} else {
-    // or reuse the 'done' form, if validation failed.
+// ==== continue with the definition and eventually initialization of form to fill for the next step
+if (isset($form_filled) && ($todo == $form_filled->get_index())) {
+    // redo the 'done' form, if the $todo == $done, i. e. the validation failed.
     $form_to_fill = $form_filled;
+} else {
+    // if it is the start or all is fine, use a form for the coming step.
+    $form_to_fill = new Tfyh_form($form_layout, $socket, $toolbox, $todo, $fs_id);
+    if (($todo == 1)) {
+        // fix for boolean (checkbox) values: efa expects "true" or nothing instead of "on" or nothing
+        $search_result = Efa_tables::fix_boolean_text($tablename, $search_result);
+        $form_to_fill->preset_values($search_result);
+    }
 }
 
 // === PAGE OUTPUT ===================================================================
@@ -125,7 +146,7 @@ echo file_get_contents('../config/snippets/page_02_nav_to_body');
 <?php
 
 echo $toolbox->form_errors_to_html($form_errors);
-$get_parameter = "searchresult=" . $search_result_index;
+$get_parameter = "searchresultindex=" . $search_result_index;
 echo $form_to_fill->get_html(false, $get_parameter);
 
 if ($todo == 1) { // step 1. No special texts for output
@@ -141,6 +162,8 @@ if ($todo == 1) { // step 1. No special texts for output
 		<?php
     echo (($form_errors) ? "" : "Folgende Änderungen wurden vorgenommen:<br />");
     echo $info;
+    echo "<br><a href='../pages/view_record.php?searchresultindex=" . $search_result_index .
+             "'>geänderten Datensatz anzeigen</a>";
     ?>
              </p>
 <?php

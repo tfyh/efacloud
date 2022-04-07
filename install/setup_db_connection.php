@@ -9,17 +9,17 @@
 // be changed to "no access" - even better: or the form deleted from the site.
 
 // ===== initialize toolbox
-include_once '../classes/toolbox.php';
+include_once '../classes/tfyh_toolbox.php';
 $settings_path = "../config/settings";
-$toolbox = new Toolbox();
+$toolbox = new Tfyh_toolbox();
 
 // PRELIMINARY SECURITY CHECKS
 // ===== throttle to prevent from machine attacks.
-$toolbox->load_throttle("inits/", 1000);
+$toolbox->load_throttle("inits/", $toolbox->config->settings_tfyh["init"]["max_inits_per_hour"]);
 
 // Create PHP-wrapper socket to data base
-include_once '../classes/socket.php';
-$socket = new Socket($toolbox);
+include_once '../classes/tfyh_socket.php';
+$socket = new Tfyh_socket($toolbox);
 
 // ===== define default values for configuration
 $cfg_default["db_host"] = "rdbms.hoster.xyz";
@@ -74,12 +74,12 @@ if ((isset($_GET['done']) && intval($_GET["done"]) == 1)) {
     
     // test database access
     $toolbox->config->set_cfg($cfg_to_use);
-    $socket = new Socket($toolbox);
+    $socket = new Tfyh_socket($toolbox);
     $success_db = true;
     echo "<p>Teste Datenbankverbindung für: " . $cfg_to_use["db_user"] . " ... ";
-    $socket = new Socket($toolbox);
-    echo " ... Socket erstellt. Verbinde ... ";
-    $connect_res = $socket->test_connection();
+    $socket = new Tfyh_socket($toolbox);
+    echo " ... Tfyh_socket erstellt. Verbinde ... ";
+    $connect_res = $socket->open_socket();
     if ($connect_res === true)
         echo "Erfolgreich!</p>";
     else {
@@ -90,7 +90,7 @@ if ((isset($_GET['done']) && intval($_GET["done"]) == 1)) {
     // store the configuration
     if ($success_db !== false) {
         // up masking
-        $cfg_to_use["db_up"] = Toolbox::swap_lchars($cfg_to_use["db_up"]);
+        $cfg_to_use["db_up"] = Tfyh_toolbox::swap_lchars($cfg_to_use["db_up"]);
         $cfgStr = serialize($cfg_to_use);
         $cfgStrBase64 = base64_encode($cfgStr);
         echo "<p>" . $settings_path . '_db wird geschrieben ... ';
@@ -158,4 +158,3 @@ if ((isset($_GET['done']) && intval($_GET["done"]) == 1)) {
 }
 ?>
 </div><?php
-end_script();

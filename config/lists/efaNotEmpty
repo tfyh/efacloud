@@ -1,0 +1,15 @@
+id;permission;name;select;from;where;options
+1;bths;audit_boatdamages;Damage,Severity,ecrid;efa2boatdamages;(ISNULL(`Severity`) OR (`Severity` = '')) AND NOT (`LastModification` = 'delete');sort=Damage
+2;bths;audit_boatreservations;Reservation,Type,ecrid;efa2boatreservations;(ISNULL(`Type`) OR (`Type` = '')) AND NOT (`LastModification` = 'delete');sort=Reservation
+3;bths;audit_boats;Id,Name,ecrid;efa2boats;(ISNULL(`Name`) OR (`Name` = '')) AND NOT (`LastModification` = 'delete');
+4;bths;audit_clubwork;Id,Date,Description,Hours,PersonId,Clubworkbookname,ecrid;efa2clubwork; \
+ (ISNULL(`Date`) OR (`Date` = '') OR ISNULL(`Description`) OR (`Description` = '') OR ISNULL(`Hours`) OR (`Hours` = '') OR  \
+ ISNULL(`PersonId`) OR (`PersonId` = '')) AND NOT (`LastModification` = 'delete');
+5;bths;audit_crews;Id,Name,ecrid;efa2crews;(ISNULL(`Name`) OR (`Name` = '')) AND NOT (`LastModification` = 'delete');
+6;bths;audit_destinations;Id,Name,ValidFrom,InvalidFrom,ecrid;efa2destinations;(ISNULL(`Name`) OR (`Name` = '')) AND NOT (`LastModification` = 'delete');
+7;bths;audit_groups;Id,Name,ValidFrom,InvalidFrom,ecrid;efa2groups;(ISNULL(`Name`) OR (`Name` = '')) AND NOT (`LastModification` = 'delete');
+8;bths;audit_sessiongroups;Id,EndDate,Logbook,Name,StartDate,ecrid;efa2sessiongroups; \
+ (ISNULL(`EndDate`) OR (`EndDate` = '') OR ISNULL(`Logbook`) OR (`Logbook` = '') OR ISNULL(`Name`) OR (`Name` = '') OR ISNULL(`StartDate`) OR (`StartDate` = '')) AND NOT (`LastModification` = 'delete');
+9;bths;audit_statistics;Id,Name,Position,ecrid;efa2statistics;(ISNULL(`Name`) OR (`Name` = '') OR ISNULL(`Position`) OR (`Position` = '')) AND NOT (`LastModification` = 'delete');
+10;bths;audit_status;Id,Name,ecrid;efa2status;(ISNULL(`Name`) OR (`Name` = '')) AND NOT (`LastModification` = 'delete');
+11;bths;audit_waters;Id,Name,ecrid;efa2waters;(ISNULL(`Name`) OR (`Name` = '')) AND NOT (`LastModification` = 'delete');

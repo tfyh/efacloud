@@ -1,6 +1,6 @@
 <?php
 /**
- * The form for user profile self service. Based on the Form class, please read instructions their to better
+ * The form for user profile self service. Based on the Tfyh_form class, please read instructions their to better
  * understand this PHP-code part.
  * 
  * @author mgSoft
@@ -27,18 +27,31 @@ foreach (explode("\n", $app_colors) as $color) {
 
 // if applicable, read data entered in last step
 $changecolors = (isset($_GET["changecolors"])) ? intval($_GET["changecolors"]) : 0;
-if ($changecolors != 0) {
+if ($changecolors > 0) {
     
-    // backup previous style
-    // $infix = date("Ymd_His");
-    // rename("../resources/app-style.css", "../resources/app-style." . $infix . ".css");
-    // rename("../resources/app-colors.txt", "../resources/app-colors." . $infix . ".txt");
-    
-    foreach ($colors as $key => $value) {
-        // The enclosing apostrophes are not in $_POST, but just the inner key.
-        $postkey = substr($key, 1, strlen($key) - 2);
-        if (isset($_POST[$postkey])) {
-            $colors[$key] = $_POST[$postkey];
+    if ($changecolors == 1) {
+        foreach ($colors as $key => $value) {
+            // The enclosing apostrophes are not in $_POST, but just the inner key.
+            $postkey = substr($key, 1, strlen($key) - 2);
+            if (isset($_POST[$postkey])) {
+                $colors[$key] = $_POST[$postkey];
+            }
+        }
+    } elseif (($changecolors == 2) && file_exists("../resources/app-colors-previous.txt")) {
+        // the new colours are the previous ones
+        $prev_colors = file_get_contents("../resources/app-colors-previous.txt");
+        foreach (explode("\n", $prev_colors) as $color) {
+            $key = explode("=", $color)[0];
+            $value = explode("=", $color)[1];
+            $colors[$key] = $value;
+        }
+    } elseif (($changecolors == 3) && file_exists("../resources/app-colors-default.txt")) {
+        // the new colours are the default ones
+        $prev_colors = file_get_contents("../resources/app-colors-default.txt");
+        foreach (explode("\n", $prev_colors) as $color) {
+            $key = explode("=", $color)[0];
+            $value = explode("=", $color)[1];
+            $colors[$key] = $value;
         }
     }
     
@@ -51,14 +64,14 @@ if ($changecolors != 0) {
             $app_style_new = str_replace($key, $value, $app_style_new);
         }
     }
+    file_put_contents("../resources/app-colors-previous.txt", $app_colors);
     file_put_contents("../resources/app-colors.txt", $app_colors_new);
     file_put_contents("../resources/app-style.css", $app_style_new);
     
     // wait a little to let the file writing complete and
     // restart anew.
-    sleep(2);
+    sleep(1);
     header("Location: farben_aendern.php");
-    
 }
 
 // === PAGE OUTPUT ===================================================================
@@ -77,7 +90,9 @@ echo file_get_contents('../config/snippets/page_02_nav_to_body');
 		werden.</p>
 	<h1>Beispiel Überschrift 1</h1>
 	<h4>Beispiel Überschrift 4</h4>
-	<p><a href='#'>Beispiel Link</a></p>
+	<p>
+		<a href='#'>Beispiel Link</a>
+	</p>
 	<label class="cb-container">Radiobutton checked<input type="radio"
 		name="radioexample1" value="" checked /><span class="cb-radio"></span></label><br>
 	<label class="cb-container">Radiobutton unchecked<input type="radio"
@@ -86,8 +101,7 @@ echo file_get_contents('../config/snippets/page_02_nav_to_body');
 		name="checkboxexample1" value="" checked /><span class="cb-checkmark"></span></label><br>
 	<label class="cb-container">Checkbox unchecked<input type="checkbox"
 		name="checkboxexample2" value="" /><span class="cb-checkmark"></span></label><br>
-	<select class="formselector" name="selectorexample"
-		style="width: 15em">
+	<select class="formselector" name="selectorexample" style="width: 15em">
 		<option value="option 1">option1</option>
 		<option selected value="option 2">dropdown options</option>
 		<option value="option 3">option3</option>
@@ -108,8 +122,8 @@ echo file_get_contents('../config/snippets/page_02_nav_to_body');
             if (substr($color_key, 0, 1) == '#')
                 $row = "<tr><td><h5>" . substr($color_key, 1) . "</h5></td><td>&nbsp;</td></tr>";
             else
-                $row = "<tr><td>" . $color_key . "</td><td>" . "<input class='forminput' name=" . $color_key . " value='" .
-                         $colors[$color_key] . "' type=text /></td></tr>";
+                $row = "<tr><td>" . $color_key . "</td><td>" . "<input class='forminput' name=" . $color_key .
+                         " value='" . $colors[$color_key] . "' type=text /></td></tr>";
             echo $row;
         }
     }
@@ -121,6 +135,22 @@ echo file_get_contents('../config/snippets/page_02_nav_to_body');
 				class='formbutton' />
 		</p>
 	</form>
+	<p><?php
+if (file_exists("../resources/app-colors-previous.txt")) {
+    echo "<a href='?changecolors=2' class='formbutton'>Zurück zur vorigen Einstellung</a>";
+}
+if (file_exists("../resources/app-colors-default.txt")) {
+    echo "&nbsp;&nbsp;&nbsp;<a href='?changecolors=3' class='formbutton'>Zurück auf Standardfarben</a>";
+}
+?>
+</p>
+	<p>
+		<b>Hinweis:</b> in der Regel hält der Browser die Farbeinstellungen im
+		Cache, dann wirkt sich die Änderung zunächst nicht sichtbar aus. Mit
+		F5 oder &lt;Strg&gt;-F5 nach der Aktualisierung kann der Cache bei den
+		meisten Browsern gelöscht werden und erst damit wird dann die neue
+		Farbeinstellung übernommen.
+	</p>
 </div>
 
 <?php

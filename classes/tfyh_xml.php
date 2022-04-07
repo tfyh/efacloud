@@ -37,17 +37,23 @@ class Tfyh_xml
     private $ctag = [];
 
     /**
+     * currently open tag in parser.
+     */
+    private $toolbox;
+
+    /**
      * public empty Constructor.
      */
-    public function __construct ()
+    public function __construct (Tfyh_toolbox $toolbox = null)
     {
         // echo "Tfyh_xml::__construct().<br>";
         include_once "../classes/tfyh_xml_tag.php";
+        $this->toolbox = $toolbox;
     }
 
     /**
      * Read an XML tag within an eFa file and its following text. No self closing tags allowed.
-     *
+     * 
      * @param String $xml
      *            XML String to parse
      * @param int $offset
@@ -66,7 +72,7 @@ class Tfyh_xml
         // get tag id and attributes (no attribute parsing)
         $id_attr = substr($this->xml, $pos_lt + 1, $pos_gt - $pos_lt - 1);
         $id = explode(" ", $id_attr, 2)[0];
-        $attr = explode(" ", $id_attr, 2)[1];
+        $attr = (strpos($id_attr, " ") === false) ? "" : explode(" ", $id_attr, 2)[1];
         // get the following text and classify the tag as open or close
         $pos_lt = strpos($this->xml, "<", $pos_gt + 1);
         if ($pos_lt === false) {
@@ -98,16 +104,18 @@ class Tfyh_xml
     }
 
     /**
-     * Read an XML string into $this->xml_tree. Encoding must be UTF-8. THIS WILL ECHO A PERCENTAGE
-     * READ PER 1,000 TAGS READ.
-     *
+     * Read an XML string into $this->xml_tree. Encoding must be UTF-8. READ PER 1,000 TAGS READ.
+     * 
      * @param String $xml
      *            the String to be parsed
+     * @param String $echo
+     *            echo dots on each 5000 characters progress and a "<br>" at the end
      * @return Tfyh_xml_tag the root tag of the structure read.
      */
-    public function read_xml (String $xml)
+    public function read_xml (String $xml, bool $echo = false)
     {
-        echo " parsing ";
+        if ($echo)
+            echo " parsing ";
         $this->tag_ids = [];
         $this->l = 0;
         $this->xml = $xml;
@@ -118,7 +126,7 @@ class Tfyh_xml
         else
             $this->xml_tree = $this->xmlroot;
         
-        // read tree recursivle from root.
+        // read tree recursivly from root.
         $this->ctag = $this->xml_tree;
         $i = 0;
         flush();
@@ -143,25 +151,93 @@ class Tfyh_xml
                 // provide some progress output.
                 $i ++;
                 if (($i % 5000) == 0) {
-                    echo ".";
+                    if ($echo)
+                        echo ".";
                     flush();
                     ob_flush();
                 }
             }
         } while ($tag !== false);
-        echo "<br>";
+        if ($echo)
+            echo "<br>";
         return $this->xml_tree;
     }
 
     /**
+     * Look for all children of this $branch_tag
+     * 
+     * @param Tfyh_xml_tag $branch_tag
+     *            the branhch tag to check
+     * @param String $tag_id_to_find
+     *            the ID to find
+     */
+    private function find_first_tag_in_branch (Tfyh_xml_tag $branch_tag, String $tag_id_to_find)
+    {
+        foreach ($branch_tag->children as $child_tag) {
+            $child_found = null;
+            if (strcasecmp($child_tag->id, $tag_id_to_find) == 0)
+                $child_found = $child_tag;
+            elseif (count($child_tag->children) > 0)
+                $child_found = $this->find_first_tag_in_branch($child_tag, $tag_id_to_find);
+            if (! is_null($child_found)) {
+                return $child_found;
+            }
+        }
+    }
+
+    /**
+     * Find the tag with the given $table_root_tag_id closest to the root and create a table with all records.
+     * For it to work the $table_root_tag must only contain $table_records_tags and they must not have more
+     * than one level of subtags.
+     * 
+     * @param String $table_root_tag_id
+     *            the id of the tables root tag, e.g. 'data'
+     * @param String $table_records_tag_id
+     *            the id of each record within the table, e.g. 'record'
+     */
+    public function get_csv (String $table_root_tag_id, String $table_records_tag_id)
+    {
+        // parse table
+        $table_root = $this->find_first_tag_in_branch($this->xml_tree, $table_root_tag_id);
+        $fieldnames = [];
+        $records = [];
+        foreach ($table_root->children as $record_xml) {
+            $record_array = [];
+            foreach ($record_xml->children as $field) {
+                if (! isset($fieldnames[$field->id]))
+                    $fieldnames[$field->id] = true;
+                $record_array[$field->id] = $field->txt_o;
+            }
+            $records[] = $record_array;
+        }
+        // output of csv header
+        $csv = "";
+        foreach ($fieldnames as $fieldname => $exists) {
+            $csv .= $fieldname . ";";
+        }
+        if (strlen($csv) == 0)
+            return "empty table";
+        $csv = substr($csv, 0, strlen($csv) - 1) . "\n";
+        // output of csv data
+        foreach ($records as $record) {
+            foreach ($fieldnames as $fieldname => $exists) {
+                if (isset($record[$fieldname]))
+                    $csv .= $this->toolbox->encode_entry_csv($record[$fieldname]);
+                $csv .= ";";
+            }
+            $csv = substr($csv, 0, strlen($csv) - 1) . "\n";
+        }
+        return $csv;
+    }
+
+    /**
      * Write an xml-String based on the provided root tag. No <?xml ...> header tag encluded.
-     *
+     * 
      * @param Tfyh_xml_tag $xml_tag
      *            the root tag to get the branch for
      * @param String $indent
      *            the indentation for the branch, e. g. " ".
-     * @return an array of String with xml-lines. This is used instead of a full String for speed
-     *         puroses.
+     * @return an array of String with xml-lines. This is used instead of a full String for speed puroses.
      */
     public function xml_lines (Tfyh_xml_tag $xml_tag, String $indent)
     {

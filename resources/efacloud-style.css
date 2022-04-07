@@ -1,0 +1,421 @@
+/*
+ Color 1: blue. Shades: #eee (background light), #261dc6 (accent), #171177 (dark)
+ Color 2: black. Shades: #a3b8cc, #3c3c3c, none else
+ Color 3: white. Shades: #fff, none else
+*/
+html, body, input, textarea {
+	margin: 0;
+	font: 1em "Noto Sans", sans-serif;
+	background-color: #fff;
+}
+
+.display-only {
+	border:none;
+	bachkground-color:transparent;
+}
+
+.efacloud-body {
+	max-width: 1200px;
+	margin: auto;
+}
+
+/* menubutton before link, to enforde menubutton colors */
+.formbutton, .menuitem {
+	color: #0c0c0c !important;
+	background-color: #eee !important;
+	text-decoration: none !important;
+	cursor: pointer;
+}
+
+.menubar {
+	background-color: #eee !important
+}
+
+.formbutton:hover, .formbutton:focus, .menuitem:hover, .menuitem:focus {
+	background-color: #a3b8cc !important
+}
+
+a {
+	color: #171177; /*background may change */
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+h1, h2, h3 {
+	color: #171177; /* headline color */
+}
+
+input, p, textarea, blockquote, code, h4, h5, h6 {
+	color: #0c0c0c; /* text color */
+}
+
+a:visited, a:hover {
+	color: #12125b; /*background may change */
+}
+
+.forminput, .formselector {
+	border: 2px solid transparent;
+	border-bottom: 2px solid #a3b8cc;
+	border-radius: 0px;
+	color: #0c0c0c;
+	background-color: #eee !important;
+	font-size: 1.0em;
+	line-height: 1.5em;
+	padding: 2px 6px 2px 6px;
+}
+
+.guid-valid {
+	border-right: 15px solid #00aa00;
+}
+
+.guid-off-period {
+	border-right: 15px solid #ffcc00;
+}
+
+.guid-not-found {
+	border-right: 15px solid #cc0000;
+}
+
+.guid-not-checked {
+	border-right: 15px solid #acacac;
+}
+
+.forminput:hover, .forminput:focus, .formselector:hover
+{
+	border: 2px solid #a3b8cc;
+	color: #0c0c0c;
+	background-color: #ffff00 !important;
+}
+.formselector:focus {
+	background-color: #eee !important;
+}
+
+.formbutton {
+	cursor: pointer;
+	border: 1px solid transparent;
+	border-radius: 0px;
+	text-transform: uppercase;
+	font-size: 0.9em;
+	padding: 8px 6px 8px 6px;
+	line-height: 120%;
+	box-shadow: 0 3px 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.efacloud-helptext {
+	font-size: 90%
+}
+
+/* CHECKBOXES */
+/* https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_custom_checkbox */
+/* The container */
+.efacloud-cb-container {
+	display: block;
+	position: relative;
+	padding-left: 25px;
+	padding-right: 3px;
+	margin-bottom: 6px;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.efacloud-cb-container input {
+	position: absolute;
+	opacity: 0;
+	cursor: pointer;
+	height: 0;
+	width: 0;
+}
+
+/* Create a custom checkbox */
+.efacloud-cb-checkmark {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 20px;
+	width: 20px;
+	border: 1px solid #261dc6;
+}
+
+/* Create a custom radio */
+.efacloud-cb-radio {
+	position: absolute;
+	top: 4px;
+	left: 2px;
+	height: 16px;
+	width: 16px;
+	border-radius: 50%;
+	border: 1px solid #261dc6;
+}
+
+/* On mouse-over, add a grey background color */
+.efacloud-cb-container:hover input ~ .efacloud-cb-checkmark,
+	.efacloud-cb-container:hover input 
+	 ~ .efacloud-cb-radio {
+	background-color: #b8ccd9;
+	/* backgound color, form-field with focus, inactive button: #b8ccd9 */
+	border: 2px solid #261dc6;
+	/* background color, button hover: #86a8bf */
+}
+
+/* When the checkbox|radio) is checked, add a accent color background */
+.efacloud-cb-container input:checked ~ .efacloud-cb-checkmark,
+	.efacloud-cb-container input:checked ~ .efacloud-cb-radio {
+	background-color: #261dc6;
+	/* background color, button hover: #86a8bf */
+}
+
+/* Create the checkmark|radio/indicator (hidden when not checked) */
+.efacloud-cb-checkmark:after, .efacloud-cb-radio:after {
+	content: "";
+	position: absolute;
+	display: none;
+}
+
+/* Show the checkmark when checked */
+.efacloud-cb-container input:checked ~ .efacloud-cb-checkmark:after,
+	.efacloud-cb-container input:checked ~ .efacloud-cb-radio:after {
+	display: block;
+}
+
+/* Style the checkmark/indicator */
+.efacloud-cb-container .efacloud-cb-checkmark:after {
+	left: 5px;
+	top: 3px;
+	width: 4px;
+	height: 6px;
+	border: solid white;
+	border-width: 0 2px 2px 0;
+	-webkit-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	transform: rotate(45deg);
+}
+
+/* Style the radio/indicator */
+.efacloud-cb-container .efacloud-cb-radio:after {
+	top: 5px;
+	left: 5px;
+	width: 4px;
+	height: 4px;
+	border-radius: 50%;
+}
+
+/* SELECTS */
+/* https://blog.kulturbanause.de/2015/03/formular-styling-mit-css-select-listen-radio-buttons-und-checkboxen-individuell-gestalten/ */
+/* remove standard-styles */
+select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+
+/* styling */
+select {
+	background-image: url(select-arrow.png);
+	/* URL relative to this style sheet location */
+	background-position: right;
+	background-repeat: no-repeat;
+}
+
+/* The Modal (background) */
+.modal {
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Sit on top */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0, 0, 0); /* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+/* responsive layout definition. */
+@media ( min-width : 1000px) {
+.modal-content {
+	max-width: 800px; /* limit for large window sizes */
+	margin-left: auto; /* 5% from the top and centered */
+	margin-right: auto;
+	border: 1px solid transparent;
+	background-color: #fff;
+	margin-top: 5%;
+	width: 75%;
+	margin-bottom: 5%;
+	padding: 20px;
+}
+
+/* reduced size, but with side menu */
+@media ( max-width : 999px) and (min-width: 700px) {
+.modal-content {
+	max-width: 800px; /* limit for large window sizes */
+	margin-left: auto; /* 5% from the top and centered */
+	margin-right: auto;
+	border: 1px solid transparent;
+	background-color: #fff;
+	margin-top: 3%;
+	width: 90%;
+	margin-bottom: 3%;
+	padding: 12px;
+}
+	
+/* reduced size, but with side menu */
+@media ( max-width : 699px) {
+.modal-content {
+	max-width: 800px; /* limit for large window sizes */
+	margin-left: auto; /* 5% from the top and centered */
+	margin-right: auto;
+	border: 1px solid transparent;
+	background-color: #fff;
+	margin-top: 0%;
+	width: 100%;
+	margin-bottom: 0%;
+	padding: 4px;
+}
+	
+/* The Close Button */
+.closeModal {
+	float: right;
+	padding: 0px;
+	padding-left: 5px;
+	padding-right: 5px;
+	font-size: 28px;
+	font-weight: bold;
+}
+
+.closeModal:hover, .closeModal:focus {
+	background-color: #261dc6;
+	color: #fff;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+/* table row formats */
+#modal-table {
+	border-collapse: collapse;
+	border-spacing: 0px;
+	width: 100%;
+}
+
+#modal-table td, #modal-table th {
+	border: 1px solid #eee;
+	padding: 8px;
+}
+
+#modal-table tr:nth-child(even) {
+	background-color: #eee;
+}
+
+#modal-table tr:hover {
+	background-color: #fff;
+}
+
+#modal-table th {
+	padding-top: 12px;
+	padding-bottom: 12px;
+	text-align: left;
+	background-color: #171177;
+	color: white;
+}
+
+/* bars for the statistics bar chart */
+.bar-container {
+	width: 100%;
+}
+
+.bar {
+	background-color: #261dc6;
+}
+
+/* Loader to show spinning circle instead of logo for a busy application */
+.loader {
+	border-radius: 50%;
+	border-top: 10px solid #261dc6;
+	border-bottom: 10px solid #261dc6;
+	border-left: 10px solid #a3b8cc;
+	border-right: 10px solid #a3b8cc;
+	width: 40px;
+	height: 40px;
+	-webkit-animation: spin 2s linear infinite; /* Safari */
+	animation: spin 2s linear infinite;
+}
+/* Safari */
+@
+-webkit-keyframes spin { 0% {
+	-webkit-transform: rotate(0deg);
+}
+
+100%
+{
+-webkit-transform
+:
+ 
+rotate
+(360deg);
+ 
+}
+}
+@
+keyframes spin { 0% {
+	transform: rotate(0deg);
+}
+
+100%
+{
+transform
+:
+ 
+rotate
+(360deg);
+ 
+}
+}
+.autocomplete-items {
+	border: 1px solid #eee;
+	border-bottom: none;
+	border-top: none;
+	z-index: 99;
+	/*position the autocomplete items to be the same width as the container:*/
+	top: 100%;
+	left: 0;
+	right: 0;
+}
+
+.autocomplete-items div {
+	padding: 10px;
+	cursor: pointer;
+	background-color: #fff;
+	border-bottom: 1px solid #eee;
+}
+
+/*when hovering an item:*/
+.autocomplete-items div:hover {
+	background-color: #261dc6;
+	color: #ffffff;
+}
+
+/*when navigating through the items using the arrow keys:*/
+.autocomplete-active {
+	background-color: #261dc6 !important;
+	color: #ffffff;
+}
+
+/* for Google graphs of statistics */
+.show_hover:hover {
+	cursor: pointer;
+}
+
+/* For logfile display selection */
+.hiddendiv {display: none; }
+.apiActivity:focus ~ #apiActivity {display: block; }
+.apiErrors:focus ~ #apiErrors {display: block; }
+.efacloudStates:focus ~ #efacloudStates {display: block; }
+.efacloudSynch:focus ~ #efacloudSynch {display: block; }
+.serverWarnings:focus ~ #serverWarnings {display: block; }
+.serverErrors:focus ~ #serverErrors {display: block; }

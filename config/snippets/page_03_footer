@@ -1,7 +1,8 @@
-  <!-- Footer moved to menu bar  -->
-
+  <!-- Footer moved into menu bar -->
   <!-- End page content -->
 </div>
-<script src="../js/sMenu.js"></script>
+
+    <!-- show and hide submenus Javascript -->
+    <script src="../js/sMenu.js"></script>
 </body>
 </html>

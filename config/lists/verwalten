@@ -1,6 +1,16 @@
 id;permission;name;select;from;where;options
 1;board;Nutzer;ID,efaCloudUserID,EMail,Vorname,Nachname,Rolle, \
-  LastModified;efaCloudUsers;NOT (Rolle='anonymous') AND NOT (Rolle='guest');sort=efaCloudUserID
+  LastModified;efaCloudUsers;NOT (Rolle='anonymous') AND NOT (Rolle='guest');sort=efaCloudUserID&link=ID:../forms/nutzer_aendern.php?id=
 2;admin;Administratoren;ID,efaCloudUserID,EMail,Vorname,Nachname,Rolle,Passwort_Hash, \
   LastModified;efaCloudUsers;Rolle='admin';sort=efaCloudUserID
-3;admin;Parameter;ID,Name,Wert;efaCloudConfig;1;sort=ID
+3;board;Partner;ID,Acronym,Longname,Url, \
+  LastModified;efaCloudPartners;1;sort=Acronym&link=ID:../forms/partner_aendern.php?id=
+4;admin;Parameter;ID,Name,Wert;efaCloudConfig;1;sort=ID
+5;admin;Changelog;ID,Author,Time,ChangedTable,ChangedID,Modification,LastModified;efaCloudLog;1;sort=ID
+6;admin;Privilegierte Nutzer;ID,EMail,efaCloudUserID,Vorname,Nachname, \
+  Rolle,Passwort_Hash,LastModified,ecrhis,efaAdminName,Workflows,Concessions;efaCloudUsers; \
+  (`Rolle` = 'admin') OR (`Rolle` = 'board') OR (`Rolle` = 'bths');sort=Rolle.Nachname
+7;admin;Nutzer mit efa-Admin Rechten;ID,EMail,efaCloudUserID,Vorname,Nachname, \
+  Rolle,Passwort_Hash,LastModified,ecrhis,efaAdminName,Workflows,Concessions;efaCloudUsers; \
+  (`Workflows`> 0) OR (`Concessions`> 0);sort=ID
+8;admin;Gesäuberte Datensätze;ID,Author,Time,Reason,ChangedTable,ChangedRecord;efaCloudCleansed;1;sort=ID

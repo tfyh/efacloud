@@ -1,0 +1,13 @@
+tags;required;name;value;label;type;class;size;maxlength
+<div class='w3-row'><div class='w3-col l1'>;;ewLogbookEntry;;efaWeb: Fahrten in das aktuelle Fahrtenbuch eintragen;checkbox;;;
+</div></div><div class='w3-row'><div class='w3-col l1'>;;ewMessageEntry;;efaWeb: Nachrichten hinterlassen;checkbox;;;
+</div></div><div class='w3-row'><div class='w3-col l1'>;;ewDamageEntry;;efaWeb: Schadensmeldungen abgeben;checkbox;;;
+</div></div><div class='w3-row'><div class='w3-col l1'>;;ewReservationEntry;;efaWeb: Boote reservieren;checkbox;;;
+</div></div><div class='w3-row'><div class='w3-col l1'>;;ewLogbookView;;efaWeb: Das Fahrtenbuch anzeigen;checkbox;;;
+</div></div><div class='w3-row'><div class='w3-col l1'>;;ewMessageView;;efaWeb: Nachrichten lesen;checkbox;;;
+</div></div><div class='w3-row'><div class='w3-col l1'>;;ewDamageView;;efaWeb: Schadensmeldungen lesen;checkbox;;;
+</div></div><div class='w3-row'><div class='w3-col l1'>;;ewReservationView;;efaWeb: Reservierungen lesen;checkbox;;;
+</div></div><div class='w3-row'><div class='w3-col l1'><br>;;submit;Jetzt ändern;;submit;formbutton;;
+</div></div>;;_no_input;;;;;;
+<li><span class="helptext">;;_help_text;;Die Berechtigungen habe keine Auswirkungen auf angeschlossene efa-Clients oder die efaCloud-Server-Anwendung.;;;;
+</span></li>;;_help_text;;;;;;

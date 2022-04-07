@@ -9,13 +9,13 @@
 // be changed to "no access" - even better: or the form deleted from the site.
 
 // ===== initialize toolbox
-include_once '../classes/toolbox.php';
+include_once '../classes/tfyh_toolbox.php';
 $settings_path = "../config/settings";
-$toolbox = new Toolbox($settings_path);
+$toolbox = new Tfyh_toolbox($settings_path);
 
 // PRELIMINARY SECURITY CHECKS
 // ===== throttle to prevent from machine attacks.
-$toolbox->load_throttle("inits/", 1000);
+$toolbox->load_throttle("inits/", $toolbox->config->settings_tfyh["init"]["max_inits_per_hour"]);
 
 // remove install file from root folder
 unlink("../install.php");
@@ -40,7 +40,7 @@ echo file_get_contents('../config/snippets/page_02_nav_to_body');
 	<p>Vielen Dank, dass Sie efa und efacloud nutzen!</p>
 	<h4>
 		<a href='../forms/login.php' target='_blank'>Zum Login hier lang</a>
-		oder <a href='../pages/index.php'>zur Startseite</a>.
+		oder <a href='../public/index.php'>zur Startseite</a>.
 	</h4>
 </div><?php
 end_script();

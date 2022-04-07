@@ -3,19 +3,23 @@
 
 <!-- Top menu on small screens -->
 <header class="w3-top w3-hide-large w3-xlarge" style="background-image: url('../resources/transparenz.png')">
-  <div class="w3-bar-item w3-right">
-    <img src="../resources/efacloud-logo_64.png" alt="efacloud Logo" style="width:100%">
+  <div style='padding-right:6px;'>
+    <div class="w3-bar-item w3-right">
+      <img src="../resources/efacloud-logo_64.png" alt="efacloud Logo" style="width:100%;">
+    </div>  
   </div>
-  <a href="javascript:void(0)" class="w3-bar-item w3-button" onclick="w3_open()">
-    <div style='padding:14px'><span style='font-size:1.2em;' class='menuitem'>&#x2630</span>
-  </a>
+  <div style='padding:14px'>
+    <a href="javascript:void(0)" class="w3-bar-item" onclick="w3_open()">
+       <span style='font-size:1.2em;' class='menuitem'>&#x2630;</span>
+    </a>
+  </div>
 </header>
 
 <!-- Overlay effect when opening sidebar on small screens -->
 <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="menuOverlay"></div>
 
 <!-- !PAGE CONTENT!  -->
-<!-- margin left of 250px is the sapce hidden by the sidebar menu. -->
+<!-- margin left of 250px is the space hidden by the sidebar menu. -->
 <div class="w3-main" style="margin-left:200px">
 
   <!-- Push down content on small screens -->

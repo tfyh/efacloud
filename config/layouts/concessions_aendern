@@ -1,0 +1,11 @@
+tags;required;name;value;label;type;class;size;maxlength
+<div class='w3-row'><div class='w3-col l1'>;; \
+  _no_input;;<br>Hier sind alle Concessions aufgelistet.<br>;;;;;;;;
+</div></div><div class='w3-row'><div class='w3-col l1'>;; \
+  $Name;;$Titel;checkbox;;;
+</div></div><div class='w3-row'><div class='w3-col l1'>;; \
+  submit;Jetzt ändern;;submit;formbutton;;
+</div></div>;;_no_input;;;;;;
+<li><span class="helptext">;;_help_text;;Hier kannst Du die Nachrichten-Berechtigungen eines Nutzers ändern.;;;;
+</span></li><li><span class="helptext">;;_help_text;;Die Änderungen werden erst nach Ausloggen und erneutem Einloggen für den betroffenen Nutzer sichtbar.;;;;
+</span></li>;;_help_text;;;;;;

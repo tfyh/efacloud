@@ -1,0 +1,10 @@
+id;permission;name;select;from;where;options
+1;board;Fahrtenbücher;Logbookname,EntryId,Date,LastModified;efa2logbook;1;sort=Logbookname
+2;board;Einträge dieses Jahres;Logbookname,EntryId,Date,BoatId,BoatName,AllCrewNames,DestinationId,DestinationName,LastModified,ecrid;efa2logbook; \
+  (`Logbookname` = '{logbookname}') AND (YEAR(`Date`) = '{selected_year}') AND NOT (`LastModification` LIKE '%del%');sort=EntryId
+3;board;Einträge anderer Jahre;Logbookname,EntryId,Date,BoatId,BoatName,AllCrewNames,DestinationId,DestinationName,LastModified,ecrid;efa2logbook; \
+  (`Logbookname` = '{logbookname}') AND NOT (YEAR(`Date`) = '{selected_year}') AND NOT (`LastModification` LIKE '%del%');sort=EntryId
+4;member;Boote;Id,Name;efa2boats;(CAST(`InvalidFrom` AS UNSIGNED) > 10000000000000);sort=Id
+5;member;Ziele;Id,Name;efa2destinations;(CAST(`InvalidFrom` AS UNSIGNED) > 10000000000000);sort=Id
+6;member;Empfänger des persönlichen Logbuchs;Id,FirstName,LastName,FirstLastName,InvalidFrom,Email;efa2persons; \
+  (`Email` LIKE '%@%') AND (CAST(`InvalidFrom` AS UNSIGNED) > 10000000000000);sort=LastName.FirstName
