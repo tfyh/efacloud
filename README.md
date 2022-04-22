@@ -1,3 +1,14 @@
 # efacloud
-efacloud server php code.
-This code contains the package of the efacloud server. It will only be of use in conjunction with the nicmichael/efa client application.
+
+This repository contains the efacloud server PHP code.
+The efacloud environment is a useful _extention_ to the [efa software](http://efa.nmichael.de/), written by [Nicholas Michael](http://www.nmichael.de/).
+
+## Installation 
+
+An installation overview can be found [here](https://www.efacloud.org/src/).
+The latest release will also be published here in the [Release section](/tfyh/efacloud/releases)
+
+## Further material
+
+Can be found [here](https://www.efacloud.org/material.html).
+
