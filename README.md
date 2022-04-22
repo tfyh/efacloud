@@ -6,7 +6,7 @@ The efacloud environment is a useful _extention_ to the [efa software](http://ef
 ## Installation 
 
 An installation overview can be found [here](https://www.efacloud.org/src/).
-The latest release will also be published here in the [Release section](/tfyh/efacloud/releases)
+The latest release will also be published here in the [Release section](https://github.com/tfyh/efacloud/releases)
 
 ## Further material
 
