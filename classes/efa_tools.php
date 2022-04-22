@@ -254,7 +254,7 @@ class Efa_tools
         if ($init_efaCloud) {
             $log_message = "Admin '" . $admin_record["efaCloudUserID"] . "' was inserted into 'efaCloudUsers'.";
             $success = $this->socket->insert_into($appUserID, "efaCloudUsers", $admin_record);
-            if ($success === false)
+            if (! is_numeric($success))
                 $log_message = "Admin insertion failed: " . $success . "<br>";
             else
                 $log_message = $log_message . "<br>";
@@ -572,26 +572,6 @@ class Efa_tools
     }
 
     /**
-     * data base record update. We will not use the socket to prevent logging and to speed up the process for
-     * mass provisioning.
-     * 
-     * @param String $table_name            
-     * @param array $key            
-     * @param array $record            
-     */
-    private function update_record_with_ecrid (String $table_name, array $matching_keys, String $ecrid)
-    {
-        // create SQL command and change log entry.
-        $sql_cmd = "UPDATE `" . $table_name . "` SET `" . $this->efa_tables->ecrid . "` = '" . $ecrid .
-                 "' WHERE ";
-        $wherekeyis = "";
-        foreach ($matching_keys as $key => $value)
-            $wherekeyis .= "`" . $table_name . "`.`" . $key . "` = '" . strval($value) . "' AND ";
-        $sql_cmd .= substr($wherekeyis, 0, strlen($wherekeyis) - 5);
-        return $this->socket->query($sql_cmd);
-    }
-
-    /**
      * Find data records without ecrids and add the ecrids to them.
      * 
      * @param int $count
@@ -621,14 +601,21 @@ class Efa_tools
                             date("Y-m-d H:i:s") . ": Adding " . count($records_wo_ecrid) . "ecrids for '" .
                                      $tablename . "'.\n", FILE_APPEND);
                     foreach ($records_wo_ecrid as $record_wo_ecrid) {
-                        $key = $this->efa_tables->get_data_key($tablename, $record_wo_ecrid);
-                        $result = $this->update_record_with_ecrid($tablename, $key, $ecrids[$i]);
+                        $data_key = $this->efa_tables->get_data_key($tablename, $record_wo_ecrid);
+                        // create SQL command and change log entry.
+                        $sql_cmd = "UPDATE `" . $tablename . "` SET `ecrid` = '" . $ecrids[$i] . "' WHERE ";
+                        $wherekeyis = "";
+                        foreach ($data_key as $key => $value)
+                            $wherekeyis .= "`" . $tablename . "`.`" . $key . "` = '" . strval($value) .
+                                     "' AND ";
+                        $sql_cmd .= substr($wherekeyis, 0, strlen($wherekeyis) - 5);
+                        $result = $this->socket->query($sql_cmd);
                         $i ++;
                         if ($i >= $count)
                             return $i;
                     }
                     $records_wo_ecrid = $this->socket->find_records_sorted_matched($tablename, 
-                            [$this->efa_tables->ecrid => ""
+                            ["ecrid" => ""
                             ], 100, "NULL", "", true);
                 }
             }
@@ -712,4 +699,86 @@ class Efa_tools
         
         return $html;
     }
+    /* --------------------------------------------------------------------------------------- */
+    /* --------------- EFA CLOUD CLEAR REMAINS OF DELETED RECORDS ---------------------------- */
+    /* --------------------------------------------------------------------------------------- */
+    
+    /**
+     * Records sometimes are not completley deleted. Check those and remove remaining data. Only affects
+     * efa-tables, not efaCloud tables.
+     *
+     * @param int $appUserID
+     *            the ID of the verified client which requests the cleansing
+     */
+    public function cleanse_deleted (int $appUserID)
+    {
+        foreach ($this->efa_tables->efa2tablenames as $tablename) {
+            $to_be_cleansed = $this->socket->find_records_matched($tablename,
+                    ["LastModification" => "delete"
+                    ], 1000);
+            if ($to_be_cleansed !== false) {
+                foreach ($to_be_cleansed as $tbc_record) {
+                    $clean_record = $this->efa_tables->clear_record_for_delete($tablename, $tbc_record);
+                    if ($clean_record !== false) {
+                        $success = $this->socket->update_record_matched($appUserID, $tablename,
+                                ["ecrid" => $tbc_record["ecrid"]
+                                ], $clean_record);
+                        if (strlen($success) == 0) {
+                            $fields_changed = "";
+                            foreach ($tbc_record as $key => $value)
+                                if ($clean_record[$key] !== $value)
+                                    $fields_changed .= $key . ": " . $clean_record[$key] . "; ";
+                                    $notification = [];
+                                    // ID is automatically generated by MySQL data base
+                                    $notification["Author"] = $appUserID;
+                                    // Time is automatically generated by MySQL data base
+                                    $notification["Reason"] = "cleansed remaining values in deleted record: " .
+                                            $fields_changed;
+                                            $notification["ChangedTable"] = $tablename;
+                                            $notification["ChangedRecord"] = json_encode($tbc_record);
+                                            $success = $this->socket->insert_into($appUserID, "efaCloudCleansed",
+                                                    $notification);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+     * Remove the cleansing log records older than $max_age_days. Usually 30 days wast papter basket time.
+     *
+     * @param int $max_age_days
+     */
+    public function remove_old_cleansed_records (int $max_age_days)
+    {
+        $sql_cmd = "DELETE FROM `efaCloudCleansed` WHERE DATEDIFF(NOW(), `Time`) > " . $max_age_days;
+        $this->socket->query($sql_cmd);
+    }
+    
+    /**
+     * Records sometimes are not completley deleted. Check those and remove remaining data. Per table modify
+     * not more than 10 records for speed reasons.
+     *
+     * @param int $appUserID
+     *            the ID of the verified client which requests the cleansing
+     */
+    public function add_AllCrewIds (int $appUserID)
+    {
+        $tablename = "efa2logbook";
+        $matching = ["AllCrewIds" => ""
+        ];
+        $to_be_modified = $this->socket->find_records_sorted_matched($tablename, $matching, 50, "NULL",
+                "LastModified", true);
+        if ($to_be_modified === false)
+            return;
+            foreach ($to_be_modified as $tbm_record) {
+                $allCrewIds = $this->efa_tables->create_AllCrewIds_field($tbm_record);
+                $tbm_record["AllCrewIds"] = $allCrewIds;
+                // success is explicitly ignored
+                $data_key = $this->efa_tables->get_data_key($tablename, $tbm_record);
+                $success = $this->socket->update_record_matched($appUserID, $tablename, $data_key, $tbm_record);
+            }
+    }
+    
 }

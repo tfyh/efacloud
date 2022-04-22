@@ -61,6 +61,12 @@ if ($done > 0) {
         $_SESSION["Betreff"] = $entered_data["Betreff"];
         $_SESSION["Nachricht"] = $entered_data["Nachricht"];
         $_SESSION["Nachricht_htmle"] = htmlentities(utf8_decode($entered_data["Nachricht"]));
+        if (strlen($_SESSION["Nachricht_htmle"]) == 0)
+            // hit an invalid character, try without utf_8 decode.
+            $_SESSION["Nachricht_htmle"] = htmlentities($entered_data["Nachricht"]);
+        if (strlen($_SESSION["Nachricht_htmle"]) == 0)
+            // still hit an invalid character, use plain
+            $_SESSION["Nachricht_htmle"] = $_SESSION["Nachricht"];
         // copy uploaded attachments and remember their location
         if (file_exists($_FILES['userfile1']["tmp_name"])) {
             $_SESSION["Anlage1"] = date("YmdHi", time()) . "_" . $_FILES['userfile1']["name"];
@@ -75,7 +81,7 @@ if ($done > 0) {
         $form_info = "<p><b>Empfänger: </b>" . $_SESSION["An"] . " (Anzahl: " .
                  count($_SESSION["mailto_list"]) . ")</p><p>" . "<p><b>Betreff: </b>" .
                  $entered_data["Betreff"] . "</p><p>" . "<p><b>Nachricht:</b><br />" .
-                 str_replace("\n", "<br />", $entered_data["Nachricht"]) .
+                 str_replace("\n", "<br />", $_SESSION["Nachricht_htmle"]) .
                  "<p><b>Anlage 1:</b><br />" . $_SESSION["Anlage1"] . "<br /><b>Anlage 2:</b><br />" .
                  $_SESSION["Anlage2"] . "</p><hr /><br />";
         $todo = 2;
@@ -184,7 +190,8 @@ if ($done > 0) {
             $_SESSION["result"] = $form_info;
             $mail_was_sent = $mail_handler->send_mail($mailfrom, $mailreplyto, 
                     $_SESSION["User"]["EMail"], "", "", 
-                    $mail_handler->mail_subject_acronym . $_SESSION["Betreff"], $form_info . $list_indication);
+                    $mail_handler->mail_subject_acronym . $_SESSION["Betreff"], 
+                    $form_info . $list_indication);
         } else { // When testing show form again to be able to do adjustments.
             if ($isTest || $isContinueEdit || $isTempSave) {
                 if ($isTest)

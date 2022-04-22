@@ -19,7 +19,7 @@ class Tfyh_app_sessions
     private $debug_on;
 
     private $debug_file = "../log/debug_sessions.log";
-    
+
     private $sessions_dir = "../log/sessions/";
 
     /**
@@ -84,7 +84,8 @@ class Tfyh_app_sessions
     }
 
     /**
-     * Cleanse the file system from expired sessions' files and count the remainder.
+     * Cleanse the file system from expired sessions' files and count the remainder. If a session is cleansed,
+     * this also closes the PHP session using $this->session_close().
      */
     private function cleanse_and_count_sessions ()
     {
@@ -98,6 +99,7 @@ class Tfyh_app_sessions
                 else {
                     $now = time();
                     if ($session["refreshed_at"] < $now - $this->max_session_duration) {
+                        $this->session_close($session_file);
                         $remove_success = unlink($this->sessions_dir . $session_file);
                         if (! $remove_success)
                             $this->toolbox->logger->log(2, 0, 
@@ -108,6 +110,7 @@ class Tfyh_app_sessions
                                              "\n", FILE_APPEND);
                     } elseif ($session["started_at"] < $now - $this->max_session_keepalive) {
                         $remove_success = unlink($this->sessions_dir . $session_file);
+                        $this->session_close($session_file);
                         if (! $remove_success)
                             $this->toolbox->logger->log(2, 0, 
                                     "Unable to remove overduring session: " . $session_file);

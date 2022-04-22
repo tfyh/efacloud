@@ -10,8 +10,11 @@ _edit_viewrecord;.board;Datensatz anzeigen ;../pages/view_record.php
 logbook;board;efa Daten ;
 _logbook_find;board;Datensatz finden ;../forms/datensatz_finden.php
 _logbook_change;.board;Datensatz Versionen ;../pages/show_history.php
-_logbook_tableexp;board;efa Tabelle ausgeben ;../pages/show_lists.php?satz=efa
+_logbook_tableexp;board;efa Tabelle ausgeben ;../pages/show_lists.php?satz=efaExportTables
+_logbook_tableexp;board;efa Liste ausgeben ;../pages/show_lists.php?satz=efaExportLists
+_logbook_ipm_persons;admin;Personendaten importieren ;../forms/import_persons.php
 _logbook_efaWeb;admin;Fahrtenbücher korrigieren ;../pages/show_logbooks.php
+_logbook_testPersLogbook;admin;persönliches Fahrtenbuch testen ;../pages/test_pers_logbook.php
 administration;board;Nutzer verwalten ;
 _administration_Finden;board;Nutzer finden ;../forms/nutzer_finden.php
 _administration_Anzeigen;.board;Nutzer anzeigen ;../pages/nutzer_profil.php

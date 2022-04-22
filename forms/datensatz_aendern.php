@@ -26,7 +26,6 @@ $search_result = $_SESSION["search_result"][$search_result_index];
 include_once "../classes/efa_tables.php";
 include_once "../classes/efa_dataedit.php";
 $efa_dataedit = new Efa_dataedit($toolbox, $socket);
-$boolean_fields = Efa_tables::$boolean_fields;
 $efa_tables = new Efa_tables($toolbox, $socket);
 
 $form_errors = "";

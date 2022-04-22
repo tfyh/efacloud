@@ -1,0 +1,12 @@
+id;permission;name;select;from;where;options
+1;board;Offene Bootsschäden;Damage,BoatId>efa2boats.Name@Id,Description,Severity,ReportDate,ReportTime,ReportedByPersonId,ReportedByPersonName, \
+  LogbookText,LastModified,LastModification;efa2boatdamages;NOT (`Fixed`= 'true');sort=#Damage&link=Damage:../pages/view_record.php?def=efaLists.1.Damage.
+2;member;Aktuelle und kommende Reservierungen;Reservation,efa2boats>Boats.Name@Id,Reason,PersonId,DateFrom,TimeFrom,DateTo,TimeTo,Type,Contact; \
+  efa2boatreservations;(DATEDIFF(NOW(), `DateTo`) <= 0);sort=#Reservation&link=Reservation:../pages/view_record.php?def=efaLists.2.Reservation.
+3;board;Vergangene Reservierungen nach Boot;Reservation,BoatId>efa2boats.Name@Id,Reason,DateFrom,TimeFrom,DateTo,TimeTo,Type,Contact,PersonId,BoatId; \
+  efa2boatreservations;(DATEDIFF(NOW(), `DateTo`) > 0);sort=#Reservation&link=Reservation:../pages/view_record.php?def=efaLists.3.Reservation.
+4;board;Vergangene Reservierungen nach Person;Reservation,PersonId>efa2persons.FirstLastName@Id,Reason, \
+  DateFrom,TimeFrom,DateTo,TimeTo,Type,Contact,PersonId,BoatId; \
+  efa2boatreservations;(DATEDIFF(NOW(), `DateTo`) > 0);sort=PersonId&firstofblock=PersonId&link=Reservation:../pages/view_record.php?def=efaLists.3.Reservation.
+5;board;Nachrichten der letzten 50 Tage;MessageId,Date,To,From,Subject,Read,ReplyTo,Text; \
+  efa2messages;(DATEDIFF(NOW(), `Date`) < 50);sort=MessageId

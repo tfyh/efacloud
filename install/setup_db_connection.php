@@ -57,10 +57,6 @@ $cfg_existing = $toolbox->config->get_cfg();
 // first set defaults
 foreach ($cfg_default as $key => $value)
     $cfg_to_use[$key] = $cfg_existing[$key];
-// then replace those which are existing
-foreach ($cfg_existing as $key => $value)
-    if (! $cfg_existing[$key])
-        $cfg_to_use[$key] = $cfg_existing[$key];
 
 // try to connect in step "done"
 if ((isset($_GET['done']) && intval($_GET["done"]) == 1)) {

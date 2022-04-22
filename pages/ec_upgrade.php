@@ -6,8 +6,25 @@
  */
 
 // ===== initialize toolbox and socket and start session.
+// $debug_log = 'https://efacloud.org/support/debug/gather.php?data=';
 $user_requested_file = __FILE__;
 include_once "../classes/init.php";
+
+// Source Code path.
+// ====== Depends on the ../config/settings_tfyh file.
+$app_src_path = $toolbox->config->settings_tfyh["upgrade"]["src_path"];
+if (is_null($$app_src_path))
+    $app_src_path = $app_root . "/_src/server.zip";
+$app_version_path = $toolbox->config->settings_tfyh["upgrade"]["version_path"];
+if (is_null($app_version_path))
+    $app_version_path = $app_root . "/_src/version";
+$app_remove_files = $toolbox->config->settings_tfyh["upgrade"]["remove_files"];
+if (is_null($app_remove_files))
+    $app_remove_files = [];
+$current_version = (file_exists("../public/version")) ? file_get_contents("../public/version") : "undefined";
+$current_version_installed = (file_exists("../public/version")) ? filemtime("../public/version") : 0;
+// -- The standard gathers the one and only $version_server, but efaCloud allows for selcting a version. 
+// $version_server = (isset($app_version_path) && (strlen($app_version_path) > 0)) ? file_get_contents($app_version_path) : "undefined";
 
 // ===== start page output
 echo file_get_contents('../config/snippets/page_01_start');
@@ -17,7 +34,8 @@ echo file_get_contents('../config/snippets/page_02_nav_to_body');
 
 <?php
 if (! isset($_GET["upgrade"])) {
-    $versions_request = 'https://efacloud.org/src/scanversions.php?own=' .  htmlspecialchars(file_get_contents("../public/version"));
+    $versions_request = 'https://efacloud.org/src/scanversions.php?own=' .
+             htmlspecialchars(file_get_contents("../public/version"));
     $versions_string = file_get_contents($versions_request);
     $versions = explode("|", $versions_string);
     ?>
@@ -25,6 +43,10 @@ if (! isset($_GET["upgrade"])) {
 <p>Das Upgrade entpackt den Code und überschreibt dabei die vorhandenen
 	Code-Dateien. Alle Bestandsdaten, wie zum Beispiel logs, uploads,
 	backups usw. bleiben erhalten. Die Datenbank wird nicht modifiziert.</p>
+<?php
+    echo "<p>Aktuell ist installiert: <b>" . $current_version . "</b><br>Installationszeitpunkt war: <b>" .
+             date("d.m.Y H:i:s", $current_version_installed) . "</b></p>";
+    ?>
 <p>Ein Upgrade kann nicht rückgängig gemacht werden. Es besteht
 	allerdings die Möglichkeit, auf demselben Weg ein Downgrade auf alle
 	noch verfügbaren Versionen durchzuführen.</p>
@@ -54,7 +76,7 @@ if (! isset($_GET["upgrade"])) {
     echo $version_options;
     ?>
     </select> <br /> <br /> <label class="cb-container">Ich bin einverstanden, dass meine
-			Server URL (<?php echo $app_url; ?>) und die nun installierte Version an efacloud.org
+			Server URL (<?php echo $app_root; ?>) und die nun installierte Version an efacloud.org
 			übermittelt werden<input type="checkbox" name="agreeAutoregistration"
 		checked><span class="cb-checkmark"></span>
 	</label><br /> <input type='submit' class='formbutton'
@@ -74,7 +96,7 @@ if (! isset($_GET["upgrade"])) {
     if ($agreeAutoregistration) {
         // see https://stackoverflow.com/questions/5647461/how-do-i-send-a-post-request-with-php
         $url = 'https://www.efacloud.org/registration.php';
-        $data = array('version' => $version_to_install,'server' => $app_url
+        $data = array('version' => $version_to_install,'server' => $app_root
         );
         // use key 'http' even if you send the request to https://...
         $options = array(
@@ -224,6 +246,7 @@ if (! isset($_GET["upgrade"])) {
     // ==============================================================================================
     include_once "../classes/tfyh_audit.php";
     $audit = new Tfyh_audit($toolbox, $socket);
+    $audit->run_audit();
     echo '<h5>Überprüfe das Ergebnis</h5><p>Audit-Protokoll:</p><p>';
     echo str_replace("\n", "<br>", 
             str_replace(">", "&gt;", 

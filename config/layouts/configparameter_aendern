@@ -1,5 +1,5 @@
 tags;required;name;value;label;type;class;size;maxlength
-<div class='w3-row'><div class='w3-col l1'><b>Stammdaten</b><br>;; \
+<div class='w3-row'><div class='w3-col l1'><b>Stammdaten</b>;; \
   synch_period;;<br>Der zeitliche Abstand zwischen zwei automatischen Download-Synchronisationen in Sekunden.<br>Standard ist 3600 Sekunden.;text;;12;20
 </div></div><div class='w3-row'><div class='w3-col l1'>;; \
   synch_check_period;;Der zeitliche Abstand zwischen zwei automatischen Änderungschecks in Sekunden.<br>Standard ist 60 Sekunden.  \
@@ -17,7 +17,7 @@ tags;required;name;value;label;type;class;size;maxlength
 </div></div><div class='w3-row'><div class='w3-col l1'>;; \
   sports_year_start;;Wann startet das Fahrtenbuchjahr?; \
   "select 1=01.01.;2=01.02.;3=01.03.;4=01.04.;5=01.05.;6=01.06.;7=01.07.;8=01.08.;9=01.09.;10=01.10.;11=01.11.;12=01.12.";;12;20
-</div></div><div class='w3-row'><div class='w3-col l1'><br><b>Informationsmanagement</b><br><br>;; \
+</div></div><div class='w3-row'><div class='w3-col l1'><br><b>Informationsmanagement</b><br>;; \
   public_onthewater;;Information über Boote auf dem Wasser ohne login sichtbar;checkbox;;2;2
 </div></div><div class='w3-row'><div class='w3-col l1'>;; \
   public_notavailable;;Information über nicht verfügbare Boote ohne login sichtbar;checkbox;;2;2
@@ -25,27 +25,42 @@ tags;required;name;value;label;type;class;size;maxlength
   public_notusable;;Information über Boote mit Bootsschaden ohne login sichtbar;checkbox;;2;2
 </div></div><div class='w3-row'><div class='w3-col l1'>;; \
   public_reserved;;Information über Bootsreservierungen ohne login sichtbar;checkbox;;2;2
-</div></div><div class='w3-row'><div class='w3-col l1'><br>;; \
-  debug_support;;<b>Nur für Supportzwecke, verlangsamt alles deutlich:</b> Debug-Informationen mitschreiben;checkbox;;2;2
+</div></div><div class='w3-row'><div class='w3-col l1'<br><b>Extras</b><br>;; \
+  debug_support;;<i>Nur für Supportzwecke:</i> Debug-Informationen mitschreiben;checkbox;;2;2
 </div></div><div class='w3-row'><div class='w3-col l1'>;; \
-  backup;;<b>Nicht empfohlen, verlangsamt den ersten Login des Tages deutlich:</b> Tabellen sichern bei der täglichen Routine;checkbox;;2;2
+  backup;;<i>Nicht empfohlen, verlangsamt den ersten Login des Tages deutlich:</i> Tabellen sichern bei der täglichen Routine;checkbox;;2;2
 </div></div><div class='w3-row'><div class='w3-col l1'><br><b>Automatische Abläufe</b><ul><li>Tagangabe = D  \
   oder W oder M für täglich, wöchentlich, monatlich und eine Zahl. Beispiele D1 = täglich, W1 = Montags, M1 = Monatserster, M31 = Monatsletzter.</li>  \
-  <li>Job-Optionen: 'persLogbook' = Versand des perönlichen Fahrtenbuchs an alle Personen, die in efa2persons eine E-Mail Adresse hinterlegt haben oder  \
+  <li>Job-Optionen: 'persLogbook' = Versand des persönlichen Fahrtenbuchs an alle Personen, die in efa2persons eine E-Mail Adresse hinterlegt haben oder  \
   'monitoring' = Versand des Regelberichts zur Überwachung an alle efaCloudUser mit der Rolle 'admin'</li></ul>;; \
   configured_jobs;;Automatische Abläufe, die als 'cronjobs' angestoßen werden. Ein Job pro Zeile, als 'Tagangabe Typ' z.B. 'M31 persLogbook'.;textarea;;4;
-</div></div><div class='w3-row'><div class='w3-col l1'>;; \
-  current_logbook;;Name des für den Fahrtenbuchversand zu nutzenden Fahrtenbuchs<br>('JJJJ' für aktuelle Jahreszahl, also z.B. 'JJJJ_BootshausA' für z.B. '2022_BootshausA');text;;12;20
-</div></div><div class='w3-row'><div class='w3-col l1'><br><b>Für das Datenschutzkonzept</b><br><br>;; \
+</div></div><div class='w3-row'><div class='w3-col l1'><br><b>Aktuelles Fahrtenbuch</b><br>;; \
+  current_logbook;;Für efaWeb und den Fahrtenbuchversand zu nutzendes Fahrtenbuchs<br>('JJJJ' für aktuelle Jahreszahl, also z.B. 'JJJJ_BootshausA' für z.B. '2022_BootshausA');text;;12;20
+</div></div><div class='w3-row'><div class='w3-col l1'><br><b>Stilvorgaben</b><br>(Ausprobieren mit 'efa-Daten > Testversand persönliches Fahrtenbuch')<br>;; \
+  pers_logbook_cols;;Spalten im persönlichen Fahrtenbuch (Komma-separiert, möglich sind: Fahrtnummer,Datum,Boot,Steuermann,Mannschaft,Abfahrt,Ankunft,Ziel,Kilometer);text;;95%;200
+</div></div><div class='w3-row'><div class='w3-col l2'>;;pers_logbook_table;;"Stilvorgabe Tabelle (Inline Syntax, z. B.: border:1px solid #000088;)";text;;90%;200
+</div><div class='w3-col l2'>;;pers_logbook_tr;;"Stilvorgabe Zeile";text;;90%;200
+</div></div><div class='w3-row'><div class='w3-col l2'>;;pers_logbook_th;;"Stilvorgabe Zelle Kopfzeile";text;;90%;200
+</div><div class='w3-col l2'>;;pers_logbook_td;;"Stilvorgabe Zelle Rumpf";text;;90%;200
+</div></div><div class='w3-row'><div class='w3-col l1'><br><b>Angaben für das Datenschutzkonzept</b><br>;; \
   Verein;;Bezeichnung des Vereins;text;;30;250
 </div></div><div class='w3-row'><div class='w3-col l1'>;; \
   Betriebsverantwortlich;;Names dessen, der betriebsverantwortlich ist;text;;30;250
 </div></div><div class='w3-row'><div class='w3-col l1'>;; \
-  Hoster;;Unternehmen, das die Site betriebt (Hoster);text;;30;250
+  Hoster;;Unternehmen, das die Site betreibt (Hoster);text;;30;250
 </div></div><div class='w3-row'><div class='w3-col l1'>;; \
   AVVdatum;;Datum der AVV Mit diesem Unternehmen (Hoster);date;;10;250
-</div></div><p></p><div class='w3-row' style='margin-top:20px'><div class='w3-col l1'><div style='float:right'>;; \
+</div></div><div class='w3-row'><div class='w3-col l1'>;;_no_input;;<br><b>Alter in Tagen für die Archivierung von Datensätzen</b>;;;;
+</div></div><div class='w3-row'><div class='w3-col l4'>;;DamageAgeDays;;Bootsschäden, Berichtsdatum;text;;8;8
+</div><div class='w3-col l4'>;;ReservationAgeDays;;Bootsreservierungen, Enddatum;text;;8;8
+</div><div class='w3-col l4'>;;ClubworkAgeDays;;Vereinsarbeit, Durchführungsdatum;text;;8;8
+</div><div class='w3-col l4'>;;TripAgeDays;;Fahrt im Fahrtenbuch, Startdatum;text;;8;8
+</div></div><div class='w3-row'><div class='w3-col l4'>;;MessageAgeDays;;Nachrichten, Erstellungsdatum;text;;8;8
+</div><div class='w3-col l4'>;;PersonsAgeDays;;Personen, ungültig seit;text;;8;8
+</div></div><div class='w3-row'><div class='w3-col l1'>;;_no_input;;<br><b>Löschbenachrichtigung</b>;;;;
+</div></div><div class='w3-row'><div class='w3-col l2'>;;PurgeDeletedAgeDays;;Wie lange nach der Löschung eines Datensatzes sollen Clients darüber informiert werden?;text;;8;8
+</div></div><p></p><div class='w3-row' style='margin-top:20px'><div class='w3-col l1'>;; \
   submit;Übernehmen;;submit;formbutton;;
-</div></div></div>;;_no_input;;;;;;
+</div></div>;;_no_input;;;;;;
 <li><span class='helptext'>;;_help_text;;Bitte achten Sie auf die erforderliche Syntax, es finden keine technischen Prüfungen statt.;;;;
 </span></li>;;_help_text;;;;;;

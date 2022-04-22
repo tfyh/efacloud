@@ -31,6 +31,7 @@ function autocomplete(input, value_options, listname) {
 		/*append the DIV element as a child of the autocomplete container:*/
 		this.parentNode.appendChild(acList);
 		/*for each item in the array...*/
+		var countDisplayed = 0;
 		for (i = 0; i < value_options.length; i++) {
 			/*check if the item starts with the same letters as the text field value:*/
 			var valUC = val.toUpperCase();
@@ -53,7 +54,8 @@ function autocomplete(input, value_options, listname) {
 					validateEntry(input, listname);
 					handleValue(input);
 				});
-				acList.appendChild(acItem);
+				if (countDisplayed < $_countDisplayMax) acList.appendChild(acItem);
+				countDisplayed++;
 			}
 		}
 	});

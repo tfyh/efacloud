@@ -26,16 +26,25 @@ class Tfyh_audit
      */
     public function __construct (Tfyh_toolbox $toolbox, Tfyh_socket $socket)
     {
+        $this->toolbox = $toolbox;
+        $this->socket = $socket;
+    }
+
+    /**
+     * Execute the full audit and log the result to "../log/audit.log"
+     */
+    public function run_audit ()
+    {
         // Header
         $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") .
                  "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-        $audit_log = "Auditing '" . $toolbox->config->app_name . "' at '" . $actual_link .
-                 "', version '" . file_get_contents("../public/version") . "'\n";
+        $audit_log = "Auditing '" . $this->toolbox->config->app_name . "' at '" . $actual_link . "', version '" .
+                 file_get_contents("../public/version") . "'\n";
         
         // Check web server directory access settings
         $audit_log .= "Starting audit at: " . date("Y-m-d H:i:s") . "\n";
-        $forbidden_dirs = explode(",", $toolbox->config->settings_tfyh["config"]["forbidden_dirs"]);
-        $public_dirs = explode(",", $toolbox->config->settings_tfyh["config"]["public_dirs"]);
+        $forbidden_dirs = explode(",", $this->toolbox->config->settings_tfyh["config"]["forbidden_dirs"]);
+        $public_dirs = explode(",", $this->toolbox->config->settings_tfyh["config"]["public_dirs"]);
         $audit_warnings = "";
         
         // Lock access to forbidden directories
@@ -82,18 +91,18 @@ class Tfyh_audit
         
         // reflect settings for support cases
         $audit_log .= "Framework configuration check ...\n";
-        foreach ($toolbox->config->settings_tfyh as $module => $settings) {
+        foreach ($this->toolbox->config->settings_tfyh as $module => $settings) {
             $audit_log .= $module . ":\n";
-            foreach ($toolbox->config->settings_tfyh[$module] as $key => $value) {
-                if (is_bool($toolbox->config->settings_tfyh[$module][$key]) ||
-                         is_array($toolbox->config->settings_tfyh[$module][$key]))
+            foreach ($this->toolbox->config->settings_tfyh[$module] as $key => $value) {
+                if (is_bool($this->toolbox->config->settings_tfyh[$module][$key]) ||
+                         is_array($this->toolbox->config->settings_tfyh[$module][$key]))
                     $value = json_encode($value);
                 $audit_log .= "    " . $key . " = " . $value . "\n";
             }
         }
         // Add configuration information for support cases
         $audit_log .= "Configuration:\n";
-        $cfg = $toolbox->config->get_cfg();
+        $cfg = $this->toolbox->config->get_cfg();
         foreach ($cfg as $key => $value) {
             if ((strcasecmp($key, "db_up") == 0) || (strcasecmp($key, "db_user") == 0))
                 $audit_log .= "    " . $key . " = " . strlen($value) . " characters long.\n";
@@ -103,25 +112,25 @@ class Tfyh_audit
         
         // check table sizes
         $audit_log .= "Table configuration check ...\n";
-        $table_names = $socket->get_table_names();
+        $table_names = $this->socket->get_table_names();
         $table_record_count_list = "";
         $total_record_count = 0;
         $total_columns_count = 0;
         $total_table_count = 0;
         foreach ($table_names as $tn) {
-            $record_count = $socket->count_records($tn);
-            $columns = $socket->get_column_names($tn);
+            $record_count = $this->socket->count_records($tn);
+            $columns = $this->socket->get_column_names($tn);
             $columns_count = ($columns === false) ? 0 : count($columns);
             $total_record_count += $record_count;
             $total_table_count ++;
             $total_columns_count += $columns_count;
             $history = "";
-            if (isset($toolbox->config->settings_tfyh["history"][$tn])) {
-                $history = ", hist:" . $toolbox->config->settings_tfyh["history"][$tn] . "." .
-                         $toolbox->config->settings_tfyh["maxversions"][$tn];
-                if (! in_array($toolbox->config->settings_tfyh["history"][$tn], $columns)) {
+            if (isset($this->toolbox->config->settings_tfyh["history"][$tn])) {
+                $history = ", hist:" . $this->toolbox->config->settings_tfyh["history"][$tn] . "." .
+                         $this->toolbox->config->settings_tfyh["maxversions"][$tn];
+                if (! in_array($this->toolbox->config->settings_tfyh["history"][$tn], $columns)) {
                     $warning_message = "    Missing history column `" .
-                             $toolbox->config->settings_tfyh["history"][$tn] . "` in table `" . $tn .
+                             $this->toolbox->config->settings_tfyh["history"][$tn] . "` in table `" . $tn .
                              "`. Data base insert and update statements will fail. Please fix configuration.\n";
                     $audit_log .= $warning_message;
                     $audit_warnings = $warning_message;
@@ -137,12 +146,12 @@ class Tfyh_audit
         // Check users and access rights
         $audit_log .= "Users and access rights check ... \n";
         $audit_log .= str_replace("Count of", "    Count of", 
-                $toolbox->users->get_all_accesses($socket, true));
+                $this->toolbox->users->get_all_accesses($this->socket, true));
         
         // Check backup
         $audit_log .= "\nBackup check... \n";
         $backup_dir = "../log/backup";
-        $backup_files = scandir($backup_dir);
+        $backup_files = file_exists($backup_dir) ? scandir($backup_dir) : [];
         $backup_files_size = 0;
         $backup_files_count = 0;
         foreach ($backup_files as $backup_file) {
