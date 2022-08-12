@@ -36,7 +36,8 @@ class Efa_config
         foreach ($types_all_rows as $type_row) {
             if (! isset($this->types[$type_row["Category"]]))
                 $this->types[$type_row["Category"]] = [];
-                $this->types[$type_row["Category"]][$type_row["Position"]] = $type_row["Type"] . ":" . $type_row["Value"];
+            $this->types[$type_row["Category"]][$type_row["Position"]] = $type_row["Type"] . ":" .
+                     $type_row["Value"];
         }
     }
 

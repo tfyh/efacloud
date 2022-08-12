@@ -40,6 +40,7 @@ if ($def != false) {
     $tablename = $list->get_table_name();
     // try to extract the data key. Only then the record is surely unique
     $record_data_key = $efa_tables->get_data_key($tablename, $toDisplay);
+    
     if ($record_data_key !== false)
         $tablerow = $socket->find_record_matched($tablename, $record_data_key);
     else // the record is not unique
@@ -119,8 +120,7 @@ foreach ($toDisplay as $key => $value) {
                      $efa_dataedit->resolve_UUID($value)[1] . "</td></tr>\n";
         } elseif (in_array($key, $efa_tables->timestampFields)) {
             $resolved_time = $efa_tables->get_readable_date_time($value);
-            echo "<tr><td>" . $key . "</td><td>" . $value . "</td><td>" .
-                    $resolved_time . "</td></tr>\n";
+            echo "<tr><td>" . $key . "</td><td>" . $value . "</td><td>" . $resolved_time . "</td></tr>\n";
         } else
             echo "<tr><td>" . $key . "</td><td>" . $value . "</td><td></td></tr>\n";
     }

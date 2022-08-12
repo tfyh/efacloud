@@ -93,19 +93,6 @@ class Tfyh_toolbox
      * ======================== Session support ==============================
      */
     /**
-     * try to start or resume a session and display an error on failure. Includes load throttling by
-     * displaying an error on overload.
-     */
-    public function start_session ()
-    {
-        if (! session_start())
-            $this->display_error("Session konnte nicht gefunden werden", 
-                    "Die aktuelle Session konnte nicht gefunden werden. " .
-                             "D. h., sie kann entweder nicht neu aufgebaut werden, oder ist nicht mehr vorhanden.", 
-                            __FILE__);
-    }
-
-    /**
      * A token is a sequence of random characters for different purposes. It always starts with a letter,
      * followed by characters including numeric digits. with the information on the session owner in a token
      * list.

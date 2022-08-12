@@ -58,6 +58,7 @@ class Tfyh_cron_jobs
         // run audit
         include_once "../classes/tfyh_audit.php";
         $audit = new Tfyh_audit($toolbox, $socket);
+        $audit->run_audit();
         file_put_contents($cronlog, 
                 date("Y-m-d H:i:s") . " +" . (time() - $last_step_ended) . ": Audit completed\n", FILE_APPEND);
         $last_step_ended = time();

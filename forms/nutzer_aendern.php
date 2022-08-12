@@ -1,7 +1,7 @@
 <?php
 /**
- * The form for user profile self service. Based on the Tfyh_form class, please read instructions their to better
- * understand this PHP-code part.
+ * The form for user profile self service. Based on the Tfyh_form class, please read instructions their to
+ * better understand this PHP-code part.
  * 
  * @author mgSoft
  */
@@ -67,7 +67,7 @@ if ($done > 0) {
         $form_filled->preset_value("Passwort_Wdh", $keep_password);
     }
     if (isset($entered_data["efaAdminName"]))
-            $entered_data["efaAdminName"] = strtolower($entered_data["efaAdminName"]);
+        $entered_data["efaAdminName"] = strtolower($entered_data["efaAdminName"]);
     
     // application logic, step by step
     if (strlen($form_errors) > 0) {
@@ -88,6 +88,39 @@ if ($done > 0) {
                 $form_filled->preset_value("Passwort_Wdh", $keep_password);
             }
         }
+        
+        // efaCloudUserID must be an integer
+        $efaclouduserid_ok = true;
+        $c = 0;
+        $allowed_chars = "0123456789";
+        while ($efaclouduserid_ok && ($c < strlen($entered_data['efaCloudUserID']))) {
+            $efaclouduserid_char = substr($entered_data['efaCloudUserID'], $c, 1);
+            if (strpos($allowed_chars, $efaclouduserid_char) === false)
+                $efaclouduserid_ok = false;
+            $c ++;
+        }
+        if (! $efaclouduserid_ok)
+            $form_errors .= "Die efaCloudUserID muss eine ganze Zahl sein.<br>";
+        // efaCloudUserID must be in the range 0 to 1,000,000,000
+        if ((intval($entered_data['efaCloudUserID']) <= 0) ||
+                 (intval($entered_data['efaCloudUserID']) >= 1000000000))
+            $form_errors .= "Die efaCloudUserID muss größer als 0 und kleiner als 1.000.000.000 sein.<br>";
+        // efaAdminName must be 4 to 10 characters
+        if ((strlen($entered_data['efaAdminName']) < 4) || (strlen($entered_data['efaAdminName']) > 10))
+            $form_errors .= "efaAdminName muss zwischen 4 und 10 Zeichen lang sein.<br>";
+        // efaAdminName must be lower case characters, without blanks etc
+        $admin_name_ok = true;
+        $c = 0;
+        $allowed_chars = "_0123456789abcdefghijklmnopqrstuvwxyz";
+        while ($admin_name_ok && ($c < strlen($entered_data['efaAdminName']))) {
+            $admin_char = substr($entered_data['efaAdminName'], $c, 1);
+            if (strpos($allowed_chars, $admin_char) === false)
+                $admin_name_ok = false;
+            $c ++;
+        }
+        if (! $admin_name_ok)
+            $form_errors .= "efaAdminName darf nur Zeichen a-z, 0-9 und '_' enthalten. Keine Großbuchstaben, keine Sonderzeichen, keine Leerzeichen.<br>";
+        
         // EMail must be unique.
         $mail_address_used = $socket->find_record_matched($toolbox->users->user_table_name, 
                 ["EMail",$entered_data['EMail']
@@ -142,16 +175,16 @@ if ($done > 0) {
                 }
             }
         }
-
+        
         if ($changed && ! $form_errors) {
             $record["LastModified"] = strval(time()) . "000";
             $change_result = $socket->update_record($_SESSION["User"][$toolbox->users->user_id_field_name], 
                     $toolbox->users->user_table_name, $record, false);
             if (strlen($change_result) > 0) {
-                $form_errors .= "<br/>Datenbank Update-Kommando fehlgeschlagen. Fehlermeldung :" . $change_result;
+                $form_errors .= "<br/>Datenbank Update-Kommando fehlgeschlagen. Fehlermeldung :" .
+                         $change_result;
             } else {
-                $toolbox->logger->log(0, 
-                        intval($nutzer_to_update_after[$toolbox->users->user_id_field_name]), 
+                $toolbox->logger->log(0, intval($nutzer_to_update_after[$toolbox->users->user_id_field_name]), 
                         "Nutzer von Verwalter(in) " . $_SESSION["User"][$toolbox->users->user_id_field_name] .
                                  " geändert.");
             }
@@ -217,7 +250,7 @@ if ($todo == 1) { // step 1. No special texts for output
 	</p>
 	<p>
 		<?php
-		echo (($form_errors) ? "" : "Folgende Änderungen wurden vorgenommen:<br />" . $info);
+    echo (($form_errors) ? "" : "Folgende Änderungen wurden vorgenommen:<br />" . $info);
     ?>
              </p>
 	<p>

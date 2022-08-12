@@ -1,3 +1,2 @@
 id;permission;name;select;from;where;options
-1;Verwaltung;Alle Nutzer; \
-  EMail;efaCloudUsers;1;sort=Nachname.Vorname
+1;admin;Alle Nutzer;EMail;efaCloudUsers;1;sort=Nachname.Vorname

@@ -38,6 +38,8 @@ class Tfyh_user
 
     public $anonymous_role;
 
+    public $self_registered_role;
+
     public $owner_id_fields;
 
     /**
@@ -97,14 +99,17 @@ class Tfyh_user
                  ! isset($settings_tfyh["users"]["use_workflows"]) ||
                  ! isset($settings_tfyh["users"]["use_concessions"]) ||
                  ! isset($settings_tfyh["users"]["ownerid_fields"])) {
-            echo "Error in settings_tfyh: useradmin_role, anonymous_role, use_subscriptions, use_workflows, use_concessions, or ownerid_fields not defined.";
+            echo "Error in settings_tfyh: useradmin_role, anonymous_role, self_registered_role, use_subscriptions, use_workflows, use_concessions, or ownerid_fields not defined.";
             exit();
         }
+        if (! isset($settings_tfyh["users"]["self_registered_role"]))
+            $settings_tfyh["users"]["self_registered_role"] = $settings_tfyh["users"]["anonymous_role"];
         
         // useradmin and anonymous role definition.
         // Table field name: "Rolle" for the user role.
         $this->useradmin_role = $settings_tfyh["users"]["useradmin_role"];
         $this->anonymous_role = $settings_tfyh["users"]["anonymous_role"];
+        $this->self_registered_role = $settings_tfyh["users"]["self_registered_role"];
         $owner_id_fields = explode(",", $settings_tfyh["users"]["ownerid_fields"]);
         foreach ($owner_id_fields as $owner_id_field) {
             if (strlen(trim($owner_id_field)) > 0) {
@@ -115,9 +120,10 @@ class Tfyh_user
         }
         
         // user preferences and permissions
-        $this->use_subscriptions = $settings_tfyh["users"]["use_subscriptions"];  // Table field name: Subskriptionen
-        $this->use_workflows = $settings_tfyh["users"]["use_workflows"];          // Table field name: Workflows
-        $this->use_concessions = $settings_tfyh["users"]["use_concessions"];      // Table field name: Concessions
+        $this->use_subscriptions = $settings_tfyh["users"]["use_subscriptions"]; // Table field name:
+                                                                                 // Subskriptionen
+        $this->use_workflows = $settings_tfyh["users"]["use_workflows"]; // Table field name: Workflows
+        $this->use_concessions = $settings_tfyh["users"]["use_concessions"]; // Table field name: Concessions
     }
 
     /*
@@ -466,18 +472,22 @@ class Tfyh_user
         }
         return $action_links_html;
     }
-    
+
     /**
      * Get an empty user for this application
      */
-    public function get_empty_user () {
+    public function get_empty_user ()
+    {
         $user = array();
-        $user[$this->user_id_field_name] = -1;
+        $user[$this->user_id_field_name] = - 1;
         $user["ID"] = 0;
         $user["Rolle"] = $this->anonymous_role;
-        if ($this->use_subscriptions) $user["Subskriptionen"] = 0;
-        if ($this->use_workflows) $user["Workflows"] = 0;
-        if ($this->use_concessions) $user["Concessions"] = 0;
+        if ($this->use_subscriptions)
+            $user["Subskriptionen"] = 0;
+        if ($this->use_workflows)
+            $user["Workflows"] = 0;
+        if ($this->use_concessions)
+            $user["Concessions"] = 0;
         return $user;
     }
 }

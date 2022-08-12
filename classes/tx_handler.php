@@ -27,49 +27,6 @@ class Tx_handler
     public $cookie_session_name = "efaCloud_session";
 
     /**
-     * The content which shall be used for API content logging.
-     */
-    private $content_to_log = [
-            "@All" => ["ChangeCount" => true,"LastModified" => true,"LastModification" => true,
-                    "ecrown" => true,"ClientSideKey" => true,"ValidFrom" => true,"InvalidFrom" => true
-            ],
-            "efa2boatdamages" => ["BoatId" => "efa2boats.Name","Damage" => true,"Severity" => true,
-                    "ReportDate" => true,"FixDate" => true
-            ],
-            "efa2boatreservations" => ["BoatId" => "efa2boats.Name","Reservation" => true,
-                    "DateFrom" => true,"DateTo" => true,"Reason" => true
-            ],"efa2boats" => ["Name" => true
-            ],
-            "efa2boatstatus" => ["BoatId" => "efa2boats.Name","Logbook" => true,"EntryNo" => true
-            ],"efa2groups" => ["Name" => true
-            ],
-            "efa2logbook" => ["EntryId" => true,"Date" => true,"EndDate" => true,
-                    "BoatId" => "efa2boats.Name","BoatName" => true,"CoxId" => false,"CoxName" => false,
-                    "Crew1Id" => false,"Crew1Name" => false,"Crew2Id" => false,"Crew2Name" => false,
-                    "Crew3Id" => false,"Crew3Name" => false,"Crew4Id" => false,"Crew4Name" => false,
-                    "Crew5Id" => false,"Crew5Name" => false,"Crew6Id" => false,"Crew6Name" => false,
-                    "Crew7Id" => false,"Crew7Name" => false,"Crew8Id" => false,"Crew8Name" => false,
-                    "Crew9Id" => false,"Crew9Name" => false,"Crew10Id" => false,"Crew10Name" => false,
-                    "Crew11Id" => false,"Crew11Name" => false,"Crew12Id" => false,"Crew12Name" => false,
-                    "Crew13Id" => false,"Crew13Name" => false,"Crew14Id" => false,"Crew14Name" => false,
-                    "Crew15Id" => false,"Crew15Name" => false,"Crew16Id" => false,"Crew16Name" => false,
-                    "Crew17Id" => false,"Crew17Name" => false,"Crew18Id" => false,"Crew18Name" => false,
-                    "Crew19Id" => false,"Crew19Name" => false,"Crew20Id" => false,"Crew20Name" => false,
-                    "Crew21Id" => false,"Crew21Name" => false,"Crew22Id" => false,"Crew22Name" => false,
-                    "Crew23Id" => false,"Crew23Name" => false,"Crew24Id" => false,"Crew24Name" => false,
-                    "DestinationId" => "efa2destinations.Name","DestinationName" => true,"SessionType" => true,
-                    "Open" => true,"Logbookname" => true
-            ],
-            "efa2messages" => ["MessageId" => true,"Date" => true,"To" => true,"Subject" => true
-            ],
-            "efa2persons" => ["Gender" => true,"Birthday" => true,"StatusId" => "efa2status.Name",
-                    "Invisible" => true,"Deleted" => true
-            ],"efa2status" => ["Name" => true,"Type" => true
-            ],"efa2waters" => ["Name" => true
-            ]
-    ];
-
-    /**
      * The texts for the identification results to be returned to the client.
      */
     public $server_resonse_texts = [300 => "Transaction completed.",
@@ -546,7 +503,7 @@ class Tx_handler
         if (! $this->efa_tables) {
             if ($this->debug_on)
                 file_put_contents($this->api_debug_log_path, 
-                        date("Y-m-d H:i:s") . ": execute_transaction aborted, efaTables == null.\n", 
+                        date("Y-m-d H:i:s") . ": execute_transaction aborted, \$this.->efa_tables == null.\n", 
                         FILE_APPEND);
             return;
         }
@@ -568,11 +525,6 @@ class Tx_handler
         $tx_tablename = $this->txc["requests"][$index]["tablename"];
         $transaction_path = "../api/" . $tx_type;
         $is_allowed = $menu->is_allowed_menu_item($transaction_path, $client_verified);
-        // TODO
-        // limit further insert and update allowance on a per table consideration.
-        // if ((strcasecmp($tx_type, "insert") == 0) || (strcasecmp($tx_type, "update") == 0))
-        // $is_allowed = $is_allowed && in_array($tx_tablename, $this->efa_tables->allow_member_modify);
-        // TODO
         if (! $is_allowed) {
             $tx_response = "502;Transaction '" . $this->txc["requests"][$index]["type"] .
                      "' not allowed in table " . $tx_tablename . " for role '" . $client_verified["Rolle"] .

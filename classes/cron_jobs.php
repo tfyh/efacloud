@@ -22,7 +22,6 @@ class Cron_jobs extends Tfyh_cron_jobs
     public static function run_daily_jobs (Tfyh_toolbox $toolbox, Tfyh_socket $socket, int $app_user_id)
     {
         $cron_started = time();
-        
         $daily_run = Tfyh_cron_jobs::run_daily_jobs($toolbox, $socket, $app_user_id);
         
         // add application specific cron jobs here.
@@ -42,21 +41,47 @@ class Cron_jobs extends Tfyh_cron_jobs
                     FILE_APPEND);
             $last_step_ended = time();
             
-            // audit tables
+            // run archive and delete procedures
             include_once "../classes/efa_tables.php";
             $efa_tables = new Efa_tables($toolbox, $socket);
-            include_once "../classes/efa_audit.php";
-            $efa_audit = new Efa_audit($efa_tables, $toolbox);
-            file_put_contents($cronlog, 
-                    date("Y-m-d H:i:s") . " +" . (time() - $last_step_ended) . ": Audit completed.\n", 
+            include_once "../classes/efa_archive.php";
+            $efa_archive = new Efa_archive($efa_tables, $toolbox, $app_user_id);
+            $archive_info = $efa_archive->records_to_archive();
+            file_put_contents($cronlog,
+                    date("Y-m-d H:i:s") . " +" . (time() - $last_step_ended) . ": Archived: " . $archive_info . ".\n",
+                    FILE_APPEND);
+            $last_step_ended = time();
+            $purge_info = $efa_archive->purge_outdated_deleted();
+            file_put_contents($cronlog,
+                    date("Y-m-d H:i:s") . " +" . (time() - $last_step_ended) . ": Purged: " . $purge_info . ".\n",
                     FILE_APPEND);
             $last_step_ended = time();
             
-            $efa_audit->cleanse_deleted($app_user_id);
-            $efa_audit->remove_old_cleanse_records(30);
-            $efa_audit->add_AllCrewIds($app_user_id);
+            // add missing ecrids (just all. There must not be many left in April 2022.)
+            include_once '../classes/efa_tools.php';
+            $efa_tools = new Efa_tools($efa_tables, $toolbox);
+            $added_ecrids = $efa_tools->add_ecrids(10000);
+            file_put_contents($cronlog,
+                    date("Y-m-d H:i:s") . " +" . (time() - $last_step_ended) . ": Added " . $added_ecrids . " missing efaCloud record Ids.\n",
+                    FILE_APPEND);
+            $last_step_ended = time();
+            
+            // manage deleted records (TODO: this may be temporary, introduced April 2022).
+            $efa_tools->cleanse_deleted($app_user_id);
+            $efa_tools->remove_old_cleansed_records(30);
+            $efa_tools->add_AllCrewIds($app_user_id);
+            file_put_contents($cronlog,
+                    date("Y-m-d H:i:s") . " +" . (time() - $last_step_ended) . ": Cleansing completed.\n",
+                    FILE_APPEND);
+            $last_step_ended = time();
+            
+            // audit tables
+            include_once "../classes/efa_audit.php";
+            $efa_audit = new Efa_audit($efa_tables, $toolbox);
+            $audit_report = $efa_audit->data_integrity_audit();
+            file_put_contents("../log/app_db_audit.html", $audit_report);
             file_put_contents($cronlog, 
-                    date("Y-m-d H:i:s") . " +" . (time() - $last_step_ended) . ": Cleansing completed.\n", 
+                    date("Y-m-d H:i:s") . " +" . (time() - $last_step_ended) . ": Database integrity audit completed.\n", 
                     FILE_APPEND);
             $last_step_ended = time();
             
@@ -136,7 +161,7 @@ class Cron_jobs extends Tfyh_cron_jobs
                     include_once '../classes/efa_dataedit.php';
                     $efa_dataedit = new Efa_dataedit($toolbox, $socket);
                     include_once '../classes/efa_logbook.php';
-                    $efa_logbook = new Efa_logbook($toolbox, $socket, $efa_dataedit, $cfg["current_logbook"]);
+                    $efa_logbook = new Efa_logbook($toolbox, $socket, $efa_dataedit);
                     $mails_sent = $efa_logbook->send_logbooks();
                     $toolbox->logger->log(0, $app_user_id, 
                             "Persönliches Fahrtenbuch gesendet an " . $mails_sent . " Personen.");
@@ -154,7 +179,7 @@ class Cron_jobs extends Tfyh_cron_jobs
                     $statistics_filename = "../log/efacloud_server_statistics.csv";
                     
                     // create report as zip of log files.
-                    $monitoring_report = $toolbox->logger->zip_logs();
+                    $monitoring_report = "../log/" . $toolbox->logger->zip_logs();
                     $admins = $socket->find_records("efaCloudUsers", "Rolle", "admin", 30);
                     include_once '../classes/tfyh_mail_handler.php';
                     $cfg = $toolbox->config->get_cfg();

@@ -21,8 +21,7 @@ include_once '../classes/efa_db_layout.php';
 $improve = (isset($_GET["do_improve"])) ? $_GET["do_improve"] : "";
 $do_improve = (strcmp($improve, "now") == 0);
 $improvements = "";
-// maximum number of records which will be added an ecrid, if missing, in one go
-// TODO: reduce to 100, once the version 2.3.0 has become obsolete
+// maximum number of records which will be added an ecrid, if missing, in one go. Should never be hit.
 $max_add_ecrids = 2000;
 if ($do_improve) {
     $efa_tools->upgrade_efa_tables(true);

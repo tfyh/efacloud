@@ -174,7 +174,7 @@ class Sec_concept
         $this->variables["ChangesAll"] = $changes_all;
         
         // privilegierteNutzer
-        $privileged_list = new Tfyh_list("../config/lists/verwalten", 6, "Privilegierte Nutzer", $this->socket, 
+        $privileged_list = new Tfyh_list("../config/lists/verwalten", 3, "Privilegierte Nutzer", $this->socket, 
                 $this->toolbox);
         $privileged_rows = $privileged_list->get_rows();
         $privileged_str = "";

@@ -71,19 +71,22 @@ if ($done > 0) {
         $nowSeconds = $date->getTimestamp();
         $_SESSION["search_result"] = [];
         $efa_tables = new Efa_tables($toolbox, $socket);
+        $is_versionized = in_array($_SESSION["efa2table"], $efa_tables->is_versionized);
+        $short_info_fields = Efa_tables::$short_info_fields[$_SESSION["efa2table"]];
         if (is_array($records))
             foreach ($records as $record) {
                 // PHP version may not be 64 bit, then the max int is 2 billion. Makes the validity
                 // check a bit complex.
-                $invalid = ($record["InvalidFrom"] && (strlen($record["InvalidFrom"]) < 15) &&
-                         (intval(substr($record["InvalidFrom"], 0, 10)) < $nowSeconds));
+                $invalid = $is_versionized && (! isset($record["InvalidFrom"]) || ((strlen(
+                        $record["InvalidFrom"]) < 15) &&
+                         (intval(substr($record["InvalidFrom"], 0, 10)) < $nowSeconds)));
                 if ($invalid)
                     $results_to_show_html .= "<span style='color:#aaa'>";
-                if (! $invalid) {
-                    foreach ($record as $key => $value) {
+                foreach ($record as $key => $value) {
+                    if (in_array($key, $short_info_fields) || (strcasecmp($key, $_SESSION["efa2tablefield"]) == 0)) {
                         if (in_array($key, $efa_tables->timestampFields) && (strlen(strval($value)) > 0))
                             $value = $efa_tables->get_readable_date_time($value);
-                        if ((strlen(strval($value)) > 0) && (strcasecmp($key, "ecrhis"))) {
+                        if ((strlen(strval($value)) > 0) && (strcasecmp($key, "ecrhis") !== 0)) {
                             if ((strcasecmp($key, $_SESSION["efa2tablefield"]) == 0) ||
                                      ((strcasecmp($key, "InvalidFrom") == 0) && $invalid)) {
                                 $results_to_show_html .= "<b>" . $en2de[$key] . ": '" . $value . "'</b>, ";
@@ -101,8 +104,8 @@ if ($done > 0) {
                     $_SESSION["search_result"][$v] = $record;
                     $results_to_show_html .= " - <a href='../pages/view_record.php?searchresultindex=" . $v .
                              "'>Details anzeigen</a>";
-                    $results_to_show_html .= "<br />\n";
                 }
+                $results_to_show_html .= "<br />\n";
                 $i ++;
             }
         if ($i === 0) {

@@ -7,32 +7,6 @@ class Efa_tables
 {
 
     /**
-     * the name of the efaCloud record Id data field for relevant tables.
-     */
-    public $ecrid = "ecrid";
-
-    /**
-     * the name of the efaCloud record owner data field for relevant tables.
-     */
-    public $ecrown = "ecrown";
-
-    /**
-     * the name of the efaCloud record history data field for relevant tables.
-     */
-    public $ecrhis = "ecrhis";
-
-    /**
-     * the name of the efaCloud record additional copy to field relevant all tables.
-     */
-    public $ecract = "ecract";
-
-    /**
-     * The projects meta-data. Will be read only when importing a backup and will not be written. Is needed to
-     * identify the current logbook.
-     */
-    private $project_meta;
-
-    /**
      * The tables for which a key fixing is allowed
      */
     private $fixid_allowed = "efa2logbook efa2messages efa2boatdamages efa2boatreservations";
@@ -66,19 +40,25 @@ class Efa_tables
     ];
 
     /**
-     * The api allowance is only checked by transaction type. Therefore members are allowed to insert and
-     * update any record via the api in the menu configuration to be able to start a trip and end it e.g.
-     * However, it is not sensible to allow member modification or similar. Therefore, this list limits the
-     * tables for which modification by the role member is allowed.
-     */
-    public $allow_member_modify = ["efa2logbook","efa2messages","efa2boatdamages","efa2boatreservations"
-    ];
-
-    /**
      * The list of timestamp fields.
      */
     public $timestampFields = ["LastModified","ValidFrom","InvalidFrom"
     ];
+
+    /**
+     * String denominating "forever" in efa (java.long.MAX_VALUE)
+     */
+    public $forever64 = "9223372036854775807";
+
+    /**
+     * Integer to check a validity. If strlen($value) > $forever_len_gt, this is for ever valid.
+     */
+    public $forever_len_gt = 13;
+
+    /**
+     * 32-bit integer denominating "forever" in efaCloud (2^31 - 1)
+     */
+    public $forever32 = 2147483647;
 
     /**
      * The data base connection socket.
@@ -99,46 +79,66 @@ class Efa_tables
     public $db_layout_version_target = 5;
 
     /**
-     * Column names of those columns that represent the data key of the specific table. These key fields are
-     * the same as in the efa client except for the logbook. Within the client each year has a separate
-     * logbook with EntryIds starting from 1 at the first of January. The server uses just one table with an
-     * additional data field Logbookname. The server side key therefore is the EntryId plus the Logbookname.
+     * Column names of those columns that represent the data key of the specific efa2 table. These key fields
+     * are the same as in the efa client. One exception: efa2logbook with the additional Logbookname key
+     * field. Within the client each year has a separate logbook with EntryIds starting from 1 at the first of
+     * January. The server uses just one table with an additional data field Logbookname. The server side key
+     * therefore is the EntryId plus the Logbookname.
      */
-    public static $key_fields = 
-    // efaCloud server table key fields
-    ["efaCloudUsers" => ["ID"
-    ],"efaCloudLog" => ["ID"
-    ],"efaCloudCleansed" => ["ID"
-    ],"efaCloudArchived" => ["ID"
+    public static $key_fields = ["efa2autoincrement" => ["Sequence" // block #1 single field keys
+    ],"efa2boatstatus" => ["BoatId"
+    ],"efa2clubwork" => ["Id" // because this is a UUID it is unique for all club workbooks
+    ],"efa2crews" => ["Id"
+    ],"efa2fahrtenabzeichen" => ["PersonId"
+    ],"efa2logbook" => ["EntryId","Logbookname" // ADAPTATION, @efa: EntryId only
+    ],"efa2messages" => ["MessageId"
+    ],"efa2sessiongroups" => ["Id"
+    ],"efa2statistics" => ["Id"
+    ],"efa2status" => ["Id"
+    ],"efa2waters" => ["Id"
     ],
-            // efa tables single field keys
-            "efa2autoincrement" => ["Sequence"
-            ],"efa2boatstatus" => ["BoatId"
-            ],
-            "efa2clubwork" => ["Id" // because this is a UUID it is unique for all club workbooks
-            ],"efa2crews" => ["Id"
-            ],"efa2fahrtenabzeichen" => ["PersonId"
-            ],"efa2logbook" => ["EntryId","Logbookname" // ADAPTATION, @efa: EntryId only
-            ],"efa2messages" => ["MessageId"
-            ],"efa2sessiongroups" => ["Id"
-            ],"efa2statistics" => ["Id"
-            ],"efa2status" => ["Id"
-            ],"efa2waters" => ["Id"
-            ],
-            // efa tables double field keys
+            // block #2 double field keys: numeric plus BoatId
             "efa2boatdamages" => ["BoatId","Damage"
             ],"efa2boatreservations" => ["BoatId","Reservation"
             ],
-            // efa tables versionized tables
+            // block #3 versionized tables: Id plus ValidFrom key fields.
             "efa2boats" => ["Id","ValidFrom"
             ],"efa2destinations" => ["Id","ValidFrom"
             ],"efa2groups" => ["Id","ValidFrom"
             ],"efa2persons" => ["Id","ValidFrom"
+            ]
+    ];
+
+    /**
+     * Column names of those columns that represent a short version of the human readable record of the
+     * specific table. Used in record find dialog.
+     */
+    public static $short_info_fields = 
+    // efaCloud server tables
+    ["efaCloudUsers" => ["Vorname","Nachname","efaAdminName"
+    ],
+            // efa tables
+            "efa2autoincrement" => ["Sequence","IntValue","LongValue"
             ],
-            // efa config tables
-            "efa2project" => ["Type","Name"
-            ],"efa2admins" => ["Name"
-            ],"efa2types" => ["Category","Type"
+            "efa2boats" => ["Name","TypeSeats","TypeRigging","TypeType","Id","ValidFrom","InvalidFrom"
+            ],"efa2boatdamages" => ["Damage","BoatId","Description","Severity","Fixed"
+            ],"efa2boatreservations" => ["Reservation","BoatId","Reason","DateFrom","DateTo"
+            ],"efa2boatstatus" => ["BoatText","Comment"
+            ],"efa2clubwork" => ["Date","FirstLastName","Hours","Description","Id"
+            ],"efa2crews" => ["Name"
+            ],"efa2destinations" => ["Name","Distance","Id","ValidFrom","InvalidFrom"
+            ],"efa2fahrtenabzeichen" => ["GUI_VORNAME","GUI_NACHNAME","GUI_LETZTESDATUM"
+            ],"efa2groups" => ["Name","Id","ValidFrom","InvalidFrom"
+            ],
+            "efa2logbook" => ["Logbookname","EntryId","Date","BoatId","BoatName","AllCrewNames",
+                    "DestinationId","DestinationName","Distance"
+            ],"efa2messages" => ["From","Date","Subject"
+            ],
+            "efa2persons" => ["FirstName","LastName","MembershipNo","Id","ValidFrom","InvalidFrom"
+            ],"efa2sessiongroups" => ["Name","Logbook","Route","StartDate","EndDate","Id"
+            ],"efa2statistics" => ["Name","PubliclyAvailable","Id"
+            ],"efa2status" => ["Name","Type","AutoSetOnAge","Id"
+            ],"efa2waters" => ["Name","Details","Id"
             ]
     ];
 
@@ -148,10 +148,10 @@ class Efa_tables
      */
     public static $name_fields = 
     // efaCloud server tables
-    ["efaCloudUsers" => ["Vorname","Nachname","efaAdminName"
+    ["efaCloudUsers" => ["efacloudUserID","Vorname","Nachname","efaAdminName"
     ],
             // efa tables
-            "efa2boats" => ["Name"
+            "efa2boats" => ["Name",""
             ],"efa2boatdamages" => ["Description"
             ],"efa2boatreservations" => ["Reason"
             ],"efa2boatstatus" => ["BoatText"
@@ -173,73 +173,183 @@ class Efa_tables
     /**
      * a list of all fields of boolean data type. Needed for the datensatz_aendern.php form.
      */
-    public static $boolean_fields = ["efa2boatdamages.Fixed" => true,"efa2boatdamages.Claim" => true, //
-            "efa2boats.OnlyWithBoatCaptain" => true,"efa2boats.ExcludeFromStatistics" => true,
-            "efa2boats.Invisible" => true,"efa2boats.Deleted" => true, //
-"efa2boatstatus.UnknownBoat" => true, //
-"efa2destinations.StartIsBoathouse" => true,"efa2destinations.Roundtrip" => true,
-            "efa2destinations.Invisible" => true,"efa2destinations.Deleted" => true, //
-            "efa2groups.Invisible" => true,"efa2groups.Deleted" => true, //
-"efa2logbook.Open" => true, //
-"efa2messages.Read" => true,"efa2messages.ToBeMailed" => true, //
-"efa2persons.Disability" => true,"efa2persons.ExcludeFromStatistics" => true,
-            "efa2persons.ExcludeFromCompetition" => true,"efa2persons.ExcludeFromClubwork" => true,
-            "efa2persons.BoatUsageBan" => true,"efa2persons.Invisible" => true,"efa2persons.Deleted" => true, //
-            "efa2statistics.PubliclyAvailable" => true,"efa2statistics.FilterGenderAll" => true,
-            "efa2statistics.FilterStatusAll" => true,"efa2statistics.FilterSessionTypeAll" => true,
-            "efa2statistics.FilterBoatTypeAll" => true,"efa2statistics.FilterBoatSeatsAll" => true,
-            "efa2statistics.FilterBoatRiggingAll" => true,"efa2statistics.FilterBoatCoxingAll" => true,
-            "efa2statistics.FilterBoatOwnerAll" => true,"efa2statistics.FilterPromptPerson" => true,
-            "efa2statistics.FilterPromptBoat" => true,"efa2statistics.FilterPromptGroup" => true,
-            "efa2statistics.FilterFromToBoathouse" => true,"efa2statistics.FilterOnlyOpenDamages" => true,
-            "efa2statistics.FilterAlsoOpenSessions" => true,"efa2statistics.CompOutputShort" => true,
-            "efa2statistics.CompOutputRules" => true,
-            "efa2statistics.CompOutputAdditionalWithRequirements" => true,
-            "efa2statistics.CompOutputWithoutDetails" => true,
-            "efa2statistics.CompOutputAllDestinationAreas" => true,
-            "efa2statistics.OutputHtmlUpdateTable" => true,"efa2statistics.OptionDistanceWithUnit" => true,
-            "efa2statistics.OptionTruncateDistance" => true,"efa2statistics.OptionListAllNullEntries" => true,
-            "efa2statistics.OptionIgnoreNullValues" => true,
-            "efa2statistics.OptionOnlyMembersWithInsufficientClubwork" => true,
-            "efa2statistics.OptionSumGuestsAndOthers" => true,"efa2statistics.OptionSumGuestsByClub" => true, //
-            "efa2status.AutoSetOnAge" => true
+    public static $boolean_fields = ["efa2boatdamages" => ["Fixed","Claim"
+    ],"efa2boats" => ["OnlyWithBoatCaptain","ExcludeFromStatistics","Invisible","Deleted"
+    ],"efa2boatstatus" => ["UnknownBoat"
+    ],"efa2destinations" => ["StartIsBoathouse","Roundtrip","Invisible","Deleted"
+    ],"efa2groups" => ["Invisible","Deleted"
+    ],"efa2logbook" => ["Open"
+    ],"efa2messages" => ["Read","ToBeMailed"
+    ],
+            "efa2persons" => ["Disability","ExcludeFromStatistics","ExcludeFromCompetition",
+                    "ExcludeFromClubwork","BoatUsageBan","Invisible","Deleted"
+            ],
+            "efa2statistics" => ["PubliclyAvailable","FilterGenderAll",".FilterStatusAll",
+                    "FilterSessionTypeAll","FilterBoatTypeAll","FilterBoatSeatsAll","FilterBoatRiggingAll",
+                    "FilterBoatCoxingAll","FilterBoatOwnerAll","FilterPromptPerson","FilterPromptBoat",
+                    "FilterPromptGroup","FilterFromToBoathouse","FilterOnlyOpenDamages",
+                    "FilterAlsoOpenSessions","CompOutputShort","CompOutputRules",
+                    "CompOutputAdditionalWithRequirements","CompOutputWithoutDetails",
+                    "CompOutputAllDestinationAreas","OutputHtmlUpdateTable","OptionDistanceWithUnit",
+                    "OptionTruncateDistance","OptionListAllNullEntries","OptionIgnoreNullValues",
+                    "OptionOnlyMembersWithInsufficientClubwork","OptionSumGuestsAndOthers",
+                    "OptionSumGuestsByClub"
+            ],"efa2status" => ["AutoSetOnAge"
+            ]
     ];
 
     /**
-     * All system generated fields. Shall always be read only for any GUI or API access.
+     * All fields which have INT or BIGINT dataty and must not be set to null or "".
      */
-    public static $system_fields = [
-            'efa2autoincrement' => 'Sequence,IntValue,LongValue,ChangeCount,LastModified,LastModification',
-            'efa2boatdamages' => 'Damage,ChangeCount,LastModified,LastModification,ClientSideKey,ecrid,ecrown,ecrhis',
-            'efa2boatreservations' => 'VirtualBoat,Reservation,VirtualReservationDate,VirtualPerson,ChangeCount,LastModified,LastModification,ClientSideKey,ecrid,ecrown,ecrhis',
-            'efa2boats' => 'Id,ChangeCount,LastModified,LastModification,ecrid,ecrown,ecrhis',
-            'efa2boatstatus' => 'CurrentStatus,EntryNo,ChangeCount,LastModified,LastModification,ecrid,ecrown',
-            'efa2clubwork' => 'Id,FirstLastName,ChangeCount,LastModified,Clubworkbookname,LastModification,ecrid,ecrown,ecrhis',
-            'efa2crews' => 'Id,ChangeCount,LastModified,LastModification,ecrid,ecrown',
-            'efa2destinations' => 'Id,ChangeCount,LastModified,LastModification,ecrid,ecrown',
-            'efa2fahrtenabzeichen' => 'ChangeCount,LastModified,LastModification,ecrid,ecrown,ecrhis',
-            'efa2groups' => 'Id,ChangeCount,LastModified,LastModification,ecrid,ecrown',
-            'efa2logbook' => 'AllCrewNames,AllCrewIds,ChangeCount,LastModified,LastModification,ClientSideKey,Logbookname,ecrid,ecrown,ecrhis,ecract',
-            'efa2messages' => 'MessageId,ChangeCount,LastModified,LastModification,ClientSideKey,ecrid,ecrown',
-            'efa2persons' => 'Id,FirstLastName,ChangeCount,LastModified,LastModification,ecrid,ecrown,ecrhis',
-            'efa2sessiongroups' => 'Id,ChangeCount,LastModified,LastModification,ecrid,ecrown,ecrhis',
-            'efa2statistics' => 'Id,ChangeCount,LastModified,LastModification,ecrid',
-            'efa2status' => 'Id,ChangeCount,LastModified,LastModification,ecrid,ecrown',
-            'efa2waters' => 'Id,ChangeCount,LastModified,LastModification,ecrid,ecrown',
-            'efaCloudLog' => 'ID,Author,Time,ChangedTable,ChangedID,Modification,LastModified',
-            'efaCloudCleansed' => 'ID,LastModified,ecrhis,',
-            'efaCloudUsers' => 'ID,Author,Time,Reason,ChangedTable,ChangedRecord'
+    public static $int_fields = [
+            "efa2autoincrement" => ["IntValue","LongValue","ChangeCount","LastModified"
+            ],"efa2boatdamages" => ["Damage","ChangeCount","LastModified","ecrown"
+            ],"efa2boatreservations" => ["Reservation","ChangeCount","LastModified","ecrown"
+            ],
+            "efa2boats" => ["LastVariant","DefaultVariant","MaxNotInGroup","MaxCrewWeight","ValidFrom",
+                    "InvalidFrom","ChangeCount","LastModified","ecrown"
+            ],"efa2boatstatus" => ["ChangeCount","LastModified","ecrown"
+            ],"efa2clubwork" => ["Flag","ChangeCount","LastModified","ecrown"
+            ],"efa2crews" => ["BoatCaptain","ChangeCount","LastModified","ecrown"
+            ],
+            "efa2destinations" => ["PassedLocks","ValidFrom","InvalidFrom","ChangeCount","LastModified",
+                    "ecrown"
+            ],
+            "efa2fahrtenabzeichen" => ["Abzeichen","AbzeichenAB","Kilometer","KilometerAB","ChangeCount",
+                    "LastModified","ecrown"
+            ],"efa2groups" => ["ValidFrom","InvalidFrom","ChangeCount","LastModified","ecrown"
+            ],
+            "efa2logbook" => ["EntryId","BoatVariant","BoatCaptain","EfbSyncTime","ChangeCount",
+                    "LastModified","ecrown"
+            ],"efa2messages" => ["MessageId","ChangeCount","LastModified","ecrown"
+            ],"efa2persons" => ["ValidFrom","InvalidFrom","ChangeCount","LastModified","ecrown"
+            ],"efa2sessiongroups" => ["ActiveDays","ChangeCount","LastModified","ecrown"
+            ],
+            "efa2statistics" => ["Position","AggregationDistanceBarSize","AggregationRowDistanceBarSize",
+                    "AggregationCoxDistanceBarSize","AggregationSessionsBarSize",
+                    "AggregationAvgDistanceBarSize","AggregationDurationBarSize","AggregationSpeedBarSize",
+                    "CompYear","CompPercentFulfilled","ChangeCount","LastModified"
+            ],
+            "efa2status" => ["Membership","MinAge","MaxAge","ChangeCount","LastModified","ecrown"
+            ],"efa2waters" => ["ChangeCount","LastModified","ecrown"
+            ]
+    
+    ];
+
+    /**
+     * All data fields which are generated by the efacloud server, if they are not provided by the record
+     * sender (API [efa], APIV3 [efaWeb, efaApp], Server UI, Server import). Shall always be read only for any
+     * UI access. Includes key fields, except ValidFrom, Logbooknmame, BoatId.
+     */
+    public static $server_gen_fields = ["efa2autoincrement" => ["LastModification"
+    ],"efa2autoincrement" => [],
+            "efa2boatdamages" => ["Damage","ChangeCount","LastModified","LastModification",
+                    "ClientSideKey","ecrid","ecrown","ecrhis"
+            ],
+            "efa2boatreservations" => ["Reservation","ChangeCount","LastModified","LastModification",
+                    "ClientSideKey","ecrid","ecrown","ecrhis"
+            ],
+            "efa2boats" => ["Id","ChangeCount","LastModified","LastModification","ecrid","ecrown",
+                    "ecrhis"
+            ],
+            "efa2boatstatus" => ["ChangeCount","LastModified","LastModification","ecrid","ecrown"
+            ],
+            "efa2clubwork" => ["Id","ChangeCount","LastModified","LastModification","ecrid","ecrown",
+                    "ecrhis"
+            ],
+            "efa2crews" => ["Id","ChangeCount","LastModified","LastModification","ecrid","ecrown"
+            ],
+            "efa2destinations" => ["Id","ChangeCount","LastModified","LastModification","ecrid","ecrown"
+            ],
+            "efa2fahrtenabzeichen" => ["ChangeCount","LastModified","LastModification","ecrid","ecrown",
+                    "ecrhis"
+            ],
+            "efa2groups" => ["Id","ChangeCount","LastModified","LastModification","ecrid","ecrown"
+            ],
+            "efa2logbook" => ["AllCrewIds","ChangeCount","LastModified","LastModification",
+                    "ClientSideKey","ecrid","ecrown","ecrhis"
+            ],
+            "efa2messages" => ["MessageId","ChangeCount","LastModified","LastModification",
+                    "ClientSideKey","ecrid","ecrown"
+            ],
+            "efa2persons" => ["Id","FirstLastName","ChangeCount","LastModified","LastModification",
+                    "ecrid","ecrown","ecrhis"
+            ],
+            "efa2sessiongroups" => ["Id","ChangeCount","LastModified","LastModification","ecrid","ecrown",
+                    "ecrhis"
+            ],"efa2statistics" => ["Id","ChangeCount","LastModified","LastModification","ecrid"
+            ],
+            "efa2status" => ["Id","ChangeCount","LastModified","LastModification","ecrid","ecrown"
+            ],
+            "efa2waters" => ["Id","ChangeCount","LastModified","LastModification","ecrid","ecrown"
+            ]
+    ];
+
+    /**
+     * All data fields which are generated by the efa PC-client by default.
+     */
+    public static $api_client_gen_fields = [
+            "efa2autoincrement" => ["Sequence","IntValue","LongValue","ChangeCount","LastModified"
+            ],"efa2boatdamages" => ["Damage","ChangeCount","LastModified"
+            ],
+            "efa2boatreservations" => ["VirtualBoat","Reservation","VirtualReservationDate",
+                    "VirtualPerson","ChangeCount","LastModified"
+            ],"efa2boats" => ["Id","ChangeCount","LastModified"
+            ],"efa2boatstatus" => ["CurrentStatus","EntryNo","ChangeCount","LastModified"
+            ],
+            "efa2clubwork" => ["Id","FirstLastName","Clubworkbookname","ChangeCount","LastModified"
+            ],"efa2crews" => ["Id","ChangeCount","LastModified"
+            ],"efa2destinations" => ["Id","ChangeCount","LastModified"
+            ],"efa2fahrtenabzeichen" => ["ChangeCount","LastModified"
+            ],"efa2groups" => ["Id","ChangeCount","LastModified"
+            ],
+            "efa2logbook" => ["AllCrewNames","AllCrewIds","Logbookname","ChangeCount","LastModified"
+            ],"efa2messages" => ["MessageId","ChangeCount","LastModified"
+            ],"efa2persons" => ["Id","FirstLastName","ChangeCount","LastModified"
+            ],"efa2sessiongroups" => ["Id","ChangeCount","LastModified"
+            ],"efa2statistics" => ["Id","ChangeCount","LastModified"
+            ],"efa2status" => ["Id","ChangeCount","LastModified"
+            ],"efa2waters" => ["Id","ChangeCount","LastModified"
+            ]
+    ];
+
+    /**
+     * All data fields which are generated by the efa client API V3 and subsequent by default.
+     */
+    public static $apiV3_client_gen_fields = [
+            "efa2autoincrement" => ["Sequence","IntValue","LongValue","ecrid"
+            ],"efa2boatdamages" => ["ecrid"
+            ],"efa2boatreservations" => ["VirtualReservationDate","VirtualPerson","ecrid"
+            ],"efa2boats" => ["Id","ecrid"
+            ],"efa2boatstatus" => ["CurrentStatus","EntryNo","ecrid"
+            ],"efa2clubwork" => ["Id","FirstLastName","Clubworkbookname","ecrid"
+            ],"efa2crews" => ["Id","ecrid"
+            ],"efa2destinations" => ["Id","ecrid"
+            ],"efa2fahrtenabzeichen" => ["ecrid"
+            ],"efa2groups" => ["Id","ecrid"
+            ],"efa2logbook" => ["AllCrewNames","AllCrewIds","Logbookname","ecrid"
+            ],"efa2messages" => ["ecrid"
+            ],"efa2persons" => ["Id","FirstLastName","ecrid"
+            ],"efa2sessiongroups" => ["Id","ecrid"
+            ],"efa2statistics" => ["Id","ecrid"
+            ],"efa2status" => ["Id","ecrid"
+            ],"efa2waters" => ["Id","ecrid"
+            ]
     ];
 
     /**
      * A list of all efa2 table names.
-     * 
-     * @var array
      */
     public $efa2tablenames = ["efa2autoincrement","efa2boatdamages","efa2boatreservations","efa2boats",
             "efa2boatstatus","efa2clubwork","efa2crews","efa2destinations","efa2fahrtenabzeichen","efa2groups",
             "efa2logbook","efa2messages","efa2persons","efa2sessiongroups","efa2statistics","efa2status",
             "efa2waters"
+    ];
+
+    /**
+     * A list of the four verionized tables
+     */
+    public $is_versionized = ["efa2boats","efa2destinations","efa2groups","efa2persons"
     ];
 
     /**
@@ -260,10 +370,11 @@ class Efa_tables
         $cfg = $toolbox->config->get_cfg();
         $this->db_layout_version = (isset($cfg["db_layout"])) ? intval($cfg["db_layout"]) : 1;
         $this->debug_on = $toolbox->config->debug_level > 0;
+        include_once "../classes/efa_audit.php";
     }
 
     /* --------------------------------------------------------------------------------------- */
-    /* ------------------ WRITE DATA TO EFACLOUD - PRIVATE HELPER FUNCTIONS ------------------ */
+    /* ------------------ WRITE DATA TO EFACLOUD - HELPER FUNCTIONS -------------------------- */
     /* --------------------------------------------------------------------------------------- */
     
     /**
@@ -279,13 +390,50 @@ class Efa_tables
     }
 
     /**
+     * Format the 32-bit validity value into a human readable date.
+     * 
+     * @param int $validity32
+     *            the 32-bit validity value: 0 = undefined, 2147483647 = forever valid, other until date
+     * @return string the 32-bit validity value as a human readable date
+     */
+    public function format_validity32 (int $validity32)
+    {
+        if ($validity32 == $this->forever32) {
+            return "gültig";
+        } elseif ($validity32 > 1) {
+            return "bis " . date("d.m.Y", $validity32);
+        } else {
+            return "nicht definiert";
+        }
+    }
+
+    /**
+     * Format the 32-bit validity value into a human readable date.
+     * 
+     * @param String $validityStr
+     *            the String formatted 64-bit validity value
+     * @return int the 32-bit validity value
+     */
+    public function value_validity32 (String $validityStr)
+    {
+        if (strlen($validityStr) > $this->forever_len_gt) {
+            return $this->forever32;
+        } elseif (strlen($validityStr) < 3) {
+            return 0;
+        } else {
+            $validity32str = substr($validityStr, 0, strlen($validityStr) - 3);
+            return intval($validity32str);
+        }
+    }
+
+    /**
      * Format a java long timestamp into a readable date and time
      * 
      * @param String $timestamp            
      */
     public function get_readable_date_time (String $timestamp)
     {
-        if (strlen($timestamp) > 15)
+        if (strlen($timestamp) > $this->forever_len_gt)
             return "ewig";
         return date("Y-m-d H:i:s", intval(substr($timestamp, 0, strlen($timestamp) - 3)));
     }
@@ -353,7 +501,7 @@ class Efa_tables
      *            the logbookname in case the table is the logbook to look only into the correct split part.
      * @return int next key value to use
      */
-    private function autoincrement_key_field (String $tablename, String $logbookname)
+    public function autoincrement_key_field (String $tablename, String $logbookname)
     {
         if (! isset($this->fixid_auto_field[$tablename]))
             return 0;
@@ -397,7 +545,7 @@ class Efa_tables
         // find the record using directly the provided key, if either no key fixing was allowed, or if an
         // efaCloud record Id is provided
         if ((strpos($this->fixid_allowed, $tablename) === false) ||
-                 (array_key_exists($this->ecrid, $client_record) && (strlen($client_record[$this->ecrid]) > 5)))
+                 (array_key_exists("ecrid", $client_record) && (strlen($client_record["ecrid"]) > 5)))
             return $this->socket->find_record_matched($tablename, $server_record_key);
         
         // if keyfixing is allowed and no efaCloud record Id is provided, get all records which need fixing
@@ -597,9 +745,9 @@ class Efa_tables
         // There may be no ecrid in the record, even if the server has efaCloud record management enabled,
         // which happens at insert requests of clients which have no efaCloud record management. Generate the
         // ecrid in that case and add it to the record.
-        if (! array_key_exists($this->ecrid, $record) || (strlen($record[$this->ecrid]) <= 5)) {
+        if (! array_key_exists("ecrid", $record) || (strlen($record["ecrid"]) <= 5)) {
             $new_ecrids = self::generate_ecrids(1);
-            $record[$this->ecrid] = $new_ecrids[0];
+            $record["ecrid"] = $new_ecrids[0];
         }
         $efaCloudUserID = $client_verified[$this->toolbox->users->user_id_field_name];
         
@@ -609,10 +757,10 @@ class Efa_tables
         $key_was_modified = false;
         if ($record_matched !== false) {
             // restore ecrid
-            $record[$this->ecrid] = $record_matched[$this->ecrid];
+            $record["ecrid"] = $record_matched["ecrid"];
             // change owner
-            if (strpos(Efa_tables::$system_fields[$tablename], ",ecrown,") !== false)
-                $record[$this->ecrown] = $client_verified[$this->toolbox->users->user_id_field_name];
+            if (in_array("ecrown", Efa_tables::$server_gen_fields[$tablename]))
+                $record["ecrown"] = $client_verified[$this->toolbox->users->user_id_field_name];
             /*
              * check the different scenarios. #1: the record was not touched for more than 30 days.
              * (Corresponds to java constant
@@ -645,7 +793,7 @@ class Efa_tables
                 else
                     return "502;" . $result; // 502 => "Transaction failed."
             } elseif ((strpos($this->fixid_allowed, $tablename) === false) ||
-                     (array_key_exists($this->ecrid, $key) && (strlen($key[$this->ecrid]) > 5))) {
+                     (array_key_exists("ecrid", $key) && (strlen($key["ecrid"]) > 5))) {
                 if ($this->debug_on)
                     file_put_contents($this->api_debug_log_path, 
                             date("Y-m-d H:i:s") . ": api_insert: record is already there, done nothing.\n", 
@@ -672,8 +820,8 @@ class Efa_tables
         }
         
         // if an efaCloud record ID is provided an unused, fixable efa key is created by
-        // autoincrementation. This is for example used when a trip is copied to a partner club logbook.
-        if (isset($record[$this->ecrid]) && (strpos($this->fixid_allowed, $tablename) !== false) && (! isset(
+        // autoincrementation.
+        if (isset($record["ecrid"]) && (strpos($this->fixid_allowed, $tablename) !== false) && (! isset(
                 $record[$this->fixid_auto_field[$tablename]]) ||
                  (strlen(strval($record[$this->fixid_auto_field[$tablename]])) == 0))) {
             // autoincrement the numeric part of the key. Note that for the logbook tables that will
@@ -736,12 +884,12 @@ class Efa_tables
             } else {
                 if ($this->debug_on)
                     file_put_contents($this->api_debug_log_path, 
-                            date("Y-m-d H:i:s") . ": api_insert: completed. Ecrid '" . $record[$this->ecrid] .
+                            date("Y-m-d H:i:s") . ": api_insert: completed. Ecrid '" . $record["ecrid"] .
                                      "' \n", FILE_APPEND);
                 // return the ecrid, if existing. Clients without efaCloud record management will without
                 // effect ignore this information.
-                if (array_key_exists($this->ecrid, $record) && (strlen($record[$this->ecrid]) > 5))
-                    return "300;ecrid=" . $record[$this->ecrid]; // 300 => "Transaction completed."
+                if (array_key_exists("ecrid", $record) && (strlen($record["ecrid"]) > 5))
+                    return "300;ecrid=" . $record["ecrid"]; // 300 => "Transaction completed."
                 else
                     return "300;ok."; // 300 => "Transaction completed."
             }
@@ -799,13 +947,13 @@ class Efa_tables
         if (! isset($record["LastModification"]) && $this->is_efa_table($tablename))
             $record["LastModification"] = "update";
         // add ecrid, if not yet contained
-        if (! array_key_exists($this->ecrid, $record_matched) || (strlen($record_matched[$this->ecrid]) <= 5)) {
+        if (! array_key_exists("ecrid", $record_matched) || (strlen($record_matched["ecrid"]) <= 5)) {
             $new_ecrids = self::generate_ecrids(1);
             if ($this->debug_on)
                 file_put_contents($this->api_debug_log_path, 
                         date("Y-m-d H:i:s") . ": api_update: Generated new ecrid '" . $new_ecrids[0] . " for " .
                                  json_encode($record) . "\n", FILE_APPEND);
-            $record[$this->ecrid] = $new_ecrids[0];
+            $record["ecrid"] = $new_ecrids[0];
         }
         
         // create AllCrewIds field, if this is the logbook table
@@ -829,7 +977,10 @@ class Efa_tables
     }
 
     /**
-     * Remove all fields from the record and create a "deleted record" to memorize deletion.
+     * Remove all fields from the record and create a "deleted record" to memorize deletion. In order to work,
+     * the record must contain all its data fields. The following fields are NOT deleted:
+     * Efa_tables::$key_fields, 'ecrid', 'InvalidFrom', Efa_audit::$assert_not_empty. 'ChangeCount' is
+     * increased, 'LastModified' updated and 'LastModification' set to 'delete'.
      * 
      * @param array $tablename
      *            the table out of which the record shall be deleted.
@@ -846,23 +997,35 @@ class Efa_tables
         // create a copy with just the key fieldsfor efa tables. Keep the keys propagation information and
         // owner, because depending on the client which will be informed on the deletion either the one or the
         // other will be needed.
-        foreach ($record as $key => $value)
-            if (in_array($key, self::$key_fields[$tablename]) || (strcasecmp($key, $this->ecrid) == 0) ||
-                     (strcasecmp($key, $this->ecract) == 0) || (strcasecmp($key, $this->ecrown) == 0))
+        foreach ($record as $key => $value) {
+            if (in_array($key, self::$key_fields[$tablename]) || (strcasecmp($key, "ecrid") == 0) ||
+                     (strcasecmp($key, "InvalidFrom") == 0) ||
+                     in_array($key, Efa_audit::$assert_not_empty[$tablename]))
                 // keep relevant values
                 $record_emptied[$key] = $record[$key];
-            elseif ((strcasecmp($key, "LastModification") == 0) && (strcasecmp($value, "delete") != 0)) {
+            elseif ((strcasecmp($key, "LastModification") == 0) && (strcasecmp($value, "delete") != 0))
                 // register change if last modification was not delete
+                $changes_needed = true;
+            elseif ((strcasecmp($key, "ecrhis") == 0) && (strlen($value) > 0)) {
+                // ensure the history is removed instead of continued, when the socket executes the
+                // modification.
+                $record_emptied[$key] = "REMOVE!";
                 $changes_needed = true;
             } elseif ((strcasecmp($key, "ChangeCount") != 0) && (strcasecmp($key, "LastModified") != 0) &&
                      (strcasecmp($key, "LastModification") != 0)) {
                 // register change and clear value, if it still exists, except for ChangeCount,
                 // LastModification, and LastModified; because they will never be empty.
                 if (strlen($record[$key]) > 0) {
-                    $record_emptied[$key] = "";
-                    $changes_needed = true;
+                    if (in_array($key, Efa_tables::$int_fields[$tablename])) {
+                        $record_emptied[$key] = 0; // integer values must not be ""
+                        $changes_needed = (intval($record[$key]) != 0);
+                    } else {
+                        $record_emptied[$key] = "";
+                        $changes_needed = true;
+                    }
                 }
             }
+        }
         if (! $changes_needed)
             return false;
         // update the last modification event
@@ -967,8 +1130,8 @@ class Efa_tables
                         FILE_APPEND);
             return "502;" . $tablename . ": no key fixing for this table.";
         }
-        if (array_key_exists($this->ecrid, $fixed_record_reference) &&
-                 (strlen($fixed_record_reference[$this->ecrid]) > 5)) {
+        if (array_key_exists("ecrid", $fixed_record_reference) &&
+                 (strlen($fixed_record_reference["ecrid"]) > 5)) {
             if ($this->debug_on)
                 file_put_contents($this->api_debug_log_path, 
                         date("Y-m-d H:i:s") . ": api_keyfixing aborted. Ecrid available.\n", FILE_APPEND);
@@ -1067,13 +1230,8 @@ class Efa_tables
         $ret = "";
         if ($get_record_counts_of_db) {
             $tnames = $this->socket->get_table_names(true);
-            
             foreach ($tnames as $tname) {
                 $record_count = $this->socket->count_records($tname, $filter, $condition);
-                // TODO special increment line for ecrid introduction.
-                // TODO Remove the following line, when 2.3.0 versions have become obsolete.
-                $record_count += $this->socket->count_records($tname, ["ecrid" => ""
-                ], "NULL");
                 $ret .= $tname . "=" . $record_count . ";";
             }
             // return the count, if not a full DB dump is requested.
@@ -1150,7 +1308,7 @@ class Efa_tables
                         $csvrow = "";
                         // set last 9 characters of "LastModified" to "000000230" for records without ecrid to
                         // trigger an update for ecrid generation.
-                        if (! array_key_exists($this->ecrid, $record) || (strlen($record[$this->ecrid]) <= 5))
+                        if (! array_key_exists("ecrid", $record) || (strlen($record["ecrid"]) <= 5))
                             $record["LastModified"] = substr($record["LastModified"], 0, 
                                     strlen($record["LastModified"]) - 9) . "000000230";
                         
@@ -1444,8 +1602,8 @@ class Efa_tables
     public function get_data_key (String $tablename, array $record)
     {
         $data_key = [];
-        if (isset($record[$this->ecrid]))
-            $data_key[$this->ecrid] = $record[$this->ecrid];
+        if (isset($record["ecrid"]))
+            $data_key["ecrid"] = $record["ecrid"];
         else {
             $keys = self::$key_fields[$tablename];
             foreach ($keys as $key) {
@@ -1459,16 +1617,12 @@ class Efa_tables
     }
 
     /**
-     * Add the partner clubs as listeners to the socket. Used by posttx.php in api and init.php in classes.
-     */
-    // public function set_listeners ()
-    // listeners removed with 2.3.1_09, not used and too compex. Overnight batch job synch preferred.
-    
-    /**
      * Change the text of a boolean entry to be efa-compatible: i. e. from "on" to "true" or vice versa
      * 
-     * @param String $tablename            
-     * @param array $record            
+     * @param String $tablename
+     *            the table in which the record is located.
+     * @param array $record
+     *            the record to modify
      */
     public static function fix_boolean_text (String $tablename, array $record)
     {
@@ -1485,5 +1639,23 @@ class Efa_tables
             }
         }
         return $record;
+    }
+
+    /**
+     * Get the name of the record using the Efa_tables::$name_fields and delimiting all values by " ".
+     * 
+     * @param String $tablename
+     *            the table in which the record is located.
+     * @param array $record
+     *            the record to get the name for
+     * @return string the name to use. May not be unique.
+     */
+    public static function get_name (String $tablename, array $record)
+    {
+        $name = "";
+        foreach (Efa_tables::$name_fields[$tablename] as $name_field)
+            $name .= $record[$name_field] . " ";
+        if (strlen($name) > 0) $name = substr($name, 0, strlen($name) - 1);
+        return $name;
     }
 }

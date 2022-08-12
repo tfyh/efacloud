@@ -395,7 +395,7 @@ class Tfyh_mail_handler
             $body_mixed .= "--" . $separator . $eol;
             $content = file_get_contents($attachment1_location);
             $content = chunk_split(base64_encode($content));
-            $attachment1_filename = substr($attachment1_location, 
+            $attachment1_filename = (strrpos($attachment1_location, "/") == false) ? $attachment1_location : substr($attachment1_location, 
                     strrpos($attachment1_location, "/") + 1);
             $body_mixed .= "Content-Type: application/octet-stream; name=\"" . $attachment1_filename .
                      "\"" . $eol;
@@ -409,7 +409,7 @@ class Tfyh_mail_handler
             $body_mixed .= "--" . $separator . $eol;
             $content = file_get_contents($attachment2_location);
             $content = chunk_split(base64_encode($content));
-            $attachment2_filename = substr($attachment2_location, 
+            $attachment2_filename = (strrpos($attachment2_location, "/") == false) ? $attachment2_location : substr($attachment2_location, 
                     strrpos($attachment2_location, "/") + 1);
             $body_mixed .= "Content-Type: application/octet-stream; name=\"" . $attachment2_filename .
                      "\"" . $eol;

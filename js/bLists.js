@@ -215,7 +215,7 @@ var bLists = {
 	 * #########################################################################
 	 */
 
-	_neverInvalid : 9223372036854775000, // last 3 digits originally 807
+	_neverInvalid : 9223372036854775807, // last 3 digits originally 807
 
 	/**
 	 * list of efaWeb list names

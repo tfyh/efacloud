@@ -12,11 +12,18 @@ include_once "../classes/init.php";
 // Source Code path.
 // ====== Depends on the ../config/settings_tfyh file.
 $app_src_path = $toolbox->config->settings_tfyh["upgrade"]["src_path"];
+if (is_null($$app_src_path))
+    $app_src_path = $app_root . "/_src/server.zip";
 $app_version_path = $toolbox->config->settings_tfyh["upgrade"]["version_path"];
+if (is_null($app_version_path))
+    $app_version_path = $app_root . "/_src/version";
 $app_remove_files = $toolbox->config->settings_tfyh["upgrade"]["remove_files"];
-
-$version_server = file_get_contents($app_version_path);
-$version_installed = file_get_contents("../public/version");
+if (is_null($app_remove_files))
+    $app_remove_files = [];
+$current_version = (file_exists("../public/version")) ? file_get_contents("../public/version") : "undefined";
+$current_version_installed = (file_exists("../public/version")) ? filemtime("../public/version") : 0;
+$version_server = (isset($app_version_path) && (strlen($app_version_path) > 0)) ? file_get_contents(
+        $app_version_path) : "undefined";
 
 // ===== start page output
 echo file_get_contents('../config/snippets/page_01_start');
@@ -31,10 +38,12 @@ if (! isset($_GET["upgrade"])) {
 <p>Das Upgrade entpackt den Code und überschreibt dabei die vorhandenen
 	Code-Dateien. Alle Bestandsdaten, wie zum Beispiel logs, uploads,
 	backups usw. bleiben erhalten. Die Datenbank wird nicht modifiziert.</p>
+<?php
+    echo "<p>Aktuell ist installiert: <b>" . $current_version . "</b><br>Installationszeitpunkt war: <b>" .
+             date("d.m.Y H:i:s", $current_version_installed) . "</b></p>";
+    ?>
 <p>Ein Upgrade kann nicht rückgängig gemacht werden. Es empfiehlt sich
 	daher, vorher ein backup des Codes zu ziehen.</p>
-<p>Aktuell verfügbar ist <?php echo $version_server; ?>,<br />aktuell installiert ist <?php echo $version_installed; ?></p>
-<p>
 <form action='?upgrade=1' method='post'>
 	<input type='submit' class='formbutton'
 		value='Jetzt auf - <?php echo $version_server ?> - aktualisieren' />
@@ -149,8 +158,12 @@ if (! isset($_GET["upgrade"])) {
     // ==============================================================================================
     include_once "../classes/tfyh_audit.php";
     $audit = new Tfyh_audit($toolbox, $socket);
+    $audit->run_audit();
     echo '<h5>Überprüfe das Ergebnis</h5><p>Audit-Protokoll:</p><p>';
-    echo str_replace("\n", "<br>", file_get_contents("../log/app_audit.log"));
+    echo str_replace("\n", "<br>", 
+            str_replace("<", "&lt;", 
+                    str_replace(">", "&gt;", 
+                            str_replace("&", "&amp;", file_get_contents("../log/app_audit.log")))));
     echo "<br>Das war's.</p>";
 }
 end_script();

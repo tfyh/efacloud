@@ -24,7 +24,7 @@ class Users extends Tfyh_user
      * Provide an html table with all stored data of the user.
      * 
      * @param int $user_id
-     *            the users ID (number, not data base record id)
+     *            the efaCloudUserID to get the profile from
      * @param Tfyh_socket $socket
      *            the common database socket
      * @param bool $short
@@ -36,6 +36,42 @@ class Users extends Tfyh_user
         if ($user_to_read === false)
             return "<table><tr><td><b>Nutzer nicht gefunden.</b>&nbsp;&nbsp;&nbsp;</td>" . "<td>" .
                      $this->user_id_field_name . ": '" . $user_id . "'</td></tr>\n";
+        else
+            return $this->get_user_profile_on_array($user_to_read, $socket, $short);
+    }
+
+    /**
+     * Provide an html table with all stored data of the user.
+     * 
+     * @param int $id
+     *            the user's ID to get the profile from
+     * @param Tfyh_socket $socket
+     *            the common database socket
+     * @param bool $short
+     *            set tot true to get a short version of the profile, rather than the full
+     */
+    public function get_user_profile_on_ID (int $id, Tfyh_socket $socket, bool $short = false)
+    {
+        $user_to_read = $socket->find_record($this->user_table_name, "ID", $id);
+        if ($user_to_read === false)
+            return "<table><tr><td><b>Nutzer nicht gefunden.</b>&nbsp;&nbsp;&nbsp;</td>" . "<td>ID: '" . $id .
+                     "'</td></tr>\n";
+        else
+            return $this->get_user_profile_on_array($user_to_read, $socket, $short);
+    }
+
+    /**
+     * Provide an html table with all stored data of the user.
+     * 
+     * @param array $user_to_read
+     *            the user to get the profile from
+     * @param Tfyh_socket $socket
+     *            the common database socket
+     * @param bool $short
+     *            set tot true to get a short version of the profile, rather than the full
+     */
+    public function get_user_profile_on_array (array $user_to_read, Tfyh_socket $socket, bool $short = false)
+    {
         // main data
         $html_str = "<table>";
         if ($short) {

@@ -1,0 +1,7 @@
+id;permission;name;select;from;where;options
+1;admin;archive_damages;Damage,BoatId,Description,ReportDate,Fixed,ecrid;efa2damages;NOT (`LastModification` = 'delete') AND (DATEDIFF(NOW(), `ReportDate`) > {DamageAgeDays});
+2;admin;archive_reservations;Reservation,BoatId,Reason,ecrid;efa2boatreservations;NOT (`LastModification` = 'delete') AND NOT (`Type` = 'WEEKLY') AND (DATEDIFF(NOW(), `DateTo`) > {ReservationAgeDays});
+3;admin;archive_clubwork;Id,PersonId,Description,Date,ecrid;efa2clubwork;NOT (`LastModification` = 'delete') AND (DATEDIFF(NOW(), `Date`) > {ClubworkAgeDays});
+4;admin;archive_logbook;EntryId,BoatId,Date,ecrid;efa2clubwork;NOT (`LastModification` = 'delete') AND (DATEDIFF(NOW(), `Date`) > {TripAgeDays});
+5;admin;archive_messages;MessageId,Date,Subject,Read,ecrid;efa2messages;NOT (`LastModification` = 'delete') AND (DATEDIFF(NOW(), `Date`) > {MessageAgeDays});
+6;admin;archive_persons;Id,InvalidFrom,FirstName,LastName,ecrid;efa2persons;NOT (`LastModification` = 'delete');sort=Id.-InvalidFrom

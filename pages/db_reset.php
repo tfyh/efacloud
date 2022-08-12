@@ -50,7 +50,7 @@ if ($do_reset) {
 </div>
 <div class="w3-container">
 	<p>
-		<b style='color: #f00'>ACHTUNG: Keine weitere Abfrage. <br>--- Datenbank: <?php echo $socket->get_db_name() . " auf " . $app_url; ?>
+		<b style='color: #f00'>ACHTUNG: Keine weitere Abfrage. <br>--- Datenbank: <?php echo $socket->get_db_name() . " auf " . $app_root; ?>
 			---<br>wird unmittelbar und unwiederruflich gelöscht!
 		</b>
 	</p>

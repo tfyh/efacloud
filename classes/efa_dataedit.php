@@ -99,41 +99,51 @@ class Efa_dataedit
                     "Name", true, $start_row);
             if ($records !== false)
                 for ($i = 0; $i < count($records); $i ++) {
-                    $this->names["efa2boats"][$records[$i]["Id"]] = $records[$i]["Name"];
-                    $records_found ++;
+                    if (strlen($records[$i]["Id"]) > 30) {
+                        $this->names["efa2boats"][$records[$i]["Id"]] = $records[$i]["Name"];
+                        $records_found ++;
+                    }
                 }
             // Destinations
             $records = $this->socket->find_records_sorted_matched("efa2destinations", [], $select_chunk_size, 
                     "", "Name", true, $start_row);
             if ($records !== false)
                 for ($i = 0; $i < count($records); $i ++) {
-                    $this->names["efa2destinations"][$records[$i]["Id"]] = $records[$i]["Name"];
-                    $records_found ++;
+                    if (strlen($records[$i]["Id"]) > 30) {
+                        $this->names["efa2destinations"][$records[$i]["Id"]] = $records[$i]["Name"];
+                        $records_found ++;
+                    }
                 }
             // Persons
             $records = $this->socket->find_records_sorted_matched("efa2persons", [], $select_chunk_size, "", 
                     "FirstName", true, $start_row);
             if ($records !== false)
                 for ($i = 0; $i < count($records); $i ++) {
-                    $fullname = $records[$i]["FirstName"] . " " . $records[$i]["LastName"];
-                    $this->names["efa2persons"][$records[$i]["Id"]] = $fullname;
-                    $records_found ++;
+                    if (strlen($records[$i]["Id"]) > 30) {
+                        $fullname = $records[$i]["FirstName"] . " " . $records[$i]["LastName"];
+                        $this->names["efa2persons"][$records[$i]["Id"]] = $fullname;
+                        $records_found ++;
+                    }
                 }
             // Status
             $records = $this->socket->find_records_sorted_matched("efa2status", [], $select_chunk_size, "", 
                     "Name", true, $start_row);
             if ($records !== false)
                 for ($i = 0; $i < count($records); $i ++) {
-                    $this->names["efa2status"][$records[$i]["Id"]] = $records[$i]["Name"];
-                    $records_found ++;
+                    if (strlen($records[$i]["Id"]) > 30) {
+                        $this->names["efa2status"][$records[$i]["Id"]] = $records[$i]["Name"];
+                        $records_found ++;
+                    }
                 }
             // Waters
             $records = $this->socket->find_records_sorted_matched("efa2waters", [], $select_chunk_size, "", 
                     "Name", true, $start_row);
             if ($records !== false)
                 for ($i = 0; $i < count($records); $i ++) {
-                    $this->names["efa2waters"][$records[$i]["Id"]] = $records[$i]["Name"];
-                    $records_found ++;
+                    if (strlen($records[$i]["Id"]) > 30) {
+                        $this->names["efa2waters"][$records[$i]["Id"]] = $records[$i]["Name"];
+                        $records_found ++;
+                    }
                 }
             $start_row += $select_chunk_size;
         }
@@ -205,13 +215,13 @@ class Efa_dataedit
         if (strlen($tablename) == 0)
             return "select config-error=config-error";
         elseif (strcasecmp($tablename, "efa2boats") == 0)
-            return "select list:select:2+";
+            return "select list:dataeditSelect:1+";
         elseif (strcasecmp($tablename, "efa2destinations") == 0)
-            return "select list:select:3+";
+            return "select list:dataeditSelect:2+";
         elseif (strcasecmp($tablename, "efa2persons") == 0)
-            return "select list:select:4+";
+            return "select list:dataeditSelect:3+";
         elseif (strcasecmp($tablename, "efa2status") == 0)
-            return "select list:select:5+";
+            return "select list:dataeditSelect:4+";
         return "select config-error=config-error";
     }
 
@@ -268,6 +278,7 @@ class Efa_dataedit
                 $this->collect_UUIDs();
             $is_timestamp = (strpos($this->timestamp_fields, $key) !== false);
             if ($is_timestamp)
+                // 13 = $efa_tables->forever_len_gt
                 $value = (strlen($value) > 13) ? "unlimited" : date("Y-m-d H:i:s", 
                         intval(substr($value, 0, strlen($value) - 3)));
             // Put the data key and the exclude fields as a non-input in the header

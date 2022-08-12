@@ -43,4 +43,3 @@ echo file_get_contents('../config/snippets/page_02_nav_to_body');
 		oder <a href='../public/index.php'>zur Startseite</a>.
 	</h4>
 </div><?php
-end_script();

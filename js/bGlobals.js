@@ -36,6 +36,9 @@ const $_apiTimeoutMillis = 30000;
 // All 10 mins a retry is triggered after connection failure
 const $_apiRetryMillis = 600000;
 
+// Maximum number of displayed autocomplete options
+const $_countDisplayMax = 5;
+
 // Once per day a refresh of all lists is triggered.
 const $_globalRefreshAt = "03:00:00";
 const $_oneDayMillis = 24 * 3600 * 1000;

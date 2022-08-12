@@ -49,7 +49,7 @@ echo file_get_contents('../config/snippets/page_02_nav_to_body');
 <?php
 
 // update user data
-echo $toolbox->users->get_user_profile($efaCloudUserID, $socket, false);
+echo $toolbox->users->get_user_profile_on_ID($user_to_show["ID"], $socket, false);
 echo "<p><b>Für diesen Nutzer stehen die folgenden Aktionen zur Verfügung (bitte auf den Link klicken):</b><br>";
 $_SESSION["search_result"] = [];
 $_SESSION["search_result"][1] = $user_to_show;

@@ -232,7 +232,7 @@ if ($done > 0) {
                     $login_failures = 1;
                 $_SESSION["login_failures"] = $login_failures;
                 if ($login_failures > 0) {
-                    $toolbox->load_throttle("errors/", $this->toolbox->config->settings_tfyh["init"]["max_errors_per_hour"]);
+                    $toolbox->load_throttle("errors/", $toolbox->config->settings_tfyh["init"]["max_errors_per_hour"]);
                     $form_errors .= "Fehler beim login.<br>Bereits " . $login_failures .
                              " Fehlversuche. Bitte noch einmal versuchen, " .
                              "aber mit jedem Versuch dauert es länger.</p>";
