@@ -1,50 +1,69 @@
 id;permission;headline;link
-publicHome;.anonymous;Startseite ;../public/index.php
-efaWeb;member;efaWeb ;../pages/efaWeb.php
-edit;board;Details ansehen ;
-_edit_trips;board;Fahrten ;../pages/show_lists.php?satz=bearbeiten&id=3
-_edit_damage;board;Schadensmeldungen ;../pages/show_lists.php?satz=bearbeiten&id=1
-_edit_messages;board;Nachrichten ;../pages/show_lists.php?satz=bearbeiten&id=2
-_edit_reservations;board;Reservierungen ;../pages/show_lists.php?satz=bearbeiten&id=4
-_edit_viewrecord;.board;Datensatz anzeigen ;../pages/view_record.php
-logbook;board;efa Daten ;
-_logbook_find;board;Datensatz finden ;../forms/datensatz_finden.php
-_logbook_change;.board;Datensatz Versionen ;../pages/show_history.php
-_logbook_tableexp;board;efa Tabelle ausgeben ;../pages/show_lists.php?satz=efaExportTables
-_logbook_tableexp;board;efa Liste ausgeben ;../pages/show_lists.php?satz=efaExportLists
-_logbook_ipm_persons;admin;Personendaten importieren ;../forms/import_persons.php
-_logbook_efaWeb;admin;Fahrtenbücher korrigieren ;../pages/show_logbooks.php
-_logbook_testPersLogbook;admin;persönliches Fahrtenbuch testen ;../pages/test_pers_logbook.php
-administration;board;Nutzer verwalten ;
-_administration_Finden;board;Nutzer finden ;../forms/nutzer_finden.php
-_administration_Anzeigen;.board;Nutzer anzeigen ;../pages/nutzer_profil.php
-_administration_Aendern;.admin;Nutzer ändern ;../forms/nutzer_aendern.php
-_administration_Workflows;.admin;efa Rechte ändern ;../forms/efa_rechte_aendern.php?type=efa
-_administration_Workflows;.admin;efaWeb Rechte ändern ;../forms/efa_rechte_aendern.php?type=efaWeb
-_administration_Anlegen;admin;Nutzer anlegen ;../forms/nutzer_aendern.php?id=0
-_administration_Liste;board;Liste ausgeben ;../pages/show_lists.php
-_administration_logintoken;.admin;Login token versenden ;../pages/logintoken_versenden.php
-config;admin;Konfigurieren ;
-_config_settings;admin;Einstellungen ändern ;../forms/configparameter_aendern.php
-_config_colors;admin;Farbschema ändern ;../forms/farben_aendern.php
-_config_struktur;board;Datenstruktur ;../pages/datenstruktur.php
-_config_dbreset;admin;Datenbank neu aufsetzen ;../pages/db_reset.php
-monitoring;admin;Überwachen ;
-_monitoring_Zugriffsstatistik;admin;Zugriffsstatistik ;../pages/show_actions.php
-_monitoring_Servermeldungen;admin;Servermeldungen ;../pages/show_logs.php
-_monitoring_Clientmeldungen;.admin;Clientmeldungen ;../pages/show_logs_client.php
-_monitoring_efaClientLogs;admin;Meldungen der Clients ;../forms/client_tx_statistics.php
-_monitoring_ApiStatisticsView;.admin;API Zugriffsstatistik ;../pages/client_tx_statistics.php
-_monitoring_Aenderungen;admin;Datenänderungen ;../pages/show_changes.php
-_monitoring_db_audit;admin;efaCloud Datenbank auditieren ;../pages/db_audit.php
-_monitoring_Berechtigungen;admin;Alle Berechtigungen ;../pages/alle_berechtigungen.php
-_monitoring_sec_concept;admin;efaCloud Sicherheitskonzept ;../pages/sec_concept.php
-support;admin;Support / Upgrade ;
-_support_anfrage;admin;Service / Feedback ;../forms/support.php
-_support_help;admin;efaCloud Hilfe ;../pages/help.php
-_support_upgrade;admin;Versionsupgrade ;../pages/ec_upgrade.php
-home;member;Mein Profil ;
-_home_Startseite;member;Startseite ;../pages/home.php
-_home_ProfilAnzeigen;member;Profil anzeigen ;../pages/mein_profil.php
-_home_ProfilAendern;member;Profil ändern ;../forms/profil_aendern.php
-logout;member;Abmelden ;../pages/logout.php
+publicHome;.anonymous;D6ZypP|Homepage;../public/index.php
+efaWeb;member;wUV9W1|efaWeb;../pages/efaWeb.php
+list;board;SomMhj|Sports operation;
+_list_trips;board;htDoQ0|Show trips;../pages/show_lists.php?satz=bearbeiten&id=3
+_list_damage;board;dnQoBs|Show damage reports;../pages/show_lists.php?satz=bearbeiten&id=1
+_list_messages;board;YjpUT1|Show messages;../pages/show_lists.php?satz=bearbeiten&id=2
+_list_reservations;board;KHeqx2|Show reservations;../pages/show_lists.php?satz=bearbeiten&id=4
+_list_viewrecord;.board;WIRI9i|Show efa record;../pages/view_record.php
+efaDaten;board;v8VjM1|efa data;
+_efaDaten_new;board;TyHyOI|efa data record new;../pages/datensatz_neu.php
+_efaDaten_find;board;SxaQ2N|find efa record;../forms/datensatz_finden.php
+_efaDaten_delete;.admin;MxrIKd|Delete efa data record;../pages/datensatz_loeschen.php
+_efaDaten_tableexp;board;DJV8m7|Output efa table;../pages/show_lists.php?satz=efaExportTables
+_efaDaten_dbAudit;admin;xeigZw|Audit database;../pages/db_audit.php
+_efaDaten_importPersons;admin;KJallV|Import personal data;../forms/personen_importieren.php
+_efaDaten_importSessions;admin;k0MUQb|Import trips;../forms/fahrten_importieren.php
+_efaDaten_Archivlisten;admin;Z6AXS3|Show archive data;../pages/show_lists.php?satz=efaArchive&id=8
+_efaDaten_Papierkorb;admin;4l5FTD|Show recycle bin;../pages/show_lists.php?satz=efaArchive&id=10
+_efaDaten_Restore;admin;2G2m52|restore from archive;../forms/archiv_wiederherstellen.php
+_efaDaten_Archivdaten;.admin;Wzrjo6|Show archive record;../pages/view_archive_record.php
+_efaDaten_Papierkorbdaten;.admin;ZKVVWo|Show deleted record;../pages/view_trash_record.php
+_efaDaten_change;.board;BmvSBP|Change efa data record;../forms/datensatz_aendern.php
+efaConfig;bths;MVZjKP|efa settings;
+_efaConfig_clientSettings;bths;d1qWsf|View cllient settings;../pages/show_client_config.php
+_efaConfig_testPersLogbook;bths;P7qqn3|Test personal logbook;../pages/test_pers_logbook.php
+ecAdmin;board;PlK3cE|efaCloud User;
+_ecAdmin_Finden;board;AFfNO8|Find users;../forms/nutzer_finden.php
+_ecAdmin_Anlegen;admin;sBbPVu|Create user;../forms/nutzer_aendern.php?id=0
+_ecAdmin_Importieren;admin;AC50KL|Import users;../forms/tabelle_importieren.php
+_ecAdmin_Liste;board;jgDFp0|List users;../pages/show_lists.php
+_ecAdmin_Anzeigen;.board;Qgr3Gt|Show users;../pages/nutzer_profil.php
+_ecAdmin_Aendern;.admin;dD2G5j|Change user;../forms/nutzer_aendern.php
+_ecAdmin_logintoken;.admin;jIay6a|Send efaCloud login toke...;../pages/logintoken_versenden.php
+_ecAdmin_Workflows;.admin;NL410D|Change efa rights;../forms/efa_rechte_aendern.php?type=efa
+_ecAdmin_WorkflowsWeb;.admin;l9FjVt|Change efaWeb permission...;../forms/efa_rechte_aendern.php?type=efaWeb
+_ecAdmin_change;.board;1NueuX|Record versions;../pages/show_history.php
+ecConfig;admin;ydOyJW|Set up efaCloud;
+_ecConfig_settings;admin;717BEv|Change parameters;../forms/configparameter_aendern.php
+_ecConfig_colors;admin;RQpeAQ|Change colour scheme;../forms/farben_aendern.php
+_ecConfig_colors;admin;W353w8|Club logo;../forms/logo_hochladen.php
+_ecConfig_cronjobs;admin;bqGw5V|Perform maintenance rout...;../pages/run_cronjobs.php
+_ecConfig_struktur;admin;UrEE7g|Display data structure;../pages/datenstruktur.php
+_ecConfig_phpinfo;admin;wTY6KX|Show PHP configuration;../public/phpinfo.php
+_ecConfig_dbreset;admin;vQfgCq|Rebuild database;../pages/db_reset.php
+monitoring;admin;bq4pYu|Monitor;
+_monitoring_Zugriffsstatistik;admin;WcL0zL|Access statistics;../pages/show_actions.php
+_monitoring_Servermeldungen;admin;qwMH39|Server messages;../pages/show_logs.php
+_monitoring_Clientmeldungen;.admin;CXR0Eq|Client messages;../pages/show_logs_client.php
+_monitoring_efaClientLogs;admin;25nrUp|Client activities;../forms/client_tx_statistics.php
+_monitoring_ApiStatisticsView;.admin;gwpsJR|API access statistics;../pages/client_tx_statistics.php
+_monitoring_Aenderungen;admin;RDW9DK|Data changes;../pages/show_changes.php
+_monitoring_show_record;.board;J6CBlP|Show record;../pages/getrecord.php
+_monitoring_Berechtigungen;admin;ceZwjN|All authorisations;../pages/alle_berechtigungen.php
+_monitoring_sec_concept;admin;0HdBJp|efaCloud Privacy Policy;../pages/sec_concept.php
+amend;.admin;U14TYS|Clean data;
+_amend_logbooks;.admin;Y719BT|Correct logbooks;../pages/show_logbooks.php
+_amend_delete_corrupt;.admin;N5AIs4|Delete corrupt, empty re...;../pages/db_audit.php?delete_corrupt=yes
+_amend_mark_duplicates;.admin;NfubnI|Rename duplicates;../pages/db_audit.php?mark_duplicates=yes
+_amend_set_missing_defaults;.admin;vHyDe6|Set missing mandatory fi...;../pages/db_audit.php?set_missing_defaults=yes
+support;admin;xeTyR1|Support / Upgrade;
+_support_anfrage;admin;IEwtHj|Service / Feedback;../forms/support.php
+_support_help;admin;85vTIT|efaCloud Help;../pages/help.php
+_support_upgrade;admin;j09UFf|Version upgrade;../pages/ec_upgrade.php
+home;member;Ksm76W|My profile;
+_home_Startseite;member;m9CO2y|Homepage;../pages/home.php
+_home_ProfilAnzeigen;member;5sCN40|Show profile;../pages/mein_profil.php
+_home_ProfilAendern;member;lvGRAt|Change profile/password;../forms/profil_aendern.php
+logout;member;4viwOG|Logout;../pages/logout.php

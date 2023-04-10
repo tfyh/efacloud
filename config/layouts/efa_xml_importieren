@@ -1,10 +1,7 @@
 tags;required;name;value;label;type;class;size;maxlength
-<div class='w3-row'><div class='w3-col l1'>;; \
-  userfile;;*Diese XML- oder zip-Datei importieren: ;file;;25;
-</div></div><div class='w3-row' style='margin-top:20px'><div class='w3-col l1'><div style='float:left'>;; \
-  submit;Jetzt hochladen und importieren;;submit;formbutton;;
+<div class='w3-row'><div class='w3-col l1'>;;userfile;;9iFvXO|*Import this XML or zip ...;file;;25;
+</div></div><div class='w3-row' style='margin-top:20px'><div class='w3-col l1'><div style='float:left'>;;submit;QVqYRs|Upload and import now;;submit;formbutton;;
 </div></div></div>;;_no_input;;;;;;
-<li><span class='helptext'>;;_help_text;;Hier kannst Du eFa-XML Tabellen importieren.  \
-  Die entsprechende Tabelle wird gelöscht und neu geschrieben.;;;;
-</span></li><li><span class='helptext'>;;_help_text;;Agiere mit Vorsicht, denn rückgängig ist nicht möglich.;;;;
+<li><span class='helptext'>;;_help_text;;jNWS1l|Here you can import eFa-...;;;;
+</span></li><li><span class='helptext'>;;_help_text;;Db4zRO|Act with caution, becaus...;;;;
 </span></li>;;_help_text;;;;;;

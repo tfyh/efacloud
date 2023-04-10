@@ -1,13 +1,11 @@
 id;permission;name;select;from;where;options
-1;bths;uuid_boatdamages;ecrid,Damage,Description,ReportedByPersonId,FixedByPersonId;efa2boatdamages;1;
-2;bths;uuid_boatreservations;ecrid,Reservation,Reason,PersonId;efa2boatdamages;1;
-3;bths;uuid_boats;ecrid,Id,Name,ValidFrom,AllowedGroupIdList,RequiredGroupId,DefaultCrewId,DefaultDestinationId;efa2boats;1;
-4;bths;uuid_clubwork;ecrid,Id,Description,PersonId;efa2clubwork;1;
-5;bths;uuid_crews;ecrid,Id,Name,CoxId,Crew1Id,Crew2Id,Crew3Id,Crew4Id,Crew5Id,Crew6Id,Crew7Id, \
-  Crew8Id,Crew9Id,Crew10Id,Crew11Id,Crew12Id,Crew13Id,Crew14Id,Crew15Id,Crew16Id, \
-  Crew17Id,Crew18Id,Crew19Id,Crew20Id,Crew21Id,Crew22Id,Crew23Id,Crew24Id;efa2crews;1;
-6;bths;uuid_destinations;ecrid,Id,ValidFrom,Name,WatersIdList;efa2destinations;1;
-7;bths;uuid_groups;ecrid,Id,ValidFrom,Name,MemberIdList;efa2groups;1;
-8;bths;uuid_logbooks;ecrid,Logbookname,EntryId,BoatId,AllCrewIds,SessionGroupId,DestinationId,WatersIdList;efa2logbook;1;
-9;bths;uuid_persons;ecrid,Id,ValidFrom,FirstName,LastName,StatusId,DefaultBoatId;efa2persons;1;
-10;bths;uuid_statistics;ecrid,Id,Name,FilterByPersonId,FilterByBoatId,FilterByGroupId;efa2statistics;1;
+1;bths;7IkKPl|uuid_boatdamages;ecrid,Damage,Description,ReportedByPersonId,FixedByPersonId;efa2boatdamages;1;
+2;bths;j9rny5|uuid_boatreservations;ecrid,Reservation,Reason,PersonId;efa2boatreservations;1;
+3;bths;gFMPPA|uuid_boats;ecrid,Id,Name,ValidFrom,AllowedGroupIdList,RequiredGroupId,DefaultCrewId,DefaultDestinationId;efa2boats;1;
+4;bths;ljq1Qx|uuid_clubwork;ecrid,Id,Description,PersonId;efa2clubwork;1;
+5;bths;28oiYL|uuid_crews;ecrid,Id,Name,CoxId,Crew1Id,Crew2Id,Crew3Id,Crew4Id,Crew5Id,Crew6Id,Crew7Id,Crew8Id,Crew9Id,Crew10Id,Crew11Id,Crew12Id,Crew13Id,Crew14Id,Crew15Id,Crew16Id,Crew17Id,Crew18Id,Crew19Id,Crew20Id,Crew21Id,Crew22Id,Crew23Id,Crew24Id;efa2crews;1;
+6;bths;TvpBpw|uuid_destinations;ecrid,Id,ValidFrom,Name,WatersIdList;efa2destinations;1;
+7;bths;4F2pUd|uuid_groups;ecrid,Id,ValidFrom,Name,MemberIdList;efa2groups;1;
+8;bths;XkjFUN|uuid_logbooks;ecrid,Logbookname,EntryId,BoatId,AllCrewIds,SessionGroupId,DestinationId,WatersIdList;efa2logbook;1;
+9;bths;5DE143|uuid_persons;ecrid,Id,ValidFrom,FirstName,LastName,StatusId,DefaultBoatId;efa2persons;1;
+10;bths;OdmufW|uuid_statistics;ecrid,Id,Name,FilterByPersonId,FilterByBoatId,FilterByGroupId;efa2statistics;1;

@@ -12,6 +12,11 @@ class Tfyh_xml
     public $tag_ids = [];
 
     /**
+     * Encoding of the XML String in read_xml etc.
+     */
+    public $encoding = "";
+
+    /**
      * Single xml root tag which is not part of the tree, but the header
      */
     public $xmlroot = [];
@@ -46,7 +51,6 @@ class Tfyh_xml
      */
     public function __construct (Tfyh_toolbox $toolbox = null)
     {
-        // echo "Tfyh_xml::__construct().<br>";
         include_once "../classes/tfyh_xml_tag.php";
         $this->toolbox = $toolbox;
     }
@@ -104,7 +108,7 @@ class Tfyh_xml
     }
 
     /**
-     * Read an XML string into $this->xml_tree. Encoding must be UTF-8. READ PER 1,000 TAGS READ.
+     * Read an XML string into $this->xml_tree. Encoding must be UTF-8.
      * 
      * @param String $xml
      *            the String to be parsed
@@ -115,22 +119,34 @@ class Tfyh_xml
     public function read_xml (String $xml, bool $echo = false)
     {
         if ($echo)
-            echo " parsing ";
+            echo i("QRqTTI| parsing ");
         $this->tag_ids = [];
         $this->l = 0;
         $this->xml = $xml;
-        // read first tag. skip it, if it is the xml definition
+        $is_utf8 = mb_check_encoding($xml, "UTF-8");
+        if (! $is_utf8)
+            $this->xml = utf8_encode($xml);
+        
+        // read first tag. skip it, if it is the xml definition, but use the encoding information.
         $this->xmlroot = $this->read_next_tag();
-        if (strcasecmp($this->xmlroot->id, "?xml") == 0)
+        if (strcasecmp($this->xmlroot->id, "?xml") == 0) {
+            $attrs = explode(" ", $this->xmlroot->attr);
+            $encoding = "";
+            foreach ($attrs as $attr)
+                if (strpos($attr, "encoding=") !== false)
+                    $encoding = str_replace("?", "", 
+                            str_replace("\"", "", str_replace("encoding=", "", trim($attr))));
             $this->xml_tree = $this->read_next_tag();
-        else
+        } else
             $this->xml_tree = $this->xmlroot;
         
         // read tree recursivly from root.
         $this->ctag = $this->xml_tree;
         $i = 0;
-        flush();
-        ob_flush();
+        if ($echo) {
+            flush();
+            ob_flush();
+        }
         do {
             // read the tag
             $tag = $this->read_next_tag();
@@ -151,10 +167,11 @@ class Tfyh_xml
                 // provide some progress output.
                 $i ++;
                 if (($i % 5000) == 0) {
-                    if ($echo)
+                    if ($echo) {
                         echo ".";
-                    flush();
-                    ob_flush();
+                        flush();
+                        ob_flush();
+                    }
                 }
             }
         } while ($tag !== false);
@@ -193,30 +210,75 @@ class Tfyh_xml
      * @param String $table_root_tag_id
      *            the id of the tables root tag, e.g. 'data'
      * @param String $table_records_tag_id
-     *            the id of each record within the table, e.g. 'record'
+     *            the id of each record within the table, e.g. 'record'.
+     * @return String the csv table
      */
     public function get_csv (String $table_root_tag_id, String $table_records_tag_id)
+    {
+        return $this->get_csv_or_array($table_root_tag_id, $table_records_tag_id, false);
+    }
+
+    /**
+     * Find the tag with the given $table_root_tag_id closest to the root and create a table with all records.
+     * For it to work the $table_root_tag must only contain $table_records_tags and they must not have more
+     * than one level of subtags.
+     * 
+     * @param String $table_root_tag_id
+     *            the id of the tables root tag, e.g. 'data'
+     * @param String $table_records_tag_id
+     *            the id of each record within the table, e.g. 'record'
+     * @return array The array will be [ "cols" => [ "col1name", "col2name" , ...], "rows" => [ [
+     *         row1col1value, row1co21value, ... ], [ row2col1value, row2co21value, ... ] ] ].
+     */
+    public function get_array (String $table_root_tag_id, String $table_records_tag_id)
+    {
+        return $this->get_csv_or_array($table_root_tag_id, $table_records_tag_id, true);
+    }
+
+    /**
+     * Find the tag with the given $table_root_tag_id closest to the root and create a table with all records.
+     * For it to work the $table_root_tag must only contain $table_records_tags and they must not have more
+     * than one level of subtags.
+     * 
+     * @param String $table_root_tag_id
+     *            the id of the tables root tag, e.g. 'data'
+     * @param String $table_records_tag_id
+     *            the id of each record within the table, e.g. 'record'
+     * @param bool $as_array
+     *            set true to get an array rather than a csv-table. The array will be [ "cols" => [
+     *            "col1name", "col2name" , ...], "rows" => [ [ row1col1value, row1co21value, ... ], [
+     *            row2col1value, row2co21value, ... ] ] ].
+     */
+    private function get_csv_or_array (String $table_root_tag_id, String $table_records_tag_id, bool $as_array)
     {
         // parse table
         $table_root = $this->find_first_tag_in_branch($this->xml_tree, $table_root_tag_id);
         $fieldnames = [];
         $records = [];
+        $rows = [];
         foreach ($table_root->children as $record_xml) {
             $record_array = [];
+            $record_row = [];
             foreach ($record_xml->children as $field) {
                 if (! isset($fieldnames[$field->id]))
                     $fieldnames[$field->id] = true;
                 $record_array[$field->id] = $field->txt_o;
+                $record_row[] = $field->txt_o;
             }
             $records[] = $record_array;
+            $rows[] = $record_row;
         }
         // output of csv header
         $csv = "";
+        $head = [];
         foreach ($fieldnames as $fieldname => $exists) {
             $csv .= $fieldname . ";";
+            $head[] = $fieldname;
         }
+        if ($as_array)
+            return $records;
         if (strlen($csv) == 0)
-            return "empty table";
+            return i("Oju3Ki|empty table");
         $csv = substr($csv, 0, strlen($csv) - 1) . "\n";
         // output of csv data
         foreach ($records as $record) {

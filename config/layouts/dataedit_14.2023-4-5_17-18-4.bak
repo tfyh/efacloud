@@ -1,0 +1,49 @@
+tags;required;name;value;label;type;class;size;maxlength
+<span id='vSpanSystemData'><div class='w3-row'><div class='w3-col l3'>;;Id;;QWboNj|object Id;text;display-bold;90%;36
+</div><div class='w3-col l3'>;;ecrid;;AX585k|unique record reference ...;text;display-bold;90%;20
+</div><div class='w3-col l3'>;;ValidFrom;;vGrXlG|valid from;text;display-bold;90%;20
+</div></div><div class='w3-row'><div class='w3-col l3'>;;LastModified;;NbuQaN|last modified on;text;display-bold;90%;20
+</div><div class='w3-col l3'>;;ChangeCount;;dEsPhQ|Version (change counter);text;display-bold;90%;20
+</div><div class='w3-col l3'>;;LastModification;;8L1JOu|Type of last change;text;display-bold;90%;20
+</div></div><div class='w3-row'><div class='w3-col l1'><hr>;;_no_input;;;;;
+</div></div></span><div class='w3-row'><div class='w3-col l3' id='vDiv-wayOfChange'>;;wayOfChange;;vE4oO4| ** Type of change ** &#...;"select 0=Inhalte ändern;1=Gültig Bis ändern;2=eine neue Version erzeugen";#versionized-wayOfChange;90%;50
+</div><div class='w3-col l3' id='vDiv-ValidityFromDate'>;;ValidityFromDate;;wDrGSj| ** valid until date ** ;date;#versionized-ValidityFromDate;90%;50
+</div><div class='w3-col l3' id='vDiv-ValidityFromTime'>;;ValidityFromTime;;BUTBgf| ** valid until time ** ;text;#versionized-ValidityFromTime;90%;50
+</div></div><span id='versionized-data'><div class='w3-row'><div class='w3-col l1'><hr>;;_no_input;;;;;
+</div></div><div class='w3-row'><div class='w3-col l2'>;;FirstName;;zOaP8F|First name;text;;90%;50
+</div><div class='w3-col l2'>;;LastName;;yqi6jN|Last name;text;;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2'>;;FirstLastName;;xCemhH|First and last name;text;display-bold;90%;50
+</div><div class='w3-col l2'>;;NameAffix;;eZWzUq|Name suffix;text;;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2'>;;Title;;NLPzjP|Title;text;;90%;50
+</div><div class='w3-col l2'>;;Gender;;9CKxCr|Gender;"select UNDEFINED=;MALE=männlich;FEMALE=weiblich";;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2'>;;Birthday;;VyQSE6|Birthday or year;text;;90%;50
+</div><div class='w3-col l2'>;;Association;;8hLYiU|Membership;text;;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2'>;;StatusId;;POnf6N|Status;text;;85%;50
+</div><div class='w3-col l2'>;;MembershipNo;;D1T6Ho|Membership number;text;;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2'>;;AddressStreet;;s2oiG5|Address: Street;text;;90%;50
+</div><div class='w3-col l2'>;;AddressAdditional;;dChSPi|Address: Additional info...;text;;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2'>;;AddressZip;;lFotwQ|Address: Postcode;text;;90%;50
+</div><div class='w3-col l2'>;;AddressCity;;xFYpHb|Address: City;text;;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2'>;;AddressCountry;;ziMakE|Address: Country;text;;90%;50
+</div><div class='w3-col l2'>;;Email;;8wfvuE|Email;text;;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2'>;;Password;;aSg4LC|Password;text;;90%;50
+</div><div class='w3-col l2'>;;ExternalId;;0MPbLH|External ID;text;;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2'>;;Disability;;kKEQHN|Obstruction;checkbox;;;
+</div></div><div class='w3-row'><div class='w3-col l2'>;;ExcludeFromCompetition;;2srRi7|Exclude at competitions;checkbox;;;
+</div><div class='w3-col l2'>;;ExcludeFromStatistics;;uMWKvT|Exclude for statistics;checkbox;;;
+</div></div><div class='w3-row'><div class='w3-col l2'>;;BoatUsageBan;;vOVG5E|Prohibition to use boats;checkbox;;;
+</div><div class='w3-col l2'>;;ExcludeFromClubwork;;ayX9bN|Exclude for club work;checkbox;;;
+</div></div><div class='w3-row'><div class='w3-col l2'>;;DefaultBoatId;;dTEKcz|Default Boat;text;;90%;50
+</div><div class='w3-col l2'>;;InputShortcut;;62cGIf|Abbreviation;text;;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2'>;;FreeUse1;;fLEOod|Free field 1;text;;90%;150
+</div><div class='w3-col l2'>;;FreeUse2;;ODxMEM|Free field 2;text;;90%;150
+</div></div><div class='w3-row'><div class='w3-col l2'>;;EfbId;;;text;;90%;50
+</div><div class='w3-col l2'>;;FreeUse3;;gTYQjX|Free field 3;text;;90%;150
+</div></div><div class='w3-row'><br><div class='w3-col l2'>;;Invisible;;VicTNV|Invisible;checkbox;;;
+</div><div class='w3-col l2'>;;Deleted;;WqXFAz|Deleted;checkbox;;;
+</div></div></span><div class='w3-row'><div class='w3-col l1'> <br>;;submit;IVthzP|Modify now;;submit;formbutton;;
+</div></div>;;_no_input;;;;;;
+<li><span class='helptext'>;;_help_text;;r5FkMm|The data change takes ef...;;;;
+</span></li><li><span class='helptext'>;;_help_text;;JL2WtJ|For technical reasons, t...;;;;
+</span></li><li><span class='helptext'>;;_help_text;;FyAwMu|Data records with type o...;;;;
+</span></li>;;_help_text;;;;;;

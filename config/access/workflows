@@ -1,28 +1,28 @@
 ID;Name;Titel;Beschreibung;Flag
-1;EditAdmins;Admins verwalten;;1
-2;ChangePassword;Paßwort ändern;;2
-3;AdministerProjectLogbook;Projekte und Fahrtenbücher administrieren;;4
-4;AdministerProjectClubwork;Vereinsarbeitsbücher administrieren;;8
-5;EditLogbook;Fahrtenbuch bearbeiten;;16
-6;EditBoats;Boote bearbeiten;;32
-7;EditBoatStatus;Bootsstatus bearbeiten;;64
-8;EditBoatReservation;Bootsreservierungen bearbeiten;;128
-9;EditBoatDamages;Bootsschäden bearbeiten;;256
-10;EditPersons;Personen und Status bearbeiten;;512
-11;EditClubwork;Vereinsarbeit bearbeiten;;1024
-12;EditGroups;Gruppen bearbeiten;;2048
-13;EditCrews;Mannschaften bearbeiten;;4096
-14;EditFahrtenabzeichen;Fahrtenabzeichen bearbeiten;;8192
-15;EditDestinations;Ziele und Gewässer bearbeiten;;16384
-16;AdvancedEdit;Erweiterte Bearbeitungsfunktionen: Import & Bearbeitungsassistent;;32768
-17;Configuration;efa konfigurieren;;65536
-18;EditStatistics;Statistiken erstellen;;131072
-19;SyncKanuEfb;mit KanuEfb synchonisieren;;262144
-20;RemoteAccess;Remote Zugriff über efaRemote;;524288
-21;ShowLogfile;Logdatei anzeigen;;1048576
-22;ExitEfa;efa beenden;;2097152
-23;LockEfa;efa entsperren;;4194304
-24;Backup;Backup erstellen;;8388608
-25;Restore;Backup einspielen;;16777216
-26;UpdateEfa;Online-Update;;33554432
-27;ExecCommand;Betriebssystemkommando ausführen;;67108864
+1;EditAdmins;bljsmA|Manage admins;;1
+2;ChangePassword;IQyGXQ|Change password;;2
+3;AdministerProjectLogbook;JCrsVR|Manage projects and logb...;;4
+4;AdministerProjectClubwork;oFez2p|Manage club workbooks;;8
+5;EditLogbook;716LLK|Edit logbook;;16
+6;EditBoats;cdETXT|Edit boats;;32
+7;EditBoatStatus;YFoAPi|Edit boat status;;64
+8;EditBoatReservation;r9TL22|Edit boat reservations;;128
+9;EditBoatDamages;VbeC4b|Edit boat damage;;256
+10;EditPersons;fcIJjT|Edit persons and status;;512
+11;EditClubwork;2OZnfa|Edit club work;;1024
+12;EditGroups;QdCrU7|Edit groups;;2048
+13;EditCrews;Eu831Y|Edit teams;;4096
+14;EditFahrtenabzeichen;8CNKUo|Edit trip badges;;8192
+15;EditDestinations;I268Bx|Edit targets and waters;;16384
+16;AdvancedEdit;uaBj0s|Advanced editing functio...;;32768
+17;Configuration;ww1i98|Configure efa;;65536
+18;EditStatistics;9opurV|Create statistics;;131072
+19;SyncKanuEfb;ytvi8G|synchronise with KanuEfb;;262144
+20;RemoteAccess;zE951V|Remote access via efaRem...;;524288
+21;ShowLogfile;jf1sW3|Show log file;;1048576
+22;ExitEfa;8uK9et|Exit efa;;2097152
+23;LockEfa;k8VdhO|Unlock efa;;4194304
+24;Backup;kl2r3O|Create backup;;8388608
+25;Restore;LhyISC|Import backup;;16777216
+26;UpdateEfa;OdAp4b|Online update;;33554432
+27;ExecCommand;uLPcqR|Execute operating system...;;67108864

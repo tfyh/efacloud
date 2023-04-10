@@ -1,0 +1,22 @@
+tags;required;name;value;label;type;class;size;maxlength
+<span id='vSpanSystemData'><div class='w3-row'><div class='w3-col l3'>;;Message;;6OvfoX|Message number;text;display-bold;90%;36
+</div><div class='w3-col l3'>;;ecrid;;GbGY1g|unique record reference ...;text;display-bold;90%;20
+</div></div><div class='w3-row'><div class='w3-col l3'>;;LastModified;;XnSyaD|last modified on;text;display-bold;90%;20
+</div><div class='w3-col l3'>;;ChangeCount;;o8f4hm|Version (change counter);text;display-bold;90%;20
+</div><div class='w3-col l3'>;;LastModification;;o7RIYt|Type of last change;text;display-bold;90%;20
+</div></div><div class='w3-row'><div class='w3-col l1'><hr>;;_no_input;;;;;
+</div></div></span><div class='w3-row'><div class='w3-col l2'>;;Date;;qJrVjF|Date;date;;10;20
+</div><div class='w3-col l2'>;;Time;;ACEfVr|Time;text;;8;10
+</div></div><div class='w3-row'><div class='w3-col l2'>;;From;;c2yXTk|From;text;;90%;50
+</div><div class='w3-col l2'>;;ReplyTo;;fOZSP1|Reply to (Mail);text;;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2'>;;To;;STiNM1|To;"select UNDEFINED=;ADMIN=Administrator;BOATM=Bootswart";;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2'>;;Subject;;NeJuR0|Subject;text;;90%;50
+</div></div><div class='w3-row'><div class='w3-col l1'>;;Text;;5nzLeq|Text;textarea;;4;
+</div></div><div class='w3-row'><div class='w3-col l2'><br>;;Read;;kJ6gZq|Read;checkbox;;;
+</div><div class='w3-col l2'><br>;;ToBeMailed;;IjHmYc|please send as mail;checkbox;;;
+</div></div><div class='w3-row'><div class='w3-col l1'> <br>;;submit;mpjqL9|Modify now;;submit;formbutton;;
+</div></div>;;_no_input;;;;;;
+<li><span class='helptext'>;;_help_text;;qY471o|The data change takes ef...;;;;
+</span></li><li><span class='helptext'>;;_help_text;;L9HPzL|For technical reasons, t...;;;;
+</span></li><li><span class='helptext'>;;_help_text;;DvbNl4|Data records with type o...;;;;
+</span></li>;;_help_text;;;;;;

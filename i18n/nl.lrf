@@ -1,0 +1,2735 @@
+HP00DE|Fout: 
+Edbkq1|---<br>wordt onmiddellijk en onherroepelijk verwijderd!</b>
+|</p>
+|<p>
+|<span class='formbutton'><a href="?do_reset=full" style='color: #f00'>database
+|delete everything now and set up again</a></span>
+|</p>
+|<p>
+|<span class='formbutton'><a href="?do_reset=wo_users"
+|style='color: #f00'>database now everything except efaCloudUser table
+|delete and set up again</a></span>
+|</p>
+9Jk1j0|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Gegevensrecordweergave voor een gearchiveerde gegevensrecord<sup
+|class='eventitem' id='showhelptext_Archiv'>&#9432;</sup>
+|</h3>
+|<p>gearchiveerd uit de tabel: %1<br>Tijdstip van archivering: %2<br>
+|Reference (archiveID): %3<br>
+|%4</p>
+|</div>
+|<div class="w3-container">
+|<table>
+|<tr>
+|<th>Gegevensveld</th>
+|<th>Waarde</th>
+|</tr>
+tSyQm8|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Gegevensrecordweergave voor de tabel<b>%1</b>:
+|</h3>
+|</div>
+|<div class="w3-container">
+|<table>
+|<tr>
+|<th>Gegevensveld</th>
+|<th>Waarde</th>
+|<th>Betekenis (voor object ID, tijdstempel)</th>
+|</tr>
+t6vg13|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>
+|Efa-client configuratie<sup class='eventitem'
+|id='showhelptext_EfaKonfiguration'>&#9432;</sup>Tonen 
+|</h3>
+|<p>
+|Efa-cloud leest alle configuraties van de aangesloten pc's en vormt daaruit de totale set geldige logboeken en clubwerkboeken. Voor de rest gebruikt het de configuratie van 
+|De referentiecliënt <sup class='eventitem' id='showhelptext_Stammdaten'>&#9432;</sup>, d.w.z. de efacliënt met het<b> efaCloudUserID
+|'%1'</b>. Het resultaat, inclusief een consistentiecontrole, is hier te zien. Welke efa client als referentie wordt gebruikt, kan<b>worden opgegeven in de<a    href='../forms/configparameter_aendern.php'>instellingen</a>   </b> </p> <h4>
+|Instellingen voor efaCloud</h4> <ul> <li>Huidig logboek: 
+fr1H7j|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Een efa-record zoeken<sup class='eventitem' id='showhelptext_efaDaten'>&#9432;</sup>
+|Vinden
+|</h3>
+|<p>Hier kunt u elk efa-record vinden. Selecteer eerst de tabel, daarna kunt u een filter instellen op een gegevensveld. Voor efaCloud gebruikersgegevens is er een corresponderend menu als u toestemming heeft.</p>
+|</div>
+|
+|<div class="w3-container">
+odpdN0|
+|<p>In echt zeldzame gevallen kan het nodig zijn om de database volledig te kunnen verwijderen. Dat kan hier met een druk op de knop. <br> <b>Maar dan zijn de gegevens echt weg.</b><br>Een reconstructie gebaseerd op een logboek back-up is niet volledig mogelijk, omdat de
+|geschiedenis van de gegevens en de beheerders ook worden gewist met uitzondering van 
+|'%1'. Het proces kan 10-20 seconden duren.</p>
+| <h4>Oh nee, dat niet dan!</h4> <p> <span class='formbutton'><a href="../pages/home.php">Cancel en ga naar de home page.</a></span>
+| </p> </div> <div class="w3-container">
+qMjfvd|
+|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>De dagelijkse onderhoudsroutines<sup class='eventitem'
+|id='showhelptext_Wartungsroutinen'>&#9432;</sup>zijn uitgevoerd. 
+| </h3>
+|<p>
+QhtP9h|
+|<p>
+|<a href='../pages/show_changes.php'>&gt;&gt; Bekijk wijzigingslogboek</a>
+|</p>
+|</div>
+stfYYi|<li>'%1' met waarde '%2' moet uniek zijn, maar komt voor in records:
+OoZfSs|Een eenmalig wachtwoord kan te allen tijde opnieuw worden aangevraagd.<br>Om dit te doen, logt u gewoon vanaf het begin in.
+mWiv2U|Naar het e-mailadres wordt een eenmalig wachtwoord gestuurd.<br>Hiermee kan het wachtwoord worden gewist.
+foQQVH|Klik boven de afbeeldingen op "Bladeren ...", selecteer afbeeldingen, klik op "Uploaden" en<b>wacht</b>. 10 -50 seconden per foto. Deze pagina wordt niet bijgewerkt totdat de upload is voltooid. U kunt beter niet meer dan 5 foto's (niet meer dan 20 MByte) tegelijk uploaden.
+UngRbx|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Toegangsstatistieken</h3>
+|<p>
+|<b>Tabel met door de gebruiker gestuurde activiteiten:</b>logins (login),
+|page calls (init), en errors (error).**</p>
+jToBj0|
+|<div class="w3-container">
+|<h4>Toegangsstatistieken voor client #%1</h4>
+|<p>Laatste tijdstempel: %2
+|<p>%3</p>
+|</div>
+nO9bzi|
+|<p>Na het verwijderen van het permanente wachtwoord kunt u opnieuw inloggen met een<a
+|href="../forms/login.php">NIEUW</a>eenmalig wachtwoord<b>HIER.</b>Een nieuw permanent wachtwoord kan dan worden ingesteld onder "Mijn Profiel".</p>
+yRK4pZ|<br>Alle concessies staan hier.<br>
+JRi7Qo|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Alle machtigingen</h3>
+|<h4>Een overzicht van de momenteel toegewezen machtigingen</h4>
+|<p></p>
+qnvYay|<br>Alle workflows staan hier.<br>
+uVS3Gb|
+|<ol>
+|<li>Een efaCloud gebruiker kan een persoon zijn of een technische gebruiker
+|(= een machine/PC), dus bijvoorbeeld de boothuis PC.</li>
+|<li>Gebruikers hebben een numerieke efaCludUserID die gebruikt wordt om in te loggen op de server. Voorbeeld: efaCloudUserID '1142'
+|voor 'Alex Admin'. U stelt het in met de optie: 'Wijzig profiel'</li>
+|<li>. De rechten voor efaCloud gebruikers worden ingesteld met rollen. De mogelijke rollen zijn: admin = (administrator) kan alles veranderen, vooral gebruikersgegevens; board = (bestuur) kan alles zien, maar kan geen gebruikersgegevens veranderen; bths = (boothuis) kan veranderen wat een boothuis PC moet kunnen veranderen; member = (lid), nog niet gedefinieerd; anonymous = (anoniem) geen rechten.</li>
+|<li>De efaCloud gebruikers kunnen ook een efa admin permissie
+| toegewezen krijgen, hun rechten worden dan in de server op dezelfde manier ingesteld als in de
+|efa PC en hebben invloed op alle efa PC's die met de server verbonden zijn. Voor dit doel wordt aan de efaCloud gebruiker een admin naam toegewezen. Deze kan worden gebruikt voor de admin login in de verbonden efa-PC. Voorbeeld 'alexa' voor 'Alex
+|Admin'. De efa admin rechten worden ingesteld met de optie 'Wijzig efa admin rechten'.</li>
+|</ol>
+|
+|</div>
+|
+|<div class="w3-container">
+nLzqlz|<p>Een upgrade kan niet ongedaan worden gemaakt. Het is daarom aan te raden om vooraf een back-up van de code te maken.</p> 
+|<form action='?upgrade=1' method='post'> <input type='submit' class='formbutton' value='Jetzt auf - %1 - aktualisieren' /> </form>
+|<p>Let op: het proces begint met het klikken op de knop Onmiddellijk en duurt slechts enkele seconden.</p>
+DR7W5h|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Archiefgegevens<sup class='eventitem' id='showhelptext_Archiv'>&#9432;</sup>Herstel</h3>
+|<p>Hier kunnen gegevensrecords van een tabel uit het archief worden hersteld
+|.</p>
+9CQ5UZ|<span class='configHead' onclick="toggleConfigGroup('Archivierung')"><b>Archiveren<sup class='eventitem' id='showhelptext_Archiv'>&#9432;</sup>van gegevensrecords ▾</b></span>
+bU8d0n|
+|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Audit voor de database %1<sup class='eventitem' id='showhelptext_Audit'>&#9432;</sup> </h3> 
+|<p>Hier het resultaat van de audit van de database. Opmerking: Projectrecords mogen niet worden bewerkt in efaCloud. Gebruik hiervoor efa.</p>
+xqLfjn|<span class='configHead' onclick="toggleConfigGroup('AutomatischeAblaeufe')"><b>Automatische processen<sup class='eventitem' id='showhelptext_Wartungsroutinen'>&#9432;</sup> ▾</b></span>
+TdBhkc|
+|<span style='display: none;' class='current-logbook'
+|id='%1'></span>
+|<span style='display: none;' class='logbook-allowance'
+|id='%2'></span>
+|<span style='display: none;' class='person-id'
+|id='%3'></span>
+|<!-- Projects grid (4 columns, 1 row; images must have the same size)-->
+|<!-- Display grid (2 columns)-->
+|<div class='w3-row'>
+|<div class="w3-container" id="bths-headerpanel">
+|<div class="w3-col l1"></div>
+|</div>
+|</div>
+|<div class='w3-row'>
+|<div class="w3-col l2">
+|<div class="w3-container" id="bths-toppanel-left">
+|<h4>Beschikbare boten</h4>
+|</div>
+|<div class="w3-container" id="bths-mainpanel-left">Het overzicht van de beschikbare boten wordt opgebouwd, als de autorisatie daarvoor bestaat.</div>
+|</div>
+|<div class="w3-col l2">
+|<div class="w3-container" id="bths-toppanel-right">
+|<h4>Niet-beschikbare boten</h4>
+|</div>
+|<div class="w3-container" id="bths-mainpanel-right">Het overzicht van de niet-beschikbare boten wordt opgebouwd, als de autorisatie daarvoor bestaat.</div>
+|</div>
+|</div>
+|<div class='w3-row'>
+|<div class="w3-col l1">
+|<div class="w3-container" id="bths-listpanel-header"></div>
+|</div>
+|<div class="w3-col l1">
+|<div class="w3-container" id="bths-listpanel-list"></div>
+|</div>
+|</div>
+JDVO22|<br><b>Boottype en varianten<sup class='eventitem' id='showhelptext_efaTypes'>&#9432;</sup></b>
+le6KSU|
+|<h4>Boten onderweg</h4>
+|<iframe src="../public/info.php?type=onthewater&mode=7"
+|title="Boote auf dem Wasser" style="width: 100%; border: none"></iframe>
+cIbswS|<!-- START OF content --> 
+|<div class="w3-container"> 
+| <h3>Wijzig<b>%1 rechten</b>voor %2 %3<sup class='eventitem' id='showhelptext_NutzerUndBerechtigungen'>&#9432;</sup> 
+| </h3>  
+|</div>  
+|<div class="w3-container">
+V1VijQ|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Wijzig een record<sup class='eventitem' id='showhelptext_efaDaten'>&#9432;</sup>in de tabel <span
+|id='editaction'>%1.</span>
+|</h3>
+|</div>
+|
+|<div class="w3-container">
+NgPjw9|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Wijzig kleurenschema en lettertype</h3>
+|<p>Hier kunt u het kleurenschema en lettertype van de applicatie wijzigen.</p>
+|<h1>Voorbeeld Headline 1</h1>
+|<h4>Voorbeeld Headline 4</h4>
+|<p>
+|<a href='#'>Voorbeeld Link</a>
+|</p>
+|<label class="cb-container">Radiobutton aangevinkt<input type="radio"
+|name="radioexample1" value="" checked /><span class="cb-radio"></span></label><br>
+|<label class="cb-container">Radiobutton uitgevinkt<input type="radio"
+|name="radioexample2" value="" /><span class="cb-radio"></span></label><br>
+|<label class="cb-container">Checkbox aangevinkt<input type="checkbox"
+|name="checkboxexample1" value="" checked /><span class="cb-checkmark"></span></label><br>
+|<label class="cb-container">Checkbox uitgevinkt<input type="checkbox"
+|name="checkboxexample2" value="" /><span class="cb-checkmark"></span></label><br>
+|<select class="formselector" name="selectorexample" style="width: 15em">
+|<option value="option 1">optie1</option>
+|<option selected value="option 2">dropdown opties</option>
+|<option value="option 3">optie3</option>
+|</select>
+|<p>&nbsp;</p>
+|<form method=POST action="?changecolors=1">
+|<table style='width: 70%'>
+|<thead>
+|<tr>
+|<th>kleur applicatie</th>
+|<th>kleurwaarde</th>
+|</tr>
+|</thead>
+|<tbody>
+E4weTW|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Wijzig configuratieparameters</h3>
+|<p>Hier kunt u de configuratie wijzigen. De bovenste instelling van kleuren
+|en lettertype is hier<b><i><a href='../forms/farben_aendern.php'>mogelijk</a></i></b>. De toegangsgegevens tot de database kunnen alleen tijdens de installatie worden gewijzigd. 
+|</p>
+xnSRHk|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Wijzig persoonlijk profiel</h3>
+|<p>Hier kunt u uw persoonlijk profiel inclusief het wachtwoord wijzigen.</p>
+|</div>
+|
+|<div class="w3-container">
+hGHxvu|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Wijzig de %1 van %2</h3>
+|</div>
+|
+|<div class="w3-container">
+qJk3Th|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h2>Wijzigingen in gegevens</h2>
+|<h3>Hier is de lijst met wijzigingen in gegevens in de database</h3>
+|<p>Elke wijziging in gegevens wordt geregistreerd, de laatste 100 dagen worden hier getoond. Gebruik alleen toegestaan voor het gereglementeerde doel.</p>
+QyymBR|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Controleer de huidige gegevensstructuur</h3>
+|<p>Hier vindt u de huidige gegevensstructuur van de server database.</p>
+|</div>
+p2mcau|
+|<h4>Clubwerkboeken van alle klanten</h4>
+2ecyll|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3><br><br><br><br>Bouwplaats</h3>
+|<p>De site is nog niet beschikbaar, we zijn nog aan het bouwen.</p>
+|</div>
+gBlz7m|
+|<p>
+|<a href='../pages/show_logbooks.php'>Corrigeer verdere ritten.</a>
+|</p>
+uVNY6O|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Maak een nieuw record aan</h3>
+|<p>Hier kunt u voor veel efa-tabellen een nieuw record aanmaken. Voor een nieuwe efaCloud gebruiker gebruikt u het efaCloud gebruikers
+|menu.</p>
+|</div>
+|<div class="w3-container">
+|<table>
+|<tr>
+|<th>Tabel</th>
+|<th>Link naar formulier</th>
+|</tr>
+6wKURL|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Maak gegevensbeschermingsconcept<sup class='eventitem' id='showhelptext_Datenschutzkonzept'>&#9432;</sup>voor de toepassing</h3>
+|<p>Er wordt een actueel beveiligingsconcept gemaakt van de toepassing, dat kan worden gebruikt voor documentatie conform de GDPR. Let op: het beveiligingsconcept heeft alleen betrekking op de applicatie. De beveiliging van de webserver moet elders worden gedocumenteerd of door een passende GCU worden beveiligd.</p>
+|<p>
+|<a class='formbutton' href="?create=1">Bekijk nu als webpagina</a>&nbsp; &nbsp; 
+|<a class='formbutton' href="?create=2">html download</a>&nbsp; &nbsp; 
+|<a class='formbutton' href="?create=3">PDF download</a>
+|</p>
+1qHoyA|<span class='configHead' onclick="toggleConfigGroup('Datenschutzkonzept')"><b>Gegevensbeschermingsconcept<sup class='eventitem' id='showhelptext_Datenschutzkonzept'>&#9432;</sup> ▾</b></span>
+dQzRS3|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Gegevensbeschermingsconcept voor de toepassing</h3>
+IknQ2j|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Gegevensrecordweergave voor een verwijderd gegevensrecord</h3>
+|<p>verwijderd uit de tabel: %1<br>Tijdstip van verwijdering: %2<br>Helaas is automatisch herstel niet mogelijk.**</p>
+|</div>
+|<div class="w3-container">
+|<table>
+|<tr>
+|<th>Gegevensveld</th>
+|<th>Waarde</th>
+|</tr>
+rtBEhk|<p>Beste %1 %2,</p>
+SNIjYx|<span class='configHead' onclick="toggleConfigGroup('DebuggingUndBackup')"><b>Debugging en back-up ▾</b></span>
+jmEZKD|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Database %1 verwijderen en opnieuw instellen</h3>
+BkDaPm|Wachtwoord verwijderen<br>kan voor elke gebruiker, laat de voorgedefinieerde wachtwoordgegevens zoals ze zijn.
+HKR5lY|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h2>Wachtwoord verwijderen</h2>
+|<h3>Verwijder het permanente wachtwoord voor de Towendung.</h3>
+|</div>
+|<div class="w3-container">
+9Mf4oC|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Verwijder record</h3>
+nIMVa2|</li>
+|</ul>
+|<h4>Verschillen in de configuratie van de verschillende clients</h4>
+Wk99iY|Verzending mislukt</b>voor:
+MPbwHx|<p>
+| <a href="../pages/nutzer_profil.php?id= %1">Geef gewijzigd profiel van de gebruiker weer.</a>
+|<br />
+| <a href="../forms/nutzer_aendern.php?id= %1">Wijzig gebruiker verder.</a>
+|</p>
+bCVSSd|
+|<h4>efa client programma instellingen</h4>
+mYjQxu|<span class='configHead' onclick="toggleConfigGroup('efaReferenzclient')"><b>efa reference client<sup class='eventitem' id='showhelptext_Stammdaten'>&#9432;</sup> ▾</b></span>
+U1NXw3|
+|
+|<!-- Image header -->
+|<div class="w3-container">
+|<p style='text-align: right; margin-bottom: -60px; margin-right: 10px;'>
+|<img src="../resources/efaCloud-Wolke_blau.png" alt="cloud"
+|style="width: 20%">
+|</p>
+|
+|<h2>
+|<br>efaCloud - efa in the cloud. 
+|</h2>
+|<p>Efa heeft een lange traditie. Op weg naar digitalisering wordt het populairste bestuurderslogboek van Duitsland hier aangevuld met de mogelijkheid om de gegevens in de cloud op te slaan. Veilig, overal toegankelijk, consistent.</p>
+|<p>Deze interface is de toegang tot efaWeb en efaCloud:</p>
+|<ul>
+|<li>efaCloud
+|<ul>
+|<li>centraal beheer van serverinstellingen en logboekgegevens</li>
+|<li>bewaking van de communicatie met aangesloten efa PC's en
+|met efaWeb</li>
+|</ul>
+|
+|<li>efaWeb
+|
+|<ul>
+|<li>webgebaseerd logboekprogramma, functioneel vergelijkbaar met efa in
+|boat house</li>
+|<li>alleen bruikbaar voor gebruikers die geautoriseerd zijn door efaCloud</li>
+|</ul>
+|</li>
+|</ul>
+|<p>Ik ben altijd blij met feedback naar support(at)efacloud.org!</p>
+|</div>
+QsB6fc|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h2>Fout</h2>
+|<h3>Sorry, dat werkte niet.</h3>
+8c5ooi|<b>Fout</b><br>De lay-out van de tabel kon niet worden aangepast. Zie 'sys_db_audit.log' voor details.
+POzcZe|
+|<p>Bestandsformaat en veldnamen</p>
+|<ol>
+|<li>Het te importeren csv-bestand moet gemarkeerd zijn met scheidingsteken: ';' en
+|tekstmarkering: '"' en moet op de eerste regel de technische veldnamen van de database tabel bevatten (zie menufunctie
+|"efaCloud instellingen > Gegevensstructuur" voor een lijst met namen). Als alternatief zijn de extra velden 'StatusName', 'ValidFromDate', 'InvalidFromDate' toegestaan (zie hieronder).</li>
+|<li>Hoofdlettergevoeligheid is relevant voor de namen. Als ongeldige veldnamen worden gebruikt, wordt de import geweigerd.</li>
+|</ol>
+|<p>Extra velden voor vereenvoudigde import:</p>
+|<ol>
+|<li>StatusName: De toegestane waarden voor StatusName zijn de waarden die als namen in
+|efa2status worden gegeven, bijvoorbeeld "Guest" (zonder de aanhalingstekens). De waarde wordt dan vervangen door de Id en geschreven in het veld StatusId.</li>
+|<li>ValidFromDate, InvalidFromDate: in plaats van de moeilijk te lezen Unix timestamp, kan hier een datum in het formaat DD.MM.YYYY worden opgegeven, die dan tijdens het importeren in een timestamp wordt omgezet en in de ValidFrom/InvalidFrom velden wordt geschreven.</ol>
+|<p>Import opties:</p>
+|<ol>
+|<li><b>Maak nieuw:</b>voeg een nieuwe persoon toe als record.<br>Het gegevensveld "Id" mag niet bestaan, "FirstName" en "LastName" mogen niet leeg zijn en een persoon met deze naam mag nog niet bestaan. Gender' moet mannelijk of vrouwelijk zijn, en 'StatusName'
+|of 'StatusId' moet een geldige waarde bevatten. Het is aanbevolen om ook 'ValidFrom' of 'ValidFromDate' te specificeren, als alternatief wordt de huidige tijd gebruikt.<br> <i>Een voorbeeld:<br>
+|FirstName;LastName;Gender;Birthday;StatusName;ValidFromDate;MembershipNo<br>
+|Max;Kustermann;MALE;2005;Junior(in);01.10.2022;4711
+|</i></li>
+|<li><b>change:</b>De gegevensvelden "FirstName" en "LastName" en/of "Id" moeten op unieke wijze een bestaande en momenteel geldige persoon definiëren. Als alle drie de velden zijn gespecificeerd, heeft het veld 'Id' voorrang bij de selectie. De velden "ValidFrom" en "ValidFromDate" moeten ontbreken of leeg zijn.<br>Een voorbeeld (verandert de naam en status):<br> <i>Id;FirstName;LastName;StatusName<br>
+|12345678-1234-5678-90ab-1234567890ab;Max;Mustermann;Senior(in)
+|<br>Controleer altijd voordat u importeert</i></li>
+|</ol>
+|<p>de tabel. Er wordt weergegeven of een import mogelijk is en wat er gaat gebeuren.</p>
+|<ol>
+|<li>Bevestig import. De gegevensrecords worden geïmporteerd.</li>
+|<li></li>
+|</ol>
+JTl0ci|
+|<p>Bestandsformaat en veldnamen</p>
+|<ol>
+|<li>Het te importeren csv-bestand moet als scheidingsteken: ';' en
+|tekstmarkering: '"' hebben en in de eerste regel de technische veldnamen van de database tabel (voor een lijst van namen zie menufunctie
+|"Set efaCloud > Data structure").</li>
+|<li>Hoofdlettergevoeligheid is relevant voor de namen. Als ongeldige veldnamen worden gebruikt, wordt de import geweigerd.</li>
+|<li>UUID's mogen niet worden gebruikt, namen worden altijd geïmporteerd, net zoals namen altijd worden ingevoerd.</li>
+|</ol>
+|<p>Toegestane gegevensvelden zijn:</p>
+|<ul>
+|<li>Logboeknaam - string. Moet aanwezig zijn.</li>
+|<li>EntryId - Integer. Moet aanwezig zijn.</li>
+|<li>Einddatum - string (formaat: JJJJ-MM-DD)</li>
+|<li>BoatVariant - geheel getal</li>
+|<li>BoatName - string</li>
+|<li>CoxName - string</li>
+|<li>Crew1Name ... Crew24Name - string</li>
+|<li>StartTime - string</li>
+|<li>EndTime - string</li>
+|<li>DestinationName - string</li>
+|<li>WatersNameList - string</li>
+|<li>Distance - string</li>
+|<li>SessionType - string (selectie uit typeset, Engels
+|aanduidingen, bijv. NORMAL, TRAININGSCAMP)</li>
+|<li>Er is altijd eerst een controle voor het importeren.</li>
+|</ul>
+|<p>Upload de tabel. Er wordt getoond of een import mogelijk is en wat er gaat gebeuren.</p>
+|<ol>
+|<li>Import bevestigen. De gegevensrecords worden geïmporteerd.</li>
+|<li></li>
+|</ol>
+ZAjY7v|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Bestandsopslag</h3>
+|<p>U kunt ook een directory aanmaken.</p>
+TN8gcV|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Zoek een efaCloud gebruiker<sup class='eventitem'
+|id='showhelptext_NutzerUndBerechtigungen'>&#9432;</sup></h3>
+|<p>Hier kunt u een efaCloud gebruiker vinden door de efaCloudUserID
+|of zijn/haar voor- of achternaam in te voeren. Mensen die reizen uitvoeren
+| worden opgeslagen in de efa tabel voor personen.</p>
+|<p>
+|<b>Deze pagina is de invoerpagina voor elke vorm van gebruikersbewerking.</b>De weergave- en bewerkingsopties worden als links in het resultaat van de zoekopdracht getoond.</p>
+|</div>
+|
+|<div class="w3-container">
+n0Qm21|<b>eerste type variant</b><br>nummer
+3MiqbN|Voor toegang met een permanent wachtwoord kan het opgeslagen e-mailadres<br>of het lidmaatschapsnummer / gebruikersnummer worden gebruikt.
+FxOni8|<i>Alleen voor ondersteuning:</i>Neem debug informatie op
+ffsj9S|
+|<p>Voor de actie wordt in de eerste stap alleen weergegeven wat er gedaan moet worden. Op basis van deze weergave kan dan besloten worden of de actie uitgevoerd moet worden of niet.</p>
+sOvbNc|Voor de afbakening van de nieuwe versie moet een einddatum van de vorige geldige versie worden opgegeven.<br>De wijzigingen: %1 kunnen niet worden uitgevoerd. Het formulier is gereset.
+PJnOSl|Voor de afbakening van de nieuwe versie moet het nieuwe einde van de geldigheid van de vorige versie meer dan een dag na het begin van de geldigheid liggen.<br>De wijzigingen: %1 kunnen niet worden doorgevoerd. Het formulier is opnieuw ingesteld.
+BXvWj2|<b>vierde type variant</b><br>nummer
+lf6RQG|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h1>
+|<br>
+|<br>
+|<br>Help
+|</h1>
+|<p>Help voor efaCloud is beschikbaar op de</p>
+|<ul>
+|<li><a href='https://www.efacloud.org'>efaCloud homepage</a></li>
+|</ul>
+|<p>en in het speciale forum op de</p>
+|<ul>
+|<li><a href='efa.nmichael.de'>efa homepage.</a></li>
+|</ul>
+|</div>
+|<!-- END OF content -->
+Z4iAHN|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Help in efaCloud</h3>
+|<p>EfaCloud biedt contextgevoelige hulp, deze wordt<br>aangeduid<b>door het superscript &#9432;</b>.<br>. Door op de &#9432; te klikken verschijnt de verklarende tekst.</p><p>In deze versie zijn er de volgende helpteksten:</p>
+|<ul>
+a8iDlL|
+|<p><a href='?cdir=%1'>Hier</a>ga naar de volgende upload. </p>
+Bkefzy|<span class='configHead' onclick="toggleConfigGroup('Alle')"><b>Alles verbergen</b></span>
+HWpoVD|Hoeveel dagen moeten klanten geïnformeerd worden over het verwijderen<sup class='eventitem' id='showhelptext_Loeschbenachrichtigung'>&#9432;</sup>van een record?
+yBbRP6|Id van de persoon in efa. <i>(automatisch ingevuld indien nodig)</i>
+fU75vS|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Import personen</h3>
+|<p>Gegevens uit de efa-tabel Personen kunnen hier als massatransactie worden gewijzigd.</p>
+Yxab32|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Tabel importeren</h3>
+|<p>Hier kunt u een tabel uit de database importeren.</p>
+atUZOz|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Ritten importeren</h3>
+|<p>Hier kunnen nieuwe ritten worden geïmporteerd in de efa tabel Chauffeurslogboeken als
+|massatransactie.</p>
+|<p>Dit is tijdrovend. Reken een seconde verwerkingstijd per 5 ritten voor het controleren en importeren.</p>
+0AKx35|
+|<p>In de volgende stap wordt de tabel geupload en geïmporteerd zoals afgebeeld. Bevestig dat de import moet worden uitgevoerd (geen undo mogelijk).</p>
+zmwOIb|
+|<p>In de volgende stap wordt de tabel geupload en geïmporteerd zoals afgebeeld. Bevestig dat de import moet worden uitgevoerd (geen undo mogelijk).</p>
+uDpZVK|
+|</div>
+|<div class="w3-container">
+|<h3>Informatie over gegevensbescherming</h3>
+|<ul class="listWithMarker">
+|<li>Deze informatie wordt uitsluitend ter controle aan de vergunninghouders in de administratie verstrekt. Zij mag niet worden doorgegeven.</li>
+|</ul>
+|</div>
+wLHGFz|
+|</div>
+|<div class="w3-container">
+|<h4>Informatie over gegevensbescherming</h4>
+|<ul>
+|<li>Wanneer u deze pagina bekijkt, hebt u het recht deze gegevens in te zien en eventueel te wijzigen, hoewel het niet uw eigen gegevens zijn. Gebruik alleen toegestaan voor het gereglementeerde doel.</li>
+|<li>Het doorgeven van de informatie is uitdrukkelijk niet toegestaan.</li>
+|</ul>
+|</div>
+07OND4|
+|</div>
+|<div class="w3-container">
+|<h3>Informatie over gegevensbescherming</h3>
+|<ul>
+|<li>U hebt ingestemd met de opslag, overdracht en verwerking van persoonsgegevens voor verenigingsdoeleinden overeenkomstig de bepalingen van de Wet bescherming persoonsgegevens.</li>
+|<li>Hier heeft u de mogelijkheid om de gegarandeerde informatie over de over u opgeslagen persoonsgegevens te ontvangen. Deze zijn hier allemaal opgesomd.</li>
+|</ul>
+|</div>
+iAJ3Mj|<br><b>Inventarisatiegegevens</b>
+TLKuVl|<span class='configHead' onclick="toggleConfigGroup('Fahrtenbuecher')"><b>Logboeken<sup class='eventitem' id='showhelptext_Fahrtenbuecher'>&#9432;</sup> ▾</b></span>
+pHuTRf|
+|<h4>Logboeken van alle klanten</h4>
+FVAYy8|
+|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>
+|<br>
+|<br>
+|<br>
+|<br>Afgemeld
+|</h3>
+|<p>Het afmelden is gelukt.<br>
+|<br>
+|<br>&nbsp;
+|</p>
+|</div>
+YxcJ4k|Inloggen op de efaCloud server kan met de efaCloud UserID of anders de efadmin naam of het opgeslagen emailadres en het bijbehorende wachtwoord.<br>Voor het instellen van het gebruikersID helpt meestal de beheerder van het logboek in de club.<br><br>
+zdAPKK|Aanmeldingsfout.<br>Reeds %1 mislukte pogingen. Probeer het opnieuw, maar het duurt langer bij elke poging.
+VhzARg|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Inloggen voor geregistreerde gebruikers</h3>
+|</div>
+|
+|<div class="w3-container">
+Zb6TUk|
+|
+|<div class="w3-container">
+|<h3>
+|<br>
+|<br>
+|<br>
+|<br>
+|<br>Onderhoud
+|</h3>
+|<p>De applicatie is momenteel in onderhoud tot verwacht.<br>
+|<b>
+ffAkIP|<span class='configHead' onclick="toggleConfigGroup('Stammdaten')"><b>Stamgegevensassociatie<sup class='eventitem' id='showhelptext_Stammdaten'>&#9432;</sup> ▾</b></span>
+C1HUuR|
+|</ul>
+|<p>Meer informatie is beschikbaar op de &gt;&gt;<a
+|href='https://www.efacloud.org' target='_blank'>efaCloud website
+|(opent een nieuw tabblad).</a>
+|</p>
+|</div>
+PfLbaB|Naam</th><th>Reizen</th><th>Vroegste reis</th><th>Laatste reis</th>
+gyvihB|<i>Niet aanbevolen, vertraagt de eerste aanmelding van de dag aanzienlijk:</i>Bewaar tabellen tijdens de dagelijkse routine
+s83mkb|
+|</p>
+|<p>
+|<b>Opmerking:</b>Meestal bewaart de browser de kleurinstellingen in de
+|cache, dan heeft de verandering in eerste instantie geen zichtbaar effect. Met
+|F5 of &lt;Ctrl&gt;-F5 na de update kan in de meeste browsers de cache worden gewist en pas dan wordt de nieuwe
+|kleurinstelling toegepast.</p>
+|</div>
+leDYGI|<span class='configHead' onclick="toggleConfigGroup('Benachrichtigungen')"><b>Meldingen<sup class='eventitem' id='showhelptext_Benachrichtigungen'>&#9432;</sup> ▾</b></span>
+kyJIX0|<br><b>Overige</b>
+OEps5V|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Overzicht van de bestuurderslogboeken</h3>
+|<p>Hier kunnen de bestuurderslogboeken structureel bekeken en eventueel gecorrigeerd worden.</p>
+|</div>
+|
+|<div class="w3-container">
+qtWECm|<span class='configHead' onclick="toggleConfigGroup('Informationsweitergabe')"><b>Doorgeven van informatie<sup class='eventitem' id='showhelptext_Informationsweitergabe'>&#9432;</sup> ▾</b></span>
+VIxLAS|Wachtwoord<br><i>kan alleen worden ingesteld voor nieuwe gebruikers en gebruikers met de rol 'bths'.</i>
+NeJqoO|uitgevoerd.</b>
+|</p>
+|<p>
+CDDC8L|</li>
+|<li>Periode: 
+m4Yd1V|<span class='configHead' onclick="toggleConfigGroup('PersoenlichesFahrtenbuch')"><b>Persoonlijk logboek<sup class='eventitem' id='showhelptext_PersoenlichesFahrtenbuch'>&#9432;</sup> ▾</b></span>
+IGCugZ|Help alstublieft de software te verbeteren door deze informatie door te geven aan uw support team.<br>Dank u!
+dH58zd|
+|<p>Laat mij uw verzoek of wens voor de functionaliteit van efaCloud weten. Ik zal proberen zo snel mogelijk te helpen. Tijdens vakantieperiodes kan er vertraging optreden, maar normaal gesproken kunt u binnen een week een antwoord verwachten.</p>
+|<p>Ik ontvang ook graag feedback over efaCloud, suggesties en verzoeken. Dit formulier gaat naar 'efacloud.org'.</p>
+r2pLmi|Let op: de waterloopcatalogi kunnen vooraf door de vereniging zijn gedefinieerd. In dat geval moeten de wateren hier niet worden gewijzigd.<br>
+tsxGYJ|<b>Stel hier een nieuw wachtwoord in.</b>(Voor regels, zie de invulhulp hieronder.)<br>
+pARkCd|<p>Gebruik efaWeb om uw eigen tochten te bekijken. In het menu links staat de wijziging.</p>
+C13cVm|
+|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Profiel van %1</h3>
+|</div>
+|<div class="w3-container">
+TkljK3|
+|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h2>Profiel van
+MT1L4O|
+|<h4>Gebruikte projectinstellingen</h4>
+|<p>efaCloud gebruikt de instellingen van de referentieclient als deze<b><a
+|href='../forms/configparameter_aendern.php'>is ingesteld in de instellingen</a></b>. Als daar geen efaCloudUserID is opgegeven, worden de projectinstellingen van de democlub RC Weiss-Blau gebruikt.</p>
+47al0R|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Lees mails</h3>
+|<h4>Hier heeft u de mogelijkheid om mails te lezen die naar distributielijsten zijn gestuurd.</h4>
+m2oeV3|<b>tweede type variant</b><br>nummer
+XlbAYa|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Mails versturen naar distributielijst</h3>
+|<p>De mails worden individueel verstuurd, altijd met slechts één ontvanger. Afhankelijk van de hoeveelheid kan dit een tijdje duren en ook leiden tot spamclassificatie op de ontvangerspagina. Gebruik daarom alstublieft spaarzaam.</p>
+|<p>
+|<b>LET OP:</b>Na 10 minuten eindigt de sessie als er geen nieuwe pagina wordt opgeroepen. 
+|
+|
+|<p>
+rpXiYW|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Mails versturen naar gebruikers</h3>
+|<p>Een mail voor directe toegang voor het toekennen van een wachtwoord is gegenereerd voor het versturen.</p>
+y1NFtw|
+|
+|<div class="w3-container">
+|<h3>Stuur ondersteuningsverzoek of feedback</h3>
+AAnHHF|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Serverberichten</h3>
+|<p>Informatie, waarschuwingen en fouten met ID van de triggerende gebruiker.  Alles gelogd door de applicatie. De getoonde informatie kan persoonlijke gegevens bevatten en mag alleen worden gebruikt voor gereguleerde doeleinden.</p>
+|<div class='w3-row' style='padding: 10px;'>
+jYPnW7|<br>Instellingen voor efaWeb
+Cvnhnq|</li>
+|<li>Start van het sportjaar: 
+cJuiTT|<span class='configHead' onclick="toggleConfigGroup('Synchronisation')"><b>Synchronisatie<sup class='eventitem' id='showhelptext_Synchronisation'>&#9432;</sup> ▾</b></span>
+VK7X6Z|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Test dispatch personal driver's log</h3>
+93vxJy|De %1 rechten voor<b>%2</b>zijn gewijzigd.</p><p>Vanaf de volgende login geldt voor hem het volgende:
+gmlDim|De %1 rechten voor<b>%2</b>zijn gewijzigd.</p><p>Vanaf de volgende login geldt voor hem het volgende:
+dm895V|
+|    <p>
+|<b>De gegevenswijziging is %1 uitgevoerd.</b>
+|</p>
+|<p>
+EADCwd|
+|    <p>
+|<b>De gegevenswijziging is
+jKbHGN|
+|<p>De bestandsimport is uitgevoerd. <br /> <a
+|href="../pages/mein_profil.php">Hier</a>gaat het terug naar de persoonlijke startpagina.</p>
+02b3TQ|
+|<p>De bestandsimport werd uitgevoerd. <br />Het protocol hiervoor is:**</p>
+x1uDKx|
+|<p>De bestandsimport werd uitgevoerd. <br />Het protocol hiervoor is:**</p>
+0alDAs|
+|<p>Het uploaden van de bestanden en de gegevenscontrole zijn geslaagd. Het volgende laat zien wat er is geïmporteerd.</p>
+7MLPuQ|
+|<p>Het uploaden van de bestanden en de gegevenscontrole zijn geslaagd. Het volgende laat zien wat er is geïmporteerd.</p>
+MSsBTV|
+|<p>Het uploaden van het bestand is gelukt. Het volgende laat zien wat er geïmporteerd is. Let op de opmerking over importfouten, want dit is meestal een teken dat er iets mis is met het geuploade bestand.</p>
+|<p>In de volgende stap wordt de tabel geupload en geïmporteerd zoals hiernaast. Gelieve te bevestigen dat de import moet worden uitgevoerd.</p>
+sIOQ62|
+|<h4>De volgende ritten zijn definitief verwijderd:</h4>
+v0PFwa|Het permanente wachtwoord kunt u<a href='../forms/reset_password.php'>HIER verwijderen.</a>
+53Wfwp|
+|<p>De toelaatbaarheid van het terugzetten van de gegevensrecords moet in het algemeen met het oog op de gegevensbeschermingswetgeving worden opgehelderd, omdat de gegevensrecords op grond van de gegevensbeschermingsconfiguratie automatisch werden verplaatst.</p>
+|<p>Vergeet niet om ook de archiveringsinstelling aan te passen, anders kunnen de datasets bij de volgende nachtrun opnieuw worden gearchiveerd.</p>
+cFCO2q|
+|<p>Het herstel is voltooid. Het resultaat: %1
+|<br /> <a href="../forms/archiv_wiederherstellen.php">Verdere gegevens herstellen</a>.
+|</p>
+YzzXXw|<b>derde type variant</b><br>nummer
+XLx3yi|</h2>
+|<h3>Dit zijn de persoonlijke gegevens die u heeft opgeslagen</h3>
+|</div>
+|<div class="w3-container">
+ntVguG|
+|<h4>Type definities</h4>
+D6jbrA|Type wijziging<sup class='eventitem' id='showhelptext_VersionierteDatenAnpassen'>&#9432;</sup>
+NxSz36|Type wijziging<sup class='eventitem' id='showhelptext_VersionierteDatenAnpassen'>&#9432;</sup>
+ihbPIc|Type wijziging<sup class='eventitem' id='showhelptext_VersionierteDatenAnpassen'>&#9432;</sup>
+vE4oO4|Type wijziging<sup class='eventitem' id='showhelptext_VersionierteDatenAnpassen'>&#9432;</sup>
+HVtA0e|
+|
+|
+|<h3>Upgrade van de %1 applicatie</h3>
+|<p>De upgrade pakt de code uit, waarbij de bestaande codebestanden worden overschreven. Alle inventarisgegevens, zoals logs, uploads, back-ups, enz. blijven bewaard. De database wordt niet gewijzigd.</p>
+fzBHFZ|
+|<h3>Upgrade de efaCloud-serverapplicatie </h3>
+|<p>De upgrade pakt de code uit en overschrijft de bestaande codebestanden. Alle inventarisgegevens, zoals logs, uploads, back-ups, enz. blijven behouden. De database wordt niet gewijzigd.</p>
+|<p>Momenteel geïnstalleerd: <b>%1</b><br>De installatietijd was: <b>%2</b></p>
+|<p>Een upgrade kan niet worden teruggedraaid. Het is echter wel mogelijk om op dezelfde manier te downgraden naar alle nog beschikbare versies.</p>
+|
+|<p>
+|<form action='?upgrade=1' method='post'>
+QC2brN|
+|    <br /> <label><b>Upgrade naar de volgende versie:&nbsp;</b></label><select
+|name='version' class='formselector' style='padding-right: 15px'>%1
+|</select> <br /> <br /> <label class="cb-container">Ik ga ermee akkoord dat mijn
+|server URL (%2) en de nu geïnstalleerde versie worden ingediend bij efacloud.org
+|<input type="checkbox" name="agreeAutoregistration"
+|checked><span class="cb-checkmark"></span>
+|</label><br /> <input type='hidden' name='src_subdir'
+|value='%3' /> <input type='submit'
+|class='formbutton' value='Jetzt aktualisieren' />
+|</form>
+|<p>Let op: het proces start door te klikken op de knop
+|immediately en duurt slechts enkele seconden.</p>
+HQqMpM|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Upload clublogo</h3>
+|<p>Uw clublogo kunt u hier uploaden. Het wordt na het uploaden direct linksboven in het menu getoond.</p>
+|<p>Het formaat moet een "png" bestand zijn. Andere formaten kunt u bijv. met de<a
+|href='https://bild.online-convert.com/de/umwandeln-in-png'>Online-PNG-Converter</a>converteren. Een formaat 4:3 is zinvol (breder dan hoog), de resolutie mag niet groter zijn dan 500 pixels breed, optimaal is 400*300 pixels.</p>
+qlPgLK|<br><b>Gebruiksregels</b>
+ifd7Tj|<span id='valDateLabel'>geldig tot datum</span>
+pwTyiY|<span id='valDateLabel'>geldig tot datum</span>
+wDrGSj|<span id='valDateLabel'>geldig tot datum</span>
+wUePmA|<span id='valDateLabel'>geldig tot datum</span>
+3wwpoP|<span id='valTimeLabel'>geldig tot tijd</span>
+BUTBgf|<span id='valTimeLabel'>geldig tot tijd</span>
+ItMepU|<span id='valTimeLabel'>geldig tot tijd</span>
+zHbuNz|<span id='valTimeLabel'>geldig tot tijd</span>
+Z7mnAX|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h2>Versiegeschiedenis van een record</h2>
+|<p>De versies worden als laatste eerst vermeld, telkens alleen de gegevensvelden die in de versie zijn gewijzigd ten opzichte van de vorige versie. Alleen gebruiken voor het gereguleerde doel.</p>
+|<h4>Van tabel '%1'</h4>
+HixbNW|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Bekijk client log files of toon als een pivot</h3>
+|<p>Hier kunt u de laatst verzonden log files
+|en statistieken van een client bekijken.</p>
+|</div>
+|
+|<div class="w3-container">
+R5S35O|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Bekijk of download server log bestanden</h3>
+|<p>Hier kunt u monitoring bestanden van de server bekijken of downloaden....</p>
+|</div>
+|
+|<div class="w3-container">
+2jun3e|.</b><br>Wij verontschuldigen ons voor het ongemak dat dit kan veroorzaken.<br>
+|<br>
+|<br>
+|<br>&nbsp;
+|</p>
+|</div>
+UXT258|
+|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Welkom, %1</h3>
+xUZZ3E|Wat is het maximum aantal dagen dat de archivering terug kan gaan?<br>(0 = alle archiefgegevens terugzetten):
+Bi1XKi|
+|<p>Bij het importeren moet het ID in elk record worden opgegeven. Records met een bestaand ID worden overschreven. Alle velden van de tabel die overeenkomen met een veld in de databasetabel worden overschreven, dus eventueel ook verwijderd.</p>
+|<p>Te importeren tabellen moeten op de eerste regel de veldnamen van de databasetabel bevatten, hoofdletters/kleine letters is van belang. Te importeren tabellen die bestaan uit precies één kolom waarin het ID staat, zullen resulteren in het verwijderen van de complete records met het betreffende ID.</p>
+|<p>In de eerste stap wordt de tabel geüpload en gecontroleerd. In de tweede stap vindt de import plaats. Dit moet expliciet worden bevestigd.</p>
+wir4uQ|
+|<p>Met de bevestiging zijn de geselecteerde reizen nu definitief verwijderd.</p>
+QRqTTI| parsing 
+Gg90pW|#Error mkdir failed in directory '%1'.
+6qoA8U|#error opening file '%1'.
+Cd30Mz|#Error: decodering van ongemaskeerde backup '%1' mislukt.
+g1Qw1Z|#Error: Import afgebroken vanwege een syntaxisfout in het importbestand.
+tAzk9C|#Error: Import afgebroken omdat de volgende kolommen van het importbestand ontbreken in de doeltabel:
+UB62oq|#Error: Import afgebroken. Het importbestand moet een kolom %1 bevatten.
+AkIopi|#Error: Gemaskeerde back-up '%1' niet beschikbaar.
+5qjixH|#Error: Bestemmingsdirectory '%1' voor uitpakken bestaat al, afbreken.
+XFt9AM|#Error: Zip pad '%1' bestaat niet.
+iU8UQg|#Line %1 Gegevensveld %2 moet uniek zijn, maar er is een ander record met dezelfde waarde en ID %3.
+Ng9RpS|$Titel
+VtVRHk|%1 back-up bestanden met een totale grootte van %2 MByte.
+3Fniwt|%1 Back-up archief met een totale grootte van %2 MByte.
+CGJnuw|%1 Back-up archief met een totale grootte van %2 MByte.
+Tu6j0f|%1 bytes werden geupload.
+HlAWGl|%1 kon niet worden verwijderd.
+RTVMQw|%1 kon niet worden verwijderd.
+lT47yu|%1 ecrids werden toegevoegd. (De stap werkt maximaal %2 records bij en moet mogelijk worden herhaald).
+GsvRx8|%1 werd gewijzigd van "%2" naar "%3".
+J8QheD|%1 werd gewijzigd van "%2" naar "%3".
+ETWO97|%1 werd verwijderd.
+aHoVZc|%1 werd verwijderd.
+c6AQAt|'%1' is geschreven ...
+1iSIZo|'%1' met waarde '%2' heeft meer dan één geassocieerde id:
+jYvso7|'no-reply' afzender van door het systeem gegenereerde mails.
+RNkGtP|(%1 records met elk %2 kolommen)
+RyaYQ8|(Kan op verzoek worden verstrekt).
+5zJxTU|(lege inhoud)
+HpsAcF|(leeg)
+IHwVLV|(leeg)
+WjRsQw|(leeg)
+izUp6M|(leeg)
+pMMn46|(leeg)
+E0Klof|(voor efa in het boothuis vanaf versie 2.3.2)
+gEQmZw|(nummer: %1)
+9iFvXO|*Import this XML or zip file:
+7CXyyL|*Upload dit bestand:
+8nIqnM|*Upload dit bestand:
+9EIqRT|*Upload dit bestand:
+ryiCJ3|*Upload dit bestand:
+yrvZC9|-DELETED-
+KcQ7EG|.htaccess bestanden toegevoegd.
+89mWdC|.htaccess bestanden in volgorde.
+H2g0xi|.htaccess bestanden verwijderd.
+011tZB|efa2messages
+01G01O|</div>
+06ISXt|efaWeb_fahrtenabzeichen
+08pBug|
+|<div class='w3-col l2'>
+|<a
+|href='../pages/show_history.php?
+0Kn6bl|efa logbook (Mitglieder, aktuelles Jahr)
+0Wguyh|</div>
+28oiYL|uuid_crews
+2ZtK9d|efa waters
+35nGTf|efaWeb_waters
+3I0zNC|efa messages
+3WGTtr|audit_boatdamages
+3fXeDv|clientID
+3hobFq|efa2clubwork
+4F2pUd|uuid_groups
+5DE143|uuid_persons
+5O1GIg|
+|</table>
+|</div>
+|<div class="w3-container">
+|<div class='w3-row'>
+5mFmma|    </tbody>   </table>   <p>    <input name='submit' value='Test' type='submit'     class='formbutton' />   </p>  </form>  <p>
+5snezC|efaWeb_own_sessions
+6AqUAc|audit_crews
+77gvXM|</div>
+79Iex2|</div>
+7DoAKB|efa2waters
+7HQ9oh|archive_persons
+7IkKPl|uuid_boatdamages
+7mttPz|Datensätze zu Objekt
+7vsZ5C|audit_waters
+85h9K3|restore_records
+8fKtJg|audit_statistics
+8qQEHT|noValues
+9J3v6X|<p>&nbsp;</p>
+|<p>
+|<small>&copy; efacloud - nmichael.de</small>
+|</p>
+9TNFSL|
+|
+|</div>
+EinecO|@title
+AVZqHm|
+|<!-- END OF form -->
+|</div>
+AecuMb|audit_groups
+BxvIay|efa boatdamages
+DiRyic|</div>
+Ec4cuQ|audit_destinations
+G8gfUr|audit_statistics
+HZyICm|efa logbook
+IDOKUa|
+|<!-- END OF Content -->
+|</div>
+IHM6iH|efa2boatdamages
+IrVjsR|audit_groups
+J7QkU7|leaving_members
+JZKR1D|
+|</div>
+Jmeusw|efa crews
+JwFqj0|
+|<!-- END OF Content -->
+|</div>
+K3jC4w|
+|<!-- END OF Content -->
+|</div>
+KmCBHj|
+|<!-- END OF Content -->
+|</div>
+L6DB6I|
+|<!-- END OF Content -->
+|</div>
+L9Ym7M|efa boatstatus
+LDkjpT|efa2status
+LLIH9L|efa2boats
+LSoAtS|</div>
+LdZU5S|efa persons
+Ln40nr|audit_boats
+M7KYYi|efaWeb_messages
+MCB3HR|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h2>
+Mhni4P|efa autoincrement
+MzO39d|efa boats
+NEBbkz|
+|<!-- END OF form -->
+|</div>
+NvgW7Z|</div>
+OYvYwM|efa2crews
+OdmufW|uuid_statistics
+Og13VW|efa boatreservations
+OkHOab|</div>
+P0YpJt|select config_error
+P1fAgB|audit_boatreservations
+PG51A2|efa destinations
+PMDKK5|
+|<!-- START OF content -->
+|<div class="w3-container">
+PTzhSt|audit_crews
+PZe0Fq|
+|<!-- END OF Content -->
+|</div>
+PhJ3L4|
+|</div>
+QkBmJq|efa2boatreservations
+RMcKPn|efaWeb_opentrips
+RTrgNa|Gelöschte Datensätze anzeigen
+RzF1Cc|audit_clubwork
+SdHxry|efaWeb_boatstatus
+SgVvTy|archive_messages
+TElAlA|audit_sessiongroups
+TTt5oN|known_members
+ToJ4AJ|
+|</div>
+|<!-- END OF Content -->
+TvpBpw|uuid_destinations
+U2fWGk|new_members
+U6s9jf|select 0=?;1=no options available
+UNxVUo|efaWeb_boatreservations
+UnpGlv|clientName
+Uo3OuT|
+|<!-- END OF Content -->
+|</div>
+VKTHVY|audit_boatdamages
+VLBFN0|
+|</div>
+VNaOll|
+|<!-- END OF form -->
+|
+|</div>
+Vcxli6|efaWeb_destinations
+VeRvIJ|efa status
+W1J7N5|efaWeb_persons
+WfIlRT|
+|</div>
+WlX6QJ|
+|<!-- START OF content -->
+|<div class="w3-container">
+X1Ie8W|audit_waters
+XkjFUN|uuid_logbooks
+Y6Vy5J|
+|</div>
+|
+|<div class="w3-container">
+YA9OMZ|efa2sessiongroups
+YzWJOY|
+|</table>
+|</div>
+Z5hMom|efaWeb_groups
+ZQt0Ty|efaWeb_boatdamages
+ZtD0fF|efa sessiongroups
+Wixvhp|[standaard bij creatie]
+ZjgTv2|[efa] Nieuwe bootreservering voor boot %1
+Q49rLD|[efa] Nieuwe bootreservering voor boot.
+5KSMXt|[efa] Nieuw bericht aan ADMIN van %1, onderwerp:
+J33vQj|[veld met datasleutel].
+pUUKZR|[sleutelveld met centrale correctie]
+m5fazU|[lijst van object ID's].
+r6ReJu|[geen referentie client gedefinieerd, controleer instellingen].
+353Us1|[niet beschikbaar]
+pRZsYG|[niet beschikbaar]
+VpjI4B|[niet gedefinieerd]
+75hzYb|[verschillende mogelijkheden]
+YXYsQR|[ongedefinieerd]
+Ct5cWh|Een * voor een veldlabel geeft aan dat een record vereist is.
+Q8hY5U|Een * voor een veldlabel geeft aan dat een record vereist is.
+SqKLVH|Een * voor een veldlabel geeft aan dat een record vereist is.
+kbMn2a|Een * voor een veldlabel geeft aan dat een record vereist is.
+uXMQ3A|Een * voor een veldlabel geeft aan dat een record vereist is.
+XtZapR|Een verandering van Context: %1 naar %2 is niet toegestaan. De sessie werd afgebroken.
+4XUWj8|Er is een nieuwere programmaversie
+NY2pjM|Een nieuw bootschade record is ingevoerd in efa voor boot %1 door %2.
+ha2Cdj|Een nieuwe bootreservering voor boot %1 is aanwezig op %2.
+fPOtOW|Een nieuw bootstatusrecord wordt gegenereerd wanneer een nieuw record voor een boot wordt gegenereerd. De bootstatus bestaat niet onafhankelijk van de boot.
+0za9nH|Een nieuw bericht aan de admin is aanwezig van %1, onderwerp:
+PXYG2n|een nieuwe versie kon niet worden aangemaakt. De database meldt:
+GzZrqa|een nieuwe versie is aangemaakt.
+B0quSZ|Een record met de unieke identificatie '%1' is aangemaakt in %2.
+uUKDIW|Een record met de unieke identificatie '%1' is aangemaakt in %2.
+62cGIf|Afkorting
+uhcKky|Afgebroken, zie sys_db_audit.log.
+NHMrlY|Afgebroken. Ecrid beschikbaar.
+ytlK51|Afgebroken. Niet toegestaan voor %1.
+WcL0zL|Toegangsstatistieken
+Apulhe|Toegang tot deze informatie was niet toegestaan.
+hNikUk|Toegang tot deze informatie was niet toegestaan.
+UU8ZrV|Toegang in de laatste %1 dagen
+W9GB51|Toegang in de laatste %1 dagen
+Db4zRO|Wees voorzichtig, want ongedaan maken is niet mogelijk.
+H4cPNL|Wees voorzichtig, want ongedaan maken is niet mogelijk.
+SFHQnk|Wees voorzichtig, want ongedaan maken is niet mogelijk.
+YhtIO6|Wees voorzichtig, want ongedaan maken is niet mogelijk.
+d1Uqaw|Wees voorzichtig, want ongedaan maken is niet mogelijk.
+oGM4r2|Wees voorzichtig, want ongedaan maken is niet mogelijk.
+tX2Q4L|Wees voorzichtig, want ongedaan maken is niet mogelijk.
+F7t6Jn|Actie
+Z4VNs0|Actieve klanten
+A3XyqV|Actieve dagen (aantal)
+2IHJZD|actief
+H5p5xA|Property auto increment toegevoegd aan `%1`.`%2`.
+xw01aj|Kolom `%1`.`%2` met huidige definitie toegevoegd.
+S1nQio|Unieke eigenschap toegevoegd aan `%1`.`%2`.
+wiUFNS|Extra kolom %1.%2
+uflrtX|Extra tabel %1.
+dChSPi|Adres: Aanvullende informatie
+xFYpHb|Adres: Stad
+ziMakE|Adres: Land
+lFotwQ|Adres: Postcode
+s2oiG5|Adres: Straat:
+7pzDSf|Admin invoegen mislukt. Foutbericht: %1.
+gl6P6y|Admin naam in efa voor admin login daar
+zRhNpd|Beheerders
+hck0cP|Geavanceerde bewerkingsfuncties: Wizard importeren en bewerken
+uaBj0s|Geavanceerde bewerkingsfuncties: Wizard importeren en bewerken
+8MYKLF|Nadat u op de knop "Uploaden" hebt geklikt, gebeurt er aanvankelijk niets op deze pagina. Hij wordt pas bijgewerkt wanneer het uploaden is voltooid.
+1yDSbE|Na de test-upload kan het bericht verder worden bewerkt.
+JmUHGQ|Daarna kunt u opnieuw inloggen met een NIEUW eenmalig wachtwoord, waarbij u ook een nieuw permanent wachtwoord kunt
+1Hbi5c|Leeftijd in dagen:
+TCnjRe|Leeftijd in dagen:
+y10Kn9|Leeftijd in dagen:
+d3o4EA|Album niet gevonden. Annuleren.
+ceZwjN|Alle rechten
+O8zMCW|Alle gedaan.
+Q4c8jW|Alle Ids
+2kJu6N|Alle modules van de referentie-installatie zijn aanwezig.
+rARwTp|Alle namen
+oR4Ytj|Alle ritten voor %1 in logboek '%2' tot nu toe:
+7TpRPM|Alle gebruikers
+JS8Dme|Alle gebruikers
+2JgEKN|Er is een fout opgetreden bij het opslaan van het bestand '%1' op de locatie '%2'.
+usHKvV|Er is een ongeldig formuliervolgnummer of formuliervolgordetoken opgegeven.
+CW7uhM|anoniem verzoek om geen formulier: %1/%2
+8FHeg0|anoniem
+gwpsJR|API toegangsstatistieken
+tg2LqL|Fout in toepassingsconfiguratie: galerij '%1' niet gedefinieerd. Neem contact op met uw beheerder.
+3MjQY3|Fout in toepassingsconfiguratie: lijst niet gedefinieerd. Neem contact op met uw beheerder.
+4t2ytU|Fout in toepassingsconfiguratie: lijst niet gedefinieerd. Neem contact op met uw beheerder.
+eG3R6d|Fout in toepassingsconfiguratie: lijst niet gedefinieerd. Neem contact op met uw beheerder.
+rcxg1I|Overbelasting van de toepassing
+KWQvhQ|Aanvraag
+CZ56mL|Archiefrecord #%1 kon niet hersteld worden. Reden: Het decoderen van het record is mislukt.
+i0VBLI|gearchiveerd
+9hnY2G|op
+mlOh7N|Aanhangsel 1:
+8dh5sK|Aanhangsel 2:
+hv0TyN|Bijlage:
+0Q3eYq|Audit voltooid.
+yDwhyh|Controle voltooid
+xeigZw|Audit database
+wTWCqf|Audit record:
+KKGLqS|audit
+LYwuMx|audit
+OZYUda|audit
+QsmoVM|audit
+hqvnxI|audit
+WP2gSG|auteur:
+nOchmJ|Auteur
+83QHfx|Automatische processen getriggerd als 'cronjobs'. Eén job per regel, als 'tag specificatie type' bijv.
+VJYunY|Automatisch berichten aan admin als gelezen markeren
+tuglOc|Automatisch berichten aan admin als gelezen markeren
+HLqSDT|Markeer berichten aan bootwachter automatisch als gelezen
+QWR8R7|Markeer berichten aan bootwachter automatisch als gelezen
+De1RPi|Beschikbaar om te downloaden als csv.
+xf8yxL|Gemiddelde
+bNnasv|noValues
+yAZlsH|Terug en vooruit
+4sJKSe|Terug naar zijn efa Admin rechten
+j1DeVf|Terug naar zijn efaWeb rechten
+OdDC93|Terug naar vorige instelling
+j5CpiO|Terug naar de standaard kleuren
+qGBrpj|Terug naar de
+ulXKGl|Controle van de back-up
+UAsVwN|Back-up voltooid.
+wyBzeb|Back-up overgeslagen door configuratie.
+0mGwCy|Back-up
+V4T3Wv|Back-up
+202buq|BadgeAB
+hCB0jI|Badge
+s0IJfr|Aangezien deze mail naar niemand kon worden verzonden, werd hij niet opgeslagen in de verzonden mails.
+VyQSE6|Verjaardag of Jaar
+2oRhAT|Boot (Id)
+RlaAwv|Bootschade, datum melden
+98y3IF|Schade aan boten
+QxUXcf|Schade aan boten
+MPgCdU|Boot-km op afstand
+japu2o|Bootreserveringen, startdatum
+61cAaQ|Type boot
+IeBMNG|Type boot
+ZJB7XX|Type boot
+iPlaKi|Type boot
+tCnBmJ|Type boot
+3lHvNg|Boot,HuidigeStatus,BasisStatus
+zkm1hq|Boot,DatumVan,DatumTot
+wOD59L|Boot,Beschrijving
+YgIziQ|Boot-km op naam
+3BgOTw|Boot
+GEVnOt|Boot
+U2OtU4|Boot
+bWQfY3|Boot
+GvnWap|Boten
+KMnmP4|boeking persoon
+HY5ek8|Massa transacties van de laatste %1 dagen
+EJN8bL|Bulk transacties
+pvrbnx|op begintijd
+Re0a6b|op ritnummer
+yFzxZ7|Trip annuleren
+uZon0P|Record kan niet worden verwijderd. Geen record gevonden voor sleutel [%1] in %2.
+ak6ZuS|Record kan niet worden ingevoegd, ecrid provisioning is verboden voor API versie lager dan 3.
+Gc2E76|Record kan niet worden ingevoegd. Is al meer dan 30 dagen oud (%1) en de gespecificeerde sleutel [%2] is al in gebruik.
+CRISZB|Record kan niet worden ingevoegd. De opgegeven sleutel [%1] wordt gebruikt door een geldig record en mag niet gecorrigeerd worden.
+tdVyu3|Sessie kan niet worden ingevoegd: %1 (log %2). Het lijkt te veel op de bestaande, dus de sleutel moet niet gecorrigeerd worden om dubbele sessies te voorkomen.
+x6zeNt|Record kan niet worden gewijzigd. Periode-overtreding in %1. Reden: %2.
+bNidHS|Record kan niet worden bijgewerkt. Geen record gevonden voor sleutel [%1] in %2.
+ey9S8D|Lijst met lijsten
+03zAeI|Voorzitter
+WpnNE8|Voorzitter
+QQRAVY|Wijzigingen en App Info|Waarschuwingen|Foutmeldingen Opschoning voltooid
+YpUO6w|Gecontroleerd wijzigingsbericht.
+PfOrhR|Clublogo wijzigen
+RQpeAQ|Kleurenschema wijzigen
+i0SFzf|Wijzigingsteller ongeldig
+FE4Of4|Wijziging teller ontbreekt
+QipHX2|Efa admin rechten wijzigen
+BmvSBP|wijzig efa data set
+NL410D|wijzig efa rechten
+l9FjVt|Wijzig efaWeb rechten
+JSKWqI|Wijzig efaWeb rechten
+YhzWIM|Wijzigingsgeschiedenis
+biT1cV|Wijzigingsgeschiedenis
+e1szHW|Wijziging van profielgegevens bij efaCloud van Gebruiker #
+717BEv|Parameters wijzigen
+IQyGXQ|Wachtwoord wijzigen
+Lw1jAT|Wachtwoord wijzigen
+ErLqsR|Profiel nu wijzigen
+lvGRAt|Wijzig profiel/wachtwoord
+DAwDVx|Profiel wijzigen
+nc58pc|Wijzig record
+xBbzbd|Wijzig record
+A3uBQ0|Wijzig het profiel van %1
+dD2G5j|Gebruiker wijzigen
+G4gfja|Gebruiker nu wijzigen
+vskZuv|wijzigen/wissen
+08PFcm|Wijzigen
+sNh3bq|Kolom `%1`.`%2` gewijzigd in huidige definitie.
+gjYPBf|Gewijzigd ID:
+nxPrrc|Changelog (ook voor Security-Concept)
+84qqTb|Wijzigingen
+E6z7DI|Wijzigingen
+DkY0nv|tekens lang.
+42jTgj|Rij controleren
+cKcnOB|Rij controleren
+XBFzrv|Vink het vakje voor afbeeldingen aan en klik op "Download" onder de afbeeldingen. Alle afbeeldingen worden geleverd in een zip-archief dat direct naar de map "Downloads" kan worden geschreven, afhankelijk van uw browserinstellingen.
+XIGJqp|Gecontroleerd/totaal: %1/%2, geen correcties nodig.
+mfU3JA|gecontroleerd: %1, gecorrigeerd: %2, correctie mislukt: %3, dublets in archief: %4, geen controle of verwijzing nodig: $skipped.
+a5ador|gecontroleerd: %1, gecorrigeerd: %2, mislukt: %3.
+RHFSbA|Het resultaat controleren
+U14TYS|Gegevens opschonen
+p4z2js|Verwijderde verouderde sessies. Resterende:
+25nrUp|Activiteiten van de cliënten
+O00zsH|Client configuraties:
+CXR0Eq|Client-berichten
+A8OMxk|Klant
+59YAGh|PHP sessie '%1' gesloten
+W353w8|Clublogo
+bjIgH7|Verenigingswerk dat niet overeenkomt met de periode van het verenigingswerkboek.
+r8hjy3|Club werkboek
+rXpZ9D|Club werkmappen
+2jDemj|Verenigingswerkboeken
+R3tJPp|Verenigingswerk, uitvoeringsdatum
+EoJitr|Kleur (Hexcode RGB)
+2Tgeqq|Kolomselectie en volgorde
+n0VQUK|Bedrijf dat de site beheert (hoster)
+Ne1yvo|Vergelijk versie
+iRfNHa|Voltooid voor referentie client %1
+6QCftb|Update_table_layout(%1) voltooid.
+Sr2ozD|Voltooid. Nog meer sleutels te corrigeren:
+3Dhpv1|Voltooid. Geen sleutels meer te corrigeren.
+deuFgY|Voltooid.
+vOXx8v|Voltooid
+jtlDMv|Configuratie dump:
+3VwQtV|Configuratie fout.
+YG4BuC|Configuratie fout.
+qaczPb|Configuratie fout.
+R7RsS0|Configuratie:
+9roxH1|efa configureren
+ww1i98|efa configureren
+BN4UxH|aangesloten als
+7DhJc1|Aansluiting
+rH1lEJ|Aansluiting
+xZpcQw|Contact
+3oww70|ga verder
+S5pVS3|Doorgaan
+AxOnvy|api_select voor tabel voortgezet
+YfDoBA|Vervolg
+sXKQJL|Doorgaan
+Koyi0z|Gecontroleerd
+LqnMVd|Gecontroleerd
+LvABqh|Gecontroleerd
+tYBQ6X|Gecontroleerd
+Y719BT|Correcte logboeken
+MQEsnc|Nu corrigeren - Wachten - duurt maximaal 5 minuten!
+Z6itd3|Correct gegevensrecord
+IfdaoB|Corrigeer virtuele velden voor record met ecrid '%1'.
+fTom5D|Correcte corrupte records.
+mazy61|Kon niet worden verwijderd. Foutmelding:
+8N2N5h|Aantal toegangen
+8fGF1t|Aantal niet-bevoorrechte rollen
+OPc8WE|Aantal bevoorrechte rollen:
+MzZXhV|Aantal records
+HmXvbp|Teller voor
+ovmMoC|Een nieuwe efaCloud gebruiker aanmaken
+kl2r3O|Back-up maken
+wA7mOS|Back-up maken
+RUOkfa|nieuw aanmaken
+0dYrp9|Creëer record
+9opurV|Statistieken maken
+GLB0lW|Statistieken maken
+wpf4AI|Maak tabel `%1` met alle kolommen volgens de huidige indeling.
+sBbPVu|Gebruiker aanmaken
+Tix00e|Gemaakt:
+WRvThr|Maak lege nieuwe tabel `%1`...
+fukYdH|Het aanmaken van rapportagebestanden in openbare statistieken is niet toegestaan.
+auPGvi|Credentials in VERIFY transactierecord konden niet worden geverifieerd.
+rhWBec|Cronjobs gestart (tijdstip van laatste uitvoering: %1)
+tOvSot|Valuta Aankoopprijs
+TeD6Nm|Huidige en komende reserveringen
+5zkQ5A|huidige status
+ZC5KSz|Momenteel geïnstalleerd:
+VDv9EA|Momenteel ingelogd als
+5DTJs0|momenteel geen vermeldingen.
+WfHwY7|Schade per boot
+MaWHhj|Schademelding nr.
+c6Z279|Database audit
+zwn7oV|Database audit
+vCGSbJ|Database verbindingsfout:
+R51PFL|Databaseverbinding mislukt:
+s2Mkwj|Database connectie succesvol, maar test statement 'SELECT 1' is mislukt.
+NUSssM|Database manipulatie afgebroken. Gebruiker niet geldig.
+5Ca1BA|Databasemanipulatie verboden voor onbekende gebruiker '%1'.
+mMnBAj|Databasemanipulatie verboden voor gebruiker '%1'. Onvoldoende toegangsrechten.
+4YsmYP|Database statement '%1 ...' mislukt. Fout: '%2'.
+RDW9DK|Gegevens wijzigingen
+yfzcsQ|Te doorzoeken gegevensveld
+ZqPC6r|Gegevensrecords waarvan de specificatie van de laatste wijziging ontbreekt, worden automatisch gecorrigeerd, tot een maximum van 50 per onderhoudsrun en tabel.
+8NQHuj|Records van tabel %1 mogen niet worden verwijderd.
+0bh9MB|Gegevensrecords met type laatste wijziging "wissen" kunnen niet meer worden gewijzigd.
+1neX8H|Gegevensrecords met type laatste wijziging "wissen" kunnen niet meer worden gewijzigd.
+25MwnR|Gegevensrecords met type laatste wijziging "wissen" kunnen niet meer worden gewijzigd.
+606Fgi|Gegevensrecords met type laatste wijziging "wissen" kunnen niet meer worden gewijzigd.
+6f32ej|Gegevensrecords met type laatste wijziging "wissen" kunnen niet meer worden gewijzigd.
+BfdHSB|Gegevensrecords met type laatste wijziging "wissen" kunnen niet meer worden gewijzigd.
+DvbNl4|Gegevensrecords met type laatste wijziging "wissen" kunnen niet meer worden gewijzigd.
+FyAwMu|Gegevensrecords met type laatste wijziging "wissen" kunnen niet meer worden gewijzigd.
+SVqu0B|Gegevensrecords met type laatste wijziging "wissen" kunnen niet meer worden gewijzigd.
+VFgfBG|Gegevensrecords met type laatste wijziging "wissen" kunnen niet meer worden gewijzigd.
+VyKWDh|Gegevensrecords met type laatste wijziging "wissen" kunnen niet meer worden gewijzigd.
+YT8F2I|Gegevensrecords met type laatste wijziging "wissen" kunnen niet meer worden gewijzigd.
+YXLkt7|Gegevensrecords met type laatste wijziging "wissen" kunnen niet meer worden gewijzigd.
+fMwva8|Gegevensrecords met type laatste wijziging "wissen" kunnen niet meer worden gewijzigd.
+ksacLR|Gegevensrecords met type laatste wijziging "wissen" kunnen niet meer worden gewijzigd.
+phWHuQ|Gegevensrecords met type laatste wijziging "wissen" kunnen niet meer worden gewijzigd.
+yxtlEE|Gegevensstructuur
+A9f60R|Databaseverbinding mislukt
+kyaQS2|Database fout. %1 kon niet worden toegevoegd in %2:
+c4rD0F|Database fout. %1 kon niet worden verwijderd uit %2: niet beschikbaar.
+UCqEEe|Database fout. %1 kon niet worden bijgewerkt in %2:
+XuZqEh|Database fout. De inhoud van %1 kon niet worden verwijderd uit %2:
+b3cmve|Database opgave mislukt.
+hEeUtZ|Database opgave mislukt.
+5pH8pE|Database update commando is mislukt. Foutmelding:
+W6N63R|database_layout aangepast aan %1.
+UWZxe7|Productiedatum
+HViZiY|Datum van aankoop
+uQWc7Z|Verkoopdatum
+67lUBl|Datum van de AVV Bij dit bedrijf (hoster)
+2AQdk7|Datum
+gDeoVF|Datum;
+FPuc1j|Datum
+eCGctK|Datum
+o9byQ7|Datum
+qJrVjF|Datum
+ihdtPy|Beste
+eEUD9N|Beste
+BuXeTn|Beste(n)
+x8SrYA|Beste ontvanger,
+H3gNGJ|Beste
+cr2i2h|Beste
+i91IKQ|liefste(n)
+xhXR6R|DEBUG-MODUS
+NapRG7|Problemen oplossen
+w1eFbl|gedecodeerd:
+dTEKcz|Standaard boot
+K9R4zK|Standaard voor deze programmaversie:
+FfY75P|Standaard vaartype
+N5AIs4|corrupte lege records verwijderen
+MyjroH|Verwijder directory indien leeg
+MxrIKd|efa wissen
+c32XmM|Bestand verwijderen
+3nkQKY|verwijderen uit dit logboek
+rVVVg2|Wachtwoord verwijderen
+8Y01p6|Gegevensrecord wissen
+MNpvhU|Gegevensrecord wissen
+vdj8vx|Verwijder geselecteerde ritten
+sSO9vY|verwijderen?
+161Fzy|Verwijderd
+WqXFAz|Verwijderd
+aSM2pl|Verwijderd
+IH9RiO|Verwijder %1 %2 record met huidige waarden:
+sOovvb|Het verwijderen van het permanente wachtwoord is alleen mogelijk met de opgave van een opgeslagen e-mailadres.
+PqTYzs|Opgeslagen in de configuratie:
+GEYxEV|Beschrijving (Gelieve geen ";" te gebruiken)
+cvB976|Beschrijving (Gelieve geen ";" te gebruiken)
+iqvOp0|Beschrijving (Gelieve geen ";" te gebruiken)
+oMccPH|Beschrijving (Gelieve geen ";" te gebruiken)
+B9EOmx|Beschrijving:
+OJFiWA|Beschrijving
+PFX4fS|Beschrijving
+W9iqqC|Benaming van de status
+fRvtL4|Aanwijzing van de tour
+QEQS9z|Bestemming
+hxPAgo|Bestemming
+0ymNar|Details
+BuukBt|Directe toegang
+ZNvHsT|Directe toegang
+hX0dDX|Directory
+3XxxvY|Verzending mislukt.
+mvC38h|Verzending succesvol voor:
+Ladp2w|Verzending naar %1 adres succesvol.
+UrEE7g|Gegevensstructuur weergeven
+ht5yHC|Afstand (bijv. 10 km)
+OoCAVz|Afstand
+dlOC9f|audit_boatreservations
+miz0SV|Voltooid.
+cmjKme|Bestand downloaden
+2FZhhA|Downloaden:
+YEcCUE|Download
+TQrqJw|Verwijder tabel '%1
+TuOggl|Verouderde kolom `%1`.`%2` is verwijderd.
+zQY162|Verouderde index `%1`.`%2` is verwijderd.
+2p7kEh|Verwijder tabel `%1`...
+XRCLkB|Duplicaten controle
+dyCw0A|Duplicaten gecontroleerd.
+0zU8XJ|Duur: %1 seconden.
+RGeCEH|Duur: %1 seconden.
+WsmOAA|Duur: %1 seconden.
+pp5hEg|Duur: %1 seconden.
+tZIRPY|Duur: %1 seconden.
+xnRS5I|Duur: %1 seconden.
+zxvnvd|Duur: %1 seconden.
+oK13vo|E-mail
+uxuAAD|Ecrid ontbreekt. Geen wijziging of verwijdering van records zonder ecrid in API V3 en hoger.
+mhjGNl|Ecrid specificatie ontbreekt
+VbeC4b|Bootschade bewerken
+YHWITo|Bootschade bewerken
+hdwm6Z|Bootreserveringen bewerken
+r9TL22|Bootreserveringen bewerken
+YFoAPi|Bootstatus bewerken
+tnzEpe|Bootstatus bewerken
+cdETXT|Boten bewerken
+lkugXA|Boten bewerken
+2OZnfa|Verenigingswerk bewerken
+SZjXvL|Verenigingswerk bewerken
+QdCrU7|Groepen bewerken
+VsKl9y|Groepen bewerken
+716LLK|Logboek bewerken
+UhFdb3|Logboek bewerken
+DGYpXg|Wijzig personen en status
+fcIJjT|Wijzig personen en status
+I268Bx|Doelen en wateren bewerken
+Z9muzc|Doelen en wateren bewerken
+Eu831Y|Teams bewerken
+gry3jS|Teams bewerken
+8CNKUo|Rittenbadges bewerken
+8NUMcP|Rittenbadges bewerken
+9aBBX0|Bewerken/verwijderen in nieuw tabblad
+aIaf9l|Bewerken/verwijderen in nieuw tabblad
+TyHyOI|efa data record nieuw
+v8VjM1|efa gegevens
+MVZjKP|efa instellingen
+deBLXi|Efa_archive::versionized_to_archive hit $pos_of_archive_id_in_list 
+4c2kZc|Efa_archive::versionized_to_archive hit $pos_of_archive_id_in_list 
+iRGaIO|efaAdminName mag alleen tekens a-z, 0-9 en '_' bevatten. Geen hoofdletters, geen speciale tekens, geen spaties.
+WpcBzB|efaAdminName moet tussen 4 en 10 tekens lang zijn.
+85vTIT|efaCloud Hulp
+0HdBJp|efaCloud-privacyconcept
+W2wpqV|efaCloud beveiligingsconcept
+PlK3cE|efaCloud Gebruiker
+zqMZlN|Aan efaCloud gebruikers kan ook een efa admin privilege worden toegekend, hun privileges worden dan in de server op dezelfde manier ingesteld als in de efa-PC en hebben invloed op alle efa-PC's die op de server zijn aangesloten. Hiervoor moet een efa admin naam worden toegewezen aan de efaCloud gebruiker. Deze kan gebruikt worden voor de admin login in de aangesloten efa-PC. Voorbeeld 'alexa' voor 'Alex Admin'. Optie 'Wijzig efa admin rechten'.
+15iRSs|efaCloudUserID - of -.
+5GosWb|efaWeb: Logboek weergeven
+fIyhiE|efaWeb: Logboek weergeven
+4JGwyS|efaWeb: Tochten invoeren in logboek voor boothuis #3
+iKutaN|efaWeb: Tochten invoeren in logboek voor boothuis #3
+EzjqFN|efaWeb: trips invoeren in logboek voor boothuis #4
+eWvkQf|efaWeb: trips invoeren in logboek voor boothuis #4
+VCiXlw|efaWeb: Logboek reizen invoeren voor boothuis #1
+YbxSVD|efaWeb: Logboek reizen invoeren voor boothuis #1
+Z9WBfK|efaWeb: Logboek invoeren voor boothuis #2
+n2dNm8|efaWeb: Logboek invoeren voor boothuis #2
+3L5MHB|efaWeb: Berichten achterlaten
+3QfGIe|efaWeb: Berichten achterlaten
+atCyn8|efaWeb: Schaderapporten lezen
+slon3e|efaWeb: Schaderapporten lezen
+FOIAd0|efaWeb: Berichten lezen
+NDiu3F|efaWeb: Berichten lezen
+ZcpuyD|efaWeb: Reserveringen lezen
+jg5vNC|efaWeb: Reserveringen lezen
+DCulJk|efaWeb: Boten reserveren
+rq8s1c|efaWeb: Boten reserveren
+CowNyK|efaWeb: Schademeldingen indienen
+yyPnCq|efaWeb: Schademeldingen indienen
+WwI0Sx|Ofwel is uw server URL onjuist of de server heeft een interne serverfout.
+GTufO2|elektronisch logboek
+6cZFHd|EMail
+8wfvuE|EMail
+LMFCXE|EMail
+eiCoTk|lege gegevensvelden
+Oju3Ki|lege tabel
+InlfaA|Einde (tijdstip)
+MFU1ZD|Einde (meerdaagse reis)
+uE7sbD|Einde op
+5cu4oU|Reis beëindigen
+7YoQfb|Einde
+H6xh5s|voer een waarde in.
+wwLnzB|Trip invoeren
+pfu2ta|Vermeldingen van andere jaren
+M7SjbB|Inzendingen van dit jaar
+fKG3hw|EntryId,Boot,StartTijd,Bestemming
+BqM9Lt|EntryId,Datum,Boot,Cox,Bemanning,Begintijd,Eindtijd,Bestemming,Afstand
+BVliju|Fout 502: geen geldig informatietype gespecificeerd.
+3vkMSJ|Fout bij verificatie van gegevens:
+edML3Q|Fout bij het uitvoeren van een database SELECT-instructie.
+WWu9LQ|Fout in formulierenreeks.
+EvZXbc|Fout bij het bijwerken van record in %1. Record met sleutel kon niet worden gevonden:
+2dhcic|Fout in
+6HrzgB|Fout: bestand '%1' niet gevonden.
+8XihSu|Fout: bestand '%1' niet gevonden.
+zR3M1H|Fout: Geen efacloud record Id (ecrid) werd gespecificeerd in de query.
+sgBY7F|Fout: Er is geen tabelnaam opgegeven in de query.
+jVHp9d|Fout: De record in tabel '%1' met ecrid '%2' bestaat niet.
+vB1jX7|Fout: Gebruiker heeft niet voldoende rechten om de database te initialiseren.
+NLNSFH|Fout:
+qZ10EG|Fout
+RwHQSN|Overschrijding van de maximale inactieve tijd van %1 minuten.
+1ZDOoa|Overschrijding van de maximale sessieduur van &1 uur.
+2srRi7|Uitsluiten voor wedstrijden
+ayX9bN|Uitsluiten voor clubwerk
+uMWKvT|Uitsluiten voor statistieken
+ADuZsp|Uitsluiten uit statistieken
+RtlLSq|Lijn uitvoeren
+3EqVT5|Opdracht van het besturingssysteem uitvoeren
+uLPcqR|Opdracht van het besturingssysteem uitvoeren
+sBBcUy|Uitgevoerde database-instructie voor gebruiker '%1': %2.
+uvguxW|Bestaande configuratie:
+8uK9et|Sluit efa af
+WFMtXB|Sluit efa af
+ZQ4lM0|Afsluiten
+1zKW1z|Exporteren.
+0MPbLH|Externe ID
+t32eUO|Extra '%1' verwijderd.
+f6ykNp|efaWeb_sessiongroups
+sHmiya|Database-instructie mislukt voor gebruiker '%1': %2 Fout: '%3' in %4.
+xfM8pp|Archivering Id mislukt: %1 voor %2. Geen ecrid beschikbaar.
+WsILpP|Archivering Id mislukt: %1 voor %2. Geen overeenkomend record gevonden voor ecrid '%3'.
+Ll1PcH|Id. kon niet worden gekopieerd: Kopieer %1 voor %2 naar archief. Reden:
+3tX6IN|Record kon niet worden geleegd of verwijderd na archivering: %1 voor %2. reden:
+3Srdaj|Bestaand sessiebestand kon niet worden gelezen:
+INS7kx|Sessiebestand '%1' kon niet worden verwijderd.
+Mi1B56|Mislukt om een nieuw sessiebestand te schrijven:
+kGf6KR|Vernieuwde sessie bestand kon niet worden geschreven:
+nLVyxC|Vernieuwde sessie bestand kon niet worden geschreven:
+fposcc|Mislukt. Reden:
+avyj0D|Veld
+0SC9ay|Het bestand bestaat niet.
+5Crr2x|Bestandsrechten voor
+Vu1bh5|Bestandsrechten voor
+JCP71T|Bestand: %1 gebruiker na controle van sessie appUserID %2, rol: %3.
+wdLerX|Bestand
+Rhz5mZ|Filter in kolom:
+tzF0EL|Filter:
+O39Sks|EINDELIJK gebruikers verwijderen
+SxaQ2N|zoek efa record
+AFfNO8|Gebruikers vinden
+2MRXpo|Zoek
+JLWDeX|Zoek
+xCemhH|Voor- en achternaam
+TY6MFV|voornaam - of -
+PU7fh8|Voornaam
+Y4qNDN|Voornaam
+zOaP8F|Voornaam
+8e7Bmw|Opgelost op
+zgUx5E|Opgelost
+NARfje|Footer onder mails gegenereerd door het systeem
+gF0grL|Voor %1 ontbreekt de categorie %2.
+w7n9cV|Voor %1 is er bovendien in %2 : %3
+EwvOZD|Voor %1, %2 : %3 ontbreekt.
+5jgFwZ|Voor %1 is de categorie %2 zonder inhoud.
+iwE1Bg|Voor %1 zijn de waarden in parameter %2 niet identiek.
+8ZhsQk|Voor efaWeb kan aan de efaCloud-gebruiker ook gedifferentieerde rechten worden toegekend. Dit heeft echter alleen zin in de rol 'lid'.
+xjjbhP|Voor nieuwe schademeldingen gelieve efaWeb te gebruiken.
+Cf48Vk|Voor nieuwe berichten gebruikt u efaWeb.
+j2CGJe|Voor nieuwe objecten mag de geldigheid niet worden beperkt.
+MuH95U|Voor nieuwe reserveringen gelieve efaWeb te gebruiken.
+UgtfgC|Voor nieuwe reizen gebruikt u efaWeb.
+Mfgl2o|Voor tabel %1 voltooid. Geeft %2 records.
+73XuU8|Om technische redenen wordt het formulier volledig gereset indien onjuiste informatie is ingevoerd.
+H9UN5Y|Om technische redenen wordt het formulier volledig gereset indien onjuiste informatie is ingevoerd.
+HX2HsG|Om technische redenen wordt het formulier volledig gereset indien onjuiste informatie is ingevoerd.
+JL2WtJ|Om technische redenen wordt het formulier volledig gereset indien onjuiste informatie is ingevoerd.
+L3Bf0j|Om technische redenen wordt het formulier volledig gereset indien onjuiste informatie is ingevoerd.
+L9HPzL|Om technische redenen wordt het formulier volledig gereset indien onjuiste informatie is ingevoerd.
+NrQGhl|Om technische redenen wordt het formulier volledig gereset indien onjuiste informatie is ingevoerd.
+Ts6lR3|Om technische redenen wordt het formulier volledig gereset indien onjuiste informatie is ingevoerd.
+Uh4oI2|Om technische redenen wordt het formulier volledig gereset indien onjuiste informatie is ingevoerd.
+ZDJHuD|Om technische redenen wordt het formulier volledig gereset indien onjuiste informatie is ingevoerd.
+bv78Ko|Om technische redenen wordt het formulier volledig gereset indien onjuiste informatie is ingevoerd.
+eBYUZI|Om technische redenen wordt het formulier volledig gereset indien onjuiste informatie is ingevoerd.
+mSiGMf|Om technische redenen wordt het formulier volledig gereset indien onjuiste informatie is ingevoerd.
+nEgKIt|Om technische redenen wordt het formulier volledig gereset indien onjuiste informatie is ingevoerd.
+umMRru|Om technische redenen wordt het formulier volledig gereset indien onjuiste informatie is ingevoerd.
+xgZ6QS|Om technische redenen wordt het formulier volledig gereset indien onjuiste informatie is ingevoerd.
+zZ6QxD|Om technische redenen wordt het formulier volledig gereset indien onjuiste informatie is ingevoerd.
+ffkuoc|Voor het zoeken moet minstens één veld een vermelding bevatten.
+mwgz0K|Voor de nog bestaande configuratie van cliënt %1 is er geen efaCloud-gebruiker meer.
+JIIqc3|De volgende acties zijn beschikbaar voor deze gebruiker (klik op de link):
+jY9jZE|Voor gebruiker
+iti1xU|Voor welke klant?
+0kFZ0X|Controleer toegang tot verboden mappen ...
+obg4CF|Formulier datasleutel '%1' komt niet overeen met een veldsleutel van formulier %2, stap %3.
+v9Y9Xk|Format:
+QmZI3x|Controleer frameconfiguratie ...
+fLEOod|Vrij veld 1
+r5e8fj|Vrij veld 1
+ODxMEM|Vrij veld 2
+trUBiT|Vrij veld 2
+gTYQjX|Vrij veld 3
+nGKaUU|Vrij veld 3
+1t2W9I|van anonieme sessie.
+KZunv7|Van datum
+C3bKnx|uit bestand
+1i1RBL|Van tijdstip
+mymSDY|Van:
+yhYGfZ|Van:
+c2yXTk|Van
+lJpyEt|Zoeken in volledige tekst
+kgufgC|Functie
+UGlDe1|Extra systeemtellers kunnen niet worden toegevoegd.
+gFMPPA|uuid_boats
+gPmeyF|
+|             </p>
+gXEDSy|
+|<div class='w3-col l2'>
+gdHeK9|efa2clubwork
+9CKxCr|Geslacht
+OrvMhQ|Krijg als csv download bestand:
+oGFs8D|Veel succes!
+zPZZ34|Reden
+hFXbhB|audit_boatstatus
+hPmRBV|
+|</div>
+hS2MVC|efa2boatstatus
+4Bzo0W|Behandelingsfout. %1 kon niet worden verwijderd van %1 omdat u uw eigen gebruiker niet mag verwijderen.
+dF0DWJ|Hallo %1 %2,
+yNm37C|Help
+NAOKEm|Hier staan de laatste %1 mails naar %2.
+hC9k7m|Hier kunt u hele tabellen wijzigen als ze een uniek ID hebben (de andere zijn niet selecteerbaar).
+gxNfWP|Hier kunt u de gegevens van een gebruiker wijzigen.
+OD4mjI|Hier kunt u de berichtpermissies van een gebruiker wijzigen.
+xb6rnq|Hier kunt u het profiel van de gebruiker wijzigen.
+6f8ECD|Hier kunt u de workflowpermissies van een gebruiker wijzigen.
+paNb2T|Hier kunt u hele tabellen wijzigen.
+JcwPrk|Hier kunt u de gegevens van een gebruiker wijzigen.
+1HahpW|Hier kunt u het profiel van de nieuwe gebruiker invoeren, die dan in de Dtenbank wordt aangemaakt.
+UHO0DE|Hier kunt u een record uit de efa-tabellen opzoeken.
+SEbIoq|Hier kunt u gegevens voor personen importeren in de vorm van csv-tabellen.
+fe8jQg|Hier kunt u gegevens voor personen importeren in de vorm van csv-tabellen.
+jNWS1l|Hier kunt u eFa-XML tabellen importeren. De bijbehorende tabel wordt verwijderd en herschreven.
+CpLUaw|Opmerking:
+c02HGj|Opmerking:
+qiOgPr|Notities
+hju1JV|Archivierte Datensätze anzeigen
+hnGBvK|audit_status
+LHk83t|privé:
+D6ZypP|Startpagina
+YakGpo|Startpagina
+m9CO2y|Startpagina
+MzCIkc|Onderhoudsroutines
+fFviiD|Een eenmalig wachtwoord kan echter alleen worden gebruikt in combinatie met het e-mailadres.
+iL8k6A|efa2groups
+rBRXe8|Id niet gedefinieerd
+LOWEsI|ID
+gvdW5g|Als een permanent wachtwoord is gedefinieerd, kunt u geen eenmalig wachtwoord gebruiken.
+KiFMhh|Als de gebruikers-ID (bovenste veld) is ingevuld, wordt de rest genegeerd.
+14r3x2|Als u geen eenmalig wachtwoord hebt gekregen, kunt u het vanaf het begin opnieuw proberen.
+LNrNwl|Als uw permanente wachtwoord is gewist, kunt u inloggen met een eenmalig wachtwoord en dit opnieuw instellen onder "Mijn profiel".
+4kkzns|De afbeelding is herkend.
+LhyISC|Importeer back-up
+qUU4YM|Importeer back-up
+KJallV|Persoonlijke gegevens importeren
+k0MUQb|Reizen importeren
+AC50KL|Gebruikers importeren
+1P07E8|Het importeren van leden is mogelijk onder een apart menu item.
+taO63K|in gegevensrecord met ID
+XUdGql|In totaal %1 verwijzingen naar object ID's in de database.
+0nSbjg|In totaal [%1] records in %2 tabellen.
+BtUecZ|in de database
+TOfV45|in de database
+o6WA71|Selecteer in de eerste stap de distributielijst die de mails met deze ontvanger moet ontvangen.
+Kzbcet|Totaal %1 tabellen met %2 records.
+5Bd5LG|Totaal %1 gebruikers.
+AkTh7r|Totaal %1 gebruikers.
+0gJ1yz|totaal [%1*%2] records * kolommen in %3 tabellen.
+qHF8o7|In som:
+ny15Xd|Onvolledige sleutel in deze tabel. Record: %1, verwachte sleutelvelden: %2.
+aXHg3t|Indexen beschikbaar.
+5OhRYr|Indexen verwacht.
+pmLUiB|Individuele records kunnen niet hersteld worden, maar er is een optie om ze te bekijken.
+QzwDXO|Info type niet herkend:
+Gcji2b|Informatie over bootreserveringen zichtbaar zonder login
+meZ7oy|Informatie over boten op het water zichtbaar zonder login
+Mi3MiT|Informatie over boten met schade zichtbaar zonder login
+HzhgbZ|Informatie over niet beschikbare boten zichtbaar zonder login
+mBOQpn|Informatie over het type van de laatste wijziging (LastModification) ontbreekt
+Y1BObA|Informatie
+vkPG2M|Info
+1HO6kz|Init-, login- en foutstatistieken verzameld (laatste stap).
+RfjVOh|Init, login en foutstatistieken verzameld.
+9vOwbr|Admin record '%1' invoegen in 'efaCloudUsers'.
+CWEDJn|Invoegen:
+b5wSVV|Geïnstalleerd op:
+uz08Wi|Geïnstalleerde PHP modules werden gecontroleerd.
+Bc1JCp|Verzekering verlies
+OkL5GN|Verzekering waarde
+cq6KYu|Ongeldige oproep
+ckQubu|Ongeldige contextschakelaar
+GUOWvb|Ongeldig veld ID in settings_tfyh:
+2D9pBg|Ongeldige mail distributielijst
+hfr2Zo|Ongeldige mail distributielijst
+X6z2gz|Ongeldige setnaam in record
+rLfaDg|Ongeldige startdatum: %1. Ritten kunnen maximaal 5 dagen van tevoren worden ingevoerd.
+4OEKwB|Onzichtbaar
+IPD1Fr|Onzichtbaar
+VicTNV|Onzichtbaar
+ftBV4E|Het kan niet worden bijgewerkt.
+43SSV8|Het maakt niet uit of de letters hoofdletters of kleine letters zijn.
+OO3p6S|Het wordt afgeraden om records in de tabel Rijbewijzen in efaCloud te wijzigen.<hr>
+HxsB1x|Het is mogelijk dat %1 draait zonder deze modules, maar dit is niet getest.
+6HRo0G|Het wordt sterk aangeraden om voor alle clients dezelfde typedefinities te gebruiken. Dit omdat ze gegevens uitwisselen via efaCloud, wat in het gedrang kan komen als ze verschillend geconfigureerd zijn. De correctie moet plaatsvinden in de efaprogramma's.
+Fy3Nzi|Het was niet meer mogelijk om de oorzaak van de fout te achterhalen.
+ivW60E|audit_status
+j9rny5|uuid_boatreservations
+jDyoLH|efaWeb_logbook
+jGuZDr|archive_logbook
+jHg5lq|efaWeb_boats
+Cboyyi|erin houden
+6NrPjS|Belangrijke datum voor archivering:
+mDzsS8|Sleutel ontbreekt
+SXW6e1|Keyfixing is niet toegestaan voor datasets met een efaCloud dataset ID (ecrid).
+oBavoZ|KilometerAB
+iJOhK4|Kilometer
+l8nz8C|audit_boats
+lIzc0X|noListForThisRole
+lTMUZN|</div>
+|<div class='w3-row' style='padding: 10px;'>
+4fsAVc|laatste activiteit niet bekend
+z1kw92|laatste activiteit:
+p3eN5N|laatste wijziging
+MGQrre|Specificatie van het tijdstip van de laatste wijziging is ongeldig
+0RONRY|laatst gewijzigd op
+16Y1dm|laatst gewijzigd op
+6GWqSd|laatst gewijzigd op
+GRle6r|laatst gewijzigd op
+Gvv8Dg|laatst gewijzigd op
+NbuQaN|laatst gewijzigd op
+OEfcur|laatst gewijzigd op
+PLLYW3|laatst gewijzigd op
+Puw9Gv|laatst gewijzigd op
+WjRbBU|laatst gewijzigd op
+XnSyaD|laatst gewijzigd op
+eEoNb0|laatst gewijzigd op
+jd1fNj|laatst gewijzigd op
+ob5C4d|laatst gewijzigd op
+sYmnGU|laatst gewijzigd op
+yXxn29|laatst gewijzigd op
+zFXDsw|laatst gewijzigd op
+PXbdAA|Achternaam
+l4txC2|Achternaam
+ydEB3g|Achternaam
+yqi6jN|Achternaam
+oH9DoY|laatste reizen
+6oAetm|laatste variant
+imsQg3|Informatie over het tijdstip van de laatste wijziging (LastModified) ontbreekt
+Nf88wl|Kilometertoeslag
+z5D2q8|Laatste opslag van %1.
+zkwDI7|Regels
+ZmqZlm|Lijst afgetopt na %1 records.
+CBjPta|Lijstconfiguratie niet gevonden. Fout in toepassingsconfiguratie.
+Txe8Uq|Lijst van toegestane groepen
+tSRTJf|Lijst van corrupte records
+Uht2dK|Lijst van object-ID's
+DyueMN|Lijst van verwijzingen naar object-ID's
+SqtY4N|Lijst van tabellen volgens grootte
+jgDFp0|Lijst gebruikers
+ljq1Qx|uuid_clubwork
+R74F98|Laad bescherming voor
+YEU1wy|Rij laden
+KOipdt|Inloggen 
+gsVOpm|Inloggen 
+XCjlyh|Logboekrotatie en analyse voltooid
+xhJ9cc|Logboek %1, Rit #%2
+V0q9le|Logboek Boothuis 1 (moet JJJJ bevatten)
+lFAuqp|Logboek Boothuis 2 (moet JJJJ bevatten)
+S84YVk|Logboek Boothuis 3 (moet JJJJ bevatten)
+FHeG0D|Logboek Boothuis 4 (moet JJJJ bevatten)
+tNO7yZ|Tekst logboek
+9gZllT|Logboek
+A6NWPJ|Logboek
+cGZgv4|Logboek
+kqKRmK|Logboek
+4aLEcN|Logboeken
+R0W8GE|Logboeken
+UEM4kg|Logboeken
+tAZZwi|Logboek
+u6KRSK|Logboek
+vb5sne|Logboek
+OzqrOs| efaCloudUserID
+eAyB1z|Inlogtoken verzonden naar gebruiker: %1 (%2) kon niet worden verzonden.
+o94iyq|Login token verzonden naar gebruiker:
+4RX8ec|Afmelden
+4viwOG|Afmelden
+sOWvNq|Afmelden
+tk0t49|Afmelden
+O1N4lu|Lid opzoeken
+mA4mRY|
+|</div>
+mCCQdU|
+|<!-- END OF Content -->
+|</div>
+UbM9MJ|Mail adres Kopieer ontvanger van workflow meldingen.
+IwDHk3|Mail adres voor berichten van nieuwe berichten aan admin
+ciH3c2|Mailadres voor berichten van nieuwe bootschade
+bZPxRq|Mailadres voor berichten van nieuwe bootreservering
+QvmvUh|Mails naar de geselecteerde mailinglijst kunnen niet worden gelezen door de momenteel geregistreerde gebruiker.
+8I1Ul0|Onjuist geformatteerd sessiebestand:
+08PLC8|Beheerders beheren
+bljsmA|Beheerders beheren
+A1hr23|Beheer clubwerkmappen
+oFez2p|Beheer clubwerkmappen
+JCrsVR|Beheer projecten en logs
+mbqbNM|Beheer projecten en logs
+ycf5ig|Fabrikant
+KjDtDE|Markeer berichten aan admin als gelezen
+gTJ2qi|Markeer berichten aan admin als gelezen
+I6YQ4r|Markeer berichten aan bootwachter als gelezen
+U5Mcye|Markeer berichten aan bootwachter als gelezen
+7HmEWX|Maximale leeftijd
+1QRXV3|maximum aantal groepsgenoten
+H9kI5D|maximaal teamgewicht
+7e8XGU|Maximum
+ct8Zr0|Ledenlijst
+M9JjE6|Lid
+D1T6Ho|Lidmaatschapsnummer
+8hLYiU|Lidmaatschap
+6OvfoX|Berichtnummer
+OMRZJ7|Inschrijving:
+ZdR7Gs|Berichten van de laatste 50 dagen
+b9g4X4|Berichten, aanmaakdatum
+x7jU3K|Bericht
+rQTx6e|Minimum leeftijd
+EAFHgk|Ontbrekend %1 toegevoegd.
+l9y94L|Ontbrekende kolom %1.%2
+II49o0|Ontbrekende velden gecontroleerd.
+SWDxtq|Historiekolom `%1` ontbreekt in tabel `%2`. Database insertie en update instructies mislukken. Corrigeer de configuratie.
+pMdghG|Ontbrekende instelling
+dAwKF1|Ontbrekende recordnaam in dataset
+rgqM2t|Ontbrekende instelling: %1. De toepassing kan niet worden gestart.
+mp2bOE|Ontbrekende tabel %1.
+k9CKDs|Modus:
+nYXAHD|Model
+2slTvw|Wijzig nu
+BsweJy|Wijzig nu
+DW4jJM|Wijzig nu
+DddBXT|Wijzig nu
+IRuTJj|Wijzig nu
+IVthzP|Wijzig nu
+Latx0o|Wijzig nu
+ZWWWSt|Wijzig nu
+bZWYdj|Wijzig nu
+ffptTI|Wijzig nu
+gDLrFs|Wijzig nu
+i15O3R|Wijzig nu
+iBsIQ6|Wijzig nu
+mpjqL9|Wijzig nu
+nCxlwt|Wijzig nu
+oAnK9A|Wijzig nu
+zJdWYf|Wijzig nu
+zz4vdo|Wijzig nu
+d7vLxb|Wijzig
+bq4pYu|Monitor
+Nza13s|Meest recente back-up van %1.
+Ksm76W|Mijn profiel
+n6ky2H|Byte.
+nRHHwb|audit_destinations
+9vGHkQ|Naam van de club
+hJ7Bsi|Naam van de persoon die verantwoordelijk is voor de operatie
+dO0l4o|Achtervoegsel naam
+eZWzUq|Naam achtervoegsel
+9HtXZo|Naam
+FZawRf|Naam
+cTStCe|Naam
+hvLW0s|Naam
+vDf51g|Noch efaAdminName noch %1 gespecificeerd in VERIFY transactierecord. Verificatie onmogelijk.
+0Bc3sn|Nieuwe invoer
+cIKrjx|Nieuw wachtwoord
+ZH4LGD|geen boot gespecificeerd
+SMOZBB|Geen veranderingen gelogd.
+5rekMK|Geen wijzigingen aangebracht.
+lBnu0m|geen client statistieken beschikbaar.
+26WMwL|geen inhoud gevonden.
+B826Ym|Er zijn geen verwijderde records gevonden.
+sL3Wq9|Geen verschillen in de betreffende programma-instelling.
+CoAYmk|Geen verschillen in de typedefinitie.
+AZp3UC|Voor dit account is geen e-mailadres opgeslagen.
+QEeiO2|Geen bestand gespecificeerd. probeer opnieuw.
+R8XI15|Geen bestand gespecificeerd. Probeer opnieuw.
+Rlv6xi|Geen bestand gespecificeerd. probeer opnieuw.
+WFA42N|Geen bestand gespecificeerd. probeer opnieuw.
+mYd52x|Geen bestand gespecificeerd. Probeer opnieuw.
+pPggDq|Er is geen Id gevonden voor de status '%1'.
+KyVvaE|Er is geen afbeelding gevonden in het bestand #%1 '%2'.
+SI2aD0|Geen sleutelbijlage voor deze tabel.
+9Qyhtr|geen laatste mysqli fout beschikbaar.
+ZPBjQx|Geen lijstdefinitie gevonden.
+iZBM6s|Geen mailadres.
+bQNlhS|Geen mail opgeslagen voor deze gebruiker, daarom kan geen eenmalig wachtwoord verzonden worden.
+bYRqTv|Geen overeenkomstige record gevonden.
+U24lUJ|Geen overeenkomende gebruiker gevonden.
+Vpmha6|Geen passende versie gevonden. Zie details hieronder en in het bestand
+I3zknU|Geen metadata gevonden.
+JjCWn9|Er zijn geen gewijzigde gegevens ingevoerd of er zijn fouten. Er is dus niets gewijzigd.
+pXgPvV|Met het gebruikersnummer als accountinformatie is het niet mogelijk een eenmalig wachtwoord aan te vragen.
+0xh80B|Het is niet mogelijk om een eenmalig wachtwoord aan te vragen met het gebruikersnummer als inloggegevens.
+355gfL|Niet
+DEPfjp|Niet
+5LFPnH|Er is geen pagina-identifier gevonden bij het initialiseren tijdens de oproep.
+7n26tL|Geen wachtwoord of wachtwoord te kort gespecificeerd in VERIFY transactierecord. Verificatie onmogelijk.
+vI6UBA|Geen afbeeldingen beschikbaar in dit album.
+KFwEDL|Geen records gevonden.
+nDkWmB|Geen records gevonden.
+bKEeu8|geen te archiveren records.
+V7c5k8|Geen referentie client geïdentificeerd.
+BwU3GN|Geen server versie gevonden. Is dit misschien de localhost?
+M4AobL|Geen geheugen, testmodus.
+VTLYoN|Geen dergelijke tabel.
+0471BS|Geen verwijderde records om op te ruimen.
+1gFUrv|Er zijn geen ritten geselecteerd en dus ook geen ritten verwijderd.
+4C9I5e|Geen gebruikers voor
+wyHjxb|Geen gebruikers voor
+nWooch|Geen waarden ingesteld voor
+JTclLO|Geen versiegeschiedenis beschikbaar.
+Xn806o|Geen versiegeschiedenis beschikbaar.
+7TSRnp|geen.
+7mUP2w|geen
+5UcqeO|Niet toegestaan.
+8ARdau|Niet toegestaan.
+9R86C3|Niet toegestaan.
+CQTQ0R|Niet toegestaan.
+EVb79D|Niet toegestaan.
+FPNSjs|Niet toegestaan.
+KjzmnU|Niet toegestaan.
+VhNoKp|Niet toegestaan.
+aalScL|Niet toegestaan.
+lTNFEv|Niet toegestaan.
+uBlPNN|Niet toegestaan.
+yMxAqF|Niet toegestaan.
+2t62D0|niet gedefinieerd
+dB1fLF|niet gedefinieerd
+FHyizx|Niet gevonden.
+M19SkN|Niet gevonden.
+PBQQGF|Niet gevonden.
+VvUAbG|Niet gevonden.
+d5YI7D|Niet gevonden.
+1Pq6VT|NIET OK.
+XJvUh4|NIET OK.
+FEabHF|NIET OK
+2hvcxV|nog opgegeven.
+eGLG1w|Niet ingesteld
+LlqlPF|Niet gebruikt.
+l3xH18|Nog niet ververst, voor gebruiker
+N2DEyA|OPMERKING: Bijlagen zijn verwijderd en moeten opnieuw worden toegevoegd.
+AGFCdm|Opmerking: de taalinstellingen worden pas bij de volgende klik toegepast.
+T8bnu4|Opmerking:
+p71s5H|Opmerking:
+fD6eVJ|Opmerkingen
+rT8wtF|niet
+46r1cW|Nummer 1 - 12
+qn00xE|Nummer 1 - 12
+SuYXae|Nummer 13 - 24
+W6OxRn|Nummer 13 - 24
+hYuVK4|Aantal toegangen
+W14LOF|Aantal clubwerk
+NijhLI|Aantal records
+gCxn2q|Aantal verzoeken
+3EihyE|Aantal plaatsen
+QvwM9W|Aantal plaatsen
+bN94jQ|Aantal plaatsen
+zN9uFR|Aantal plaatsen
+8UxLNR|Aantal reizen
+K1NJOq|Aantal varianten
+Jl8rPJ|Aantal
+nv2Oy2|efa statistics
+o5pCKD|</div>
+|<!-- END OF Content -->
+|</div>
+3jcnUv|Object ID
+BrYHfg|Object ID
+QWboNj|Object ID
+SdhCaQ|Object ID
+UtMoad|Object ID
+V9185F|Object ID
+YNiVz6|Object ID
+hNFMUF|Object ID
+pETnND|Object ID
+YQMCEW|Verzamelde object ID's
+OV7xZi|Object ID's in totaal.
+FjaAjn|Object ID's in
+wJIXR7|Object ID
+WdYaFk|Object geldig tot:
+kKEQHN|Belemmering
+EAfgop|Ok. Alle records bevatten de vereiste ecrid informatie.
+CfkyuH|Ok. Configuratie parameters Lay-out Versie
+sk2yd0| versie %1.
+O1BjoP|Ok.
+fANxN5|Ok.
+lKuUN0|Ok.
+sQuH9Y|Ok.
+vI1rIC|Ok.
+CBxZVW|Een niveau hoger
+M4m15E|Eenmalig wachtwoord voor %1 '%2'.
+SUuG3E|Eenmalig wachtwoord om het wachtwoord voor de applicatie '%1' te verwijderen.
+7G15iQ|Eenmalig wachtwoord verzonden om het wachtwoord opnieuw in te stellen.
+hiQjLL|Eenmalig wachtwoord verzonden naar gebruiker.
+8YgUEl|Eenmalig wachtwoord
+gTp06U|Eenmalig wachtwoord
+OdAp4b|Online update
+T06lHl|Online update
+nchfyO|alleen voor groep
+R0wh6L|alleen in boothuis met Id (nummer)
+SKkVXe|alleen in boothuis met nummer
+cg2vkM|Alleen personen die in het logboek staan kunnen een boot reserveren.
+jnk5Ij|alleen met stuurman
+Pj5VdW|Oeps! Fatale fout.
+RMYTH2|Open bootschades kunnen enkel verwerkt worden in efaWeb of in het PC-programma.
+0Ne1yX|Open bootschade
+Y0Nnwo|Open bootschade
+Rqub4S|Open schademeldingen
+aBfAtM|Lijsten met boten openen/sluiten
+A0aN1k|Open
+ai7VD4|Of het heeft geen actueel geldige gegevensrecord meer. De opgegeven naam kan ook dubbelzinnig zijn. Het kan niet worden bijgewerkt. Daarvoor moet eerst de laatst bestaande versie weer geldig worden gemaakt.
+Kxg8sl|Volgorde van de namen
+2iK73T|Onze vereniging gebruikt efaCloud en kan als gebruikende vereniging op efacloud.org genoemd worden.
+DJV8m7|uitvoer efa-tabel
+MBZSgY|Uitvoer van het laatst geüploade logbestand
+5jvc1j|Overbelasting voor '%1'. Bewakingsperiode: %2 seconden, limiet: %3 gebeurtenissen, wachttijd tot nu toe: %4 seconden.
+cpLo7L|Diagnostische gegevens over overbelasting. Gebeurtenis werd veroorzaakt door '%1', voor '%2'.
+HIkuMt|Overzicht van logboeken en clubwerkboeken
+FalTMo|Overzicht
+QDV6IR|Eigenaar
+zcNkU0|De pagina '%1' moet worden opgeroepen als een volgende pagina met een recordidentificatie.
+6skWc5|De pagina '%1' moet worden opgeroepen als een vervolgpagina van Zoek record.
+b1CfJu|De pagina '%1' moet worden opgeroepen als een vervolgpagina van Zoek record.
+5bm14Z|Pagina '%1' moet worden aangeroepen met het efaCloudUserID van de te rapporteren cliënt.
+ov4KAp|Pagina '%1' moet worden aangeroepen met het id of efaCloudUserID van de te wijzigen gebruiker.
+EomIlN|Gepasseerde sloten
+DMXYCB|Wachtwoord vergeten?
+SjwGi5|Wachtwoord vergeten?
+aSg4LC|Wachtwoord
+wfb4w9|Wachtwoord
+QxUPtc|Vroegere reserveringen per boot
+Ech3QZ|Vroegere reserveringen per persoon
+bqGw5V|Onderhoudsroutines uitvoeren (geduld)
+pYGgkq|Autorisatie
+joG6ef|Autorisaties voor efa Berichten en efaWeb
+VCcc4J|Machtigingen per rol
+FdP56V|Persoon (Id)
+zErjpE|Persoon kon niet worden gevonden
+7UNg40|Persoonlijk logboek
+LGa1J1|Personen, ongeldig sinds
+D9NwwV|Telefoon
+RJ96L3|Gelieve naamsachtervoegsels zoals "von" of gelijkaardig in de familienaam in te voeren (bv. "Eckhard" - "von Hirschhausen").
+dmdcpx|Gelieve naamsachtervoegsels zoals "von" of gelijkaardig in de familienaam in te voeren (bv. "Eckhard" - "von Hirschhausen").
+AdwVBx|Gelieve bij "
+arUUZe|Voer een geldige datum in bij "%2" (niet "%2").
+6ytHoP|Voer een geldig e-mailadres in bij "%1".
+CLnsaZ|Voer het eenmalige wachtwoord in dat u zojuist per e-mail is toegezonden om uzelf te autoriseren.
+qxoh5L|Voer het eenmalige wachtwoord in dat u zojuist hebt ontvangen om uw permanente wachtwoord te verwijderen.
+2hxIEV|Gelieve de back-up van de toepassing zoals geconfigureerd als bijlage te vinden. Behandel deze gegevens zoals gedefinieerd in uw regels voor gegevensbescherming. Dit omvat meestal het verwijderen ervan na een korte periode.
+OI0hj9|Log nu uit en opnieuw in, het wachtwoord is nog steeds hetzelfde.
+s6B4AE|Merk op dat deze manier maximaal %1 dagen werkt. Daarna wordt het om veiligheidsredenen geblokkeerd.
+TxBnFe|LET OP: Gebruik de verstrekte informatie alleen voor het beoogde doel. Het is niet toegestaan de hier geëxporteerde lijsten door te geven.
+Fiwrt1|Let op
+RuxnkA|Let op de vereiste syntax, er zijn geen technische controles.
+2wp4Nk|Selecteer het logboek.
+IjHmYc|Verstuur als mail
+RYw5AW|Gelieve in menu 'efaCloud instellen / parameters instellen' in te stellen.
+1ci7d1|Gebruik het filter of download de volledige lijst.
+CYEWjP|Gebruik het mail adres als account informatie.
+kL1ygA|Gebruik het mail adres als account informatie.
+fn5jng|Gebruik het mailadres als inloggegevens.
+liKdKf|Opmerking:
+itE88b|Bevoegde gebruikers (ook voor Security-Concept)
+cXYJJu|verwerkt. Resultaat:
+YonxH0|Verwerking van records vanaf #%1.
+a8gRBK|Profiel gewijzigd.
+vOVG5E|Verbod om boten
+Zknloz|Projectrecords kunnen niet worden bewerkt in efaCloud. Gebruik hiervoor efa.
+ugf7Xy|Eigendom
+JX2kP6|Verstrekt op %1 door %2 aan %3. Doorsturen en kopiëren van deze lijst is niet toegestaan.
+CMC17q|PS: Het is mogelijk een permanent wachtwoord op te slaan in het gebruikersprofiel.
+O1HWlA|Controleer toegang tot publiek toegankelijke directories ...
+CTGqm4|Aankoopprijs
+w7VUs5|Verwijderde resterende records:
+qhU3kM|efa2statistics
+qraFMw|</div>
+r3NxLY|Informatie aanvragen
+r3pK7A|
+|  </p>
+|</div>
+BG4WZl|Lees gegevensrecords
+VOmyV3|Lees gegevensrecords
+VR0oRs|Lees gegevensrecords
+87yEmY|Lees berichten aan admin
+MITE9y|Lees berichten aan admin
+G4T8O5|Lees berichten aan bootwachter
+GETdvw|Lees berichten aan bootwachter
+kJ6gZq|Lees
+vp2UUx|Klaar.
+mINcAx|Basisstatus
+vQfgCq|Herstart database
+za2NmI|Ontvanger van het persoonlijk logboek
+ZmVUvv|Ontvanger:
+ZgWLaf|Record verwijderd op
+MJ2srE|Dataset niet beschikbaar.
+S9MHHT|De te verwijderen record werd niet gevonden.
+1NueuX|Recordversies
+FmQZaR|record:
+C94hEq|Gegevensrecords gevonden.
+zYFpuX|Gegevensrecords gevonden.
+ShX0Ie|Records van een virtueel overzichtslogboek kunnen niet worden gewijzigd.
+ltxpNk|Gegevensrecords per tabel:
+YOdyR9|Gegevensrecords zonder ecrid
+jnzy2g|Records
+xhYaXI|Records
+uMJF7t|Referentie configuratie
+lW1weM|Referenties verzameld
+vWuyPP|Verwijzingen naar object ID's in
+twIq91|Vernieuwde sessie:
+Hq7qsl|ververst
+RhKowz|ververst
+vOFqk1|Geweigerd om een nieuwe sessie te starten voor: %1 omdat er momenteel %2 sessies open zijn.
+PSgWyn|Voor herstel is de datum van archivering relevant, voor archivering daarentegen de ouderdom van het gegevensrecord. Beide waarden kunnen aanzienlijk verschillen. De reden hiervoor is dat bij geversioneerde data deze leeftijd niet triviaal te bepalen is.
+uDZ8bh|Opmerkingen
+lrang0|Opgelost door
+lKMzP1|Opgelost op
+liztYS|Toegang op afstand via efaRemote
+zE951V|Toegang op afstand via efaRemote
+UDQgXV|App sessie bestand '%1' verwijderd
+B9Tygk|Verwijdert bestanden die niet langer nodig zijn.
+tpeQge|Verwijdert bestanden.
+NfubnI|Hernoemen duplicaten
+V5XtIe|Heropen record
+angZst|Reparatiekosten
+8OgBzr|Herhaal nieuw wachtwoord
+TrwbS5|Wachtwoord herhalen
+1Psi5w|Herhaal uw wachtwoord
+fOZSP1|Antwoord op (mail)
+1YO1yW|Schade melden
+CAX8fi|Fout melden
+pqL2ki|Gerapporteerd bij
+cuF2PJ|Gerapporteerd door
+JwgzHG|Gerapporteerd op
+1TZFAm|Reservering Nr.
+l3VrzO|Type reservering
+hhDEh2|Reserveringen
+yxCXqW|Reserveringen
+GFqP0A|Reserve Boot
+p3vqAi|Reserve
+Zt0ZqG|Verantwoordelijke (naam)
+FFLOHR|Herstel kan enige tijd duren, wees geduldig ...
+0LiLBm|Restore voltooid voor records van %1 gearchiveerd minder dan %2 dagen geleden: %3 keer succesvol, %4 niet succesvol.
+2G2m52|Herstellen uit archief
+wiLfGW|Herstel versie V%1.
+Vzgcoh|Herstellen
+AmEL6s|Herstel de bestaande configuratie
+7Jw6Iu|Resultaat van de gegevensintegriteitscontrole
+e5VOu1|Resultaat van de lay-outcontrole
+NrXqXo|Resultaat van de configuratiecontrole
+ArvB70|Resultaat van de periode conformiteitscontrole
+DwVsCD|Tuigage
+lmwgwD|Tuigage
+tVF58f|Tuigage
+xBfzm2|Tuigage
+z7eGHS|Rol niet toegestaan
+P47vFY|Rol
+8RhH9W|Rollen
+gtLFK0|Route
+rqm7uR|efa fahrtenabzeichen
+sHl4hd|audit_logbooks
+aBry6x|Verkoopprijs
+NvItHb|Opslaan
+hYYtfA|Opslaan
+iM0FxL|Bestaande configuratie opslaan
+M4P1uK|Beveiligingsconcept aangemaakt.
+saSTkk|Selecteer beelden om te uploaden:
+YhyKTz|Selecteer tabel
+epwaIX|select Gebruik syntaxisfout in formulierdefinitie.
+rOaloE|selecteren/bijwerken
+1vgJ3q|Geselecteerde tafel:
+jIay6a|Verstuur efaCloud login token
+VkSSmT|Inlogtoken verzenden
+sVUA3S|alleen verzenden voor schade klasse "onbruikbaar
+L9ZdPG|Stuur ook de API logs en de audit log (vereist voor een support verzoek).
+3tUUPL|Stuur back-up per e-mail.
+zmsFb6|Verzenden is mislukt voor: '%1'.
+1393xk|Verzonden:
+akyasw|Verzonden:
+SvaKYg|Serienummer
+JMdyYP|Toegang tot de server is volledig mislukt.
+hOqvCZ|Server toepassing
+hjdoBL|Server toepassing
+qwMH39|Serverberichten
+IEwtHj|Dienst / Terugkoppeling
+26flZh|Sessie gecontroleerd:
+RHGlRZ|Sessiecontext: %1, huidig: %2
+7MQHkj|Reisgroep
+Ukfuhg|session_open - initialiseert PHP sessie array.
+nWbfxq|Automatisch ingesteld met leeftijd
+LjCmY9|Standaard instellen voor `%1`.`%2` van NULL naar %3
+vHyDe6|Zet ontbrekende verplichte velden op standaard
+K1bZta|Wachtwoord instellen voor efaCloud
+iPXyEn|Stel het vinkje in.
+ydOyJW|efaCloud instellen
+rObLc3|Ingesteld
+cmOGiF|Stel toegangsrechten in voor de aangemaakte bestandsstructuur.
+CD3PrG|Instellingen voor efaCloud
+Z6AXS3|Toon archief gegevens
+Wzrjo6|Toon archief gegevens
+JUw3H1|Toon huidige record
+dnQoBs|Toon schademeldingen
+ZKVVWo|Toon verwijderd record
+sRQXxQ|Details tonen
+WIRI9i|Toon efa gegevensrecord
+efjxwi|Toon gefilterde lijst
+o58jwc|Tonen in lijst
+1hcXo7|Toon logbestand
+jf1sW3|Toon logbestand
+YjpUT1|Berichten tonen
+wTY6KX|Toon PHP configuratie
+5sCN40|Toon profiel
+J6CBlP|Toon record
+4l5FTD|Toon prullenbak
+32t78v|Toon reserveringen
+KHeqx2|Toon reserveringen
+htDoQ0|Toon reizen
+Qgr3Gt|Toon gebruikers
+uo2ViI|Toon
+u9WjgW|Afsluiting van %1. Script gestart op %2
+LQkc0F|Handtekening onder door het systeem gegenereerde mails
+eosDhG|Grootte (kB):
+NKmdC2|Groottecontrole: tabellen en gegevensverzamelingen
+MnUz4K|Grootte Verzoeken
+bq7XVl|Grootte van de antwoorden
+bciyl7|Ontbrekende %1 %2 overslaan
+nLel3k|Sorteren met één klik op de kolomkop (slechts gedeeltelijk), overschakelen van oplopend naar aflopend met een tweede klik.
+sp2W9z|efa2persons
+SomMhj|Sport bewerking
+ROnbpI|Standaard bestemming
+9reeG3|Standaard Team
+LB0r2L|Start (tijd)
+yQ1qgk|Start efaCloud
+9H3wls|Start efaWeb
+7QPJ0h|Start is boothuis
+d7WN8G|Begin van de bewakingsperiode:
+dnQznW|Begin bij
+Ef9qFy|Start reis
+gS4qXx|Nieuwe sessie gestart:
+Q843R8|Gestart:
+W81e1T|Gestart:
+mGzOgz|Gestart:
+BbNX8o|Start api_select voor klant %1 op tabel %2 en api versie %3.
+h00O8b|Begin van bewaking op:
+7tTMfJ|Begin van de back-up van de gegevens.
+mrO2j6|Start dagelijkse bestellingen.
+X2GfIo|Start van de integriteitscontrole van de database.
+Yx56GO|Start init_efa_data_base().
+8hPspQ|Start van
+YPmPF9|Start van
+mrY3PQ|Start van
+rmslRn|Start van
+wyGERI|Start
+e6HgQI|Statistieken uploaden
+spZnNV|Statistieken
+POnf6N|Status
+VSCsCr|Stijl standaard tabel (inline syntaxis, bijvoorbeeld: border:1px solid #000088;)
+VGinON|Style sheet cel body
+RziD3J|Style sheet cel koptekst
+YriW9N|Stijlblad rij
+2yWFRU|Onderwerp:
+HCNOra|Onderwerp:
+XMHPag|Onderwerp:
+NeJuR0|Onderwerp
+OymftT|indienen
+wTnmiM|Abonnementen, masker 
+id0bwJ|Geslaagd.
+vsbqU2|Geslaagd.
+xeTyR1|Ondersteuning / upgrade
+iiTAZJ|Zonder opgave van naam en club worden ondersteuningsverzoeken niet in behandeling genomen. De reactietijd is meestal minder dan een week, soms langer tijdens vakanties.
+PAIiKT|synchroniseren met KanuEfb
+ytvi8G|synchroniseren met KanuEfb
+DVJZn1|Systeemtellers kunnen niet worden gewijzigd omdat er anders fouten in de toepassing kunnen optreden.
+PnEMKA|Systeem tellers
+tEsOVw|efaWeb_crews
+pGNnML|Tabel (tussen haakjes: aantal records)
+X36oqA|Tabel als doel:
+uwYaTR|Tabelconfiguratie controleren ...
+bYc0uP|Tabel waarin gegevens hersteld moeten worden:
+0i10mg|Tabelnaam;Kolomnaam;Gegevenstype;Gegevenslengte
+xRpQLT|Naam van de tabel;Versie van de tabel;Kolomnaam;Datatype;Datalengte;Object-ID;Sleutel;Sleutelcorrectie
+AFDcif|Tabel:
+k55LAo|Tabel:
+TjrkjA|Tabel
+WWOePq|Tabel
+bJ44LM|Tabellen en records
+bxlpav|Tabellen en records
+G5m6Ej|Nu overnemen
+HLbrnw|Nu overnemen
+aa9tiK|Nu overnemen
+UF5ROO|Doelgebieden
+v8r9C2|Bestemming nummer
+jPAGA4|Doelen
+pOzbf5|Fiscus op lijst positienummer
+xJzfix|Fiscus op lijst positienummer
+1yAYIE|Naam team
+ClrV6N|Team
+DCYvxF|Test interface
+P7qqn3|Test persoonlijk logboek
+liBwB2|Tekst naar de boot
+BwRlFt|Te zoeken tekst
+5nzLeq|tekst
+02SBJ9|Bedankt voor uw verzoek. De efacloud.org server rapporteert:
+4plJZf|Dat is het.
+9tMKlx|Pagina '%1' moet worden aangeroepen met het id van het weer te geven record.
+pYJiV8|Pagina '%1' moet worden aangeroepen met het id van het weer te geven record.
+hYvVME|De afkorting die voor uw club moet worden gebruikt
+J54Euo|De transactie hoeveelheden en tijden als een draaitabel
+VG4gUV|Het archiefrecord #%1 kon niet hersteld worden. Reden:
+o1UBxC|Het archiefrecord #%1 kon niet hersteld worden. Reden:
+0mLtWK|De club waar efaCloud wordt gebruikt
+KAPg7y|Het auto-increment veld '%1' mag niet in een record met API V3 worden ingesteld.
+AebG0R|De boot is bezet met de boeking: %1 van %2 %3 tot %4 %5.
+0CIAFU|De boot is
+N2MgjZ|De wijziging wordt onmiddellijk naar de database overgebracht en tegelijkertijd in het logboek geregistreerd.
+YWg7T3|De wijziging wordt onmiddellijk naar de database overgebracht en tegelijkertijd in het logboek geregistreerd.
+4zk8rq|De wijzigingen zijn voor de betrokken gebruiker pas zichtbaar na uitloggen en opnieuw inloggen.
+cDp91U|De wijzigingen zijn voor de betrokken gebruiker pas zichtbaar na uitloggen en opnieuw inloggen.
+u8kMxd|De wijzigingen: %1 kunnen niet of slechts gedeeltelijk worden uitgevoerd. Het formulier is gereset.
+s4u2Lr|De wijzigingen: %1 kunnen niet worden uitgevoerd. Het formulier is gereset.
+eRiGtK|Het clubwerk '%1' op dag %1 valt niet in de geldige periode voor het clubwerkboek '%2' (%3 - %4).
+opBjzY|Het clubwerk '%1' op dag %2 valt niet in de geldige periode voor het clubwerkboek '%3' (%4 - %5).
+1VQeE3|De associatie werkmap %1 is niet bekend.
+Aa7tu3|het protocol van de configuratiecontrole
+81bKNO|De gegevenswijziging wordt onmiddellijk van kracht in de efaCloud-server, in aangesloten efa-PC's pas na de volgende synchronisatie.
+86Nb4G|De gegevenswijziging wordt onmiddellijk van kracht in de efaCloud-server, in aangesloten efa-PC's pas na de volgende synchronisatie.
+9dUOLQ|De gegevenswijziging wordt onmiddellijk van kracht in de efaCloud-server, in aangesloten efa-PC's pas na de volgende synchronisatie.
+EdGsT5|De gegevenswijziging wordt onmiddellijk van kracht in de efaCloud-server, in aangesloten efa-PC's pas na de volgende synchronisatie.
+FXvmEJ|De gegevenswijziging wordt onmiddellijk van kracht in de efaCloud-server, in aangesloten efa-PC's pas na de volgende synchronisatie.
+Fzl2Mt|De gegevenswijziging wordt onmiddellijk van kracht in de efaCloud-server, in aangesloten efa-PC's pas na de volgende synchronisatie.
+Jf0W3r|De gegevenswijziging wordt onmiddellijk van kracht in de efaCloud-server, in aangesloten efa-PC's pas na de volgende synchronisatie.
+M1TX5b|De gegevenswijziging wordt onmiddellijk van kracht in de efaCloud-server, in aangesloten efa-PC's pas na de volgende synchronisatie.
+YtwoYJ|De gegevenswijziging wordt onmiddellijk van kracht in de efaCloud-server, in aangesloten efa-PC's pas na de volgende synchronisatie.
+bX0UwA|De gegevenswijziging wordt onmiddellijk van kracht in de efaCloud-server, in aangesloten efa-PC's pas na de volgende synchronisatie.
+fOoJDo|De gegevenswijziging wordt onmiddellijk van kracht in de efaCloud-server, in aangesloten efa-PC's pas na de volgende synchronisatie.
+ktSLdA|De gegevenswijziging wordt onmiddellijk van kracht in de efaCloud-server, in aangesloten efa-PC's pas na de volgende synchronisatie.
+qY471o|De gegevenswijziging wordt onmiddellijk van kracht in de efaCloud-server, in aangesloten efa-PC's pas na de volgende synchronisatie.
+r5FkMm|De gegevenswijziging wordt onmiddellijk van kracht in de efaCloud-server, in aangesloten efa-PC's pas na de volgende synchronisatie.
+rsIdGA|De gegevenswijziging wordt onmiddellijk van kracht in de efaCloud-server, in aangesloten efa-PC's pas na de volgende synchronisatie.
+wv7nF9|De gegevenswijziging wordt onmiddellijk van kracht in de efaCloud-server, in aangesloten efa-PC's pas na de volgende synchronisatie.
+0Uumzu|Het gegevensveld "%1" mag alleen "true", "false" of niets bevatten, de waarde "%2" is ongeldig.
+ii65L9|Het gegevensveld "%1" moet uniek zijn. De waarde "%2" is al bezet door "%3 %4".
+2uwpcG|Het gegevensveld "%1" moet een numerieke waarde bevatten, de waarde "%2" is ongeldig.
+Isis2Z|De databaseconfiguratie is bijgewerkt (%1 bytes).
+PUAtWz|De database is herbouwd en %1 %2 is ingesteld als beheerder, zodat deze nog steeds kan worden beheerd.
+e551y9|De database is opnieuw opgebouwd, behalve de tabel efaCloudUsers.
+pm2wvp|De datum van de logboekvermelding #%1 valt buiten de periode die voor de geselecteerde reisgroep "%2" is opgegeven.
+ceZU15|Het verwijderen van het wachtwoord in de database is mislukt.
+YdTDBW|De details van de invoer zijn:
+PeQfHu|De map is aangemaakt.
+GmOMkX|De efaCloudUserID moet een geheel getal zijn.
+015RH6|De efaCloudUserID moet groter zijn dan 10 en kleiner dan 1.000.000.000.
+SC6SXl|Het e-mailadres "%1" is al bezet door %2 %3. Het kan niet tweemaal worden gebruikt.
+bBTcin|De einddatum '%1' is vóór de begindatum '%2'.
+FM9hJL|De einddatum komt niet overeen met het jaar bepaald uit de naam.
+rwl5Jj|De einddatum van de logboekvermelding #%1 valt buiten de periode die is opgegeven voor de geselecteerde reisgroep '%2'.
+ysn50P|De ingevoerde zoekteksten worden exact als tekstdeel doorzocht.
+HFNMBp|Het verwachte kalenderjaar kon niet worden bepaald aan de hand van de naam.
+Q77SFy|Het veld "ActiveDays" heeft een ongeldige waarde.
+ZjU51G|Het bestand '%1' is geüpload.
+fUMqe5|Het bestand kon niet worden geüpload. Foutomschrijving: '%1'.
+AE2Uq5|Het uploaden van het bestand is gelukt. Controleer links of de weergave correct is.
+kXZ9rj|De volgende %1 van de object-ID's in totaal %2 worden niet (meer) gebruikt:
+U7JDda|Het volgende activiteitresultaat werd geregistreerd:
+WOnK0g|Het volgende activiteitresultaat werd geregistreerd:
+8h4mmf|De volgende wijzigingen moeten tijdens het importeren worden aangebracht:
+8gVWmU|De volgende wijzigingen zijn tijdens de import doorgevoerd:
+9mww2x|De volgende wijzigingen zijn aangebracht:
+cFEi41|De volgende wijzigingen zijn aangebracht:
+qn2cjQ|De volgende gegevensvelden zijn geen velden in de logboektabel: %1.
+4SVUF8|De volgende modules ontbreken op de server in vergelijking met de referentie-installatie:
+GCD6OA|De full text search zoekt naar de opgegeven tekst in alle entries van een record van de gebruikers.
+9jRxQE|Het geslacht moet 'MANNEN' of 'VROUWEN' zijn.
+x76oqA|De taal
+slCqRl|De lijst '%1' mag niet worden uitgevoerd voor de rol '%2' of de abonnementen of workflows die zijn toegestaan voor de huidige gebruiker (%3 %4).
+hFKtKU|De lijst wordt gesorteerd op naam en de laatste geldige versie van het object wordt weergegeven.
+cTaWzE|De lijst is gesorteerd op het gefilterde veld: %1.
+gqkGOQ|Het logboek en de statistieken worden gewoonlijk één keer per dag verstuurd. De gegevens zijn dus van gisteren.
+qoSgaT|Het logboek en de statistieken worden gewoonlijk één keer per dag verstuurd. De gegevens zijn dus van gisteren.
+QZLbIG|Het logbestand
+hxETBN|Het logboek %1 (ritnummer: '%2') is niet bekend.
+dIcKzE|Het logboek %1 is niet bekend.
+wOmMPf|Het logboek
+RxkkKI|Het bericht werd verzonden naar %1 leden en opgeslagen in de database met het resultaat:
+iSCF3X|De meest waarschijnlijke reden is dat er geen ritten in het logboek staan, een andere mogelijkheid is dat het e-mailadres als efaCloudUser niet overeenkomt met het e-mailadres dat in efa is opgeslagen.
+VFh57f|De benodigde informatie '%1' ontbreekt in de dataset: %2.
+n47bZV|De noodzakelijke informatie "%1" ontbreekt in de gegevensverzameling: "%2".
+LdOZnH|De nieuwe versie maakt geen verbinding (afwijking > 2 minuten).
+2SudTe|De nieuwe versie overlapt de bestaande versie met meer dan 2 minuten.
+Pv4vGW|De oude versie kon niet in geldigheid worden beperkt. De database meldt:
+Nz8G7x|Het eenmalige wachtwoord '%1' kan worden gebruikt om het permanente wachtwoord van de toepassing te wissen voor de volgende %2 minuten.
+ULBtgs|Het eenmalige wachtwoord kon niet worden verzonden.
+nbrk4v|Het eenmalige wachtwoord kon niet worden verzonden.
+1HuxvX|Het eenmalige wachtwoord is onjuist of verlopen.
+K7CeYe|Het eenmalige wachtwoord is onjuist of verlopen.
+8oDhBF|Het eenmalige wachtwoord is verzonden naar '%1'.
+PeJo45|Het eenmalige wachtwoord is verzonden naar '%1'.
+Pb2uDW|De volgorde van de archieflijsten in ../config/lists/efaArchive moet overeenkomen met de tabellen in de Efa_archive::$archive_settings. Fout bij: %1 ABORT.
+jmcH6l|De pagina '%1' moet worden aangeroepen met vermelding van het type rechten.
+JdTgrN|Pagina '%1' moet worden aangeroepen met het id van de te wijzigen gebruiker.
+NBPC0G|Pagina '%1' moet worden aangeroepen met het id van de te wijzigen gebruiker.
+FJDHAh|Pagina '%1' moet worden aangeroepen met het id van het aan te spreken record. 
+yR7zed|Het wachtwoord kan alleen worden ingesteld voor nieuwe gebruikers en gebruikers met de rol 'bths'.
+655rFb|Het wachtwoord is gewijzigd.
+b25fYT|Het wachtwoord is gewijzigd.
+W37MTN|Het wachtwoord is niet veilig genoeg in '%1'. %2
+6617qN|Het wachtwoord moet minstens 8 tekens lang zijn. Het wachtwoord moet tekens bevatten uit drie van de volgende vier groepen: Cijfers, kleine letters, hoofdletters, speciale tekens. Toegestane speciale tekens zijn !&quot;#$%&'*+,-./:;<=>?@[\]^_`{|}~
+9p9GjU|Het wachtwoord moet tussen 8 en 32 tekens lang zijn en ten minste drie van de tekengroepen "kleine letters", "hoofdletters", "cijfers" en "speciale tekens" bevatten.
+aJ5Cy9|Het wachtwoord moet tussen 8 en 32 tekens lang zijn.
+iJUmCH|Het wachtwoord moet tekens bevatten uit drie van de volgende vier groepen: Cijfers, kleine letters, hoofdletters, speciale tekens. Toegestane speciale tekens zijn !"#$%&'*+,-./:;<=>?@[]^_`{|}~.
+scIPSc|De wachtwoorden moeten overeenkomen. Het wachtwoord is niet gewijzigd.
+xVSLCZ|De wachtwoorden moeten overeenkomen. Het wachtwoord is niet gewijzigd.
+ZgYTwD|De periode van is korter dan een jaar.
+HEhURD|De rechten worden aan alle aangesloten efa clients doorgegeven bij admin login, dus u moet ze niet meer instellen in de client....
+hL4rxQ|De machtigingen hebben geen effect op aangesloten efa clients of de efaCloud server applicatie.
+4hdqAF|Het proces is nu voltooid.
+GkURzg|Het record in tabel '%1' met record ID '%2' kon niet worden gevonden.
+hWh4Y3|Het record mist het veld '%1' dat gecontroleerd moet worden op uniciteit.
+xh2TM5|Het te wijzigen record met het ecrid '%1' kon niet worden gevonden in de tabel %2.
+oSuy4P|Het record werd niet aangemaakt. Het formulier werd gereset.
+sYfgN8|Het record werd niet aangemaakt. Het formulier werd gereset.
+xq5ret|Het record met de %1 '%2' uit tabel %3 kon niet worden verwijderd. De database meldt:
+AUhcRm|Het record met de %1 '%2' uit tabel %3 is al een verwijderde vermelding.
+uf5AMD|Het record met de %1 '%2' uit tabel %3 is verwijderd.
+cAP24j|Het record
+fZg2zo|De registratie moet nog worden voltooid door de beheerder. Pas dan kan een eenmalig wachtwoord worden verstuurd.
+BFNYBY|De gevraagde transactie zit niet in de container.
+NeU2jA|Het verplichte veld "%1" mag niet leeg zijn voor nieuwe records.
+bZbb82|De restore voor records uit %1 die minder dan %2 dagen geleden zijn gearchiveerd, resulteerde helaas in de volgende fout:
+D7SPTM|De rol '%1' heeft geen rechten voor de actie '%2'. Noch in de sub-beschrijvingen noch in de workflows kon een geschikte toestemming worden gevonden.
+xS4f0M|De geselecteerde mailinglijst is niet gevonden.
+9mmdUG|De sessie is nog steeds actief, ga verder met een actie uit het menu.
+5dqGwa|De sessie is bijgewerkt.
+QVV55u|De grootte van het broncode archief is te klein. Er is iets fout gegaan tijdens het downloaden. Daarom stopt het proces hier.
+uuZ8U8|De grootte van het broncode archief is te klein. Er is iets fout gegaan tijdens het downloaden. Daarom stopt het proces hier.
+mo19gA|De specificatie "%1" vertegenwoordigt geen geldig e-mailadres.
+QQKP9h|De specificatie van een startdatum van de geldigheid is niet toegestaan voor wijzigingen.
+slqdAt|De begindatum moet voor of op de einddatum liggen.
+QgsW8r|De begindatum moet in de toekomst liggen.
+VDMUsh|De synchronisatiefouten
+aCcatt|De tabel is geversioneerd.
+yXukLG|De lay-out van de tabel is aangepast.
+xo9xjE|De tabel toont alle lijsten die beschikbaar zijn in de rol %1 met de vereiste autorisatie om de lijst weer te geven. De lijst is toegankelijk door op de beschrijving te klikken.
+qJ3tRL|De tekst wordt altijd gezocht als onderdeel van de inhoud van het gegevensveld, bijvoorbeeld Als de rittenboeken met de vermelding "123" van het ritnummer ook de ritten 1230, 1231, 1232, 2123, 3123, ... bevatten. .
+RqYBEi|De transactie kan niet worden uitgevoerd, de sleutel is al in gebruik.
+dN1n95|De transactie kan niet worden uitgevoerd, de sleutel is al in gebruik.
+bJGu9Q|De transactie is nog niet verzonden of wacht nog op een antwoord.
+mY35PB|De rit %1 met begin %2 en einde %3 ligt niet in de geldige periode voor het logboek %4 (%5 - %6).
+Aujsqx|De rit bestaat al, hij kan niet worden aangemaakt.
+ZF44WW|De rit bestaat al, hij kan niet worden aangemaakt.
+thc1PS|De reis is toegevoegd.
+KwSMMI|De reis is bijgewerkt.
+rmbd4P|De reis is toegevoegd.
+6tD5vO|De rit valt niet binnen de geldige periode voor ritgroep '%1'.
+AyanBa|De reis wordt bijgewerkt.
+h2NkfK|De rit met begin %1 en einde %2 valt niet binnen de geldige periode voor ritgroep '%3' (%4 - %5).
+Uqbi57|De typedefinitie voor %1 kon niet worden geladen.
+hBPwLR|De typedefinitie voor %1 is niet beschikbaar.
+R1C9sE|Het unieke veld '%1' is niet uniek. Verder voorkomen in het object met id '%2'.
+kiqQLC|Het unieke veld '%1' is niet uniek. Ander voorkomen in record met ecrid '%2'.
+jdB8fj|De geüploade afbeelding #%1 is van:
+ZQSvHw|De gebruiker kon niet worden geïdentificeerd.
+c1Gjma|De gebruiker kon niet worden geïdentificeerd.
+cyN5oe|De gebruiker voor het verzenden van het login token is niet gevonden.
+gIhhVn|De gebruiker voor de testverzending van het persoonlijk logboek heeft geen mailadres ingevuld.
+xf8bTS|De gebruiker mag de rol %1 niet gebruiken.
+47Cndc|Het gebruikersrecord voor ID '%1' kon niet worden gevonden.
+BGJkSQ|Het gebruikersrecord voor ID '%1' kon niet worden gevonden.
+GJLu3j|Het gebruikersrecord voor ID '%1' kon niet worden gevonden.
+pbDY3P|De geldigheid van de oude versie is beperkt.
+Yhu6l5|De startdatum van de geldigheid werd niet correct geregistreerd, probeer het opnieuw.
+21KOoL|De versie van het object '%1
+SPDW0F|Het zip-bestand '%1' kon niet worden aangemaakt.
+ATSnFO|Er zijn momenteel te veel gebruikers ingelogd. Probeer het later nog eens. We vragen om uw begrip.
+2AaqLH|Er is nog geen bewerkingsformulier voor de tabel Association Workbook.
+R2ORRQ|Er is geen bewerkingsformulier voor de tabel met statistische configuraties. De statistiek configuraties worden niet gebruikt in efaCloud, bewerk deze in de PC client.
+r4yqil|Deze instellingen hebben geen invloed op het gebruik van efaCloud of efaWeb.
+fudXmI|Deze pagina werd opgeroepen zonder de client-ID op te geven.
+AicQjQ|Dit record werd verwijderd. Alleen het verwijderingsrestant is nog beschikbaar.
+scNlB8|Tijd in seconden tussen twee automatische veranderingscontroles. Standaard is 60, uitschakelen met 0.
+nlanLa|Tijd in seconden tussen twee automatische downloadsynchronisaties. Standaard is 3600.
+rFKAAZ|Tijd nu:
+R9sv8M|Tijd:
+ACEfVr|Tijd
+x8hxVv|Time-out wegens inactiviteit.
+kbRZ71|tijden
+TMSdWl|Tijdstempel er:
+NLPzjP|Titel
+0K9Ayf|Om ritbadges toe te voegen moet efa gebruikt worden als pc-programma.
+P4Mt4D|Om statistieken toe te voegen moet efa gebruikt worden als PC programma.
+I4sydt|Om uw wachtwoord te verwijderen, vult u uw e-mailadres in:
+ZkSXcw|Om het wachtwoord te resetten, neem contact op met de beheerder van de applicatie in de club.
+fjQeZR|Om uw wachtwoord in te stellen, voert u het volgende in
+2fTRpv|op de efaCloud-server
+6KXRE6|Aan:
+STiNM1|Naar
+EBIhOz|vandaag
+Gc6rWW|Teveel sessies open voor deze gebruiker.
+MMoUVY|Teveel sessies open voor deze gebruiker.
+sAM6H9|Teveel sessies open voor deze gebruiker.
+1smfqD|Totaal %1 dagen;
+KZvGMc|Totaal %1 Dagen
+EsUbNY|Totaal
+F6snKT|Totaal
+KhEE7l|Totaal
+WLvJO7|Totaal
+Z4dgHJ|Totaal
+nDBbCc|Totaal
+wNrHCN|Totaal
+tpwI4a|archive_damages
+52B267|Verkeersvolumes van de laatste dagen naar gebruikers met de rol 'bths' (boothuis).
+S0Lse6|Fout in transactiecontainer:
+ipgDJE|Transactie genegeerd.
+JkJqGq|Transactie: %1 unmatched_server_side_records.
+ebzhv5|Transactie: Er kon geen vrije sleutel worden gevonden om aan de clientzijde te gebruiken voor sleutelcorrectie. Sleutelcorrectie afgebroken.
+dTHKvl|Transactie: Sleutelwaarde '%1' werd gedetecteerd als vrij_bij_client.
+irFk1J| %1
+nrTQdY| %1
+w6LYgh|Overdracht naar efaCloud server is mislukt.
+qECzxn|Initieer back-up
+KbKtBC|Trigger Cronjobs
+BJR12l|Rit in logboek, begindatum
+dGLZjB|Nummer van de reis
+exItow|Nummer van de reis
+8zAeYI|Trip
+dfJUi2|Reizen van %1 alleen als
+QufYal|Reizen van %1
+8CQaLz|Reizen van de laatste 30 dagen
+8QYlfo|Ritten die niet overeenkomen met de logboekperiode.
+Kracb7|Reizen
+rckzWH|Reizen
+4cenTr|Type laatste wijziging
+5sDUxa|Type laatste wijziging
+8L1JOu|Type laatste wijziging
+BapoPO|Type laatste wijziging
+ChM90G|Type laatste wijziging
+EgJpL1|Type laatste wijziging
+JKjuTI|Type laatste wijziging
+VGObJU|Type laatste wijziging
+WABGHo|Type laatste wijziging
+WqtAvX|Type laatste wijziging
+Y7JyOD|Type laatste wijziging
+bwxVd4|Type laatste wijziging
+jVeFhK|Type laatste wijziging
+lzeFj0|Type laatste wijziging
+msLZ1U|Type laatste wijziging
+o7RIYt|Type laatste wijziging
+uiPb75|Type laatste wijziging
+TNUH68|Type status
+Il6Xae|Type reis
+5yN29k|Type
+uD4TTa|audit_persons
+uPD1Dz|
+|</table>
+|</div>
+YRkM5b|Inactieve applicatiesessie '%1' kan niet worden verwijderd.
+CVStxl|Ongedefinieerde fout
+phvRfA|ongedefinieerd
+KARSRU|Onbekende fout, controleer record.
+0xNazF|Helaas kon er geen afvalrecord worden aangemaakt.
+yf8erz|Formulierverwerking kan helaas niet doorgaan omdat een formulierpagina te lang niet is opgeslagen.
+V8fLMV|Het record kan niet worden weergegeven omdat minstens één sleutelveld ontbreekt.
+pH7Sis|Helaas, er is geen wijzigingsgeschiedenis voor dit record.
+BnxvUl|Dit is helaas niet gelukt. Het opgegeven login token is niet (meer) geldig.
+zxg9i4|Helaas werkte dit niet. De gebruiker '%1' van het login token is niet (meer) geregistreerd.
+0IaBC8|Unieke recordreferentie (ecrid)
+1ouvj5|Unieke recordreferentie (ecrid)
+2zpN2g|Unieke recordreferentie (ecrid)
+9BOV1Y|Unieke recordreferentie (ecrid)
+9fsJcb|Unieke recordreferentie (ecrid)
+AX585k|Unieke recordreferentie (ecrid)
+FFSdn0|Unieke recordreferentie (ecrid)
+Fjvte0|Unieke recordreferentie (ecrid)
+GbGY1g|Unieke recordreferentie (ecrid)
+Lg1vxg|Unieke recordreferentie (ecrid)
+PM0Z7L|Unieke recordreferentie (ecrid)
+Q24ykn|Unieke recordreferentie (ecrid)
+YWdMWp|Unieke recordreferentie (ecrid)
+e68r97|Unieke recordreferentie (ecrid)
+eIq8Xc|Unieke recordreferentie (ecrid)
+eaRT3T|Unieke recordreferentie (ecrid)
+ltX3IU|Unieke recordreferentie (ecrid)
+NwyE88|onbekende opstart
+7qmVxb|Onbekende fout bij het uploaden. probeer het opnieuw.
+R64uhq|Onbekende fout bij het uploaden. probeer het opnieuw.
+RAACdM|Onbekende fout bij het uploaden. probeer het opnieuw.
+a5koMa|Onbekende fout bij het uploaden. Probeer het opnieuw.
+xJsUjf|Onbekende fout bij het uploaden. Probeer het opnieuw.
+Yel8jV|Onbekende fout bij het aanmaken van de directory: '%1'.
+w2qoFy|Onbekende fout bij het uploaden naar '%1'.
+IzCLZv|onbekend ID
+VCdF1p|onbekend
+AvnsF9|efa ontgrendelen
+k8VdhO|efa ontgrendelen
+GuEiQo|Uitpakken en kopiëren van het broncode-archief
+v32JTG|Ongelezen berichten
+PXDvBO|tot datum
+Eqz3VC|Tot tijd
+aGIzxm|naar
+UU1TV0|Update %1 met: %2
+iCqOma|Bijwerken na upload
+Y9hsnl|Update record
+eG5Cqz|Trip bijwerken
+tzrcLT|Bijwerken:
+hB8ltL|UPDATE
+234kPR|Nu uploaden en controleren
+31anwS|Nu uploaden en controleren
+75KimF|Nu uploaden en controleren
+QVqYRs|Nu uploaden en importeren
+XtuNgZ|Nu uploaden
+KLgQSh|Uploaden:
+chH4U9|Geüpload:
+txXT1g|Upload
+XPbBHm|Gebruikte parameter van de lijst:
+eI2ua5|Gebruiker na DB-controle: appUserID: %1, rol: 
+PI741T|Gebruiker heeft geen wachtwoord hash ingesteld in zijn profiel.
+a9d5U7|De gebruiker is geen admin en mag dus niets wijzigen. Afbreken.
+aCa6RR|Naam van de gebruiker
+cTi6L7|Gebruiker niet gevonden.
+zOZlkQ|Nummer van de gebruiker
+psSYI1|Gebruiker heeft geprobeerd gegevens van andere gebruikers te wijzigen zonder de useradmin-rol of de juiste workflowtoestemming te hebben.
+gI7hvr|Gebruiker heeft geprobeerd eigen toegangsrol te wijzigen zonder useradmin rol
+m6BPH3|Gebruiker heeft geprobeerd eigen accountnaam '%1' te wijzigen in '%2' zonder useradmin rol.
+T5N6rh|De gebruiker heeft geprobeerd zijn eigen rol 'Concessies' te wijzigen zonder de rol 'useradmin'.
+A2Zw3z|Gebruiker heeft geprobeerd eigen gebruikers-ID '%1' te veranderen in ''%2' zonder de rol useradmin te gebruiken.
+4RIp1F|Gebruiker heeft geprobeerd eigen workflows te wijzigen zonder de useradmin rol te gebruiken
+U01t2T|Gebruiker
+e8yebR|Gebruiker
+eTvuhh|Controleer gebruiker en toegangsrechten
+8E9X2M|Gebruikers met efa-Admin rechten (ook voor Security-Concept)
+awmNYz|gebruikelijke variant
+v9YvYn|archive_clubwork
+Zjd3XU|geldig van
+gFHiKG|geldig van
+qlbSpW|geldig van
+vGrXlG|geldig van
+7998Uw|geldig
+afDbIr| (wildcard *):
+W1p3g6|Waarde
+ulIoAv|Verificatie mislukt. Kolom %1.%2 extra.
+rxMN98|Verificatie mislukt. Kolom %1.%2 ontbreekt.
+3EWY5V|Verificatie mislukt. Kolom %1.%2 met grootte %3 in plaats van %3.
+mwaK4O|Verificatie mislukt. Kolom %1.%2 met type %3 in plaats van %3.
+nPmhjO|Verificatie mislukt. Index %1.%2 extra.
+9mUNZn|Verificatie mislukt. Index %1.%2 niet in indexen van %1.
+9g3u60|Verificatie mislukt. Tabel %1 extra.
+KprqM0|Verificatie mislukt. Tabel %1 ontbreekt.
+DQYc1I|Verificatie mislukt
+P1TqTx|Verificatie mislukt
+gLdeJY|Verificatie succesvol voor '%1
+111oMV|Controleer wachtwoord gebruiker
+EqK0xN|Versie (veranderteller)
+OXb6cw|Versie (veranderteller)
+PluTvv|Versie (veranderteller)
+YsPjcR|Versie (veranderteller)
+bCHlEQ|Versie (veranderteller)
+bzYgA7|Versie (veranderteller)
+dEsPhQ|Versie (veranderteller)
+ed0qiK|Versie (veranderteller)
+lMnBVC|Versie (veranderteller)
+lht05f|Versie (veranderteller)
+nauyTu|Versie (veranderteller)
+o8f4hm|Versie (veranderteller)
+t0puPg|Versie (veranderteller)
+tVU4eD|Versie (veranderteller)
+uCyGY5|Versie (veranderteller)
+ujuTde|Versie (veranderteller)
+wBg0wK|Versie (veranderteller)
+j09UFf|Versie upgrade
+f8865P|Versie V%1 van het record in tabel '%2' met record ID '%3' kon niet worden hersteld. Reden:
+07MoEU|Versie geldig tot:
+d1qWsf|Bekijk client instellingen
+erIeb6|Bekijk de details en wijzig deze indien nodig door op de vermelding in kolom '%1' te klikken.
+PupsO7|Stamgegevens bekijken
+4Gic54|bekijk
+4PkFAz|bekijk
+AByOf6|bekijk
+B6wzYu|bekijk
+FlfcWr|bekijk
+IqBXjy|bekijk
+L6AeK2|bekijk
+TM7PIY|Bekijk
+XZwd9r|bekijk
+ZTCxkg|bekijk
+ePOJhc|bekijk
+fvhAlH|bekijk
+IaiL4s|Virtuele gegevensvelden
+R223pr|Virtuele velden gecorrigeerd.
+vxUq2O|efaWeb_status
+wUV9W1|efaWeb
+wXtjdR|efa2fahrtenabzeichen
+uvau7j|WAARSCHUWING: Het script heeft de voettekst van de pagina niet bereikt.
+ZS7PdQ|WAARSCHUWING: De laaddefensie van toepassing %1 is geactiveerd. Details: 
+sbWQdK|Waarschuwingen
+Xi3PrW|Lijst van waterlichamen
+jNHmSX|Wateren
+nBd1Oa|Weekdag (alleen voor wekelijkse reserveringen)
+ZfnDtn|Wanneer begint het logboekjaar?
+G3BLoW|met %1 records
+r7eyg9|met het ID %1 aanmaken
+BAnNhO|Met de naam
+3oQw2U|met het object Id
+OKImlH|Met het eenmalige wachtwoord '%1' is het mogelijk om in te loggen in de applicatie voor de komende %2 minuten. Daarna is het ongeldig. Hoofdletters of kleine letters zijn niet belangrijk
+Ei35rV|met het record Id
+IVseh0|Workflows, masker 
+wpvByz|efa2destinations
+cBjbuk|Bericht schrijven
+KY7F6q|Verkeerd wachtwoord bij inloggen.
+sZKXYK|Verkeerd wachtwoord bij inloggen.
+xknZlx|audit_sessiongroups
+xxdpER|efa2logbook
+yGorGi|noListForThisRole
+ylwGEq|archive_reservations
+3oq4XF|U kunt kiezen tussen alle clients waarvoor statistieken beschikbaar zijn.  Als er een ontbreekt, heeft de server geen statistieken van deze client ontvangen.
+iydGls|U kunt kiezen tussen alle clients waarvoor statistieken beschikbaar zijn.  Als er een ontbreekt, heeft de server geen statistieken van deze client ontvangen.
+eNwq9h|Uw e-mailadres om contact op te nemen met het ondersteuningsteam
+G4czbF|Uw voornaam
+T1m6yT|Uw achternaam
+cM6Ctj|Uw wachtwoord
+X9LNW4|Uw aanvraag
+yr04AO|efa2logbook
+zNN6AZ|efa groups
+yByDpt|Bestanden zippen.
+KtXJLq|{Ongeldige parameter met puntkomma}

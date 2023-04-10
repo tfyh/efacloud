@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Title: efa - elektronisches Fahrtenbuch für Ruderer Copyright: Copyright (c) 2001-2021 by Nicolas Michael
+ * Title: efa - elektronisches Fahrtenbuch für Ruderer Copyright: Copyright (c) 2001-2022 by Nicolas Michael
  * Website: http://efa.nmichael.de/ License: GNU General Public License v2. Module efaCloud: Copyright (c)
  * 2020-2021 by Martin Glade Website: https://www.efacloud.org/ License: GNU General Public License v2
  */
@@ -10,9 +10,12 @@
 $php_script_started_at = microtime(true);
 $debug = true;
 
-// ===== initialize toolbox & access control.
+// ===== initialize toolbox & internationalization.
+include_once "../classes/init_i18n.php";  // usually this is included with init.php
 include_once '../classes/tfyh_toolbox.php';
-$toolbox = new Tfyh_toolbox("../config/settings");
+$toolbox = new Tfyh_toolbox();
+load_i18n_resource($toolbox->config->language_code);
+
 // ===== debug initialization
 $debug = ($toolbox->config->debug_level > 0);
 $posttx_debuglog = "../log/debug_posttx.log";
@@ -54,8 +57,9 @@ if (isset($_POST["lowa"])) {
              $requesting_client;
     include_once "../classes/tx_handler.php";
     Tx_handler::log_content_size(intval($_SERVER['CONTENT_LENGTH']), strlen($resp), $toolbox, 
-            $requesting_client);
+            $requesting_client); // strlen instead of mb_strlen, because number of bytes is needed.
     echo $resp;
+    // shortened end script procedure for lowa transaction.
     $toolbox->logger->put_timestamp($requesting_client, "api/lowa", $php_script_started_at);
     exit();
 }
@@ -63,18 +67,17 @@ if (isset($_POST["lowa"])) {
 // ===== construct Efa-tables and client handler for the next checks.
 include_once '../classes/tfyh_socket.php';
 $socket = new Tfyh_socket($toolbox);
-include_once "../classes/efa_tables.php";
-$efa_tables = new Efa_tables($toolbox, $socket);
 // ===== parse tx container and return, if the syntax is invalid
 include_once "../classes/tx_handler.php";
-$tx_handler = new Tx_handler($toolbox, $efa_tables);
-$tx_handler->parse_request_container(trim($_POST["txc"]));
+$tx_handler = new Tx_handler($toolbox, $socket, $php_script_started_at);
+$txc = (isset($_POST["txc"])) ? trim($_POST["txc"]) : "";
+$tx_handler->parse_request_container(trim($txc));
 if ($tx_handler->txc["cresult_code"] >= 400)
     $tx_handler->send_response_and_exit();
 
 // ===== trigger transactions load throttling.
-$loadTxOk = $toolbox->load_throttle("api_inits/", 
-        $toolbox->config->settings_tfyh["init"]["max_inits_per_hour"]);
+$loadTxOk = $toolbox->load_throttle("api_inits", 
+        $toolbox->config->settings_tfyh["init"]["max_inits_per_hour"], "posttx.php");
 if ($loadTxOk !== true) {
     $tx_handler->txc["cresult_code"] = 406;
     $tx_handler->txc["cresult_message"] = "Overload detected.";
@@ -85,10 +88,9 @@ if ($loadTxOk !== true) {
     $tx_handler->send_response_and_exit();
 }
 
-$tx_handler->php_script_started_at = $php_script_started_at;
-
 // ===== Test the data base connection
 $connected = $socket->open_socket();
+
 if ($connected !== true) {
     $tx_handler->txc["result_code"] = 407;
     $tx_handler->txc["result_message"] = "Web server failed to connect to the data base.";
@@ -107,8 +109,9 @@ if ($user_to_verify === false) {
 
 // ===== Authenticate the user
 // try by app session: reading the user from an existing session will return false on failure
-$session_user_id = (strlen($tx_handler->txc["password"]) > 20) &&
+$session_user_id = (mb_strlen($tx_handler->txc["password"]) > 20) &&
          $toolbox->app_sessions->session_user_id($tx_handler->txc["password"]);
+
 $verified = (($session_user_id !== false) && ($session_user_id == $api_user_id));
 if ($verified) {
     if ($debug)
@@ -120,6 +123,7 @@ if ($verified) {
     $api_session_id = $tx_handler->txc["password"];
     $is_new_session = false;
     $session_opened = $toolbox->app_sessions->session_open($api_user_id, $api_session_id);
+    
     if (! $session_opened) {
         $tx_handler->txc["cresult_code"] = 406;
         $tx_handler->txc["cresult_message"] = "Failed to reuse your existing session, please try again later.";
@@ -134,8 +138,23 @@ else {
                 date("Y-m-d H:i:s") . "\n  New session: verifying '" .
                          $user_to_verify[$toolbox->users->user_firstname_field_name] . " " .
                          $user_to_verify[$toolbox->users->user_lastname_field_name] . "' against " .
-                         strlen($tx_handler->txc["password"]) . " characters password.\n", FILE_APPEND);
-    $verified = password_verify($tx_handler->txc["password"], $user_to_verify["Passwort_Hash"]);
+                         mb_strlen($tx_handler->txc["password"]) . " characters password.\n", FILE_APPEND);
+    // get password hash for user either from data base or from auth_provider
+    $passwort_hash = $user_to_verify["Passwort_Hash"];
+    // if no password hash is available, check with alternative authentication provider
+    $auth_provider_class_file = "../authentication/auth_provider.php";
+    if ((strlen($passwort_hash) <= 10) && file_exists($auth_provider_class_file)) {
+        if ($debug)
+            file_put_contents($posttx_debuglog, 
+                    date("Y-m-d H:i:s") . "\n  ... getting password hash from external auth provider.\n", 
+                    FILE_APPEND);
+        include_once $auth_provider_class_file;
+        $auth_provider = new Auth_provider();
+        $passwort_hash = $auth_provider->get_pwhash($user_to_verify[$toolbox->users->user_id_field_name]);
+    }
+    // verify password.
+    $verified = (strlen($passwort_hash) > 10) && (strlen($tx_handler->txc["password"]) > 0) &&
+             password_verify($tx_handler->txc["password"], $passwort_hash);
     if ($verified) {
         $api_session_id = $toolbox->app_sessions->create_app_session_id();
         $is_new_session = true;
@@ -165,11 +184,13 @@ else {
 // Set the $_SESSION["User"] for later use in the application.
 if (! isset($_SESSION["User"]))
     $_SESSION["User"] = $user_to_verify;
+$_SESSION["User"]["appType"] = $tx_handler->txc["appType"];
 if ($debug)
     file_put_contents($posttx_debuglog, 
             date("Y-m-d H:i:s") . "\n  User after session check: appUserID " .
                      $_SESSION["User"][$toolbox->users->user_id_field_name] . ", Rolle: " .
-                     $_SESSION["User"]["Rolle"] . "\n", FILE_APPEND);
+                     $_SESSION["User"]["Rolle"] . ", Anwendungstyp = " . $_SESSION["User"]["appType"] . "\n", 
+                    FILE_APPEND);
 
 // ===== add listeners to the socket - removed 27.02.2022, V2.3.1_08 as last with the staement
 

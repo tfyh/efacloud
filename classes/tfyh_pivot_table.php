@@ -1,8 +1,8 @@
 <?php
 
 /**
- * class file for the Tfyh_pivot_table class, providing pivot tables for Lists (Tfyh_list class). 
- * Currently only one row field, one column field and one data field with aggregation = sum.
+ * class file for the Tfyh_pivot_table class, providing pivot tables for Lists (Tfyh_list class). Currently
+ * only one row field, one column field and one data field with aggregation = sum.
  */
 class Tfyh_pivot_table
 {
@@ -44,7 +44,7 @@ class Tfyh_pivot_table
 
     /**
      * The contructor. Reas the list and builds the table upon construction.
-     *
+     * 
      * @param Tfyh_list $list
      *            the list to be pivoted
      * @param String $rowfield
@@ -56,8 +56,8 @@ class Tfyh_pivot_table
      * @param String $datafield
      *            the data aggregation method ("sum" or "cnt")
      */
-    public function __construct (Tfyh_list $list, String $rowfield, String $columnfield, 
-            String $datafield, String $aggregation)
+    public function __construct (Tfyh_list $list, String $rowfield, String $columnfield, String $datafield, 
+            String $aggregation)
     {
         $i = 0;
         $this->aggregation = $aggregation;
@@ -70,9 +70,9 @@ class Tfyh_pivot_table
         foreach (explode(",", $list->get_list_definition()["select"]) as $field_name) {
             if (strcasecmp($field_name, $rowfield) == 0)
                 $this->rc = $i;
-                if (strcasecmp($field_name, $columnfield) == 0)
+            if (strcasecmp($field_name, $columnfield) == 0)
                 $this->cc = $i;
-                if (strcasecmp($field_name, $datafield) == 0)
+            if (strcasecmp($field_name, $datafield) == 0)
                 $this->dc = $i;
             $i ++;
         }
@@ -113,10 +113,10 @@ class Tfyh_pivot_table
     {
         $rItem = $row[$rc];
         if (strlen($rItem) == 0)
-            $rItem = "(leer)";
+            $rItem = i("izUp6M|(empty)");
         $cItem = $row[$cc];
         if (strlen($cItem) == 0)
-            $cItem = "(leer)";
+            $cItem = i("pMMn46|(empty)");
         $value = $row[$dc];
         if (strlen($value) > 0) {
             if ($dam == 0) // count
@@ -128,7 +128,7 @@ class Tfyh_pivot_table
 
     /**
      * Extract the pivot set of a column of the list
-     *
+     * 
      * @param Tfyh_list $list
      *            list which shall be pivoted
      * @param int $pc
@@ -142,7 +142,7 @@ class Tfyh_pivot_table
         foreach ($list->get_rows() as $row) {
             $entry = $row[$pc];
             if (strlen($entry) == 0)
-                $entry = "(leer)";
+                $entry = i("IHwVLV|(empty)");
             $found = false;
             foreach ($pitems as $pitem)
                 if (strcasecmp($pitem, $entry) == 0)
@@ -155,16 +155,19 @@ class Tfyh_pivot_table
 
     /**
      * Get the pivot table as html string for web display.
-     *
+     * 
      * @param String $format
-     *            number format for data, see native sprintf() for format String definitions.
-     *            Default is "%d".
+     *            number format for data, see native sprintf() for format String definitions. Default is "%d".
      * @return string pivot table as html String.
      */
     public function get_html (String $format = "%d")
     {
         // print header
-        $html = "<table style='border: 2px solid'><tr><td style='padding-right: 5px;border: 1px solid;'>&nbsp;</td>"; // top left corner is empty
+        $html = "<table style='border: 2px solid'><tr><td style='padding-right: 5px;border: 1px solid;'>&nbsp;</td>"; // top
+                                                                                                                      // left
+                                                                                                                      // corner
+                                                                                                                      // is
+                                                                                                                      // empty
         foreach ($this->cItems as $cItem) {
             $html .= "<td style='padding-right: 5px;border: 1px solid;'>" . $cItem . "</td>";
         }
@@ -173,7 +176,8 @@ class Tfyh_pivot_table
         foreach ($this->ptable as $rItem => $prow) {
             $html .= "<tr><td style='padding-right: 5px;'>" . $rItem . "</td>";
             foreach ($prow as $value)
-                $html .= "<td style='padding-right: 5px;text-align:center'>" . sprintf($format, $value) . "</td>";
+                $html .= "<td style='padding-right: 5px;text-align:center'>" . sprintf($format, $value) .
+                         "</td>";
             $html .= "</tr>\n";
         }
         return $html . "</table>";

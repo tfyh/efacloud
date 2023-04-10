@@ -49,10 +49,10 @@ class Tfyh_xml_tag
 
     /**
      * filter all children with tag id being $child_tag_id. Non-case sensitive comparison.
-     *
+     * 
      * @param String $child_tag_id
      *            the tag id to filter
-     * @return Tfyh_xml_tag[] the array of tags found. An empty array, if no chilren were found.
+     * @return Tfyh_xml_tag[] the array of tags found. To empty array, if no chilren were found.
      */
     public function get_children (String $child_tag_id)
     {
@@ -65,7 +65,7 @@ class Tfyh_xml_tag
 
     /**
      * Get the first available child with tag id being $child_tag_id. Non-case sensitive comparison.
-     *
+     * 
      * @param String $child_tag_id
      *            the tag id to filter
      * @return mixed|Tfyh_xml_tag the first child tag found. false, if no chilren were found.

@@ -29,6 +29,11 @@ class Tfyh_toolbox
     private $obfuscator = "jtzOjk6IjEyNy4wLjAuMSI7czoxMToiZGJfYWNjb3VudHMiO2E6MTp7czo0OiJyb290IjtzOjg6IlNmeDFubHAuIjt9czo3OiJkYl9uYW1lIjtzOjU6ImZ2c3NiIjtzO";
 
     /**
+     * The list of valid characters for an internationalization token.
+     */
+    private $i18n_token_chars = "0123456789abcdefghijklmnopqrstuvwyxzABCDEFGHIJKLMNOPQRSTUVWXYZ0";
+
+    /**
      * Associative array providing the bit value associated to a base64 character. Used for "encryption".
      */
     private $bitsForChar64 = [];
@@ -46,9 +51,9 @@ class Tfyh_toolbox
 
     /**
      * headline of error indicating an overload. Will trigger specific actions. Must start with the no
-     * counting tag "!#".
+     * counting tag "!#". Do not i18n here, but see usage in error.php
      */
-    public $overload_error_headline = "!#Zu viele parallele Zugriffe.";
+    public $too_many_sessions_error_headline = "!#too many sessions";
 
     /**
      * the app configuration
@@ -81,17 +86,20 @@ class Tfyh_toolbox
         $this->config = new Tfyh_config($this);
         $init_settings = (isset($this->config->settings_tfyh["init"])) ? $this->config->settings_tfyh["init"] : array();
         
+        if (! file_exists("../classes/users.php")) {
+            echo "File '../classes/users.php' not found. The tfyh framework can not be used without providing this class file.";
+            // no i18n needed here.
+            exit();
+        }
         include_once '../classes/users.php';
         $this->users = new Users($this);
         include_once '../classes/tfyh_logger.php';
         $this->logger = new Tfyh_logger($this);
-        include_once '../classes/tfyh_app_sessions.php';#
+        include_once '../classes/tfyh_app_sessions.php'; //
         $this->app_sessions = new Tfyh_app_sessions($this);
     }
 
-    /*
-     * ======================== Session support ==============================
-     */
+    /* ======================== Session support ============================== */
     /**
      * A token is a sequence of random characters for different purposes. It always starts with a letter,
      * followed by characters including numeric digits. with the information on the session owner in a token
@@ -109,7 +117,7 @@ class Tfyh_toolbox
     {
         $short_set = ($case_sensitive) ? "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz" : "ACDEFGHJKLMNPQRTUVWXYZ";
         $full_set = $short_set . "0123456789";
-        $full_set_end = strlen($full_set) - 1;
+        $full_set_end = strlen($full_set) - 1; // byte count == character count
         $token = substr(str_shuffle($short_set), 0, 1);
         for ($i = 1; $i < $token_length; $i ++)
             $token .= substr($full_set, random_int(0, $full_set_end), 1);
@@ -117,11 +125,22 @@ class Tfyh_toolbox
     }
 
     /**
-     * create GUIDv4, see https://www.php.net/manual/de/function.com-create-guid.php
+     * create GUIDv4as non static function for compatibility reasons
      * 
      * @return string Unique identifier
      */
     public function create_GUIDv4 ()
+    {
+        // TODO framework change remove non static variant
+        return self::static_create_GUIDv4();
+    }
+
+    /**
+     * create GUIDv4, see https://www.php.net/manual/de/function.com-create-guid.php
+     * 
+     * @return string Unique identifier
+     */
+    public static function static_create_GUIDv4 ()
     {
         // OSX/Linux. Windows environments, see link above
         if (function_exists('openssl_random_pseudo_bytes') === true) {
@@ -141,6 +160,38 @@ class Tfyh_toolbox
     }
 
     /**
+     * Print an array as html - for debugging
+     * 
+     * @param array $a
+     *            any array
+     * @param String $indent
+     *            the current indentation for recursive calls, never to be used when calling from outside.
+     * @return string the html representation
+     */
+    public static function array_to_html (array $a, String $indent = "")
+    {
+        $html = (strlen($indent) == 0) ? "<span style=\"font-family: 'Courier New', monospace; font-size:0.9em;\">" : "";
+        $n = 0;
+        foreach ($a as $key => $value) {
+            if (is_array($value)) {
+                $html .= "$indent<b>$key:</b><br>";
+                $html .= self::array_to_html($value, $indent . "&nbsp;&nbsp;");
+            } else {
+                $disp = (is_null($value)) ? "<span style=\"color:#008;\">NULL</span>" : ((is_bool($value)) ? ("<span style=\"color:#808;\">" .
+                         (($value) ? "true" : "false") . "</span>") : ((is_string($value)) ? "<span style=\"color:#088;\">\"" .
+                         $value . "\"</span>" : $value));
+                $html .= "$indent$key: $disp<br>";
+            }
+            $n ++;
+        }
+        if ($n == 0)
+            $html .= $indent . "[]<br>";
+        if (strlen($indent) == 0)
+            $html .= "</span>";
+        return $html;
+    }
+
+    /**
      * redirect to an error page
      * 
      * @param String $error_headline
@@ -155,7 +206,14 @@ class Tfyh_toolbox
         // no endless error loop.
         if (strrpos($calling_page, "error.php") !== false)
             return;
-        file_put_contents("../log/lasterror.txt", $calling_page . ";" . $error_headline . ";" . $error_text);
+        $get_params = "";
+        if (count($_GET) > 0) {
+            foreach ($_GET as $key => $value)
+                $get_params .= $key . "=" . $value . "&";
+            $get_params = mb_substr($get_params, 0, mb_strlen($get_params) - 1);
+        }
+        file_put_contents("../log/lasterror.txt", 
+                $calling_page . ";" . $error_headline . ";" . $error_text . ";" . $get_params);
         header("Location: ../pages/error.php");
         exit();
     }
@@ -169,15 +227,19 @@ class Tfyh_toolbox
      * @param String $user_mail
      *            the users mail address, i.e. his account mail
      * @param String $deep_link
-     *            the page to be opened after login, if not the home page
+     *            the page to be opened after login, if not the home page, e.g.
+     *            "../forms/passwort_aendern.php"
      * @param int $validity
      *            the validity of the links in days from now.
      * @return String token created
      */
     public function create_login_token (String $user_mail, int $validity, String $deep_link)
     {
-        $message = strval(time() + $validity * 24 * 3600) . ":" . $user_mail . ":" . $deep_link . ":" .
+        $message = strval(time() + $validity * 24 * 3600) . "::" . $user_mail . "::" . $deep_link . "::" .
                  substr(str_shuffle($this->base64charsPlus), 0, 16);
+        file_put_contents("../log/token_logins.log", 
+                "[" . date("Y-m-d H:i:s", time()) . "] " . i("Tix00e|created:") . " " . json_encode($message) .
+                         "\n", FILE_APPEND);
         return str_replace("=", "_", 
                 str_replace("/", "-", 
                         str_replace("+", "*", $this->xor64(base64_encode($message), $this->obfuscator))));
@@ -193,20 +255,21 @@ class Tfyh_toolbox
      */
     public function decode_login_token (String $token)
     {
-        $plain_text = explode(":", 
+        $plain_text = explode("::", 
                 base64_decode(
                         $this->xor64(
                                 str_replace("_", "=", str_replace("-", "/", str_replace("*", "+", $token))), 
                                 $this->obfuscator)));
+        file_put_contents("../log/token_logins.log", 
+                "[" . date("Y-m-d H:i:s", time()) . "] " . i("w1eFbl|decoded:") . " " .
+                         json_encode($plain_text) . "\n", FILE_APPEND);
         if (intval($plain_text[0]) >= time())
             return $plain_text;
         else
             return false;
     }
 
-    /*
-     * ================ Data validity checks and formatting ============================
-     */
+    /* ================ Data validity checks and formatting ============================ */
     /**
      * Returns the date in "Y-m-d" format (e.g. 2018-04-20), if the array contains a valid date. Returns
      * false, if not. If the year value is < 100 it will be adjusted to a four digit year using this year and
@@ -275,7 +338,7 @@ class Tfyh_toolbox
     }
 
     /**
-     * Html wrap for form errors String (Add "Fehler:" and change color, if message is not empty.
+     * Html wrap for form errors String (Add "Error:" and change color, if message is not empty.
      * 
      * @param String $form_errors
      *            form errors String which shall be wrapped
@@ -284,7 +347,8 @@ class Tfyh_toolbox
     public function form_errors_to_html (String $form_errors)
     {
         if (strlen($form_errors) > 0) {
-            return '<p><span style="color:#A22;"><b>Fehler: </b> ' . $form_errors . '</span></p>';
+            return '<p><span style="color:#A22;"><b>' . i("NLNSFH|Error:") . " </b> " . $form_errors .
+                     "</span></p>";
         }
         return "";
     }
@@ -326,7 +390,7 @@ class Tfyh_toolbox
 
     /**
      * my_bcmod - get modulus (substitute for bcmod) string my_bcmod ( string left_operand, int modulus )
-     * left_operand can be really big, but be carefull with modulus :( by Andrius Baranauskas and Laurynas
+     * left_operand can be really big, but be carefull with modulus :( by Todrius Baranauskas and Laurynas
      * Butkus :) Vilnius, Lithuania
      * https://stackoverflow.com/questions/10626277/function-bcmod-is-not-available
      * 
@@ -358,11 +422,17 @@ class Tfyh_toolbox
      * 
      * @param String $iban
      *            IBAN to be checked
+     * @param bool $strict
+     *            set to true for strict mode, i. e. no spaces allowed between digits.
      * @return true, if IBAN is valid. False, if not
      */
-    public function checkIBAN ($iban)
+    public function checkIBAN ($iban, bool $strict = false)
     {
-        $iban = strtolower(str_replace(' ', '', $iban));
+        if ($strict === false)
+            $iban = strtolower(str_replace(' ', '', $iban));
+        elseif (substr(strtoupper($iban), 0, 2) != substr($iban, 0, 2))
+            return false; // allow only upper case letters
+        $iban = strtolower($iban);
         $Countries = array('al' => 28,'ad' => 24,'at' => 20,'az' => 28,'bh' => 22,'be' => 16,'ba' => 20,
                 'br' => 29,'bg' => 22,'cr' => 21,'hr' => 21,'cy' => 28,'cz' => 24,'dk' => 18,'do' => 28,
                 'ee' => 20,'fo' => 18,'fi' => 18,'fr' => 27,'ge' => 22,'de' => 22,'gi' => 23,'gr' => 27,
@@ -378,7 +448,7 @@ class Tfyh_toolbox
                 'r' => 27,'s' => 28,'t' => 29,'u' => 30,'v' => 31,'w' => 32,'x' => 33,'y' => 34,'z' => 35
         );
         
-        if (strlen($iban) == $Countries[substr($iban, 0, 2)]) {
+        if (strlen($iban) == $Countries[substr(strtolower($iban), 0, 2)]) {
             
             $MovedChar = substr($iban, 4) . substr($iban, 0, 4);
             $MovedCharArray = str_split($MovedChar);
@@ -400,6 +470,26 @@ class Tfyh_toolbox
     }
 
     /**
+     * Check whether the given String is a valid internationalization resource reference. String must be 7 to
+     * 30 character long, with a 6 digit token sequence followed by a pipe character at start.
+     * 
+     * @param String $i18n_resource_reference        the String to check     
+     * @return boolean true, if the syntax matches a i18n resource reference
+     * 
+     */
+    public function is_valid_i18n_reference (String $i18n_resource_reference)
+    {
+        if (strlen($i18n_resource_reference) < 7)
+            return false;
+        if (strpos($i18n_resource_reference, "|") != 6)
+            return false;
+        for ($i = 0; $i < 6; $i ++)
+            if (strpos($this->i18n_token_chars, substr($i18n_resource_reference, $i, 1)) === false)
+                return false;
+        return true;
+    }
+
+    /**
      * Check, whether the pwd complies to password rules.
      * 
      * @param String $pwd
@@ -410,7 +500,7 @@ class Tfyh_toolbox
     {
         $errors = "";
         if ((strlen($pwd) < 8) || (strlen($pwd) > 32)) {
-            $errors .= "Das Kennwort muss zwischen 8 Zeichen und 32 Zeichen lang sein. ";
+            $errors .= i("aJ5Cy9|The password must be bet...") . " ";
         }
         $numbers = (preg_match("#[0-9]+#", $pwd)) ? 1 : 0;
         $lowercase = (preg_match("#[a-z]+#", $pwd)) ? 1 : 0;
@@ -419,9 +509,7 @@ class Tfyh_toolbox
         $specialchars = (preg_match("#[!-/]+#", $pwd) || preg_match("#[:-@]+#", $pwd) ||
                  preg_match("#[\[-`]+#", $pwd) || preg_match("#[{-~]+#", $pwd)) ? 1 : 0;
         if (($numbers + $lowercase + $uppercase + $specialchars) < 3)
-            $errors .= "Im Kennwort müssen Zeichen aus drei Gruppen der folgenden vier Gruppen " .
-                     "enthalten sein: Ziffern, Kleinbuchstaben, Großbuchstaben, Sonderzeichen. " .
-                     "Zulässige Sonderzeichen sind !\"#$%&'*+,-./:;<=>?@[\]^_`{|}~";
+            $errors .= i("iJUmCH|The password must contai...");
         return $errors;
     }
 
@@ -442,9 +530,7 @@ class Tfyh_toolbox
         return $P;
     }
 
-    /*
-     * ================= file handling and zipping ===========================
-     */
+    /* ================= file handling and zipping =========================== */
     
     /**
      * Parse a file system tree and return all relative path names of files. Runs recursively.
@@ -504,14 +590,14 @@ class Tfyh_toolbox
     {
         $dir_path = substr($zip_path, 0, strrpos($zip_path, "."));
         if (! file_exists($zip_path))
-            return "#Error: Zip path $zip_path doesn't exist.";
+            return i("XFt9AM|#Error: Zip path °%1° do...", $zip_path);
         if (file_exists($dir_path))
-            return "#Error: Target directory $dir_path for unzipping already exists, aborted.";
+            return i("5qjixH|#Error: Target directory...", $dir_path);
         
         mkdir($dir_path);
         $resource = zip_open($zip_path);
         if (! $resource)
-            return "#Error while opening the $zip_path file.";
+            return i("6qoA8U|#Error while opening the...", $zip_path);
         $file_list = [];
         $zip_entry = zip_read($resource);
         while ($zip_entry) {
@@ -527,7 +613,7 @@ class Tfyh_toolbox
                         $base .= "$k/";
                         if (! file_exists($base)) {
                             if (mkdir($base) === false)
-                                $file_list[] = "#Error mkdir failed on directory " . $base . "<br>";
+                                $file_list[] = i("Gg90pW|#Error mkdir failed on d...", $base) . "<br>";
                         }
                     }
                 }
@@ -583,10 +669,10 @@ class Tfyh_toolbox
         $zip_filename = $filename . ".zip";
         
         if ($zip->open($zip_filename, ZipArchive::CREATE) !== TRUE) {
-            exit("cannot open <$zip_filename>\n");
+            exit("cannot open <$zip_filename>\n"); // no i18n required
         }
         if ($zip->addFromString($filename, $string_to_zip) !== true)
-            exit("cannot write zip <$zip_filename>\n");
+            exit("cannot write zip <$zip_filename>\n"); // no i18n required
         $zip->close();
         return $zip_filename;
     }
@@ -615,7 +701,7 @@ class Tfyh_toolbox
             // unlink($filepath); That results in an execution error. Clean up later.
             exit();
         } else {
-            die("Error: File @ " . $filepath . " not found.");
+            die(i("8XihSu|Error: File °%1° not fou...", $filepath));
         }
     }
 
@@ -640,7 +726,7 @@ class Tfyh_toolbox
             // unlink($filepath); That results in an execution error. Clean up later.
             exit();
         } else {
-            die("Error: File @ " . $filepath . " not found.");
+            die(i("6HrzgB|Error: File °%1° not fou...", $filepath));
         }
     }
 
@@ -702,7 +788,8 @@ class Tfyh_toolbox
     public function get_dir_contents (String $dir, int $level_of_top = 1)
     {
         $result = "<table>";
-        $result .= "<tr class=flist><td>&nbsp;</td><td>" . $dir . "</td><td>Aktion</td></tr>";
+        $result .= "<tr class=flist><td>&nbsp;</td><td>" . $dir . "</td><td>" . i("F7t6Jn|Action") .
+                 "</td></tr>";
         $items = 0;
         $cdir = scandir($dir);
         if ($cdir)
@@ -710,41 +797,41 @@ class Tfyh_toolbox
                 if (! in_array($value, array(".",".."
                 ))) {
                     if (is_dir($dir . DIRECTORY_SEPARATOR . $value)) {
-                        $result .= "<tr class=flist><td><img src='../resources/drive_folder-20px.png' title='Verzeichnis' /></td>" .
-                                 "<td><a href='?cdir=" . $dir . "/" . $value . "'>" . $value .
-                                 "</a>&nbsp;&nbsp;&nbsp;&nbsp;</td>" . "<td><a href='?xdir=" . $dir . "/" .
-                                 $value .
-                                 "'><img src='../resources/delete_file-20px.png' title='Verzeichnis löschen, wenn leer' /></a>" .
-                                 "</td></tr>\n";
+                        $result .= "<tr class=flist><td><img src='../resources/drive_folder-20px.png' title='" .
+                                 i("hX0dDX|Directory") . "' /></td>" . "<td><a href='?cdir=" . $dir . "/" .
+                                 $value . "'>" . $value . "</a>&nbsp;&nbsp;&nbsp;&nbsp;</td>" .
+                                 "<td><a href='?xdir=" . $dir . "/" . $value .
+                                 "'><img src='../resources/delete_file-20px.png' title='" .
+                                 i("MyjroH|delete directory, if emp...") . "' /></a>" . "</td></tr>\n";
                         $items ++;
                     } else {
-                        $result .= "<tr class=flist><td><img src='../resources/drive_file-20px.png' title='Datei' /></td>" .
-                                 "<td>" . $value . "&nbsp;&nbsp;&nbsp;&nbsp;</td><td><a href='?dfile=" . $dir .
-                                 "/" . $value .
-                                 "'><img src='../resources/download_file-20px.png' title='Datei herunterladen' /></a>" .
-                                 "<a href='?xfile=" . $dir . "/" . $value .
-                                 "'><img src='../resources/delete_file-20px.png' title='Datei löschen' /></a>" .
-                                 "</td></tr>\n";
+                        $result .= "<tr class=flist><td><img src='../resources/drive_file-20px.png' title='" .
+                                 i("wdLerX|File") . "' /></td>" . "<td>" . $value .
+                                 "&nbsp;&nbsp;&nbsp;&nbsp;</td><td><a href='?dfile=" . $dir . "/" . $value .
+                                 "'><img src='../resources/download_file-20px.png' title='" .
+                                 i("cmjKme|Download file") . "' /></a>" . "<a href='?xfile=" . $dir . "/" .
+                                 $value . "'><img src='../resources/delete_file-20px.png' title='" .
+                                 i("c32XmM|Delete file") . "' /></a>" . "</td></tr>\n";
                         $items ++;
                     }
                 }
             }
         if ($items == 0)
-            $result .= "<tr class=flist><td>(leer)</td><td>(kein Inhalt gefunden.)</td></tr>";
+            $result .= "<tr class=flist><td>" . i("HpsAcF|(empty)") . "</td><td>" .
+                     i("26WMwL|no content found.") . "</td></tr>";
         $parentdir = (strrpos($dir, "/") > 0) ? substr($dir, 0, strrpos($dir, "/")) : $dir;
         // the topmost offered parent directory is the "uploads" folder to ensure
         // entry into the application files hierarchy is not possible.
         if (count(explode("/", $parentdir)) > $level_of_top)
-            $result .= "<tr class=flist><td><img src='../resources/drive_file-20px.png' title='eine Ebene höher' /></td><td><a href='?cdir=" .
-                     $parentdir . "'>" . $parentdir . "</a></td></tr>";
+            $result .= "<tr class=flist><td><img src='../resources/drive_file-20px.png' title='" .
+                     i("CBxZVW|One level higher") . "' /></td><td><a href='?cdir=" . $parentdir . "'>" .
+                     $parentdir . "</a></td></tr>";
         $result .= "</table>";
         
         return $result;
     }
 
-    /*
-     * ======================= csv read support ==============================
-     */
+    /* ======================= csv read support ============================== */
     /**
      * Read the first csv-line into an array of entries. CSV-format must be with text delimiter = " and
      * separator = ;. The line must be encoded in UTF-8.
@@ -767,10 +854,8 @@ class Tfyh_toolbox
                 $completed_line .= $line . "\n";
             else
                 $remainder .= $line . "\n";
-            /*
-             * a line is complete, if the count of quotes is even. Because a quote itself is replace by two
-             * quotes, and a quoted entry always has a quote on both ends.
-             */
+            /* a line is complete, if the count of quotes is even. Because a quote itself is replace by two
+             * quotes, and a quoted entry always has a quote on both ends. */
             $cnt_quotes = substr_count($completed_line, "\"");
             if (! $raw_row && ($cnt_quotes % 2 == 0)) {
                 // line is complete. Read it into indexed array
@@ -778,9 +863,23 @@ class Tfyh_toolbox
             }
         }
         if (strlen($remainder) > 0)
-            $remainder = substr($remainder, 0, strlen($remainder) - 1);
+            $remainder = mb_substr($remainder, 0, mb_strlen($remainder) - 1);
         return array("row" => $raw_row,"remainder" => $remainder
         );
+    }
+
+    /**
+     * Simple csv entry encoder as non static version. If the $entry contains one of ' \n', ';' '"' all
+     * "-quotes are duplicated and one '"' added at front and end.
+     * 
+     * @param String $entry
+     *            entry which shall be encoded
+     * @return String the encoded entry.
+     */
+    public function encode_entry_csv (String $entry = null)
+    {
+        // TODO framework change remove non static variant
+        return self::static_encode_entry_csv($entry);
     }
 
     /**
@@ -791,7 +890,7 @@ class Tfyh_toolbox
      *            entry which shall be encoded
      * @return String the encoded entry.
      */
-    public function encode_entry_csv (String $entry = null)
+    public static function static_encode_entry_csv (String $entry = null)
     {
         if (is_null($entry))
             return "";
@@ -815,13 +914,28 @@ class Tfyh_toolbox
     public function read_csv_array (String $file_path)
     {
         // read csv file.
-        if (file_exists($file_path))
+        if (file_exists($file_path)) {
             $content = file_get_contents($file_path);
-        else
+            return $this->read_csv_string_array($content);
+        } else
             return [];
-        
-        $text = mb_convert_encoding($content, 'UTF-8', 
-                mb_detect_encoding($content, 'UTF-8, ISO-8859-1', true));
+    }
+
+    /**
+     * Read a simplified csv-String into an array of rows, each row becoming a named array with the names
+     * being the first line entries. CSV-format must be with text delimiter = " and separator = ;. There must
+     * not be any space character left or right of the delimiter. First line entries must not contain line
+     * breaks. Lines ending with unquoted " \" will be joined with the following line. The file is preferrably
+     * encoded in UTF-8, but ISO-8859-1 should also work due to automatic encoding detection.
+     * 
+     * @param String $csv_string
+     *            String with csv table
+     * @return array the table which was read. In case of errors, it will be an empty array [].
+     */
+    public function read_csv_string_array (String $csv_string)
+    {
+        $text = mb_convert_encoding($csv_string, 'UTF-8', 
+                mb_detect_encoding($csv_string, 'UTF-8, ISO-8859-1', true));
         $lines = Explode("\n", $text);
         $table = [];
         
@@ -842,20 +956,15 @@ class Tfyh_toolbox
                     }
                     $completed_line .= $line;
                     $is_continued = false;
-                    /*
-                     * a line is complete, if the count of quotes is even. Because a quote itself is replace
-                     * by two quotes, and a quoted entry always has a quote on both ends.
-                     */
+                    /* a line is complete, if the count of quotes is even. Because a quote itself is replace
+                     * by two quotes, and a quoted entry always has a quote on both ends. */
                     $cnt_quotes = substr_count($completed_line, "\"");
                     if ($cnt_quotes % 2 == 0) {
                         // line is complete, except a special line endis found: ' \' denoting that
                         // the line is continued.
-                        if (strcmp(substr($completed_line, strlen($completed_line) - 2), " \\") == 0) {
+                        if (strcmp(mb_substr($completed_line, mb_strlen($completed_line) - 2), " \\") == 0) {
                             $completed_line = substr($completed_line, 0, strlen($completed_line) - 2);
                             $is_continued = true;
-                            // var_dump($line);
-                            // var_dump($completed_line);
-                            // exit();
                         } else {
                             // line is complete. Read it intoindexedarray
                             $raw_row = str_getcsv($completed_line, ";", "\"");
@@ -877,47 +986,45 @@ class Tfyh_toolbox
         return $table;
     }
 
-    /*
-     * =========================== load throttling ====================================
-     */
+    /* =========================== load throttling ==================================== */
     /**
-     * <p>Measure the frequency of web page inits, api sessions and errors. Meant to prevent from machine
-     * attacks. A set $events_limit of transaction timestamps resides in the $directory, e.g. /log/inits, or
-     * /log/api_inits. When this function is called the eldest existing timestamp is read. If it is older than
-     * now minus the $event_monitor_period, it is replaced by the current time and becomes the youngest
-     * timestamp. If not, an error page is displayed. This limits the count of transactions which are
-     * timestamped in $directory to $events_limit. </p><p>Reading the pointer to the eldest timstamp,
-     * overwriting this timestamp and increasing the pointer is all done in this function
+     * <p>Measure the frequency of web page or api events and delay the return from this function in case of
+     * too igh load. Meant to prevent from machine attacks.</p><p>Method: A set $events_limit of transaction
+     * timestamps resides in the $directory, e.g. /log/inits, or /log/api_inits. When this function is called
+     * the eldest existing timestamp is read. If it is older than now minus the $event_monitor_period, it is
+     * replaced by the current time and becomes the youngest timestamp. If not, the return of the function is
+     * delayed by an appropriate amount of time to throttle the activities which are timestamped in $directory
+     * to $events_limit. </p><p>Reading the pointer to the eldest timstamp, overwriting this timestamp and
+     * increasing the pointer is all done in this function.</p><p>Throttling is logged as a warning every hour
+     * as long as it takes.</p>
      * 
      * @param String $directory
-     *            directory for timestamp files which record the events, i. e. "inits/", "transactions/" or
-     *            "errors/"
+     *            directory for timestamp files which record the events, e.g. "inits", "api_txs" or "errors"
      * @param int $events_limit
-     *            limit of events per event_monitor_period. Should normally be 3000 for "inits/",
-     *            "transactions/" and 100 for "errors/"
-     * @return boolean|String true, if the load is below limits, an error response in case of detected
-     *         overload.
+     *            limit of events per event_monitor_period. Should normally be 3000 for "inits",
+     *            "transactions/" and 100 for "errors"
+     * @param String $source_file
+     *            file name of the file which triggered the throttling.
      */
-    public function load_throttle (String $directory, int $events_limit)
+    public function load_throttle (String $directory, int $events_limit, String $source_file)
     {
-        /*
-         * method uses a ring buffer of time stamps. A pointer stored within the pointer file always indicates
-         * the eldest timestamp written.
-         */
+        /* method uses a ring buffer of time stamps. A pointer stored within the pointer file always indicates
+         * the eldest timestamp written. */
         // read the oldest timestamp
         $events_dir = $this->log_dir . $directory;
         if (! file_exists($events_dir))
             mkdir($events_dir);
-        $pointer_file = $events_dir . "pointer";
+        $pointer_file = $events_dir . "/pointer";
         $pointer = intval(file_get_contents($pointer_file));
-        $timestamp_file = $events_dir . $pointer;
+        $timestamp_file = $events_dir . "/" . $pointer;
         if (file_exists($timestamp_file) === true)
             $timestamp = intval(file_get_contents($timestamp_file));
         else
             $timestamp = 0; // oldest possible value
         $monitor_period_start = time() - $this->event_monitor_period;
-        $overload_details = "Pointer: " . $pointer . ", Timestamp@pointer: " . $timestamp .
-                 ", monitor_period_start: " . $monitor_period_start . ", time now: " . time();
+        $overload_details = i("liKdKf|Pointer:") . " " . $pointer . ", " . i("TMSdWl|timestamp there:") . " " .
+                 $timestamp . ", " . i("d7WN8G|start of monitor period:") . " " . $monitor_period_start . ", " .
+                 i("rFKAAZ|time now:") . " " . time();
         // move the pointer to the second eldest timestamp, before refreshing the eldest one.
         $pointer ++;
         if ($pointer >= $events_limit)
@@ -929,30 +1036,80 @@ class Tfyh_toolbox
         // period
         if ($timestamp < $monitor_period_start) {
             return true;
-        } else { // return an error message
-                 // distiguish api response and web client response
-            if (strpos($directory, "api_") == 0) {
-                $error_response = "406;Overload detected @ " . $directory . ". Details: " . $overload_details;
-                $this->logger->log(2, 0, $error_response);
-                // pause to preempt retries.
-                sleep(3);
-                return $error_response;
-            } else {
-                $this->display_error($this->overload_error_headline, 
-                        "In den vergangenen " . $this->event_monitor_period .
-                                 " Sekunden sind zu viele Anfragen oder Fehler gekommen. " .
-                                 "Zur Abwehr von Maschinenangriffen werden diese Ereignisse gezählt und begrenzt. " .
-                                 "Daher ist nun Warten angesagt. Überlaufobjekt: " . $directory .
-                                 ". Voraussichtliche Dauer der Sperrung: " .
-                                 (3 + intval(($monitor_period_start - $timestamp) / 60)) . " Minuten.", 
-                                __FILE__);
-            }
+        } else {
+            // delay the action
+            $delay_seconds = intval($this->event_monitor_period / $events_limit) + 1;
+            if ($delay_seconds > 5)
+                $delay_seconds = 5;
+            $this->logger->log(1, 0, 
+                    i("5jvc1j|Overload at °%1°. Monito...", $directory, strval($this->event_monitor_period), 
+                            strval($events_limit), strval($delay_seconds)));
+            $this->load_warning($directory, $source_file);
+            sleep($delay_seconds);
         }
     }
 
-    /*
-     * ================== Miscellaneous ===========================
+    /**
+     * Compile a specific overload warning text and send a mail to the admin on the event every ten minutes as
+     * long as the situation persists.
+     * 
+     * @param String $event_directory
+     *            directory for timestamp files which record the events, e.g. "inits/", "api_txs/" or
+     *            "errors/". Set to "" to only get the sessions.
+     * @param String $source_file
+     *            file name of the file which triggered the warning.
+     * @param String $monitored_timestamps            
      */
+    public function load_warning (String $event_directory, String $source_file)
+    {
+        $log_text = i("cpLo7L|Overload diagnostic data...", $source_file, $event_directory) . "\n";
+        
+        // Log the timestamps
+        if (strlen($event_directory) > 0) {
+            $event_pointer = intval(file_get_contents("../log/" . $event_directory . "pointer"));
+            $log_text .= "-------------------- Timestamps ------------------\n" . $event_directory .
+                     " timestamps:\n";
+            for ($i = - 3; $i < 4; $i ++)
+                $log_text .= strval($event_pointer + $i) . ";" . date("Y-m-d H:i:s", 
+                        filectime("../log/" . $event_directory . strval($event_pointer + $i))) . "\n";
+        }
+        
+        // no i18n for the following data section needed
+        // List the sessions
+        include_once "../classes/tfyh_app_sessions.php";
+        $app_sessions = new Tfyh_app_sessions($this);
+        $log_text .= "-------------------- Sessions ------------------\n";
+        $log_text .= $app_sessions->list_sessions();
+        
+        // Log the session details, delete the session
+        session_start();
+        $session_data = "";
+        $log_text .= "-------------------- Server data ------------------\n";
+        foreach ($_SERVER as $parm => $value)
+            $log_text .= "$parm = '$value'\n";
+        $log_text .= "-------------------- \$_SESSION ------------------\n";
+        $log_text .= json_encode($_SESSION);
+        $log_text .= "\n-------------------- End ------------------";
+        
+        if (! file_exists("../log/overload"))
+            mkdir("../log/overload");
+        
+        // send warning every hour minutes as long as the situation persists.
+        $last_warning_diagnosis = "../log/overload/" . $event_directory;
+        if (! file_exists($last_warning_diagnosis) || (filectime($last_warning_diagnosis) < (time() - 3600))) {
+            // store the event log.
+            file_put_contents($last_warning_diagnosis, $log_text);
+            // Send Mail to webmaster and return a very short String.
+            require_once '../classes/tfyh_mail_handler.php';
+            $mail_handler = new Tfyh_mail_handler($this->config->get_cfg());
+            $mail_was_sent = $mail_handler->send_mail($mail_handler->system_mail_sender, 
+                    $mail_handler->system_mail_sender, $mail_handler->mail_webmaster, "", "", 
+                    i("R74F98|Load defence for") . " " . $source_file, 
+                    i("ZS7PdQ|Warning: The load thrott...", $source_file) . $log_text);
+        }
+    }
+
+    /* ================== Miscellaneous =========================== */
     /**
      * Return a timestamp for a booking, based on separate date and time.
      * 
@@ -967,6 +1124,20 @@ class Tfyh_toolbox
         $ret = strtotime($date_str);
         $hhmm = explode(":", $hour_str);
         return $ret + intval($hhmm[0]) * 3600 + intval($hhmm[1]) * 60;
+    }
+
+    /**
+     * Convert a date String to a time for DE and ISO format dates (23.07.2021 and 2021-07-23)
+     * 
+     * @param String $date_string            
+     */
+    public function datetotime (String $date_string)
+    {
+        if (strpos(($date_string), ".") !== false) {
+            $dmy = explode(".", $date_string);
+            $date_string = $dmy[2] . "-" . $dmy[1] . "-" . $dmy[0];
+        }
+        return strtotime($date_string);
     }
 
     /**

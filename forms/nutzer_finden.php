@@ -1,8 +1,8 @@
 <?php
 /**
- * The form for user profile self service.
- * Based on the Tfyh_form class, please read instructions their to better understand this PHP-code part.
- *
+ * The form for user profile self service. Based on the Tfyh_form class, please read instructions their to
+ * better understand this PHP-code part.
+ * 
  * @author mgSoft
  */
 // ===== initialize toolbox and socket and start session.
@@ -45,7 +45,7 @@ if ($done > 0) {
                 if (isset($value) && (strlen($value) > 0))
                     $sql_cmd .= "`" . $key . "` LIKE '%" . $value . "%' OR ";
             }
-            $sql_cmd = substr($sql_cmd, 0, strlen($sql_cmd) - 4); // strip off last " OR "
+            $sql_cmd = mb_substr($sql_cmd, 0, mb_strlen($sql_cmd) - 4); // strip off last " OR "
         }
         // only proceed if something was entered.
         if (strlen($sql_cmd) > 0) {
@@ -81,7 +81,7 @@ if ($done > 0) {
             }
             $todo = $done + 1;
         } else {
-            $form_errors = "Für die Suche muss mindestens ein Feld einen Eintrag enthalten.";
+            $form_errors = i("ffkuoc|For the search, at least...");
         }
     }
     
@@ -89,17 +89,17 @@ if ($done > 0) {
     if ($todo == 2) {
         $i = 0;
         foreach ($nutzerliste as $users_to_show) {
-            $info = $users_to_show[$toolbox->users->user_id_field_name] . ": " . $users_to_show["Vorname"] . " " .
-                     $users_to_show["Nachname"] . ".";
+            $info = $users_to_show[$toolbox->users->user_id_field_name] . ": " . $users_to_show["Vorname"] .
+                     " " . $users_to_show["Nachname"] . ".";
             if (isset($users_to_show["key_matched"]))
                 $info .= " '<b>" . $entered_data["Volltextsuche"] . "</b>'" . $users_to_show["key_matched"] .
                          ", ";
-                $info .= $toolbox->users->get_action_links($users_to_show["ID"]);
+            $info .= $toolbox->users->get_action_links($users_to_show["ID"]);
             $users_to_show_html .= $info . "<br />";
             $i ++;
         }
         if ($i === 0) {
-            $users_to_show_html = "<b>Hinweis:</b><br>Kein passender Nutzer gefunden.";
+            $users_to_show_html = "<b>" . i("c02HGj|Hints:") . "</b><br>" . i("U24lUJ|No matching user found.");
         }
     }
 }
@@ -121,27 +121,15 @@ echo $menu->get_menu();
 echo file_get_contents('../config/snippets/page_02_nav_to_body');
 
 // page heading, identical for all workflow steps
-?>
-<!-- START OF content -->
-<div class="w3-container">
-	<h3>Einen Nutzer finden</h3>
-	<p>Hier kannst Du einen Nutzer unter Angabe der efaCloudUserID oder
-		seines Vor oder Nachnamens finden.</p>
-</div>
-
-<div class="w3-container">
-<?php
-
+echo i("TN8gcV| ** Find an efaCloud use...");
 echo $toolbox->form_errors_to_html($form_errors);
 if ($todo < 2)
     echo $form_to_fill->get_html();
-    else
-        echo $users_to_show_html;
-        echo '<div class="w3-container"><ul>';
-        echo $form_to_fill->get_help_html();
-        echo "</ul></div>";
-        
-?></div><?php
+else
+    echo $users_to_show_html;
+echo $form_to_fill->get_help_html();
+
+echo i("01G01O|</div>");
 end_script();
 
     

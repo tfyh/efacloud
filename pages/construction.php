@@ -15,12 +15,5 @@ echo $menu->get_menu();
 echo file_get_contents('../config/snippets/page_02_nav_to_body');
 
 // page heading, identical for all workflow steps
-?>
-<!-- START OF content -->
-<div class="w3-container">
-	<h3><br><br><br><br>Baustelle</h3>
-	<p>Die Seite ist noch nicht vorhanden, wir bauen noch.</p>
-</div>
-
-<?php
+echo i("2ecyll| ** Construction site **..."); 
 end_script();

@@ -25,4 +25,12 @@
   <!-- Push down content on small screens -->
   <div class="w3-hide-large" style="margin-top:83px"></div>
   
+  <!-- The Modal -->
+  <div id="cModal" class="modal" style="z-index: 4">
+    <!-- Modal content -->
+	<div id="cModal_content" class="modal-content">
+	  <span class="close">&times;</span>
+	  <p>Common Modal Box - empty.</p>
+	</div>
+  </div>
                                         

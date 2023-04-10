@@ -14,15 +14,13 @@ echo file_get_contents('../config/snippets/page_01_start');
 echo $menu->get_menu();
 echo file_get_contents('../config/snippets/page_02_nav_to_body');
 
-// ===== load help page
-echo file_get_contents('https://www.efacloud.org/hilfe_content.php');
-?>
-<div class="w3-container">
-	<p>
-		Mehr Information gibt es auf der &gt;&gt;&gt; <a href='https://www.efacloud.org' target='_blank'>
-			efaCloud-Webseite (öffnet einen neuen Tab).</a>
-	</p>
-</div>
-
-<?php
+echo i("Z4iAHN| ** Help in efaCloud ** ..."); 
+$helpdocs = scandir("../helpdocs/" . $toolbox->config->language_code);
+foreach ($helpdocs as $helpdoc) {
+    $helpdoc_name = str_replace(".html", "", $helpdoc);
+    $info_link = "<sup class='eventitem' id='showhelptext_" . str_replace(".html", "", $helpdoc_name) . "'>&#9432;</sup>";
+    if (substr($helpdoc_name, 0, 1) != ".")
+        echo "<li>" . $helpdoc_name . $info_link . "</li>";
+}
+echo i("C1HUuR| ** More information is ..."); 
 end_script();

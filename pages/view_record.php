@@ -10,14 +10,17 @@ $user_requested_file = __FILE__;
 include_once "../classes/init.php";
 include_once "../classes/tfyh_list.php";
 include_once "../classes/efa_tables.php";
-$efa_tables = new Efa_tables($toolbox, $socket);
-include_once "../classes/efa_dataedit.php";
-$efa_dataedit = new Efa_dataedit($toolbox, $socket);
+include_once "../classes/efa_record.php";
 
-// The 'view record' page has two different entry points: either after a search, then the search result has
+// The 'view record' page has three different entry points: either after a search, then the search result has
 // all relevant information, or from a list view of things to edit. Then the information is
 // carried in the GET def-parameter. Using a list reduces the displayed fields to those used in the list.
+// Finally the tablename and ecrid may be passed as GET-Parameter.
 $def = (isset($_GET["def"])) ? $_GET["def"] : false;
+$ecrid = (isset($_GET["ecrid"])) ? $_GET["ecrid"] : false;
+$tablename = (isset($_GET["table"])) ? $_GET["table"] : false;
+$missing_key_error = [i("mDzsS8|Key missing") => i("V8fLMV|Unfortunately, the recor...")
+];
 if ($def != false) {
     $defparts = explode(".", $def);
     $listset = (isset($defparts[0])) ? $defparts[0] : "unknownSet";
@@ -39,36 +42,41 @@ if ($def != false) {
     // get also table row to restore UUIDs and history
     $tablename = $list->get_table_name();
     // try to extract the data key. Only then the record is surely unique
-    $record_data_key = $efa_tables->get_data_key($tablename, $toDisplay);
+    $record_data_key = Efa_tables::get_record_key($tablename, $toDisplay);
     
     if ($record_data_key !== false)
         $tablerow = $socket->find_record_matched($tablename, $record_data_key);
     else // the record is not unique
-        $toDisplay = [
-                "Schlüssel fehlt" => "Der Datenbsatz kann leider nicht angezeigt werden, weil mindestens ein Schlüsselfeld fehlt."
-        ];
+        $toDisplay = $missing_key_error;
     
     // set a search result & index to which this record shall be copied, to be able to edit it.
     $search_result_index = 99; // This shall be more than the max-rows in "datensatz_finden.php"
     $_SESSION["efa2table"] = $list->get_table_name();
+} elseif ($ecrid && $tablename) {
+    $tablerow = $socket->find_record_matched($tablename, ["ecrid" => $ecrid
+    ]);
+    if ($tablerow == false)
+        $toDisplay = [$keyfield => $keyvalue,"???" => "not found."
+        ];
+    else
+        $toDisplay = $tablerow;
+    $search_result_index = 99; // This shall be more than the max-rows in "datensatz_finden.php"
+    $_SESSION["efa2table"] = $tablename;
 } else {
     $search_result_index = (isset($_SESSION["getps"][$fs_id]["searchresultindex"])) ? intval(
             $_SESSION["getps"][$fs_id]["searchresultindex"]) : 0;
     if ($search_result_index == 0)
-        $toolbox->display_error("Nicht zulässig.", 
-                "Die Seite '" . $user_requested_file .
-                         "' muss als Folgeseite von Datensatz finden aufgerufen werden.", $user_requested_file);
+        $toolbox->display_error(i("KjzmnU|Not allowed."), 
+                i("b1CfJu|Page °%1° must be called...", $user_requested_file), $user_requested_file);
     $tablename = $_SESSION["efa2table"];
     $search_result = $_SESSION["search_result"][$search_result_index];
     $toDisplay = $search_result;
     // try to extract the data key. Only then the record is surely unique
-    $record_data_key = $efa_tables->get_data_key($tablename, $toDisplay);
+    $record_data_key = Efa_tables::get_record_key($tablename, $toDisplay);
     if ($record_data_key !== false)
         $tablerow = $socket->find_record_matched($tablename, $record_data_key);
     else // the record is not unique
-        $toDisplay = [
-                "Schlüssel fehlt" => "Der Datenbsatz kann leider nicht angezeigt werden, weil mindestens ein Schlüsselfeld fehlt."
-        ];
+        $toDisplay = $missing_key_error;
 }
 
 // remove lookup references
@@ -97,63 +105,60 @@ $_SESSION["search_result"][$search_result_index] = $toDisplay;
 echo file_get_contents('../config/snippets/page_01_start');
 echo $menu->get_menu();
 echo file_get_contents('../config/snippets/page_02_nav_to_body');
+$tablename_de = (isset(Efa_tables::locale_names()[$tablename])) ? Efa_tables::locale_names()[$tablename] : $tablename;
 
 // page heading, identical for all workflow steps
-?>
-<!-- START OF content -->
-<div class="w3-container">
-	<h3>Datensatzanzeige für die Tabelle <?php echo $tablename; ?>:</h3>
-</div>
-<div class="w3-container">
-	<table>
-		<tr>
-			<th>Datenfeld</th>
-			<th>Wert</th>
-			<th>Bedeutung (bei UUID, Zeitstempel)</th>
-		</tr>
-	<?php
+echo i("tSyQm8| ** Data record display...", $tablename_de);
+$null_values = "";
+
+include_once "../classes/efa_uuids.php";
+$efa_uuids = new Efa_uuids($toolbox, $socket);
 foreach ($toDisplay as $key => $value) {
     if (strcasecmp($key, "ecrhis") !== 0) {
-        if ($efa_dataedit->isUUID($value)) {
-            $resolved_UUID = $efa_dataedit->resolve_UUID($value);
-            echo "<tr><td>" . $key . "</td><td>" . $value . "</td><td>" .
-                     $efa_dataedit->resolve_UUID($value)[1] . "</td></tr>\n";
-        } elseif (in_array($key, $efa_tables->timestampFields)) {
-            $resolved_time = $efa_tables->get_readable_date_time($value);
-            echo "<tr><td>" . $key . "</td><td>" . $value . "</td><td>" . $resolved_time . "</td></tr>\n";
-        } else
-            echo "<tr><td>" . $key . "</td><td>" . $value . "</td><td></td></tr>\n";
+        $key_de = (isset(Efa_tables::locale_names()[$key])) ? Efa_tables::locale_names()[$key] : $key;
+        if (strlen($value) == 0)
+            $null_values .= $key_de . ", ";
+        elseif (Efa_uuids::isUUID($value)) {
+            $resolved_UUID = $efa_uuids->resolve_UUID($value);
+            echo "<tr><td>" . $key_de . "</td><td>" . $value . "</td><td>" .
+                     $efa_uuids->resolve_UUID($value)[1] . "</td></tr>\n";
+        } elseif (in_array($key, Efa_tables::$timestamp_field_names)) {
+            $resolved_time = Efa_tables::get_readable_date_time($value);
+            echo "<tr><td>" . $key_de . "</td><td>" . $value . "</td><td>" . $resolved_time . "</td></tr>\n";
+        } elseif (in_array($key, Efa_tables::$date_fields[$tablename]))
+            echo "<tr><td>" . $key_de . "</td><td>" . date($dfmt_d, strtotime($value)) .
+                     "</td><td></td></tr>\n";
+        else
+            echo "<tr><td>" . $key_de . "</td><td>" . $value . "</td><td></td></tr>\n";
     }
 }
-?>
-	</table>
-</div>
-<div class="w3-container">
-	<div class='w3-row'>
-<?php
+if (strlen($null_values) > 0)
+    echo "<tr><td>" . i("eiCoTk|empty data fields") . "</td><td>" .
+             mb_substr($null_values, 0, mb_strlen($null_values) - 2) . "</td><td></td></tr>\n";
+echo i("5O1GIg|</table></div><div cl...");
 if ($menu->is_allowed_menu_item("../forms/datensatz_aendern.php", $_SESSION["User"])) {
     $float_history = "right";
-    ?>
-<div class='w3-col l2'>
-			<a
-				href="../forms/datensatz_aendern.php?searchresultindex=<?php echo $search_result_index; ?>"
-				class=formbutton style='float: left;'>Datensatz ändern</a> <br>&nbsp;
-		</div>
-<?php
+    echo i("gXEDSy|<div class=°w3-col l2°>...");
+    $is_admin = (strcmp($_SESSION["User"]["Rolle"], $toolbox->users->useradmin_role) == 0);
+    $is_deleted = (isset($tablerow["LastModification"]) &&
+             (strcasecmp($tablerow["LastModification"], "delete") == 0));
+    if ($is_admin) {
+        if ($is_deleted)
+            echo "<br><span style='color:#800'>" . i("AicQjQ|This record has been del...") . "</span>";
+        else {
+            echo "<a href='../forms/datensatz_aendern.php?table=$tablename&ecrid=" . $tablerow["ecrid"] .
+                     "' class=formbutton style='float: left;'>" . i("xBbzbd|Change record") . "</a> <br>";
+            if (in_array($tablename, Efa_record::$allow_web_delete))
+                echo "<br><br><a href='../pages/datensatz_loeschen.php?table=$tablename&ecrid=" .
+                         $tablerow["ecrid"] . "' style='float: left;'>" . i("8Y01p6|Delete record") . "</a>";
+        }
+    }
+    echo "</div>";
 } else
     $float_history = "left";
 
 if (isset($tablerow["ecrhis"]) && (strlen($tablerow["ecrhis"]) > 5)) {
-    ?>
-<div class='w3-col l2'>
-			<a
-				href='../pages/show_history.php?searchresultindex=<?php
-    echo $search_result_index;
-    ?>'
-				class=formbutton style='float: <?php echo $float_history; ?>;'>Versionsverlauf</a>
-		</div>
-	</div>
-</div>
-<?php
+    $link_parameters = "table=" . $tablename . "&ecrid=" . $tablerow["ecrid"];
+    echo i("08pBug|<div class=°w3-col l2°>...",  $link_parameters, $float_history);
 }
 end_script();

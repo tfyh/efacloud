@@ -1,0 +1,4 @@
+id;permission;name;select;from;where;options
+2;api;U2fWGk|new_members;Mitgliedsnummer,Vorname,Nachname,Geschlecht,Geburtsdatum;Mitgliederliste;(ISNULL(`Austritt`) OR (`Austritt` = '') OR (YEAR(`Austritt`) < 1910) OR (DATEDIFF(NOW(), `Austritt`) < 0)) AND (`Rolle` = 'Ruderkurs' OR (DATEDIFF(NOW(), `Eintritt`) > -35)) AND ((`efaGUID` IS NULL) OR (`efaGUID`=''));sort=Mitgliedsnummer
+3;api;J7QkU7|leaving_members;efaGUID,Mitgliedsnummer,Vorname,Nachname,Austritt;Mitgliederliste;(`Austritt` > NOW());sort=Mitgliedsnummer
+4;api;TTt5oN|known_members;efaGUID,Mitgliedsnummer,Vorname,Nachname,Austritt,Subskriptionen,EMail;Mitgliederliste;NOT ISNULL(`efaGUID`) AND NOT (`efaGUID` = '') AND (`Rolle` = 'Ruderkurs' OR DATEDIFF(NOW(), `Eintritt`) > 0) AND (`letzteAenderung` > NOW() - INTERVAL 5 DAY);sort=Mitgliedsnummer

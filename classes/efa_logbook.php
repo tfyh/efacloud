@@ -17,20 +17,25 @@ class Efa_logbook
     private $socket;
 
     /**
-     * Efa data edit class to resolve the UUIDs.
+     * efa uuid resolving utility class.
      */
-    private $efa_dataedit;
+    private $efa_uuids;
+
+    /**
+     * Efa_tables utility class.
+     */
+    private $efa_config;
+
+    /**
+     * an array with all logbook periods known from the respective client configuration.
+     */
+    private $logbook_periods;
 
     /**
      * The maximum number of recipients to get the personal logbook. This limit is needed to avoid memory
      * overflow.
      */
     private $max_no_recipients_personal_logbook = 1000;
-
-    /**
-     * Current logbook, i. e. logbook used for personal logbook extraction.
-     */
-    private $current_logbook;
 
     /**
      * the array of column names to be included, German version.
@@ -40,22 +45,44 @@ class Efa_logbook
     /**
      * the array of column names to be included, German version.
      */
+    private $pers_logbook_colnames_en;
+
+    /**
+     * the array of column names to be included, German version.
+     */
     private $table_tags;
 
     /**
      * public Constructor. Runs the anonymization.
      */
-    public function __construct (Tfyh_toolbox $toolbox, Tfyh_socket $socket, Efa_dataedit $efa_dataedit, 
-            String $current_logbook = "")
+    public function __construct (Tfyh_toolbox $toolbox, Tfyh_socket $socket)
     {
         $this->socket = $socket;
         $this->toolbox = $toolbox;
-        $this->efa_dataedit = $efa_dataedit;
+        include_once "../classes/efa_uuids.php";
+        $this->efa_uuids = new Efa_uuids($toolbox, $socket);
+        include_once "../classes/efa_config.php";
+        $this->efa_config = new Efa_config($toolbox);
+        $this->efa_config->load_efa_config();
+        
+        // special case: the column names of the personal logbook need e reverse translation
+        // Create an associative array for this task. Translate the English names:
+        $pers_logbook_colnames_en = explode(",", 
+                "EntryId,Date,Boat,Cox,Crew,StartTime,EndTime,Destination,Distance");
+        // make sure the i18n resource definition matches the column name definitions above
+        $personal_logbook_colnames_local = explode(",", 
+                i("BqM9Lt|EntryId,Date,Boat,Cox,Cr..."));
+        // Than map the local names to the English names.
+        $this->pers_logbook_colnames_en = [];
+        for ($c = 0; $c < count($personal_logbook_colnames_local); $c ++)
+            $this->pers_logbook_colnames_en[$personal_logbook_colnames_local[$c]] = $pers_logbook_colnames_en[$c];
+        
+        // now prepare the table layout.
         $cfg = $toolbox->config->get_cfg();
-        $this->current_logbook = str_replace("JJJJ", date("Y"), $cfg["current_logbook"]);
-        $this->pers_logbook_cols = (isset($cfg["pers_logbook_cols"]) && (strlen($cfg["pers_logbook_cols"]) > 0)) ? explode(",", $cfg["pers_logbook_cols"]) : [
-                "Fahrtnummer","Datum","Boot","Steuermann","Mannschaft","Abfahrt","Ankunft","Ziel","Kilometer"
-        ];
+        $personal_logbook_columns = (isset($cfg["pers_logbook_cols"]) &&
+                 (strlen($cfg["pers_logbook_cols"]) > 0)) ? $cfg["pers_logbook_cols"] : $personal_logbook_colnames_local;
+        $this->pers_logbook_cols = explode(",", $personal_logbook_columns);
+        
         $this->table_tags = [];
         $this->table_tags["table"] = (isset($cfg["pers_logbook_table"]) &&
                  (strlen($cfg["pers_logbook_table"]) > 0)) ? "<table style=\"" . $cfg["pers_logbook_table"] .
@@ -80,8 +107,8 @@ class Efa_logbook
         // find all persons with an Email address provided. Get not more than
         // $max_no_recipients_personal_logbook records to avoid memory problems.
         include_once "../classes/tfyh_list.php";
-        $logbook_recipients_list = new Tfyh_list("../config/lists/logbook_management", 6, 
-                "Empfänger des persönlichen Logbuchs", $this->socket, $this->toolbox);
+        $logbook_recipients_list = new Tfyh_list("../config/lists/logbook_management", 6, "", $this->socket, 
+                $this->toolbox);
         
         // collect Ids and put to associative array. Filter invalid ones.
         $logbook_recipients = [];
@@ -105,10 +132,10 @@ class Efa_logbook
             if (strlen($uuid) > 30) {
                 $mailfrom = $mail_handler->system_mail_sender;
                 $mailto = $logbook_recipients[$uuid]["Email"];
-                $mailsubject = "[" . $cfg["acronym"] . "] persönliches Fahrtenbuch";
-                $mailbody = "<html><body><p>Alle Fahrten für " . $logbook_recipients[$uuid]["FirstLastName"] .
-                         " im Fahrtenbuch '" . $this->current_logbook . "' bis jetzt:</p>" . $personal_logbook .
-                         $cfg["mail_subscript"] . $cfg["mail_footer"];
+                $mailsubject = "[" . $cfg["acronym"] . "] " . i("7UNg40|Personal logbook");
+                $mailbody = "<html><body><p>" . i("oR4Ytj|All trips for %1 in logb...", 
+                        $logbook_recipients[$uuid]["FirstLastName"], $this->efa_config->current_logbook) .
+                         "</p>" . $personal_logbook . $cfg["mail_subscript"] . $cfg["mail_footer"];
                 if (! $only_me || (strcasecmp($mailto, $_SESSION["User"]["EMail"]) == 0)) {
                     $success = $mail_handler->send_mail($mailfrom, $mailfrom, $mailto, "", "", $mailsubject, 
                             $mailbody);
@@ -138,6 +165,9 @@ class Efa_logbook
             return strtotime(strval(intval(date("Y")) - 1) . "-" . $sports_year_start_month . "-01");
     }
 
+    public function check_in_period (String $logbookname, String $date)
+    {}
+
     /**
      * Get all logbook entries for a set of persons based on his/her UUID
      * 
@@ -152,8 +182,8 @@ class Efa_logbook
         $sports_year_filter = ["{sports_year_start}" => date("Y-m-d", $this->get_sports_year_start())
         ];
         
-        $trips_list = new Tfyh_list("../config/lists/efaExportTables", 17, 
-                "efa logbook (Mitglieder, aktuelles Jahr)", $this->socket, $this->toolbox, $sports_year_filter);
+        $trips_list = new Tfyh_list("../config/lists/efaExportTables", 17, "", $this->socket, $this->toolbox, 
+                $sports_year_filter);
         $all_trips_raw = $trips_list->get_rows();
         $all_trips = [];
         foreach ($all_trips_raw as $trip_raw)
@@ -182,41 +212,44 @@ class Efa_logbook
             $total_distance = 0;
             $trip_count = 0;
             
-            // collect trips: Roows
+            // collect trips: Rows
             foreach ($person_trips as $person_trip) {
                 
                 // collect data
                 $row = [];
-                $row["Boot"] = (isset($person_trip["BoatId"])) ? $this->efa_dataedit->resolve_UUID(
+                $row["Boat"] = (isset($person_trip["BoatId"]) && (strlen($person_trip["BoatId"]) > 0)) ? $this->efa_uuids->resolve_UUID(
                         $person_trip["BoatId"])[1] : $person_trip["BoatName"];
-                $row["Steuermann"] = (isset($person_trip["CoxId"])) ? $this->efa_dataedit->resolve_UUID(
+                $row["Cox"] = (isset($person_trip["CoxId"]) && (strlen($person_trip["CoxId"]) > 0)) ? $this->efa_uuids->resolve_UUID(
                         $person_trip["CoxId"])[1] : $person_trip["CoxName"];
-                $row["Ziel"] = (isset($person_trip["DestinationId"])) ? $this->efa_dataedit->resolve_UUID(
-                        $person_trip["DestinationId"])[1] : $person_trip["DestinationName"];
-                $row["Kilometer"] = intval(
+                $row["Destination"] = (isset($person_trip["DestinationId"]) &&
+                         (strlen($person_trip["DestinationId"]) > 0)) ? $this->efa_uuids->resolve_UUID(
+                                $person_trip["DestinationId"])[1] : $person_trip["DestinationName"];
+                $row["Distance"] = intval(
                         str_replace(" ", "", str_replace("km", "", $person_trip["Distance"])));
-                $total_distance += $row["Kilometer"];
-                $row["Mannschaft"] = "";
+                $total_distance += $row["Distance"];
+                $row["Crew"] = "";
                 for ($i = 1; $i <= 24; $i ++) {
                     $crewname = "";
-                    if (isset($person_trip["Crew" . $i . "Id"])) {
-                        $crewname = $this->efa_dataedit->resolve_UUID($person_trip["Crew" . $i . "Id"])[1];
+                    if (isset($person_trip["Crew" . $i . "Id"]) &&
+                             (strlen($person_trip["Crew" . $i . "Id"]) > 0)) {
+                        $crewname = $this->efa_uuids->resolve_UUID($person_trip["Crew" . $i . "Id"])[1];
                     } elseif (isset($person_trip["Crew" . $i . "Name"]))
                         $crewname .= $person_trip["Crew" . $i . "Name"];
                     if (strlen($crewname) > 2)
-                        $row["Mannschaft"] .= $crewname . ", ";
+                        $row["Crew"] .= $crewname . ", ";
                 }
-                if (strlen($row["Mannschaft"]) >= 2)
-                    $row["Mannschaft"] = substr($row["Mannschaft"], 0, strlen($row["Mannschaft"]) - 2);
-                $row["Fahrtnummer"] = $person_trip["EntryId"];
-                $row["Datum"] = $person_trip["Date"];
-                $row["Abfahrt"] = $person_trip["StartTime"];
-                $row["Ankunft"] = $person_trip["EndTime"];
+                if (strlen($row["Crew"]) >= 2)
+                    $row["Crew"] = mb_substr($row["Crew"], 0, mb_strlen($row["Crew"]) - 2);
+                $row["EntryId"] = $person_trip["EntryId"];
+                $row["Date"] = $person_trip["Date"];
+                $row["StartTime"] = $person_trip["StartTime"];
+                $row["EndTime"] = $person_trip["EndTime"];
                 
                 // compile table row.
                 $person_trips_html .= $this->table_tags["tr"];
                 foreach ($this->pers_logbook_cols as $pers_logbook_col)
-                    $person_trips_html .= $this->table_tags["td"] . $row[$pers_logbook_col] . "</td>";
+                    $person_trips_html .= $this->table_tags["td"] .
+                             $row[$this->pers_logbook_colnames_en[$pers_logbook_col]] . "</td>";
                 $person_trips_html .= "\n</tr>\n";
                 $trip_count ++;
             }
@@ -224,12 +257,13 @@ class Efa_logbook
             // add the sum only, if there is more than just one trip
             if ($trip_count > 1) {
                 $sum = [];
-                $sum["Fahrtnummer"] = "gesamt";
-                $sum["Boot"] = $trip_count . " Fahrten";
-                $sum["Kilometer"] = $total_distance;
+                $sum["EntryId"] = i("Z4dgHJ|Total");
+                $sum["Boat"] = $trip_count . " " . i("rckzWH|Trips");
+                $sum["Distance"] = $total_distance;
                 $person_trips_html .= $this->table_tags["tr"];
                 foreach ($this->pers_logbook_cols as $pers_logbook_col)
-                    $person_trips_html .= $this->table_tags["td"] . $sum[$pers_logbook_col] . "</td>";
+                    $person_trips_html .= $this->table_tags["td"] .
+                             $sum[$this->pers_logbook_colnames_en[$pers_logbook_col]] . "</td>";
                 $person_trips_html .= "</tr>\n";
             }
             $person_trips_html .= "</table>\n";

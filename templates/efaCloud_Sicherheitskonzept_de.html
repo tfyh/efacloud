@@ -1,0 +1,255 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title></title>
+<meta name="generator" content="LibreOffice 5.4.3.2 (Linux)" />
+<meta name="author" content="Martin Glade" />
+<meta name="created" content="2008-03-11T21:16:22" />
+<meta name="changed" content="2021-12-29T18:46:40.358456776" />
+<style type="text/css">
+{#CSS#}
+</style>
+
+</head>
+<body lang="de-DE" dir="ltr">
+	<h1 style="margin-top: 16cm;">
+		<b>Sicherheitskonzept efaCloud</b>
+	</h1>
+	<p>
+		Sicherheitskonzept für die Anwendung efaCloud für den Verein
+		{#Verein#}<br /> Stand: {#Druckdatum#}<br /> efaCloud Server
+		{#efaCloudVersion#}
+	</p>
+	<p>
+		<br /> <br />
+
+	</p>
+	<p>© nmichael.de</p>
+
+	<h1 style="page-break-before: always">Basisdaten</h1>
+	<p>
+		Verein: {#Verein#}<br /> Verantwortlich für den Betrieb des efaCloud
+		Servers: {#Betriebsverantwortlich#}<br /> Betreiber des Web-Servers:
+		{#Hoster#}<br /> URL der efaCloud-Anwendung: {#ServerURL#}<br />
+		Datum der AVV mit dem Betreiber des Web-Servers: {#AVVdatum#}<br />
+		efaCloud Version: {#efaCloudVersion#}<br /> PHP-Version:
+		{#PHPversion#}<br /> PHP-Erweiterungen: {#PHPextensions#}<br />
+		Datenbank Version: {#MySQLversion#}<br /> Datenbankuser
+		Kennwortlänge: {#dbUserKennwortlaenge#}<br /> Backup-Strategie:
+		Tägliche Sicherung aller Tabellendaten für 10 Tage, alle 10 Tage
+		Sicherung der ältesten täglichen Sicherung für 100 Tage<br />
+		Nutzerkennwort-Sicherheit: 8 – 32 Zeichen aus drei Gruppen der
+		folgenden vier Gruppen enthalten sein: Ziffern, Kleinbuchstaben,
+		Großbuchstaben, Sonderzeichen. Zulässige Sonderzeichen sind
+		!&quot;#$%&amp;'*+,-./:;&lt;=&gt;?@[\]^_`{|}~
+	</p>
+	<h1>Technische Sicherheit</h1>
+	<h2>Technischer Aufbau</h2>
+	<p>Die Anwendung besteht aus einem ausführbaren PHP-Skript, welches
+		auf eine MySQL Datenbank zugreift und einem Dateisystem für die
+		Code-Ablage, Konfiguration und Überwachung.</p>
+	<p>Das Dateisystem ist bis auf ausgewählte Verzeichnisse nicht von
+		außen lesbar. Lesbar sind ausschließlich die Verzeichnisse, auf die
+		unmittelbar über Browser oder API zugegriffen wird: api, forms, js,
+		license, pages, public, resources.</p>
+	<p>Sämtliche anderen Verzeichnisse sind sowohl durch
+		Berechtigungsvergabe, als auch durch Hinterlegung einer .htaccess
+		Datei für den Zugriff von außen gesperrt.</p>
+	<p>
+		<span lang="de-DE">Die Anwendung verwendet außer den
+			Standardmodu</span><span lang="de-DE">l</span><span lang="de-DE">en
+			von PHP kein Framework.</span>
+	</p>
+	<h3>Datenbanksicherheit</h3>
+	<p>Der technische Nutzer, der für den Zugriff der Anwendung auf die
+		Datenbank verwendet wird, ist in der Konfiguration hinterlegt. Diese
+		Konfiguration befindet sich im nicht zugänglichen Bereich des
+		Dateiverzeichnisses und ist nicht im Klartext abgelegt, sondern
+		zusätzlich „versteckt“ durch einfache symmetrische Verwürfelung und
+		anschließende base64 Kodierung. Das schützt zwar nicht vor echten
+		Hackern, erfordert aber einen Zugang zum geschützten Server-Bereich
+		und ist dadurch abgesichert.</p>
+	<h3>Lastbegrenzung</h3>
+	<p>Die Anwendung hat einen eingebauten Lastbegrenzer, der maximal
+		{#max_inits_per_hour#} Zugriffe bzw. API-Container und maximal
+		{#max_errors_per_hour#} Fehler pro Stunde auf sowohl die PHP Anwendung
+		als auch die API zulässt. Danach wird jeder Zugriff bzw. API-Container
+		abgelehnt.</p>
+	<h2>Anwenderzugriff</h2>
+	<p>
+		<span lang="de-DE">Die API und die PHP-Anwendung kapseln alle
+			Datenbankzugriffe, so dass direkte SQL-Statements durch den Anwender
+			nicht möglich sind. </span><span lang="de-DE">Auf der API werden bis
+			zu zehn Transaktionen in einem Container gebündelt, z. B. bei
+			Synchronisation von mehreren Datensätzen.</span>
+	</p>
+	<p>
+		<span lang="de-DE">Der Nutzer wird in der API für jede</span><span
+			lang="de-DE">n</span><span lang="de-DE"> </span><span lang="de-DE">Container</span><span
+			lang="de-DE"> autorisiert. </span><span lang="de-DE">Bei
+			Verwendung des Browsers wird durch den erfolgreichen Login eine
+			Sitzung aufgebaut, die </span><span lang="de-DE">bei Inaktivität nach
+			10 Minuten geschlossen wird.</span>
+	</p>
+	<p>
+		<span lang="de-DE">Die Kommunikation erfolgt ausschließlich
+			über HTTPS, um die Daten vor Mitlesen, Verlust und Manipulation zu
+			schützen. </span><span lang="de-DE">Nutzung per HTTP wird in der
+			Servereinstellung blockiert.</span>
+	</p>
+	<h3>efaCloud Server-Anwendung</h3>
+	<p>
+		<span lang="de-DE">Menschliche Anwender greifen grundsätzlich
+			über PHP-Formulare </span><span lang="de-DE">oder Seiten </span><span
+			lang="de-DE">auf die Daten zu. Technische Nutzer, wie zum
+			Beispiel ein Bootshaus-PC, können über eine API zugreifen.</span>
+	</p>
+	<p>
+		<span lang="de-DE">Sie autorisieren sich dafür mit einem
+			Kennwort, welches im User-Datensatz als Hash hinterlegt ist. </span><span
+			lang="de-DE">Dazu wird der in PHP mitgelieferte
+			Hashalgorithmus in Standardeinstellung verwendet.</span>
+	</p>
+	<h3>efaWeb</h3>
+	<p>efaWeb stellt eine Javascript Anwendung innerhalb des
+		efaCloud-Server-Angebotes dar. Sie wird über die Seite pages/bths.php
+		aufgerufen. Die Javascript Anteile liegen komplett im Verzeichis js
+		(s.o.).</p>
+	<p>efaWeb greift über nicht direkt, sondern über die API auf die
+		Daten zu, so wie es auch der Bootshaus-PC macht. Es gibt keinen
+		direkten Zugriff aus der efaWeb Fahrtenbuchanwendung auf die
+		Datenbank.</p>
+	<p>Nutzer von efaWeb werden über die API identifiziert und
+		autorisiert, dabei liefert die Seite bths.php, wenn eine Sitzung offen
+		ist, den aktuellen Nutzer an efaWeb, der sich dann nicht mehr
+		autorisieren muss.</p>
+	<h3>Berechtigungskonzept</h3>
+	<p>Die Anwendung efaCloud unterscheidet sechs Rollen, die mit *
+		gekennzeichneten sind privilegierte Rollen, zu denen die
+		Berechtigungen weiter unten namentlich aufgeführt sind. Jede Rolle hat
+		grundsätzlich alle Berechtigungen der zuvor aufgeführten Rolle:</p>
+	<ul>
+		<li><b>anonymous</b>: der nicht angemeldete Nutzer.</li>
+		<li><b>guest</b>: Gastzugriff für Testzwecke</li>
+		<li><b>member</b>: Vereinsmitglieder, Zugriff zum eigenen Profil
+			zur Prüfung der im Verein hinterlegten Daten.</li>
+		<li><b>*bths</b>: Bootshaus PC zum Eintrage von Fahrten,
+			Schadensmeldungen, Nachrichten an Admin etc.</li>
+		<li><b>*board</b><span style="font-weight: normal">: </span><span
+			style="font-weight: normal">Vorstandsfunktionen</span></li>
+		<li><b>*admin</b><span style="font-weight: normal">: </span><span
+			style="font-weight: normal">Verwalter der Anwendung</span></li>
+	</ul>
+	<p>
+		<b>Die Berechtigungen im Web sind:</b>
+	</p>
+	<p>{#accessableWebPerRole#}</p>
+	<p>
+		<b>Die Berechtigungen auf der API-Schnittstelle sind:</b>
+	</p>
+	<p>{#accessableAPIperRole#}</p>
+	<p>Die in efa verwendeten Admin-Berechtigungsprofile sind in
+		efaCloud abgelegt um Konsistenz über alle Clients durch eine zentrale
+		Verwaltung sicherzustellen, aber ohne Wirkung. Ein Admin-Zugriff wird
+		immer online geprüft, d.h. ein Bootshaus-PC der offline ist, kann nur
+		durch den lokalen efa-Superadmin verwaltet werden.</p>
+	<h2>Überwachung</h2>
+	<p>Die Anwendung enthält eine umfangreiche Überwachungslogik sowie
+		die Möglichkeit der Auditierung.</p>
+	<h3>Logs</h3>
+	<p>Jede Transaktion auf der API, jeder Login, jeder Fehler und jede
+		Datenänderung und jede Bereitstellung von Listen wird mitgeschrieben.
+		Die entsprechenden Logs sind allerdings nur Nutzern in der Rolle
+		‚admin‘ zugänglich, da sie insbesondere im Datenänderungslog auch
+		echte Daten enthält.</p>
+	<p>Nutzer mit einer Verwaltungsberechtigung müssen darauf
+		hingewiesen werden, dass ihre Aktivität mitgeschrieben und zugeordnet
+		werden kann.</p>
+	<h3>Audit, Cronjobs</h3>
+	<p>Die Anwendung führt regelmäßig „Audits“ durch, bei denen die
+		Berechtigungstruktur im Dateiverzeichnis geprüft und ggf. korrigiert
+		wird.</p>
+	<p>Cron-Jobs dienen zur Datenbank-Kontrolle und erlauben den
+		Versand von Fahrtenbüchern an Mitglieder.</p>
+	<h2>Schnittstellen, Export und Import von Daten</h2>
+	<p>Sämtliche Zugriffe werden per HTTPS ausgeführt. Nur bei der
+		Erst-Installation ist einmalig ein sftp-Zugang erforderlich, um die
+		Installationsdatei im Wurzelverzeichnis zu hinterlegen. Upgrades
+		nutzen auch den Zugang zum efaCloud-Server per HTTPS.</p>
+	<p>Daten können sowohl über die API als auch über die
+		Benutzeranwendung als Listen exportiert werden. Der Export über die
+		API ist erforderlich für die Synchronisation der Bootshaus-PCs mit dem
+		Server. Der Export als Liste in der Serveranwendung dient
+		Verwaltungszwecken – er wird mit Angabe des exportierenden Nutzers
+		mitgeschrieben und erfordert die Berechtigungsstufe „board“.</p>
+	<p>Daten können sowohl über die API als auch über die
+		Benutzeranwendung als Listen importiert werden. Der Import über die
+		API ist erforderlich für die Synchronisation der Bootshaus-PCs mit dem
+		Server. Der Export als Liste in der Serveranwendung wird für die
+		Wiederherstellung von Backups verwendet und erfordern ‚admin‘ Rechte.</p>
+	<h1>Verfahren</h1>
+	<p>Um den Datenschutz angemessen sicherstellen zu können, werden
+		die folgenden Verfahren zur Berechtigungsvergabe und Prüfung
+		vereinbart.</p>
+	<h2>Berechtigungsvergabe</h2>
+	<p>Die Vergabe von Berechtigungen erfolgt durch einen Nutzer mit
+		der Berechtigung „admin“ nach Prüfung der Funktion des Nutzers im
+		Verein. Die Berechtigung „board“ wird dabei nur Funktionsträgern im
+		Verein zugeordnet.</p>
+	<h2>Berechtigungsentzug</h2>
+	<p>Die Berechtigung „board“ oder „admin“ wird bei Wegfall der
+		Vereinsfunktion vom durch einen Nutzer mit der Berechtigung „admin“
+		auf „member“ gesetzt. Der Nutzer wird bei Austritt aus dem Verein in
+		die Berechtigungsstufe „anonymous“ gesetzt.</p>
+	<h2>Berechtigungskontrolle</h2>
+	<p>Einmal jährlich werden die Berechtigungen durch den Betreiber
+		der Anwendung überprüft.</p>
+	<h2>Löschkonzept</h2>
+	<p>Eine automatisierte Löschung oder Anonymisierung der Daten
+		findet nicht statt.</p>
+	<h2>Prozesskontrolle</h2>
+	<p>Einmal jährlich wird dieses Sicherheitskonzept aktualisiert und
+		dem Vereinsvorstand sowie dem Datenschutzbeauftragten zur
+		Kenntnisnahme und Kontrolle auf angemessene Umsetzung vom Betreiber
+		der Anwendung vorgelegt.</p>
+	<h1>Audit</h1>
+	<p>Im Folgenden wird eine Zusammenfassung des aktuellen
+		Zugriffsstatus und das aktuelle Auditergebnis angegeben. Veränderliche
+		Angaben beziehen sich dabei immer auf die letzten 14 Tage, stellen
+		also nur eine Stichprobe dar.</p>
+	<p>Bei den Datenmengen ist zu beachten, dass versionierte Tabellen
+		(efa2boats, efa2destinations, efa2groups, efa2persons) in der Regel
+		mehr Datensätze als Objekte enthalten, weil ein Objekt wie
+		beispielsweise die Person mehrere Datensätze mit unterschiedlicher
+		zeitlicher Gültigkeit hat.</p>
+	<p>Dem Verwalter steht diese Überwachungsinformation ebenfalls
+		online zur Verfügung.</p>
+	<h2>Zugriffsstatistik</h2>
+	<h3>Zugriffe der letzten 14 Tage über das Web</h3>
+	<p>Als Zugriffsart wird login, init (= Seitenaufrufe), und error
+		(erzeugte Umleitungen auf die Fehlerseite error.php) unterschieden.</p>
+	<p>{#ZugriffeWeb#}</p>
+	<h3>Zugriffe der letzten 14 Tage über die API</h3>
+	<span>{#ZugriffeAPI#}</span>
+	<h3>Datenänderungen der letzten 14 Tage</h3>
+	<p>{#ChangesAll#}</p>
+	<h2>Namentlich benannte Nutzer</h2>
+	<p>Nutzer mit besonderen Rechten werden mit Namen hier aufgeführt
+		für die Kontrolle des Sicherheitskonzeptes durch den Vereinsvorstand.</p>
+	<h3>Privilegierte Nutzer</h3>
+	<p>Die Nutzer mit privilegierten Rollen sind:</p>
+	<p>{#privilegierteNutzer#}</p>
+	<h3>Nutzer mit efa-Admin Rechten</h3>
+	<p>Die Nutzer mit efa-Admin Rechten sind:</p>
+	<p>{#efaAdminNutzer#}</p>
+	<h2>Konfigurationsübersicht</h2>
+	<p>Etwas weniger technisch als der Audit Log ist die
+		Zusammenstellung der Parameter, die vom Verwalter konfiguriert werden.</p>
+	<p>{#configuration#}</p>
+	<h2>Aktuelles Tagesaudit</h2>
+	<p>Täglich erfasst efaCloud den Zustand in Form eines Audits. Bei
+		Erzeugung des Konzepts wurde ein Audit durchgeführt, dessen Ergebnis
+		hier mit abgedruckt ist.</p>
+	<p>{#auditLog#}</p>
+</body>
+</html>

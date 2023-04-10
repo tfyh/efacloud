@@ -1,12 +1,8 @@
 tags;required;name;value;label;type;class;size;maxlength
-<div class='w3-row'><div class='w3-col l2'>;; \
-  clientID;;Für welchen Client?;select $options;;30;250
-</div></div><div class='w3-row'><div class='w3-col l2'><br>;; \
-  type;;;"radio 1=Die Logdatei;2=Die Statistik als Grafik";;30;250
-</div></div><div class='w3-row' style='margin-top:20px'><div class='w3-col l1'><div style='float:right'>;; \
-  submit;Anzeigen;;submit;formbutton;;
-</div></div></div>;;_no_input;;;;;;
-<li><span class='helptext'>;;_help_text;;Du kannst zwischen allen Clients auswählen, für die eine Statistik vorliegt.  \
-	Wenn einer fehlt, hat der Server von diesem Client keine Statistik empfangen.;;;;
-</span></li><li><span class='helptext'>;;_help_text;;Der Log und Statistik-Versand findet in der Regel einmal täglich statt. Die Daten sind also von gestern.;;;;	
+<div class='w3-row'><div class='w3-col l2'>;;clientID;;iti1xU|For which client?;select $options;;30;250
+</div></div><div class='w3-row'><div class='w3-col l2'><br>;;type;;;radio $options;;30;250
+</div></div><div class='w3-row' style='margin-top:20px'>;;submit;TM7PIY|View;;submit;formbutton;;
+</div></div>;;_no_input;;;;;;
+<li><span class='helptext'>;;_help_text;;3oq4XF|You can choose between a...;;;;
+</span></li><li><span class='helptext'>;;_help_text;;gqkGOQ|The log and statistics a...;;;;
 </span></li>;;_help_text;;;;;;

@@ -1,0 +1,22 @@
+tags;required;name;value;label;type;class;size;maxlength
+<span id='vSpanSystemData'><div class='w3-row'><div class='w3-col l3' id='editBoatstatus-BoatId'>;;BoatId;;2oRhAT|boat (Id);text;display-bold;90%;36
+</div><div class='w3-col l3'>;;ecrid;;9fsJcb|unique record reference ...;text;display-bold;90%;20
+</div></div><div class='w3-row'><div class='w3-col l3'>;;LastModified;;Puw9Gv|last modified on;text;display-bold;90%;20
+</div><div class='w3-col l3'>;;ChangeCount;;EqK0xN|Version (change counter);text;display-bold;90%;20
+</div><div class='w3-col l3'>;;LastModification;;uiPb75|Type of last change;text;display-bold;90%;20
+</div></div><div class='w3-row'><div class='w3-col l1'><hr>;;_no_input;;;;;
+</div></div></span><div class='w3-row'><div class='w3-col l2'>;;BoatText;;liBwB2|Text for the boat;text;;90%;50
+</div><div class='w3-col l2'><br>;;UnknownBoat;;NwyE88|unknown boot;checkbox;;;
+</div></div><div class='w3-row'><div class='w3-col l2'>;;BaseStatus;;mINcAx|Reason status;"select UNDEFINED=;AVAILABLE=verfügbar;NOTAVAILABLE=nicht verfügbar;HIDE=nicht anzeigen";;90%;50
+</div><div class='w3-col l2'>;;CurrentStatus;;5zkQ5A|Current status;"select UNDEFINED=;AVAILABLE=verfügbar;ONTHEWATER=unterwegs;NOTAVAILABLE=nicht verfügbar;HIDE=nicht anzeigen";;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2'>;;ShowInList;;o58jwc|Show in list;"select UNDEFINED=;AVAILABLE=verfügbar;NOTAVAILABLE=nicht verfügbar;ONTHEWATER=unterwegs";;90%;50
+</div><div class='w3-col l2'>;;OnlyInBoathouseId;;SKkVXe|only in boat house with ...;text;;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2'>;;Logbook;;u6KRSK|Logbook;text;;90%;50
+</div><div class='w3-col l2'>;;EntryNo;;exItow|Trip number;text;;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2'>;;Comment;;qiOgPr|Hints;textarea;;4;
+</div></div><div class='w3-row'><div class='w3-col l1'> <br>;;submit;2slTvw|Modify now;;submit;formbutton;;
+</div></div>;;_no_input;;;;;;
+<li><span class='helptext'>;;_help_text;;rsIdGA|The data change takes ef...;;;;
+</span></li><li><span class='helptext'>;;_help_text;;ZDJHuD|For technical reasons, t...;;;;
+</span></li><li><span class='helptext'>;;_help_text;;VFgfBG|Data records with type o...;;;;
+</span></li>;;_help_text;;;;;;

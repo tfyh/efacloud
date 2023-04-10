@@ -1,0 +1,17 @@
+<h4>Virtuelle Datenfelder</h4>
+<p>
+	Efa verwendet sogenannte "virtuelle" Datenfelder um Anzeigen zu
+	beschleunigen, zum Beispiel das Datenfeld "AllCrewNames" mit allen
+	Namen der Mannschaft, die sonst über Nachschlagen aus den Ids ermittelt
+	werden müssten. Diese Felder werden beim Schreiben des Datensatzes
+	gesetzt. Wenn nun etwa Namensänderungen stattfinden oder Namen zu Ids
+	werden, weil in der Zwischenzeit ein Mitglied neu aufgenommen wurde,
+	kann es zu Fehlern in den virtuellen Feldern kommen. Über ein
+	Datenbankaudit (efa_daten &gt; Datenbank auditieren) werden diese
+	Fehler korrigiert. Das ist immer automatisch möglich, weil sie keine
+	eigenständige Information enthalten.<br>Strenggenommen ist es aus
+	Gründen des Datenschutzes nach Archivierung eines Datensatzes sogar
+	erforderlich, dadurch den Namen zu archivID:xxx zu korrigieren, weil
+	diese virtuellen Datenfelder unter Umständen noch bereits archivierte
+	Namen enthalten.
+</p>

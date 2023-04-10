@@ -27,40 +27,43 @@ class Tfyh_cron_jobs
         $today = date("Y-m-d");
         if (strcmp($time_last_run, $today) == 0)
             return false;
-            
-        // TODO temporarily inserted, remove later (insert @ 22.3.22)
-        $migrate = ["dones.txt" => "app_info.log","warns.txt" => "app_warnings.log",
-                "fails.txt" => "app_errors.log","timestamps.log" => "sys_timestamps.log"
-        ];
-        foreach ($migrate as $src => $dest)
-            rename("../log/" . $src, "../log/" . $dest);
-        // TODO temporarily inserted, remove later (insert @ 22.3.22)
         
         $cronlog = "../log/sys_cronjobs.log";
         $cron_started = time();
         $last_step_ended = $cron_started;
-        file_put_contents($cronlog, date("Y-m-d H:i:s") . " +0: Cronjobs started (time last run: $time_last_run)\n", FILE_APPEND);
+        file_put_contents($cronlog, 
+                date("Y-m-d H:i:s") . " +0: " . i("rhWBec|Cronjobs started (time l...", $time_last_run) . "\n", 
+                FILE_APPEND);
         
         // remove obsolete files in log directory from previous program versions or debug runs
         $toolbox->logger->remove_obsolete();
         $toolbox->logger->rotate_logs();
+        Tfyh_logger::remove_obsolete_access_logs();
         $toolbox->logger->collect_and_cleanse_init_login_error_log();
+        include_once "../classes/tfyh_list.php";
+        Tfyh_list::clear_caches();
+        include_once "../classes/pdf.php";
+        PDF::clear_all_created_files();
+        // "../log/tmp" is the usual test file name. May be some remainder is still there.
+        unlink("../log/tmp");
         file_put_contents("../log/app_init_login_error.csv", $toolbox->logger->get_activities_csv(14));
-        file_put_contents($cronlog,
-                date("Y-m-d H:i:s") . " +" . (time() - $last_step_ended) . ": Log rotation and analysis completed\n", FILE_APPEND);
+        file_put_contents($cronlog, 
+                date("Y-m-d H:i:s") . " +" . (time() - $last_step_ended) . ": " .
+                         i("XCjlyh|Log rotation and analysi...") . "\n", FILE_APPEND);
         $last_step_ended = time();
         
         // refresh timer as first action, to avoid duplicate triggering by
         // different users.
         file_put_contents("../log/cronjobs_last_day", $today);
-        $toolbox->logger->log(0, $app_user_id, "Starting daily jobs.");
+        $toolbox->logger->log(0, $app_user_id, i("mrO2j6|Starting daily jobs."));
         
         // run audit
         include_once "../classes/tfyh_audit.php";
         $audit = new Tfyh_audit($toolbox, $socket);
         $audit->run_audit();
         file_put_contents($cronlog, 
-                date("Y-m-d H:i:s") . " +" . (time() - $last_step_ended) . ": Audit completed\n", FILE_APPEND);
+                date("Y-m-d H:i:s") . " +" . (time() - $last_step_ended) . ": " . i("yDwhyh|Audit completed") .
+                         "\n", FILE_APPEND);
         $last_step_ended = time();
         
         // run a backup.
@@ -71,11 +74,11 @@ class Tfyh_cron_jobs
             $backup_handler->backup();
             $toolbox->logger->log(0, $app_user_id, "Backup completed.");
             file_put_contents($cronlog, 
-                    date("Y-m-d H:i:s") . " +" . (time() - $last_step_ended) . ": Backup completed\n", 
-                    FILE_APPEND);
+                    date("Y-m-d H:i:s") . " +" . (time() - $last_step_ended) . ": " .
+                             i("UAsVwN|Backup completed") . "\n", FILE_APPEND);
             $last_step_ended = time();
         } else
-            $toolbox->logger->log(0, $app_user_id, "Backup skipped by configuration.");
+            $toolbox->logger->log(0, $app_user_id, i("wyBzeb|Backup skipped by config..."));
         
         // Cleansing the change log and activity logs first
         $socket->cleanse_change_log(100);
@@ -83,17 +86,16 @@ class Tfyh_cron_jobs
         $toolbox->logger->list_and_cleanse_entries(1, 100, true);
         $toolbox->logger->list_and_cleanse_entries(2, 100, true);
         file_put_contents($cronlog, 
-                date("Y-m-d H:i:s") . " +" . (time() - $last_step_ended) .
-                         ": Change and app info|warnings|failures log entries cleansing completed\n", 
-                        FILE_APPEND);
+                date("Y-m-d H:i:s") . " +" . (time() - $last_step_ended) . ": " .
+                         i("QQRAVY|Change and app info|warn...") . "\n", FILE_APPEND);
         $last_step_ended = time();
         
         // cleanse the page hit timestamps (inits, errors).
         $toolbox->logger->collect_and_cleanse_init_login_error_log();
-        $toolbox->logger->log(0, $app_user_id, "Init, login and error statistics collected.");
+        $toolbox->logger->log(0, $app_user_id, i("RfjVOh|Init, login and error st..."));
         file_put_contents($cronlog, 
-                date("Y-m-d H:i:s") . " +" . (time() - $last_step_ended) .
-                         ": Init, login and error statistics collected (last step).\n", FILE_APPEND);
+                date("Y-m-d H:i:s") . " +" . (time() - $last_step_ended) . ": " .
+                         i("1HO6kz|Init, login and error st...") . "\n", FILE_APPEND);
         $last_step_ended = time();
         
         $toolbox->logger->log(0, $app_user_id, "Daily jobs completed.");

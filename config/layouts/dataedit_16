@@ -1,0 +1,13 @@
+tags;required;name;value;label;type;class;size;maxlength
+<span id='vSpanSystemData'><div class='w3-row'><div class='w3-col l3'>;;Id;;SdhCaQ|object Id;text;display-bold;90%;36
+</div><div class='w3-col l3'>;;ecrid;;eaRT3T|unique record reference ...;text;display-bold;90%;20
+</div></div><div class='w3-row'><div class='w3-col l3'>;;LastModified;;sYmnGU|last modified on;text;display-bold;90%;20
+</div><div class='w3-col l3'>;;ChangeCount;;tVU4eD|Version (change counter);text;display-bold;90%;20
+</div><div class='w3-col l3'>;;LastModification;;5sDUxa|Type of last change;text;display-bold;90%;20
+</div></div><div class='w3-row'><div class='w3-col l1'><hr>;;_no_input;;;;;
+</div></div></span><div class='w3-row'><div class='w3-col l2'>;;_no_input;;R2ORRQ|There is no edit form fo...;;;;
+</div></div>;;_no_input;;;;;;
+<li><span class='helptext'>;;_help_text;;86Nb4G|The data change takes ef...;;;;
+</span></li><li><span class='helptext'>;;_help_text;;HX2HsG|For technical reasons, t...;;;;
+</span></li><li><span class='helptext'>;;_help_text;;0bh9MB|Data records with type o...;;;;
+</span></li>;;_help_text;;;;;;

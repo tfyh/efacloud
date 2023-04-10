@@ -1,0 +1,86 @@
+tags;required;name;value;label;type;class;size;maxlength
+<span id='vSpanSystemData'><div class='w3-row'><div class='w3-col l3'>;;EntryId;;dGLZjB|Trip number;text;display-bold;90%;36
+</div><div class='w3-col l3'>;;Logbookname;;A6NWPJ|Logbook;text;display-bold;90%;20
+</div><div class='w3-col l3'>;;ecrid;;PM0Z7L|unique record reference ...;text;display-bold;90%;20
+</div></div><div class='w3-row'><div class='w3-col l3'>;;LastModified;;PLLYW3|last modified on;text;display-bold;90%;20
+</div><div class='w3-col l3'>;;ChangeCount;;uCyGY5|Version (change counter);text;display-bold;90%;20
+</div><div class='w3-col l3'>;;LastModification;;BapoPO|Type of last change;text;display-bold;90%;20
+</div></div><div class='w3-row'><div class='w3-col l1'><hr>;;_no_input;;;;;
+</div></div></span><div class='w3-row'><div class='w3-col l3'>;;Date;;o9byQ7|Date;date;;10;20
+</div><div class='w3-col l3'>;;EndDate;;MFU1ZD|End (trip lasting severa...;date;;10;20
+</div></div><div class='w3-row'><div class='w3-col l3'>;;StartTime;;LB0r2L|Start (time);text;;8;10
+</div><div class='w3-col l3'>;;EndTime;;InlfaA|End (time);text;;8;10
+</div><div class='w3-col l3'><br>;;Open;;A0aN1k|Open;checkbox;;;
+</div></div><div class='w3-row'><div class='w3-col l2' id='startSession-BoatId'>;;BoatId;;U2OtU4|boat;text;;90%;100
+</div>;;BoatName;;;hidden;;;
+<div class='w3-col l2'>;;BoatVariant;;ZJB7XX|Boat type;text;display-bold;10;12
+</div></div><div class='w3-row'><div class='w3-col l2'>;;AllCrewNames;;rARwTp|All names;text;display-bold;90%;500
+</div><div class='w3-col l2'>;;AllCrewIds;;Q4c8jW|All Ids;text;display-bold;90%;500
+</div></div><div class='w3-row'><div class='w3-col l2' id='div-CoxId'>;;CoxId;;03zAeI|Chairperson;text;;90%;100
+</div><div class='w3-col l2'>;;BoatCaptain;;xJzfix|Tax man on list position...;"select 0=;1=1;2=2;3=3;4=4;5=5;6=6;7=7;8=8";;10;12
+</div></div><div class='w3-row'><div class='w3-col l2'>;;_no_input;;46r1cW|Number 1 - 12;;;
+<div class='w3-row'><div class='w3-col l1' id='div-Crew1Id'>;;Crew1Id;;;text;;90%;100
+</div></div><div class='w3-row'><div class='w3-col l1' id='div-Crew2Id'>;;Crew2Id;;;text;;90%;100
+</div></div><div class='w3-row'><div class='w3-col l1' id='div-Crew3Id'>;;Crew3Id;;;text;;90%;100
+</div></div><div class='w3-row'><div class='w3-col l1' id='div-Crew4Id'>;;Crew4Id;;;text;;90%;100
+</div></div><div class='w3-row'><div class='w3-col l1' id='div-Crew5Id'>;;Crew5Id;;;text;;90%;100
+</div></div><div class='w3-row'><div class='w3-col l1' id='div-Crew6Id'>;;Crew6Id;;;text;;90%;100
+</div></div><div class='w3-row'><div class='w3-col l1' id='div-Crew7Id'>;;Crew7Id;;;text;;90%;100
+</div></div><div class='w3-row'><div class='w3-col l1' id='div-Crew8Id'>;;Crew8Id;;;text;;90%;100
+</div></div><div class='w3-row'><div class='w3-col l1' id='div-Crew9Id'>;;Crew9Id;;;text;;90%;100
+</div></div><div class='w3-row'><div class='w3-col l1' id='div-Crew10Id'>;;Crew10Id;;;text;;90%;100
+</div></div><div class='w3-row'><div class='w3-col l1' id='div-Crew11Id'>;;Crew11Id;;;text;;90%;100
+</div></div><div class='w3-row'><div class='w3-col l1' id='div-Crew12Id'>;;Crew12Id;;;text;;90%;100
+</div></div>;;Crew1Name;;;hidden;;;
+;;Crew2Name;;;hidden;;;
+;;Crew3Name;;;hidden;;;
+;;Crew4Name;;;hidden;;;
+;;Crew5Name;;;hidden;;;
+;;Crew6Name;;;hidden;;;
+;;Crew7Name;;;hidden;;;
+;;Crew8Name;;;hidden;;;
+;;Crew9Name;;;hidden;;;
+;;Crew10Name;;;hidden;;;
+;;Crew11Name;;;hidden;;;
+;;Crew12Name;;;hidden;;;
+</div><div class='w3-col l2'>;;_no_input;;W6OxRn|Number 13 - 24;;;
+<div class='w3-row'><div class='w3-col l1' id='div-Crew13Id'>;;Crew13Id;;;text;;90%;100
+</div></div><div class='w3-row'><div class='w3-col l1' id='div-Crew14Id'>;;Crew14Id;;;text;;90%;100
+</div></div><div class='w3-row'><div class='w3-col l1' id='div-Crew15Id'>;;Crew15Id;;;text;;90%;100
+</div></div><div class='w3-row'><div class='w3-col l1' id='div-Crew16Id'>;;Crew16Id;;;text;;90%;100
+</div></div><div class='w3-row'><div class='w3-col l1' id='div-Crew17Id'>;;Crew17Id;;;text;;90%;100
+</div></div><div class='w3-row'><div class='w3-col l1' id='div-Crew18Id'>;;Crew18Id;;;text;;90%;100
+</div></div><div class='w3-row'><div class='w3-col l1' id='div-Crew19Id'>;;Crew19Id;;;text;;90%;100
+</div></div><div class='w3-row'><div class='w3-col l1' id='div-Crew20Id'>;;Crew20Id;;;text;;90%;100
+</div></div><div class='w3-row'><div class='w3-col l1' id='div-Crew21Id'>;;Crew21Id;;;text;;90%;100
+</div></div><div class='w3-row'><div class='w3-col l1' id='div-Crew22Id'>;;Crew22Id;;;text;;90%;100
+</div></div><div class='w3-row'><div class='w3-col l1' id='div-Crew23Id'>;;Crew23Id;;;text;;90%;100
+</div></div><div class='w3-row'><div class='w3-col l1' id='div-Crew24Id'>;;Crew24Id;;;text;;90%;100
+</div></div>;;Crew13Name;;;hidden;;;
+;;Crew14Name;;;hidden;;;
+;;Crew15Name;;;hidden;;;
+;;Crew16Name;;;hidden;;;
+;;Crew17Name;;;hidden;;;
+;;Crew18Name;;;hidden;;;
+;;Crew19Name;;;hidden;;;
+;;Crew20Name;;;hidden;;;
+;;Crew21Name;;;hidden;;;
+;;Crew22Name;;;hidden;;;
+;;Crew23Name;;;hidden;;;
+;;Crew24Name;;;hidden;;;
+</div></div><div class='w3-row'><div class='w3-col l2'>;;DestinationId;;QEQS9z|Destination;text;;90%;100
+;;DestinationName;;;hidden;;;
+</div><div class='w3-col l2'>;;DestinationVariantName;;v8r9C2|Target variant number;"select 0=;1=1;2=2;3=3;4=4;5=5";;10;100
+</div></div><div class='w3-row'><div class='w3-col l2'>;;WatersIdList;;jNHmSX|Waters;text;#bFormInput-WatersIdList;90%;100
+</div><div class='w3-col l2'>;;Distance;;OoCAVz|Distance;text;#bFormInput-Distance;10;100
+</div></div><div class='w3-row'><div class='w3-col l2'>;;Comments;;uDZ8bh|Remarks;textarea;;4;
+</div><div class='w3-col l2'>;;SessionType;;Il6Xae|Type of trip;select $options;;90%;100
+</div></div><div class='w3-row'><div class='w3-col l2'>;;SessionGroupId;;7MQHkj|Session group;text;;90%;100
+;;SessionGroupName;;;hidden;;;
+</div><div class='w3-col l2'>;;EfbSyncTime;;;text;;90%;30
+</div></div><div class='w3-row'><div class='w3-col l1'> <br>;;submit;nCxlwt|Modify now;;submit;formbutton;;
+</div></div>;;_no_input;;;;;;
+<li><span class='helptext'>;;_help_text;;Jf0W3r|The data change takes ef...;;;;
+</span></li><li><span class='helptext'>;;_help_text;;nEgKIt|For technical reasons, t...;;;;
+</span></li><li><span class='helptext'>;;_help_text;;phWHuQ|Data records with type o...;;;;
+</span></li>;;_help_text;;;;;;

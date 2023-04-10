@@ -1,8 +1,7 @@
 <?php
 
 /**
- * class file for the backup handler class. provides a backup of all data base tabes, yet no schema
- * backup.
+ * class file for the backup handler class. provides a backup of all data base tabes, yet no schema backup.
  */
 include_once '../classes/tfyh_socket.php';
 
@@ -36,7 +35,7 @@ class Tfyh_backup_handler
 
     /**
      * public Constructor.
-     *
+     * 
      * @param String $logDir
      *            Directory to which the logs are written.
      * @param Tfyh_toolbox $toolbox
@@ -67,7 +66,7 @@ class Tfyh_backup_handler
 
     /**
      * unmask a backup file and produce a zip archive for restore.
-     *
+     * 
      * @param String $filename            
      * @param String $backup_mask            
      * @return String the backup zip archive or an error message starting with "#Error"
@@ -76,30 +75,30 @@ class Tfyh_backup_handler
     {
         $backup_masked = file_get_contents($filename);
         if (! $backup_masked)
-            return "#Error: masked backup '$filename' not available.";
+            return i("AkIopi|#Error: masked backup °%...", $filename);
         $zipbase64_unmasked = $this->toolbox->xor64($backup_masked, $backup_mask);
         $zipbinary = base64_decode($zipbase64_unmasked);
         if ($zipbinary == false)
-            return "#Error: decoding unmasked backup '$filename' failed.";
+            return i("Cd30Mz|#Error: decoding unmaske...", $filename);
         else
             return $zipbinary;
     }
 
     /**
-     * Runs a complete backup cycle. Reads all tables and stores them into the current primary
-     * backup folder. If it was existing it is first deleted and then recreated. The folder
-     * increases from "p0/" to "p9/". When overwriting "p9/" its contents is moved to the current
-     * secondary backup folder "s0/" to "s9/". Again this is achieved by overwriting the contents.
+     * Runs a complete backup cycle. Reads all tables and stores them into the current primary backup folder.
+     * If it was existing it is first deleted and then recreated. The folder increases from "p0/" to "p9/".
+     * When overwriting "p9/" its contents is moved to the current secondary backup folder "s0/" to "s9/".
+     * Again this is achieved by overwriting the contents.
      */
     public function backup ()
     {
         // check for configuration of backup mail sending
-        $backup_mailbox_parameter = $this->socket->find_record($this->toolbox->config->parameter_table_name, "Name", 
-                "Backup_Mailbox");
+        $backup_mailbox_parameter = $this->socket->find_record($this->toolbox->config->parameter_table_name, 
+                "Name", "Backup_Mailbox");
         if ($backup_mailbox_parameter === false)
             $backup_mailbox = "";
         else
-            $backup_mailbox = $backup_mailbox_parameter["Wert"];
+            $backup_mailbox = $backup_mailbox_parameter["Value"];
         $update_secondary = ($this->index_primary == 0);
         $send_backup_mail = ($update_secondary && (strpos($backup_mailbox, "@") !== false));
         if ($send_backup_mail) {
@@ -107,11 +106,12 @@ class Tfyh_backup_handler
             require_once '../classes/tfyh_mail_handler.php';
             $mail_handler = new Tfyh_mail_handler($this->toolbox->config->get_cfg());
         }
-            
+        
         // preparation. The full function runs in the backup-path as current directory.
         $cwd = getcwd();
         chdir($this->backupPath);
-        file_put_contents("logbackup", "[" . date("Y-m-d H:i:s") . "]: Starting backup.\n");
+        file_put_contents("logbackup", 
+                "[" . date("Y-m-d H:i:s") . "]: " . i("7tTMfJ|Starting backup.") . "\n");
         $primary_zip = "primary_backup_" . $this->index_primary . ".zip";
         $secondary_zip = "secondary_backup_" . $this->index_secondary . ".zip";
         
@@ -131,19 +131,25 @@ class Tfyh_backup_handler
         $tablenames = $this->socket->get_table_names();
         foreach ($tablenames as $tablename) {
             $csv = $this->socket->get_table_as_csv($tablename);
-            file_put_contents("logbackup", "[" . date("Y-m-d H:i:s") . "]: Exporting. ".$tablename."\n", FILE_APPEND);
+            file_put_contents("logbackup", 
+                    "[" . date("Y-m-d H:i:s") . "]: " . i("1zKW1z|Exporting.") . " " . $tablename . "\n", 
+                    FILE_APPEND);
             file_put_contents($tablename, $csv);
         }
-        file_put_contents("logbackup", "[" . date("Y-m-d H:i:s") . "]: Zipping files.\n", FILE_APPEND);
+        file_put_contents("logbackup", "[" . date("Y-m-d H:i:s") . "]: " . i("yByDpt|Zipping files.") . "\n", 
+                FILE_APPEND);
         $this->toolbox->zip_files($tablenames, $primary_zip);
-        file_put_contents("logbackup", "[" . date("Y-m-d H:i:s") . "]: removing files.\n", FILE_APPEND);
+        file_put_contents("logbackup", "[" . date("Y-m-d H:i:s") . "]: " . i("tpeQge|Removing files.") . "\n", 
+                FILE_APPEND);
         foreach ($tablenames as $tablename) {
             unlink($tablename);
         }
         
         // send zip file, if a backup-mailbox is configured
         if ($send_backup_mail && file_exists($primary_zip)) {
-            file_put_contents("logbackup", "[" . date("Y-m-d H:i:s") . "]: sending backp per mail.\n", FILE_APPEND);
+            file_put_contents("logbackup", 
+                    "[" . date("Y-m-d H:i:s") . "]: " . i("3tUUPL|sending backup per mail.") . "\n", 
+                    FILE_APPEND);
             // encode zip file
             $zipbinary = fread(fopen($primary_zip, "r"), filesize($primary_zip));
             $zipbase64 = base64_encode($zipbinary);
@@ -157,16 +163,14 @@ class Tfyh_backup_handler
             if ($backup_mask_parameter === false)
                 $backup_mask = "6vjXEhaXiOAsuJDeOU3u/7qjN9nWPDL1ZjW4DJmQc3AzC7chh/4T1cuRZNhxLSeh";
             else
-                $backup_mask = $backup_mask_parameter["Wert"];
+                $backup_mask = $backup_mask_parameter["Value"];
             $zipbase64_masked = $this->toolbox->xor64($zipbase64, $backup_mask);
             $backup_zip_masked_name = "backup_p" . $this->index_primary . "_masked.txt";
             file_put_contents($backup_zip_masked_name, $zipbase64_masked);
             
             // send mail
-            $message = "<p>Dear receiver,</p>" .
-                     "<p>Please find attached the application data backup as configured. " .
-                     "Handle these data as defined in your data protection rule set. " .
-                     "This usually includes deletion after a short period of time.</p>";
+            $message = "<p>" . i("x8SrYA|Dear receiver,") . "</p><p>" . i(
+                    "2hxIEV|Please find attached the...") . "</p>";
             $message .= "</p>" . $mail_handler->mail_subscript . $mail_handler->mail_footer;
             $mail_was_sent = $mail_handler->send_mail($mail_handler->system_mail_sender, 
                     $mail_handler->system_mail_sender, $backup_mailbox, "", "", 
@@ -176,7 +180,8 @@ class Tfyh_backup_handler
         }
         
         // increment primary index and store indices.
-        file_put_contents("logbackup", "[" . date("Y-m-d H:i:s") . "]: checking for secondary copy.\n", FILE_APPEND);
+        file_put_contents("logbackup", "[" . date("Y-m-d H:i:s") . "]: checking for secondary copy.\n", 
+                FILE_APPEND);
         $this->index_primary ++;
         if ($this->index_primary >= 10)
             $this->index_primary = 0;
@@ -187,5 +192,3 @@ class Tfyh_backup_handler
         chdir($cwd);
     }
 }
-
-    

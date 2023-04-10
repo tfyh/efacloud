@@ -1,0 +1,23 @@
+tags;required;name;value;label;type;class;size;maxlength
+<span id='vSpanSystemData'><div class='w3-row'><div class='w3-col l3'>;;Reservation;;1TZFAm|Reservation No.;text;display-bold;90%;20
+</div><div class='w3-col l3'>;;ecrid;;eIq8Xc|unique record reference ...;text;display-bold;90%;20
+</div></div><div class='w3-row'><div class='w3-col l3'>;;LastModified;;WjRbBU|last modified on;text;display-bold;90%;20
+</div><div class='w3-col l3'>;;ChangeCount;;lht05f|Version (change counter);text;display-bold;90%;20
+</div><div class='w3-col l3'>;;LastModification;;lzeFj0|Type of last change;text;display-bold;90%;20
+</div></div><div class='w3-row'><div class='w3-col l1'><hr>;;_no_input;;;;;
+</div></div></span><div class='w3-row'><div class='w3-col l2' id='editReservation-BoatId'>;;BoatId;;GEVnOt|boat;text;;85%;20
+</div><div class='w3-col l2'>;;Type;;l3VrzO|Reservation type;"select UNDEFINED=;ONETIME=einmalig;WEEKLY=wöchentlich";;;90%;50
+</div></div><div class='w3-row'><div class='w3-col l1'>;;Reason;;zPZZ34|Ground;text;;90%;150
+</div></div><div class='w3-row'><div class='w3-col l2'>;;DateFrom;;KZunv7|From date;date;;90%;20
+</div><div class='w3-col l2'>;;DateTo;;PXDvBO|until date;date;;90%;20
+</div></div><div class='w3-row'><div class='w3-col l2'>;;DayOfWeek;;nBd1Oa|Weekday (only for weekly...;text;;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2'>;;TimeFrom;;1i1RBL|From time;text;;90%;10
+</div><div class='w3-col l2'>;;TimeTo;;Eqz3VC|Until time;text;;90%;10
+</div></div><div class='w3-row'><div class='w3-col l2'>;;PersonId;;KMnmP4|Booking person;text;;85%;50
+</div><div class='w3-col l2'>;;Contact;;xZpcQw|Contact;text;;90%;50
+</div></div><div class='w3-row'><div class='w3-col l1'> <br>;;submit;BsweJy|Modify now;;submit;formbutton;;
+</div></div>;;_no_input;;;;;;
+<li><span class='helptext'>;;_help_text;;fOoJDo|The data change takes ef...;;;;
+</span></li><li><span class='helptext'>;;_help_text;;H9UN5Y|For technical reasons, t...;;;;
+</span></li><li><span class='helptext'>;;_help_text;;6f32ej|Data records with type o...;;;;
+</span></li>;;_help_text;;;;;;

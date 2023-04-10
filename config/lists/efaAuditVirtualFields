@@ -1,0 +1,5 @@
+id;permission;name;select;from;where;options
+1;bths;;ecrid;efa2boatreservations;(ISNULL(`VirtualBoat`) OR (`VirtualBoat` = '') OR ISNULL(`VirtualPerson`) OR (`VirtualPerson` = '') OR ISNULL(`VirtualReservationDate`) OR (`VirtualReservationDate` = '')) AND NOT (`LastModification` = 'delete') AND (ISNULL(`Reason`) OR (`Reason` NOT LIKE 'archiveID:%'));
+2;bths;;ecrid;efa2clubwork;(ISNULL(`FirstLastName`) OR (`FirstLastName` = '')) AND NOT (`LastModification` = 'delete') AND (ISNULL(`Description`) OR (`Description` NOT LIKE 'archiveID:%'));
+3;bths;;ecrid;efa2logbook;(ISNULL(`AllCrewIds`) OR (`AllCrewIds` = '') OR ISNULL(`AllCrewNames`) OR (`AllCrewNames` = '')) AND NOT (`LastModification` = 'delete') AND (ISNULL(`Comments`) OR (`Comments` NOT LIKE 'archiveID:%'));
+4;bths;;ecrid;efa2persons;(ISNULL(`FirstLastName`) OR (`FirstLastName` = '')) AND NOT (`LastModification` = 'delete') AND (ISNULL(`LastName`) OR (`LastName` NOT LIKE 'archiveID:%'));

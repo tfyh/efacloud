@@ -4,11 +4,11 @@
 
 # module users.php
 users.action_links=[ \
- "admin: <a href='..\/pages\/nutzer_profil.php?id={#ID}'> - anzeigen<\/a>,", \
- "admin: <a href='..\/forms\/nutzer_aendern.php?id={#ID}'> - Profil \u00e4ndern<\/a>,", \
- "admin: <br><a href='..\/forms\/efa_rechte_aendern.php?id={#ID}&type=efaAdmin'> - efa Admin-Berechtigungen \u00e4ndern</a>,", \
- "admin: <br><a href='..\/forms\/efa_rechte_aendern.php?id={#ID}&type=efaWeb'> - efaWeb-Berechtigungen \u00e4ndern</a>,", \
- "admin: <br><a href='..\/pages\/logintoken_versenden.php?id={#ID}'> - Login Token versenden</a>" \
+ "admin: <a href='..\/pages\/nutzer_profil.php?id={#ID}'> - i('uo2ViI|show')<\/a>,", \
+ "admin: <a href='..\/forms\/nutzer_aendern.php?id={#ID}'> - i('vskZuv|change/delete')<\/a>,", \
+ "admin: <br><a href='..\/forms\/efa_rechte_aendern.php?id={#ID}&type=efaAdmin'> - i('QipHX2|change efa admin permssi...')</a>,", \
+ "admin: <br><a href='..\/forms\/efa_rechte_aendern.php?id={#ID}&type=efaWeb'> - i('JSKWqI|change efaWeb permssions')</a>,", \
+ "admin: <br><a href='..\/pages\/logintoken_versenden.php?id={#ID}'> - i('VkSSmT|Send login token')</a>" \
 ]
 
 users.user_table_name="efaCloudUsers"
@@ -17,40 +17,52 @@ users.user_archive_table_name=""
 users.user_account_field_name="efaAdminName"
 users.user_firstname_field_name="Vorname"
 users.user_lastname_field_name="Nachname"
-users.use_subscriptions=false
+users.use_subscriptions=true
 users.use_workflows=true
+users.useradmin_workflows={}
 users.use_concessions=true
 users.useradmin_role="admin"
+users.self_registered_role="anonymous"
 users.anonymous_role="anonymous"
-users.ownerid_fields=efaCloudLog.Author;efaCloudCleansed.Author
+users.ownerid_fields=efaCloudLog.Author
 
 # module config.php
 config.app_name="efaCloud"
 config.app_url="https://www.efacloud.org"
 config.changelog_name="efaCloudLog"
-config.parameter_table_name="efaCloudConfig"
+config.parameter_table_name=""
 config.forbidden_dirs="all_mails_localhost,classes,config,config/access,install, \
-  log,log/backup,log/contentsize,log/sessions,log/uploads,pdfs, \
+  log,log/backup,log/contentsize,log/sessions,log/uploads,log/cache,pdfs, \
   tasks_queue,tcpdf,templates,uploads"
-config.public_dirs="api,forms,js,license,pages,public,resources"
+config.public_dirs="api,forms,helpdocs,js_13,license,pages,public,resources"
+
+# module config.php, default values
+default.DamageAgeDays=720
+default.ReservationAgeDays=720
+default.ClubworkAgeDays=720
+default.TripAgeDays=720
+default.MessageAgeDays=720
+default.PersonsAgeDays=1810
+default.PurgeDeletedAgeDays=365
 
 # module init.php
 init.max_inits_per_hour=3000
 init.max_errors_per_hour=100
 init.max_concurrent_sessions=25
-init.max_session_duration=600
+init.max_session_duration=86400
+init.max_session_keepalive=600
 
 # module logger
 logger.obsolete=["activities.txt","actPerDay.txt","dones.txt","fails.txt","warns.txt", \
   "shutdowns.txt","configparameter_aendern.log","ll.csv", \
   "queries_failed.txt","queries.txt","queries.txt.previous", "tmp" \
 ]
-logger.maxsize=200000
+logger.maxsize=400000
 logger.logs=["api_errors.log","api_info.log","api_warnings.log", \
   "app_audit.log","app_errors.log","app_info.log","app_init_login_error.log","app_bulk_txs.log","app_warnings.log", \
   "debug_api.log","debug_app.log","sql_debug.log","debug_posttx.log","debug_init.log", \
   "efa_tools.log", \
-  "sys_cronjobs.log","sys_db_audit.log","sys_shutdowns.log","sys_timestamps.log" \
+  "sys_cronjobs.log","sys_db_audit.log","sys_shutdowns.log","sys_sql_errors.log","sys_timestamps.log" \
 ]
 
 # module api, client handler.php - not relevant in efaCloud

@@ -1,0 +1,44 @@
+<h3>Das efaCloud Archiv</h3>
+<p>EfaCloud archiviert Daten, die ein bestimmtes Alter übersteigen.
+	Die Archivierung dient als Vorstufe zu einem Löschverfahren im Sinne
+	der EU-Datnschutz-Grundverordnung, wobei die Daten zunächst nicht
+	gelöscht und auch nicht aus der Anwendung ausgelagert werden. Eine
+	echte Löschung wird nicht durchgeführt.</p>
+<p>Geplant ist in einem zweiten Schritt die Löschung aus dem Archiv,
+	wenn sich die Archivierung als Verfahren etabliert hat und zuverlässig
+	in der Software läuft.</p>
+<h4>Archivierte Daten</h4>
+<p>Es werden Datensätze auf den Tabellen: Bootsschäden
+	(efa2boatdamages), Bootsreservierungen (efa2boatreservations),
+	Vereinsarbeit (efa2clubwork), Fahrtenbuch (efa2logbook), Nachrichten
+	(efa2messages) und Personen (efa2persons) archiviert. Die restlichen
+	Tabellen aus efa enthalten keine personenbezogenen Daten und benötigen
+	daher kein Löschverfahren.</p>
+<p>Archiviert werden einzelne Datensätze oder bei Personen alle
+	zugehörigen Versionen oder Gültigkeitszeiträume.</p>
+<p>Für die Tabellen Bootsschäden und Personen werden die
+	Archivreferenzen dauerhaft erhalten, für die anderen Tabellen zum
+	Löschen vorgemerkt. In der Archivreferenz der Tabelle Bootsschäden
+	bleibt die Schadensbeschreibung erhalten, weil sie keine
+	personenbezogenen Daten enthält (in der Regel), aber für die
+	Schadenshistorie des Bootes relevant ist.
+<h4>Konfiguration</h4>
+<p>Es kann für jede Tabelle eingestellt werden, ab welchem Alter ein
+	Datensatz oder ein Objekt (nur bei Personen) archiviert werden soll.
+	Der für das Alter relevante Stichtag ist bei:</p>
+<ul>
+	<li>Bootsschäden: Meldedatum (ReportDate)</li>
+	<li>Bootsreservierungen: Beginndatum (DateFrom)</li>
+	<li>Vereinsarbeit, Fahrtenbuch, Nachrichten: Ereignisdatum, Beginn
+		(Date)</li>
+	<li>Personen: das Datum zu dem der jübnste Gültigkeitszeitraum
+		endet (InvalidFrom)</li>
+</ul>
+<h4>Wiederherstellung</h4>
+<p>Archivdaten können pro Tabelle wiederhergestellt werden, dabei
+	ist anzugeben, wie alt die Archivdatensätze maximal sein dürfen, die
+	wieder hergestellt werden. Alternativ können auch alle Archivdaten
+	einer Tabelle wieder hergestellt werden.</p>
+<h4>Berechtigung</h4>
+<p>Archivtransaktionen sind nur in der Rolle admin möglich.</p>
+

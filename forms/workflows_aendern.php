@@ -14,9 +14,8 @@ include_once '../classes/tfyh_form.php';
 if (isset($_SESSION["getps"][$fs_id]["id"]) && (intval($_SESSION["getps"][$fs_id]["id"]) > 0))
     $id_to_update = intval($_SESSION["getps"][$fs_id]["id"]);
 else
-    $toolbox->display_error("Nicht zulässig.", 
-            "Die Seite '" . $user_requested_file .
-            "' muss mit der Angabe der id des zu ändernden Nutzers aufgerufen werden.",
+    $toolbox->display_error(i("FPNSjs|Not allowed."), 
+            i("NBPC0G|The page °%1° must be ca...", $user_requested_file),
             $user_requested_file);
 
 // if instead of the workflows concessions shall be updated, $change_concessions will be true.
@@ -28,8 +27,8 @@ $user_to_update = $socket->find_record_matched($toolbox->users->user_table_name,
         ["ID" => $id_to_update
         ]);
 if ($user_to_update === false)
-    $toolbox->display_error("Nicht gefunden.", 
-            "Der Nutzerdatensatz zur ID '" . $id_to_update . "' konnte nicht gefunden werden.",
+    $toolbox->display_error(i("VvUAbG|Not found"), 
+            i("GJLu3j|The user record for ID °...", $id_to_update),
             $user_requested_file);
 $user_name_display = $user_to_update["Vorname"] . " " . $user_to_update["Nachname"];
 
@@ -76,7 +75,7 @@ if ($done > 0) {
         $res = $socket->update_record($_SESSION["User"][$toolbox->users->user_id_field_name], 
                 $toolbox->users->user_table_name, $record_for_update);
         if ($res === false)
-            $form_errors .= "Datenbankstatement ist fehlgeschlagen.";
+            $form_errors .= i("hEeUtZ|Database statement faile...");
         $todo = $done + 1;
         // retrieve updated data for display
         $works_list = "<table>" . $toolbox->users->get_user_services(strtolower($field_to_update), 
@@ -103,32 +102,19 @@ echo $menu->get_menu();
 echo file_get_contents('../config/snippets/page_02_nav_to_body');
 
 // page heading, identical for all workflow steps
-?>
-<!-- START OF content -->
-<div class="w3-container">
-	<h3>Die <?php echo $field_to_update; ?>  von <?php echo $user_name_display; ?> ändern</h3>
-</div>
-
-<div class="w3-container">
-<?php
-
+echo i("hGHxvu| ** Change the %1 of %2 ...", $field_to_update, $user_name_display);
 echo $toolbox->form_errors_to_html($form_errors);
 echo $form_to_fill->get_html();
 
 if ($todo == 1) { // step 1. No special texts for output
 } elseif ($todo == 2) {
-    echo "<p>Die " . $field_to_update . "-Berechtigungen für <b>" . $user_name_display .
-             "</b> wurden geändert.</p><p>Ab dem " . "nächsten Login gilt für ihn:<br>" . $works_list .
+    echo "<p>".i("93vxJy| ** The %1 permissions f...", $field_to_update, $user_name_display). " <br>" . $works_list .
              "</p><p><a href='../forms/workflows_aendern.php?id=" . $user_to_update["ID"] .
-             (($change_concessions) ? "&conc=1" : "&conc=0") . "'>Zurück zu seinen " . $field_to_update .
+             (($change_concessions) ? "&conc=1" : "&conc=0") . "'>".i("qGBrpj|Back to the")." " . $field_to_update .
              "</a>";
 }
 
 echo '<div class="w3-container"><ul>';
 echo $form_to_fill->get_help_html();
-echo "</ul></div>";
-?>
-
-</div>
-<?php
+echo "</ul></div></div>";
 end_script();

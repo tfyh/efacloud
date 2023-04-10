@@ -1,0 +1,21 @@
+<h3>Ecrid und Objekt ID (UUID)</h3>
+<p>Efa verwendet sogenannte "Schlüssel" um Datensätze eindeutig zu
+	finden. Zwei Schlüssel speielen eine besondere Rolle:</p>
+<ul>
+	<li>UUID = Universally Unique Identifier für viele Objekte, wie
+		zum Beispiel Boote oder Personen, in efa. Diese Objekte haben zum Teil
+		mehrere Versionen mit jeweils abgegrenzten Gültigkeitszeiträumen, dann
+		muss zur eindeutigen Erkennung neben der Objekt ID auch der
+		Gültigkeitszeitraum angegeben werden. In seiner Normalform sieht ein
+		UUID beispielsweise so aus: '550e8400-e29b-11d4-a716-446655440000',
+		sie werden als 128-Bit Zahl zufällig erzeugt und sind damit weltweit
+		eindeutig. Pro Zeihen werden 4 Bit kodiert, die '-' sind ohne
+		Bedeutung.</li>
+	<li>ecrid = efacloud record ID. Dieser Schlüssel referenziert
+		eindeutig einen Datensatz, also zum Beispiel einen Personendatensatz
+		in einem speziellen Gültigkeitszeitraum oder eine Fahrt in einem
+		bestimmten Fahrtenbuch. Der Schlüssel wird ebenfalls zufällig erzeugt
+		aber als 72-Bit Zahl, so dass auch für den ecrid-Schlüssel globale
+		Eindeutigkeit angenommen werden kann. Ein Beispiel ist '5wVSJezbhzro'.
+		Pro Zeichen werden 6 Bit kodiert.</li>
+</ul>

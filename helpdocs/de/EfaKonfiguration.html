@@ -1,0 +1,22 @@
+<h3>Efa-Konfiguration</h3>
+<p>Die Konfiguration der efa-PCs (= Clients) hat Auswirkungen auf
+	Darstellung und Datengültigkeit. Anders als die Daten kann die
+	Konfiguration aber nicht über alle angeschlossenen Clients
+	synchronisiert werden, weil es durchaus sein kann, dasss
+	unterschiedliche efa-PCs unterschiedliche Konfigurationen verwenden,
+	etwa weil sie unterschiedliche Fahrtenbücher bedienen.</p>
+<p>efaCloud bildet deswegen aus allen Konfigurationen die Menge der
+	bekannten Fahrtenbücher und der bekannten Vereinsarbeitsbücher. Nur so
+	kann überprüft werden, ob eine Fahrt kalendarisch überhaupt in ein
+	bestimmtes Fahrtenbuch gehört, zum Beispiel.</p>
+<p>Für die konfgurierten Nachschlaglisten (BOAT, TYPE, NUMSEATS etc)
+	wird allerdings dringend empfohlen, alle angeschlossenen efa-Clients
+	mit denselben Wertelisten zu versehen, da es sonst zu Änderungen kommen
+	kann, weil efa einen unbekannten Nachschlagwert durch den Standardwert
+	ersetzt. Das Bilden von "Summennachschlagslisten" hilft hier nicht.
+	Sondern jeder PC der angeschlossen ist muss hier die gleichen Listen
+	verwenden.</p>
+<p>Etwas vergleichbares gilt auch für wenige Konfigurationswerte,
+	zum Beispiel das Namensformat (Vorname Nachname oder Nachname,
+	Vorname). Wenn unterschiedliche Einstellungen verwendet werden, wird
+	ein Name u. U. nicht mehr erkannt.</p>

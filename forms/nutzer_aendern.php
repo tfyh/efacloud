@@ -15,38 +15,40 @@ include_once '../classes/tfyh_form.php';
 // ===== a dummy for a password which is not the right one. Must nevertheless be a valid one to
 // pass all checks further down.
 $keep_password = "keuk3HVpxHASrcRn6Mpf";
-$new_user_indicator_password_hash = "aBN6HEzAH8pP83etSIAxWA28eSze";
 
 // This page requires an id to be set for the user to update. If not set, or the id is 0, a new user will be
 // created.
 $is_new_user = false;
 if (isset($_SESSION["getps"][$fs_id]["id"]) && (intval($_SESSION["getps"][$fs_id]["id"]) > 0))
     $id_to_update = intval($_SESSION["getps"][$fs_id]["id"]);
-else {
+elseif (isset($_SESSION["getps"][$fs_id]["newid"]) && (intval($_SESSION["getps"][$fs_id]["newid"]) > 0)) {
+    $is_new_user = true;
+    $id_to_update = intval($_SESSION["getps"][$fs_id]["newid"]);
+} else {
     $is_new_user = true;
     $default_email = "PLEASE.CHANGE_@_THIS.ADDRESS.ORG";
     $empty_new_user = $socket->find_record_matched($toolbox->users->user_table_name, 
             ["EMail" => $default_email
             ]);
     if ($empty_new_user === false) {
-        $user_to_add["Vorname"] = "Vorname";
-        $user_to_add["Nachname"] = "Nachname";
+        $user_to_add["Vorname"] = "John";
+        $user_to_add["Nachname"] = "Doe";
         $user_to_add["EMail"] = $default_email;
-        $user_to_add["Passwort_Hash"] = $new_user_indicator_password_hash;
+        $user_to_add["Passwort_Hash"] = "-"; // use empty hash as default
         $efaCloudUserID = $_SESSION["User"][$toolbox->users->user_id_field_name];
         $user_to_add["LastModified"] = strval(time()) . "000";
         $id_to_update = $socket->insert_into($efaCloudUserID, $toolbox->users->user_table_name, $user_to_add);
+        // set hash to identify user record later as new user record.
     } else
         $id_to_update = $empty_new_user["ID"];
-    $_SESSION["getps"][$fs_id]["id"] = $id_to_update;
+    $_SESSION["getps"][$fs_id]["newid"] = $id_to_update;
 }
 $user_to_update = $socket->find_record_matched($toolbox->users->user_table_name, 
         ["ID" => $id_to_update
         ]);
 
 if ($user_to_update === false)
-    $toolbox->display_error("Nicht gefunden.", 
-            "Der Nutzerdatensatz zur ID '" . $id_to_update . "' konnte nicht gefunden werden.", 
+    $toolbox->display_error(i("FHyizx|Not found"), i("BGJkSQ|The user record for ID °...", $id_to_update), 
             $user_requested_file);
 $user_name_display = $user_to_update["Vorname"] . " " . $user_to_update["Nachname"];
 
@@ -82,8 +84,7 @@ if ($done > 0) {
             // -------------------------------
             // password and repetition must be identical.
             if ($entered_data['Passwort'] != $entered_data['Passwort_Wdh']) {
-                $form_errors .= "Die Passwörter müssen übereinstimmen. " .
-                         "Dein Passwort wird nicht geändert.<br>";
+                $form_errors .= i("xVSLCZ|The passwords must match...") . "<br>";
                 $form_filled->preset_value("Passwort", $keep_password);
                 $form_filled->preset_value("Passwort_Wdh", $keep_password);
             }
@@ -100,14 +101,15 @@ if ($done > 0) {
             $c ++;
         }
         if (! $efaclouduserid_ok)
-            $form_errors .= "Die efaCloudUserID muss eine ganze Zahl sein.<br>";
+            $form_errors .= i("GmOMkX|The efaCloudUserID must ...") . "<br>";
         // efaCloudUserID must be in the range 0 to 1,000,000,000
-        if ((intval($entered_data['efaCloudUserID']) <= 0) ||
+        if ((intval($entered_data['efaCloudUserID']) <= 10) ||
                  (intval($entered_data['efaCloudUserID']) >= 1000000000))
-            $form_errors .= "Die efaCloudUserID muss größer als 0 und kleiner als 1.000.000.000 sein.<br>";
+            $form_errors .= i("015RH6|The efaCloudUserID must ...") . "<br>";
+        
         // efaAdminName must be 4 to 10 characters
         if ((strlen($entered_data['efaAdminName']) < 4) || (strlen($entered_data['efaAdminName']) > 10))
-            $form_errors .= "efaAdminName muss zwischen 4 und 10 Zeichen lang sein.<br>";
+            $form_errors .= i("WpcBzB|efaAdminName must be bet...") . "<br>";
         // efaAdminName must be lower case characters, without blanks etc
         $admin_name_ok = true;
         $c = 0;
@@ -119,19 +121,21 @@ if ($done > 0) {
             $c ++;
         }
         if (! $admin_name_ok)
-            $form_errors .= "efaAdminName darf nur Zeichen a-z, 0-9 und '_' enthalten. Keine Großbuchstaben, keine Sonderzeichen, keine Leerzeichen.<br>";
+            $form_errors .= i("iRGaIO|efaAdminName may only co...") . "<br>";
         
-        // EMail must be unique.
-        $mail_address_used = $socket->find_record_matched($toolbox->users->user_table_name, 
-                ["EMail",$entered_data['EMail']
-                ], true);
-        if (($mail_address_used !== false) && ($mail_address_used[$toolbox->users->user_id_field_name] !==
-                 $user_to_update[$toolbox->users->user_id_field_name])) {
-            $form_errors .= 'Die E-Mail-Adresse "' . $entered_data['EMail'];
-            $form_errors .= '" ist bereits belegt von ' . $mail_address_used["Vorname"] . " " .
-                     $mail_address_used["Nachname"] .
-                     '. Deine E-Mail-Adresse kann daher nicht geändert werden. ';
+        // check uniqueness of login relevant IDs, compare "tabelle_importieren.php::$uniques"
+        $uniques = ["efaCloudUserID","efaAdminName","EMail"
+        ];
+        $this_record_id = intval($user_to_update["ID"]);
+        foreach ($uniques as $unique) {
+            $existing_user_withUnique = $socket->find_record("efaCloudUsers", $unique, $entered_data[$unique]);
+            $not_unique = ($existing_user_withUnique !== false) &&
+                     (intval($existing_user_withUnique["ID"]) != $this_record_id);
+            if ($not_unique)
+                $form_errors .= i("ii65L9|The data field °%1° must...", $unique, $entered_data[$unique], 
+                        $existing_user_withUnique["Vorname"], $existing_user_withUnique["Nachname"]) . "<br>";
         }
+        
         // now copy changed values, except password (will be done later)
         foreach ($entered_data as $key => $value) {
             if (strcasecmp($key, "Passwort") === 0) {
@@ -143,16 +147,21 @@ if ($done > 0) {
         // check $nutzer_to_update_after whether all values match validity criteria
         $info = "";
         $invalid = $toolbox->users->check_user_profile($nutzer_to_update_after);
-        if ($invalid)
-            $form_errors .= "Fehler bei der Überprüfung der Daten: " . $invalid;
+        if (strlen($invalid) > 0)
+            $form_errors .= i("3vkMSJ|Error checking data:") . " " . $invalid;
         // set password to its hash value.
-        elseif (strcmp($keep_password, $entered_data["Passwort"]) !== 0)
-            if ((strcasecmp($user_to_update["Rolle"], "bths") == 0) ||
-                     (strcasecmp($user_to_update["Passwort_Hash"], $new_user_indicator_password_hash) == 0))
+        elseif (strcasecmp($entered_data['Passwort_delete'], "on") == 0) {
+            $nutzer_to_update_after["Passwort_Hash"] = "-";
+        } elseif (strcmp($keep_password, $entered_data["Passwort"]) !== 0) {
+            if ((strcasecmp($user_to_update["Rolle"], "bths") == 0) || $is_new_user)
                 $nutzer_to_update_after["Passwort_Hash"] = password_hash($entered_data['Passwort'], 
                         PASSWORD_DEFAULT);
             else
-                $info = "Das Kennwort kann nur für neue Nutzer und Nutzer mit der Rolle 'bths' gesetzt werden.<br>";
+                $info = i("yR7zed|The password can only be...") . "<br>";
+        }
+        // Password shall be deleted
+        unset($nutzer_to_update_after["Passwort_Wdh"]);
+        unset($nutzer_to_update_after["Passwort_delete"]);
         
         // continue, if no errors were detected
         if (strlen($form_errors) == 0) {
@@ -160,18 +169,17 @@ if ($done > 0) {
             $changed = false;
             $record["ID"] = $id_to_update;
             foreach ($user_to_update as $key => $value) {
-                if (isset($nutzer_to_update_after[$key]) && (strcmp($user_to_update[$key], 
-                        $nutzer_to_update_after[$key]) !== 0) && (strcasecmp($key, "LastModified") !== 0)) {
+                if (isset($nutzer_to_update_after[$key]) &&
+                         (strcmp($user_to_update[$key], $nutzer_to_update_after[$key]) !== 0) &&
+                         (strcasecmp($key, "LastModified") !== 0)) {
                     $changed = true;
-                    $value_is_password = (strcmp($key, "Passwort_Hash") == 0);
-                    if ($value_is_password) {
-                        $info .= "Das Kennwort wurde geändert.<br>";
-                        $record[$key] = password_hash($entered_data['Passwort'], PASSWORD_DEFAULT);
-                    } else {
-                        $info .= $key . " wurde geändert von '" . htmlspecialchars($user_to_update[$key]) .
-                                 "' auf '" . htmlspecialchars($nutzer_to_update_after[$key]) . "'.<br>";
-                        $record[$key] = $nutzer_to_update_after[$key];
-                    }
+                    if (strcmp($key, "Passwort_Hash") == 0)
+                        $info .= i("b25fYT|The password has been ch...") . "<br>";
+                    else
+                        $info .= i("J8QheD|%1 was changed from °%2°...", $key, 
+                                htmlspecialchars($user_to_update[$key]), 
+                                htmlspecialchars($nutzer_to_update_after[$key])) . "<br>";
+                    $record[$key] = $nutzer_to_update_after[$key];
                 }
             }
         }
@@ -181,16 +189,14 @@ if ($done > 0) {
             $change_result = $socket->update_record($_SESSION["User"][$toolbox->users->user_id_field_name], 
                     $toolbox->users->user_table_name, $record, false);
             if (strlen($change_result) > 0) {
-                $form_errors .= "<br/>Datenbank Update-Kommando fehlgeschlagen. Fehlermeldung :" .
-                         $change_result;
+                $form_errors .= "<br />" . i("5pH8pE|Database update command ...") . " " . $change_result;
             } else {
                 $toolbox->logger->log(0, intval($nutzer_to_update_after[$toolbox->users->user_id_field_name]), 
                         "Nutzer von Verwalter(in) " . $_SESSION["User"][$toolbox->users->user_id_field_name] .
                                  " geändert.");
             }
         } elseif (! $form_errors) {
-            $info .= 'Es wurden keine veränderten Daten eingegeben, oder es liegen Fehler vor.' .
-                     '  Es wurde daher nichts geändert.</p>';
+            $info .= i("JjCWn9|No modified data has bee...") . "</p>";
         }
         $todo = $done + 1;
     }
@@ -208,6 +214,20 @@ if (isset($form_filled) && ($todo == $form_filled->get_index())) {
         $user_to_update["Passwort"] = $keep_password;
         $user_to_update["Passwort_Wdh"] = $keep_password;
         $form_to_fill->preset_values($user_to_update);
+        // auto-fill-in of PersonId
+        if (! isset($user_to_update["PersonId"]) || (strlen($user_to_update["PersonId"]) < 30)) {
+            // check name. If a person with the same name exists, add the PersonId.
+            $matching = ["FirstName" => $user_to_update["Vorname"],
+                    "LastName" => $user_to_update["Nachname"]
+            ];
+            $persons_with_same_name = $socket->find_records_sorted_matched("efa2persons", $matching, 1, "=", 
+                    "InvalidFrom", false);
+            if ($persons_with_same_name !== false) {
+                $person_id = (count($persons_with_same_name) == 1) ? $persons_with_same_name[0]["Id"] : i(
+                        "75hzYb|[several possibilities]");
+                $form_to_fill->preset_value("PersonId", $person_id);
+            }
+        }
     }
 }
 
@@ -219,47 +239,33 @@ echo $menu->get_menu();
 echo file_get_contents('../config/snippets/page_02_nav_to_body');
 
 // page heading, identical for all workflow steps
-?>
-<!-- START OF content -->
-<div class="w3-container">
-<?php
+echo i("PMDKK5|<!-- START OF content -..."); 
 if ($is_new_user) {
-    echo "<h3>Den neuen Nutzer mit der ID " . $id_to_update . " anlegen</h3>";
-    echo "<p>Hier können Sie das Profil des neuen Nutzers eingeben.</p>";
+    echo "<h3>" . i("ovmMoC|Create a new efaCloud us...") .
+             "<sup class='eventitem' id='showhelptext_NutzerUndBerechtigungen'>&#9432;</sup> " .
+             i("r7eyg9|with the ID %1 create", $id_to_update) . "</h3>";
+    echo "<p>" . i("1HahpW|Here you can enter the p...") . "</p>";
 } else {
-    echo "<h3>Das Profil von " . $user_name_display . " ändern</h3>";
-    echo "<p>Hier können Sie das Profil des Nutzers ändern.</p>";
+    echo "<h3>" . i("A3uBQ0|Change the profile of %1", $user_name_display) .
+             "<sup class='eventitem' id='showhelptext_NutzerUndBerechtigungen'>&#9432;</sup></h3>";
+    echo "<p>" . i("xb6rnq|Here you can change the ...") . "</p>";
 }
-?> 
-</div>
-
-<div class="w3-container">
-<?php
+echo i("uVS3Gb| ** An efaCloud user can...");
 
 echo $toolbox->form_errors_to_html($form_errors);
-echo $form_to_fill->get_html($fs_id);
+echo $form_to_fill->get_html();
 
 if ($todo == 1) { // step 1. No special texts for output
-    echo '<h5><br />Ausfüllhilfen</h5><ul>';
+    if (strcmp($_SESSION["User"]["Rolle"], $toolbox->users->useradmin_role) == 0)
+        echo "<br><a href='../pages/datensatz_loeschen.php?table=efaCloudUsers&ID=" . $user_to_update["ID"] .
+                 "' style='float:left;'>" . i("O39Sks|FINALLY delete users") . "</a>";
     echo $form_to_fill->get_help_html();
-    echo "</ul>";
 } else {
-    ?>
-    <p>
-		<b>Die Datenänderung ist <?php  echo (($form_errors) ? "nicht" : ""); ?> durchgeführt.</b>
-	</p>
-	<p>
-		<?php
-    echo (($form_errors) ? "" : "Folgende Änderungen wurden vorgenommen:<br />" . $info);
-    ?>
-             </p>
-	<p>
-		<a href="../pages/nutzer_profil.php?id=<?php  echo $id_to_update; ?>">Geändertes
-			Profil des Nutzers anzeigen.</a><br /> <a
-			href="../forms/nutzer_aendern.php?id=<?php  echo $id_to_update; ?>">Nutzer
-			weiter ändern.</a>
-	</p>
-<?php
+    echo i("EADCwd| ** The data change is *...");
+    echo (($form_errors) ? i("rT8wtF|not") : "");
+    echo i("NeJqoO| ** performed. ** ");
+    echo (($form_errors) ? "" : i("9mww2x|The following changes ha...") . "<br />" . $info);
+    echo i("MPbwHx| ** Display changed prof...", $id_to_update);
 }
-?></div><?php
+echo i("77gvXM|</div>");
 end_script();

@@ -1,13 +1,16 @@
 tags;required;name;value;label;type;class;size;maxlength
-<div class='w3-row'><div class='w3-col l1'>;;ewLogbookEntry;;efaWeb: Fahrten in das aktuelle Fahrtenbuch eintragen;checkbox;;;
-</div></div><div class='w3-row'><div class='w3-col l1'>;;ewMessageEntry;;efaWeb: Nachrichten hinterlassen;checkbox;;;
-</div></div><div class='w3-row'><div class='w3-col l1'>;;ewDamageEntry;;efaWeb: Schadensmeldungen abgeben;checkbox;;;
-</div></div><div class='w3-row'><div class='w3-col l1'>;;ewReservationEntry;;efaWeb: Boote reservieren;checkbox;;;
-</div></div><div class='w3-row'><div class='w3-col l1'>;;ewLogbookView;;efaWeb: Das Fahrtenbuch anzeigen;checkbox;;;
-</div></div><div class='w3-row'><div class='w3-col l1'>;;ewMessageView;;efaWeb: Nachrichten lesen;checkbox;;;
-</div></div><div class='w3-row'><div class='w3-col l1'>;;ewDamageView;;efaWeb: Schadensmeldungen lesen;checkbox;;;
-</div></div><div class='w3-row'><div class='w3-col l1'>;;ewReservationView;;efaWeb: Reservierungen lesen;checkbox;;;
-</div></div><div class='w3-row'><div class='w3-col l1'><br>;;submit;Jetzt ändern;;submit;formbutton;;
+<div class='w3-row'><div class='w3-col l1'>;;ewLogbookEntryBths1;;VCiXlw|efaWeb: Enter trips in t...;checkbox;;;
+</div></div><div class='w3-row'><div class='w3-col l1'>;;ewLogbookEntryBths2;;Z9WBfK|efaWeb: Enter trips in t...;checkbox;;;
+</div></div><div class='w3-row'><div class='w3-col l1'>;;ewLogbookEntryBths3;;4JGwyS|efaWeb: enter trips in l...;checkbox;;;
+</div></div><div class='w3-row'><div class='w3-col l1'>;;ewLogbookEntryBths4;;eWvkQf|efaWeb: enter trips in l...;checkbox;;;
+</div></div><div class='w3-row'><div class='w3-col l1'>;;ewMessageEntry;;3QfGIe|efaWeb: Leave messages;checkbox;;;
+</div></div><div class='w3-row'><div class='w3-col l1'>;;ewDamageEntry;;yyPnCq|efaWeb: Submit damage re...;checkbox;;;
+</div></div><div class='w3-row'><div class='w3-col l1'>;;ewReservationEntry;;DCulJk|efaWeb: Reserve boats;checkbox;;;
+</div></div><div class='w3-row'><div class='w3-col l1'>;;ewLogbookView;;fIyhiE|efaWeb: Display the logb...;checkbox;;;
+</div></div><div class='w3-row'><div class='w3-col l1'>;;ewMessageView;;FOIAd0|efaWeb: Read messages;checkbox;;;
+</div></div><div class='w3-row'><div class='w3-col l1'>;;ewDamageView;;atCyn8|efaWeb: Read damage repo...;checkbox;;;
+</div></div><div class='w3-row'><div class='w3-col l1'>;;ewReservationView;;jg5vNC|efaWeb: Read reservation...;checkbox;;;
+</div></div><div class='w3-row'><div class='w3-col l1'><br>;;submit;ZWWWSt|Modify now;;submit;formbutton;;
 </div></div>;;_no_input;;;;;;
-<li><span class="helptext">;;_help_text;;Die Berechtigungen habe keine Auswirkungen auf angeschlossene efa-Clients oder die efaCloud-Server-Anwendung.;;;;
+"<li><span class=""helptext"">";;_help_text;;hL4rxQ|The permissions have no ...;;;;
 </span></li>;;_help_text;;;;;;

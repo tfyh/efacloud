@@ -174,7 +174,7 @@ class Tfyh_token_handler
         
         // write file.
         if (strlen($tokenfile_out) > 0) {
-            $tokenfile_out = substr($tokenfile_out, 0, strlen($tokenfile_out) - 1);
+            $tokenfile_out = mb_substr($tokenfile_out, 0, mb_strlen($tokenfile_out) - 1);
         }
         file_put_contents($this->tokenfile, $tokenfile_out);
         

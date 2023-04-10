@@ -51,6 +51,11 @@ class Tfyh_list
     private $columns;
 
     /**
+     * an array of all data types per column of this list
+     */
+    private $data_types;
+
+    /**
      * an array of all compounds of this list. A compound is a String with replaceble elements to provide a
      * summary information on a data record within a single String.
      */
@@ -62,7 +67,7 @@ class Tfyh_list
     private $table_name;
 
     /**
-     * the list set chosen (lists file name)
+     * the list set chosen (lists config file name)
      */
     private $list_set;
 
@@ -85,6 +90,11 @@ class Tfyh_list
      * the value of the filter option for this list
      */
     private $ofvalue;
+
+    /**
+     * the seconds how long the list may be cached
+     */
+    private $ocache_seconds;
 
     /**
      * the maximum number of rows in the list
@@ -149,6 +159,9 @@ class Tfyh_list
         // if definitions could be found, parse all and get own.
         if ($this->list_definitions !== false) {
             foreach ($this->list_definitions as $list_definition) {
+                // check whether i18n replacement is needed
+                if ($this->toolbox->is_valid_i18n_reference($list_definition["name"]))
+                    $list_definition["name"] = i($list_definition["name"]);
                 // do not parse comments.
                 if (strcasecmp($list_definition["id"], "#") !== 0) {
                     if ($id === 0) {
@@ -198,10 +211,64 @@ class Tfyh_list
         $updated = $list_definition;
         foreach ($updated as $key => $value)
             foreach ($args as $template => $used) {
-                $used_secure = (strpos($used, ";") !== false) ? "{invalid parameter with semicolon}" : $used;
+                $used_secure = (strpos($used, ";") !== false) ? i("KtXJLq|{invalid parameter with ...") : $used;
                 $updated[$key] = str_replace($template, $used_secure, $updated[$key]);
             }
         return $updated;
+    }
+
+    /**
+     * Remove all cached files for all lists.
+     */
+    public static function clear_caches ()
+    {
+        if (! file_exists("../log/cache"))
+            mkdir("../log/cache");
+        $files = scandir("../log/cache");
+        foreach ($files as $file)
+            if (strcmp(substr($file, 0, 1), ".") != 0)
+                unlink("../log/cache/$file");
+    }
+
+    /**
+     * Get the list from a cached file rather than from the data base
+     * 
+     * @param int $max_age            
+     */
+    private function get_rows_from_cache ()
+    {
+        // is cache enabled? If not return.
+        if ($this->ocache_seconds == 0)
+            return false;
+        // is descriptor readable? If not return.
+        $desc = file_get_contents("../log/cache/" . $this->list_set . "." . $this->id . ".desc");
+        if ($desc === false)
+            return false;
+        // is the cache still valid? If not return.
+        $desc = json_decode($desc, true);
+        if (! isset($desc["retrieved"]) || ((time() - intval($desc["retrieved"])) > $this->ocache_seconds))
+            return false;
+        $list_as_array = $this->toolbox->read_csv_array(
+                "../log/cache/" . $this->list_set . "." . $this->id . ".csv");
+        // was the cache successfully read? If not return.
+        if (count($list_as_array) == 0)
+            return false;
+        // does the layout of the cache match the current list layout? If not return.
+        foreach ($this->columns as $column_name)
+            if (! isset($list_as_array[0][$column_name]))
+                return false;
+        // read the cache into the rows.
+        $rows = [];
+        foreach ($list_as_array as $record) {
+            $c = 0;
+            $row = [];
+            foreach ($this->columns as $column_name) {
+                $row[$c] = $record[$column_name];
+                $c ++;
+            }
+            $rows[] = $row;
+        }
+        return $rows;
     }
 
     /**
@@ -289,14 +356,21 @@ class Tfyh_list
         $columns = explode(",", $this->list_definition["select"]);
         $c = 0;
         $this->firstofblock_col = - 1;
-        foreach ($columns as $column) {
+        foreach ($columns as $colraw) {
+            $column = trim($colraw); // ignroe leading and trailing spaces in column names.
             if (strpos($column, "=") !== false) {
                 $cname = substr($column, 0, strpos($column, "="));
                 $cexpr = explode("$", substr($column, strpos($column, "=") + 1));
                 $this->compounds[$cname] = $cexpr;
                 $this->columns[] = $cname;
             } elseif (strlen($column) > 0) {
-                $this->columns[] = $column;
+                if (strpos($column, ":") !== false) {
+                    $this->columns[] = explode(":", $column, 2)[0];
+                    $this->data_types[] = explode(":", $column, 2)[1];
+                } else {
+                    $this->columns[] = $column;
+                    $this->data_types[] = false;
+                }
                 if (strcasecmp($column, $this->firstofblock) == 0)
                     $this->firstofblock_col = $c;
             }
@@ -348,6 +422,7 @@ class Tfyh_list
         $this->osorts_list = "";
         $this->ofilter = "";
         $this->ofvalue = "";
+        $this->ocache_seconds = 0;
         $this->record_link = "";
         $this->record_link_col = "";
         $this->firstofblock = "";
@@ -363,11 +438,13 @@ class Tfyh_list
                 $this->ofvalue = $option_pair[1];
             if (strcasecmp("firstofblock", $option_pair[0]) === 0)
                 $this->firstofblock = $option_pair[1];
+            if (strcasecmp("cache_seconds", $option_pair[0]) === 0)
+                $this->ocache_seconds = intval($option_pair[1]);
             if (strcasecmp("maxrows", $option_pair[0]) === 0)
                 $this->maxrows = intval($option_pair[1]);
             if (strcasecmp("link", $option_pair[0]) === 0) {
                 $this->record_link_col = explode(":", $option_pair[1])[0];
-                $this->record_link = explode(":", $option_pair[1])[1];
+                $this->record_link = urldecode(explode(":", $option_pair[1])[1]);
             }
         }
     }
@@ -410,7 +487,7 @@ class Tfyh_list
                     else
                         $order_by .= "`" . $this->table_name . "`.`" . $osort . "`" . $sortmode;
                 }
-                $order_by = substr($order_by, 0, strlen($order_by) - 1);
+                $order_by = mb_substr($order_by, 0, mb_strlen($order_by) - 1);
             }
         }
         
@@ -431,7 +508,7 @@ class Tfyh_list
         $join_statement = ""; // special case: Inner Join using the
                               // $this->toolbox->users->user_id_field_name
         foreach ($this->columns as $column) {
-            // get all cloumns except compound expressions
+            // get all columns except compound expressions
             if (! isset($this->compounds[$column])) {
                 if (strpos($column, ">") !== false) {
                     // lookup case
@@ -450,7 +527,7 @@ class Tfyh_list
                 }
             }
         }
-        $sql_cmd = substr($sql_cmd, 0, strlen($sql_cmd) - 2);
+        $sql_cmd = mb_substr($sql_cmd, 0, mb_strlen($sql_cmd) - 2);
         $sql_cmd .= " FROM `" . $this->table_name . "`" . $join_statement . $where . $order_by . $limit;
         return $sql_cmd;
     }
@@ -471,17 +548,17 @@ class Tfyh_list
      */
     public function get_html (String $osorts_list, String $ofilter, String $ofvalue, bool $short = false)
     {
+        global $dfmt_d, $dfmt_dt;
         if (count($this->list_definition) === 0)
-            return "<p>Application configuration error: list not defined. " .
-                     "Please check with your administrator.</p>";
+            return "<p>" . i("4t2ytU|Application configuratio...") . "</p>";
         
         // build table header
         $row_count_max = 100;
         $list_html = "";
         if (! $short) {
-            $list_html .= "Sortieren mit einem Klick auf den Spaltenkopf (nur teilweise), Wechsel per 2. Klick von aufsteigend zu absteigend. \n";
-            $list_html .= "Details ansehen und ggf. ändern mit Klick aud den Eintrag in der Spalte '" .
-                     $this->record_link_col . "'.\n";
+            $list_html .= i("nLel3k|Sort with one click on t...") . " \n";
+            if (strlen($this->record_link_col) > 0)
+                $list_html .= i("erIeb6|View details and change ...", $this->record_link_col) . "\n";
         }
         $list_html .= "<div style='overflow-x: auto; white-space: nowrap; margin-top:12px; margin-bottom:10px;'>";
         $list_html .= "<table style='border: 2px solid transparent;'><thead><tr>";
@@ -525,12 +602,14 @@ class Tfyh_list
         $sql_cmd = $this->build_sql_cmd($osorts_list, $ofilter, $ofvalue);
         
         $res = $this->socket->query($sql_cmd);
-        $res_count_rows = $res->num_rows;
+        $res_count_rows = ($res === false) ? 0 : $res->num_rows;
         if (! $short)
-            $list_html = (($res_count_rows) ? "<b>" . $res_count_rows . " Datensätze gefunden.</b> " : "<b>keine Datensätze gefunden.</b> ") .
-                     $list_html;
+            $list_html = (($res_count_rows) ? "<b>" . $res_count_rows . " " . i("C94hEq|Records found.") .
+                     "</b> " : "<b>" . i("KFwEDL|no records found.") . "</b> ") . $list_html;
         if (intval($res_count_rows) > 0)
             $row_db = $res->fetch_row();
+        else
+            $row_db = false;
         $has_compounds = (count($this->compounds) > 0);
         $row_count = 0;
         
@@ -541,9 +620,22 @@ class Tfyh_list
             $data_cnt = 0;
             $set_id = "0";
             foreach ($row as $data) {
+                $column = $this->columns[$data_cnt];
                 $link_user_id = (strcasecmp($this->table_name, $this->toolbox->users->user_table_name) == 0) && (strcasecmp(
-                        $this->columns[$data_cnt], $this->toolbox->users->user_id_field_name) == 0);
-                $is_record_link_col = (strcasecmp($this->columns[$data_cnt], $this->record_link_col) == 0);
+                        $column, $this->toolbox->users->user_id_field_name) == 0);
+                $is_record_link_col = (strcasecmp($column, $this->record_link_col) == 0);
+                if ($this->data_types[$data_cnt] && (strlen($data) > 0)) {
+                    if (strcasecmp($this->data_types[$data_cnt], "d") == 0)
+                        $data = date($dfmt_d, strtotime($data));
+                    elseif (strcasecmp($this->data_types[$data_cnt], "dt") == 0)
+                        $data = date($dfmt_dt, strtotime($data));
+                    elseif (strcasecmp($this->data_types[$data_cnt], "f") == 0)
+                        $data = str_replace(".", ",", strval($data));
+                    elseif (strcasecmp($this->data_types[$data_cnt], "p") == 0)
+                        $data = str_replace(".", ",", strval($data * 100)) . "%";
+                    elseif (strcasecmp($this->data_types[$data_cnt], "u") == 0)
+                        $data = date($dfmt_dt, intval($data));
+                }
                 if ($link_user_id) {
                     $row_str .= "<td><b><a href='../pages/nutzer_profil.php?nr=" . $data . "'>" . $data .
                              "</a></b></td>";
@@ -563,9 +655,9 @@ class Tfyh_list
         }
         $list_html .= "</tbody></table></div>\n";
         if ($row_db && ($row_count >= $row_count_max)) {
-            $list_html .= " Liste nach " . $row_count_max . " Einträgen gekappt.";
+            $list_html .= " " . i("ZmqZlm|List capped after %1 rec...", $row_count_max);
             if (! $short)
-                $list_html .= " Bitte den Filter nutzen, oder sich die komplette Liste herunterladen.";
+                $list_html .= " " . i("1ci7d1|Please use the filter or...");
         }
         
         // provide zip-Link
@@ -577,8 +669,8 @@ class Tfyh_list
         
         // provide filter form
         if (! $short) {
-            $list_html .= "<form action='" . $reference_this_page .
-                     "'>Filtern in Spalte:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+            $list_html .= "<form action='" . $reference_this_page . "'>" . i("Rhz5mZ|Filter in column:") .
+                     "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
             $list_html .= "<input type='hidden' name='id' value='" . $this->id . "' />";
             $list_html .= "<input type='hidden' name='satz' value='" . $this->list_set . "' />";
             if (strlen($osorts_list) > 0)
@@ -593,27 +685,57 @@ class Tfyh_list
                 }
             }
             $list_html .= "</select>";
-            $list_html .= "<br>Wert = (wildcard *): <input type='text' name='fvalue' class='forminput' value='" .
-                     $ofvalue . "'  style='width:19em' />" .
-                     "&nbsp;&nbsp;&nbsp;&nbsp;<input type='submit' value='gefilterte Liste anzeigen' class='formbutton'/></form>";
-            $list_html .= "</p><p>Liste als Csv-Datei herunterladen: <a href='" . $reference_this_page . "'>" .
-                     $this->table_name . ".zip</a>";
-            $list_html .= "<br><br>BITTE BEACHTEN: Verwende die zur Verfügung gestellte Information nur zum " .
-                     "geregelten Zweck. Eine Weitergabe von hier exportierten Listen ist nicht gestattet.</p>";
+            $list_html .= "<br>" . i("afDbIr|Value ") .
+                     " <input type='text' name='fvalue' class='forminput' value='" . $ofvalue .
+                     "'  style='width:19em' />" . "&nbsp;&nbsp;&nbsp;&nbsp;<input type='submit' value='" .
+                     i("efjxwi|show filtered list") . "' class='formbutton'/></form>";
+            $list_html .= "</p><p>" . i("OrvMhQ|get as csv-download file...") . " <a href='" .
+                     $reference_this_page . "'>" . $this->table_name . ".zip</a>";
+            $list_html .= "<br><br>" . i("TxBnFe|PLEASE NOTE: Use the inf...") . "</p>";
         }
         return $list_html;
     }
 
     /**
+     * Get the sql-code which is used to retreive the rows. Only for debugging purposes.
+     * 
+     * @return string
+     */
+    public function get_sql ()
+    {
+        return $this->build_sql_cmd($this->osorts_list, $this->ofilter, $this->ofvalue);
+    }
+
+    /**
      * Provide a list with all data retrieved. Simple database get, no mapping to field names included.
      * 
-     * @return array an array of all rows - each row being a normal array itself. An empty array on no match.
+     * @return array an array of all rows - each row being a normal array itself. To empty array on no match.
      */
     public function get_rows ()
     {
         if (count($this->list_definition) === 0)
-            return "<p>Application configuration error: list not defined. " .
-                     "Please check with your administrator.</p>";
+            return "<p>" . i("3MjQY3|Application configuratio...") . "</p>";
+        
+        // try the cache first
+        $use_cache = ($this->ocache_seconds > 0);
+        $csv = "";
+        if ($use_cache) {
+            if (! file_exists("../log/cache"))
+                mkdir("../log/cache");
+            $rows = $this->get_rows_from_cache();
+            if ($rows !== false)
+                return $rows;
+            // cache could not be used. Clear it.
+            $cache_file = "../log/cache/" . $this->list_set . "." . $this->id;
+            if (file_exists($cache_file . ".desc"))
+                unlink($cache_file . ".desc");
+            if (file_exists($cache_file . ".csv"))
+                unlink($cache_file . ".csv");
+            // Build table header for cache refresh
+            foreach ($this->columns as $column)
+                $csv .= str_replace('"', '""', $column) . ";";
+            $csv = mb_substr($csv, 0, mb_strlen($csv) - 1);
+        }
         
         // assemble SQL-statement and read data
         $sql_cmd = $this->build_sql_cmd($this->osorts_list, $this->ofilter, $this->ofvalue);
@@ -631,8 +753,26 @@ class Tfyh_list
                     if ($firstofblock_filter)
                         $lastfirstvalue = strval($row[$this->firstofblock_col]);
                 }
+                if ($use_cache) {
+                    $row_str = "";
+                    foreach ($row as $data) {
+                        if ((strpos($data, "\"") !== false) || (strpos($data, "\n") !== false) ||
+                                 (strpos($data, ";") !== false))
+                            $row_str .= '"' . str_replace('"', '""', $data) . '";';
+                        else
+                            $row_str .= $data . ";";
+                    }
+                    $row_str = mb_substr($row_str, 0, mb_strlen($row_str) - 1);
+                    $csv .= "\n" . $row_str;
+                }
                 $row = $res->fetch_row();
             }
+        }
+        if ($use_cache) {
+            file_put_contents($cache_file . ".csv", $csv);
+            file_put_contents($cache_file . ".desc", 
+                    json_encode(["table" => $this->table_name,"retrieved" => time()
+                    ]));
         }
         return $rows;
     }
@@ -704,7 +844,7 @@ class Tfyh_list
         if (! $csv)
             return false;
         
-        $csv = substr($csv, 0, strlen($csv) - 1) . "\n";
+        $csv = mb_substr($csv, 0, mb_strlen($csv) - 1) . "\n";
         // assemble SQL-statement and read data
         $rows = $this->get_rows();
         $last_checked = null;
@@ -725,7 +865,7 @@ class Tfyh_list
             // pass the first only for a specific id, think of below condition in negative for those
             // dropped.
             if (($check_col_pos != $c) || is_null($last_checked) || (strcmp($data, $last_checked) != 0))
-                $csv .= substr($row_str, 0, strlen($row_str) - 1) . "\n";
+                $csv .= mb_substr($row_str, 0, mb_strlen($row_str) - 1) . "\n";
         }
         return $csv;
     }
@@ -738,7 +878,7 @@ class Tfyh_list
     public function get_base64 ()
     {
         if (count($this->list_definition) === 0)
-            $csv = "[No list definition found.]";
+            $csv = "[" . i("ZPBjQx|No list definition found...") . "]";
         else
             $csv = $this->get_csv($_SESSION["User"]);
         // zip into binary $zip_contents
@@ -767,9 +907,9 @@ class Tfyh_list
      */
     public function get_zip (String $osorts_list, String $ofilter, String $ofvalue)
     {
+        global $dfmt_d, $dfmt_dt;
         if (count($this->list_definition) === 0)
-            return "<p>Application configuration error: list not defined. " .
-                     "Please check with your administrator.</p>";
+            return "<p>" . i("eG3R6d|Application configuratio...") . "</p>";
         
         $csv = $this->get_csv($_SESSION["User"]);
         
@@ -778,8 +918,8 @@ class Tfyh_list
                  $_SESSION["User"][$this->toolbox->users->user_lastname_field_name] . " (" .
                  $_SESSION["User"][$this->toolbox->users->user_id_field_name] . ", " .
                  $_SESSION["User"]["Rolle"] . ")";
-        $csv .= "\nBereitgestellt am " . date("d.m.Y H:i:s") . " von " . $_SERVER['HTTP_HOST'] . " an " .
-                 $destination . "\nWeitergabe dieser Liste ist nicht gestattet.\n";
+        $csv .= "\n" . i("JX2kP6|Provided on %1 by %2 to ...", date($dfmt_dt), $_SERVER['HTTP_HOST'], 
+                $destination) . "\n";
         $this->toolbox->return_string_as_zip($csv, $this->table_name . ".csv");
     }
 }

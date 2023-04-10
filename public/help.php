@@ -15,23 +15,6 @@ echo $menu->get_menu();
 echo file_get_contents('../config/snippets/page_02_nav_to_body');
 
 ?>
-<!-- START OF content -->
-<div class="w3-container">
-	<h1>
-		<br>
-		<br>
-		<br>Hilfe
-	</h1>
-	<p>Hilfe zu efaCloud ist verfügbar auf der</p>
-	<ul>
-		<li><a href='https://www.efacloud.org'>efaCloud Homepage</a></li>
-	</ul>
-	<p>und im eigens dafür eingericheten Forum auf der</p>
-	<ul>
-		<li><a href='efa.nmichael.de'>efa-Hompage</a></li>
-	</ul>
-</div>
-<!-- END OF content -->
-
+<?= i("lf6RQG| ** Help ** Help for ef..."); ?>
 <?php
 end_script();

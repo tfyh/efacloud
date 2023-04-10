@@ -46,6 +46,7 @@ class Sec_concept
      */
     private function prepare_variables ()
     {
+        global $dfmt_d;
         $this->variables = [];
         $this->variables["CSS"] = file_get_contents("../templates/default.css");
         $cfg = $this->toolbox->config->get_cfg();
@@ -53,7 +54,7 @@ class Sec_concept
         // Verein
         $this->variables["Verein"] = $cfg["Verein"];
         // Druckdatum
-        $this->variables["Druckdatum"] = date("d.m.Y");
+        $this->variables["Druckdatum"] = date($dfmt_d);
         // Betriebsverantwortlich
         $this->variables["Betriebsverantwortlich"] = $cfg["Betriebsverantwortlich"];
         // Hoster
@@ -94,7 +95,8 @@ class Sec_concept
         // MySQLversion
         $this->variables["MySQLversion"] = $this->socket->get_server_info();
         // dbUserKennwortlaenge
-        $this->variables["dbUserKennwortlaenge"] = strval(strlen($cfg["db_up"]));
+        $this->variables["dbUserKennwortlaenge"] = strval(
+                mb_strlen($this->toolbox->config->get_cfg_db()["db_up"]));
         
         // max_inits_per_hour
         $this->variables["max_inits_per_hour"] = strval(
@@ -122,24 +124,9 @@ class Sec_concept
         $this->variables["ZugriffeWeb"] = $activities_table . "</table>";
         
         // ZugriffeAPI, cf. "../pages/home.php"
-        $clients = scandir("../log/lra");
-        $active_clients = "";
-        foreach ($clients as $client) {
-            if (($client != ".") && ($client != "..")) {
-                $client_record = $this->socket->find_record("efaCloudUsers", "efaCloudUserID", $client);
-                if ($client_record !== false) {
-                    $active_clients .= "<p>" . $client_record["Vorname"] . " " . $client_record["Nachname"] .
-                             " (#" . $client_record["efaCloudUserID"] . ", " . $client_record["Rolle"] .
-                             "), letzte Aktivität: " . file_get_contents("../log/lra/" . $client) . "</p>";
-                    if (file_exists("../log/contentsize/" . $client))
-                        $active_clients .= "<table><tr><td>" . str_replace("\n", "</td></tr><tr><td>", 
-                                str_replace(";", "</td><td>", 
-                                        trim(file_get_contents("../log/contentsize/" . $client)))) .
-                                 "</td></tr></table>";
-                }
-            }
-        }
-        $this->variables["ZugriffeAPI"] = $active_clients;
+        include_once "../classes/efa_config.php";
+        $efa_config = new Efa_config($this->toolbox);
+        $this->variables["ZugriffeAPI"] = $efa_config->get_last_accesses_API($this->socket, false, true);
         
         // ChangesAll
         include_once "../classes/tfyh_list.php";
@@ -183,13 +170,13 @@ class Sec_concept
                      " " . $privileged_row[4] . "<br>";
         $this->variables["privilegierteNutzer"] = $privileged_str;
         // efaAdminNutzer
-        $efa_admins_list = new Tfyh_list("../config/lists/verwalten", 7, "Nutzer mit efa-Admin Rechten", 
+        $efa_admins_list = new Tfyh_list("../config/lists/verwalten", 4, "Nutzer mit efa-Admin Rechten", 
                 $this->socket, $this->toolbox);
         $efa_admins_rows = $efa_admins_list->get_rows();
         $efa_admins_str = "";
         foreach ($efa_admins_rows as $efa_admins_row) {
-            $workflows = $efa_admins_row[10];
-            $concessions = $efa_admins_row[11];
+            $workflows = $efa_admins_row[7];
+            $concessions = $efa_admins_row[8];
             $workflows_list = str_replace("<td>", "", 
                     str_replace("</td>", "", 
                             str_replace("<tr>", "", 
@@ -220,7 +207,7 @@ class Sec_concept
     public function create_HTML ()
     {
         $this->prepare_variables();
-        $template = "efaCloud_Sicherheitskonzept";
+        $template = "efaCloud_Sicherheitskonzept_" . $this->toolbox->config->language_code;
         $template_path = "../templates/" . $template . ".html";
         $template_html = file_get_contents($template_path);
         foreach ($this->variables as $key => $value) {
@@ -236,7 +223,7 @@ class Sec_concept
     {
         require_once '../classes/pdf.php';
         $pdf = new PDF($this->toolbox, $this->socket, $this->toolbox->users->user_table_name);
-        $template = "efaCloud_Sicherheitskonzept";
+        $template = "efaCloud_Sicherheitskonzept_" . $this->toolbox->config->language_code;
         $this->prepare_variables();
         
         $template_path = "../templates/" . $template . ".html";
@@ -244,9 +231,9 @@ class Sec_concept
         foreach ($this->variables as $key => $value) {
             $template_html = str_replace("{#" . $key . "#}", $value, $template_html);
         }
-        $saved_at = $pdf->create_pdf($template, "efaCloud_Sicherheitskonzept", 0, $this->variables);
+        $saved_at = $pdf->create_pdf($template, i("W2wpqV|efaCloud Security Concep..."), 0, $this->variables);
         $this->toolbox->logger->log(0, intval($_SESSION["User"]["Mitgliedsnummer"]), 
-                "Sicherheitskonzept erzeugt.");
+                i("M4P1uK|Security concept created..."));
         return $saved_at;
     }
 }

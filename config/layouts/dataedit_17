@@ -1,0 +1,19 @@
+tags;required;name;value;label;type;class;size;maxlength
+<span id='vSpanSystemData'><div class='w3-row'><div class='w3-col l3'>;;Id;;pETnND|object Id;text;display-bold;90%;36
+</div><div class='w3-col l3'>;;ecrid;;2zpN2g|unique record reference ...;text;display-bold;90%;20
+</div></div><div class='w3-row'><div class='w3-col l3'>;;LastModified;;0RONRY|last modified on;text;display-bold;90%;20
+</div><div class='w3-col l3'>;;ChangeCount;;bCHlEQ|Version (change counter);text;display-bold;90%;20
+</div><div class='w3-col l3'>;;LastModification;;4cenTr|Type of last change;text;display-bold;90%;20
+</div></div><div class='w3-row'><div class='w3-col l1'><hr>;;_no_input;;;;;
+</div></div></span><div class='w3-row'><div class='w3-col l2'>;;Name;;W9iqqC|Designation of the statu...;text;;20;50
+</div><div class='w3-col l2'>;;Type;;TNUH68|Type of status;select $options;;20;50
+</div></div><div class='w3-row'><div class='w3-col l2'>;;Membership;;M9JjE6|Member;"select 2=;1=ja;0=nein";;10;12
+</div><div class='w3-col l2'><br>;;AutoSetOnAge;;nWbfxq|set automatically with a...;checkbox;;;
+</div></div><div class='w3-row'><div class='w3-col l2'>;;MinAge;;rQTx6e|minimum age;text;;10;12
+</div><div class='w3-col l2'>;;MaxAge;;7HmEWX|Maximum age;text;;10;12
+</div></div><div class='w3-row'><div class='w3-col l1'> <br>;;submit;DW4jJM|Modify now;;submit;formbutton;;
+</div></div>;;_no_input;;;;;;
+<li><span class='helptext'>;;_help_text;;Fzl2Mt|The data change takes ef...;;;;
+</span></li><li><span class='helptext'>;;_help_text;;eBYUZI|For technical reasons, t...;;;;
+</span></li><li><span class='helptext'>;;_help_text;;VyKWDh|Data records with type o...;;;;
+</span></li>;;_help_text;;;;;;

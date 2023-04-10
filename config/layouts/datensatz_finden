@@ -1,8 +1,6 @@
 tags;required;name;value;label;type;class;size;maxlength
-<div class='w3-row'><div class='w3-col l1'>;; \
-  Table;;Tabelle;select $options;;20;250
-</div></div><div class='w3-row' style='margin-top:20px'><div class='w3-col l1'><div style='float:left'>;; \
-  submit;Tabelle auswählen;;submit;formbutton;;
+<div class='w3-row'><div class='w3-col l1'>;;Table;;pGNnML|Table (in brackets: numb...;select $options;;20;250
+</div></div><div class='w3-row' style='margin-top:20px'><div class='w3-col l1'><div style='float:left'>;;submit;YhyKTz|Select table;;submit;formbutton;;
 </div></div></div>;;_no_input;;;;;;
-<li><span class='helptext'>;;_help_text;;Hier können Sie einen Datensatz aus den efa-Tabellen finden.;;;;
+<li><span class='helptext'>;;_help_text;;UHO0DE|Here you can find a reco...;;;;
 </span></li>;;_help_text;;;;;;

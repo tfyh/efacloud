@@ -1,7 +1,7 @@
 <?php
 /**
- * The login form for all activites on this application except registration. Based on the Tfyh_form class, please
- * read instructions their to better understand this PHP-code part.
+ * The login form for all activites on this application except registration. Based on the Tfyh_form class,
+ * please read instructions their to better understand this PHP-code part.
  * 
  * @author mgSoft
  */
@@ -32,25 +32,33 @@ $form_layout = "../config/layouts/login";
 if (isset($_SESSION["getps"][$fs_id]["token"])) {
     $plain_text = $toolbox->decode_login_token($_GET["token"]);
     if ($plain_text === false) {
-        $form_errors .= "Das hat leider nicht geklappt. " .
-                 "Der mitgelieferte login-Token ist nicht oder nicht mehr gültig.";
+        $form_errors .= i("BnxvUl|Unfortunately, this did ...");
     } else {
         // plain_text contains: validity, user mail, deep link (optional), padding
         $user_mail = $plain_text[1];
         $user_to_login = $socket->find_record($toolbox->users->user_table_name, "EMail", $user_mail);
+        file_put_contents("../log/token_logins.log", 
+                "[" . date("Y-m-d H:i:s", time()) . "] " . json_encode($user_to_login) . "\n", FILE_APPEND);
         if (! $user_to_login) {
-            $form_errors .= "Das hat leider nicht geklappt. " . "Der Nutzer '" . $user_mail .
-                     "' des login-Tokens ist nicht (mehr) registriert.";
+            file_put_contents("../log/token_logins.log", "[" . date("Y-m-d H:i:s", time()) . "] aborted.\n", 
+                    FILE_APPEND);
+            $form_errors .= i("zxg9i4|Unfortunately, this did ...", $user_mail);
         } else {
             // Verification successful. Refresh all user data.
             $toolbox->logger->log_init_login_error("login");
             $_SESSION["User"] = $user_to_login;
             $_SESSION["login_failures"] = 0;
             // redirect to user home page
-            if (count($plain_text) < 4) // no deep link parameter
+            if (count($plain_text) < 4) { // no deep link parameter
+                file_put_contents("../log/token_logins.log", 
+                        "[" . date("Y-m-d H:i:s", time()) . "] redirect to: ../pages/home.php.\n", FILE_APPEND);
                 header("Location: ../pages/home.php");
-            else
-                header("Location: ../" . $plain_text[2]);
+            } else {
+                header("Location: " . $plain_text[2]);
+                file_put_contents("../log/token_logins.log", 
+                        "[" . date("Y-m-d H:i:s", time()) . "] redirect to: ../" . $plain_text[2] . ".\n", 
+                        FILE_APPEND);
+            }
             exit(0);
         }
     }
@@ -97,7 +105,7 @@ if ($done > 0) {
         // check entered password or send token
         if ($user_to_login === false) {
             // user was not matched in data base
-            $form_errors .= "Der Nutzer konnte nicht identifiziert werden.";
+            $form_errors .= i("c1Gjma|The user could not be id...");
         } else {
             // user was retrieved from data base
             $passwort_hash = $user_to_login["Passwort_Hash"];
@@ -119,31 +127,31 @@ if ($done > 0) {
                 if (strlen($passwort_hash) > 10) {
                     // The user has defined a permanent password, then it must be used.
                     // He may reset this permanent password to get one-time session tokens.
-                    $form_errors .= "Wenn ein permanentes Kennwort definiert ist, kann man nicht mit einem Einmalkennwort arbeiten. ";
-                    $form_errors .= "Das permanente Kennwort kann <a href='../forms/reset_password.php'>HIER</a> gelöscht werden. ";
+                    $form_errors .= i("gvdW5g|If a permanent password ...") . " ";
+                    $form_errors .= i("v0PFwa| ** The permanent passwo...") . " ";
                 } elseif ($login_is_id) {
                     // The user has not defined a permanent password, then she/he must not use the numeric ID
                     // as login.
-                    $form_errors .= "Mit der Nutzernummer als Loginangabe kann kein Einmalkennwort angefordert werden. ";
-                    $form_errors .= "Bitte die Mail-Adresse als Loginangabe nutzen. ";
+                    $form_errors .= i("0xh80B|No one-time password can...") . " ";
+                    $form_errors .= i("fn5jng|Please use the mail addr...") . " ";
                 } elseif ($login_is_account && (! isset($user_to_login["EMail"]) ||
                          (filter_var($user_to_login["EMail"], FILTER_VALIDATE_EMAIL) === false))) {
                     // The user has not defined a permanent password, then she/he must have set an e-mail
                     // address.
-                    $form_errors .= "Zu diesem Account ist keine e-Mail-Adresse hinterlegt. ";
-                    $form_errors .= "Bitte die Mail-Adresse als Accountangabe nutzen. ";
+                    $form_errors .= i("AZp3UC|No e-mail address is sto...") . " ";
+                    $form_errors .= i("kL1ygA|Please use the mail addr...") . " ";
                 } else 
                     if (filter_var($entered_data["Account"], FILTER_VALIDATE_EMAIL) === false) {
                         // The user has not defined a permanent password, then she/he must use the
                         // e-mail address as lgoin.
-                        $form_errors .= "Mit der Nutzernummer als Accountangabe kann kein Einmalkennwort angefordert werden. ";
-                        $form_errors .= "Bitte die Mail-Adresse als Accountangabe nutzen. ";
+                        $form_errors .= i("pXgPvV|No one-time password can...") . " ";
+                        $form_errors .= i("CYEWjP|Please use the mail addr...") . " ";
                     } else {
                         // The user was appropriately identified and shall get a session token
                         $mail_mitglied = $user_to_login["EMail"];
                         if (strlen($mail_mitglied) < 3) {
                             // no e-mail address available. Should actually never happen.
-                            $form_errors .= "Keine Mail für diesen Nutzer / diese Nutzerin hinterlegt, daher kein Versand eines Einmalkennwortes möglich.";
+                            $form_errors .= i("bQNlhS|No mail stored for this ...");
                         } else {
                             $mail_mitglied = $toolbox->strip_mail_prefix($mail_mitglied);
                             // user has no permanent password, send token.
@@ -156,35 +164,30 @@ if ($done > 0) {
                             $token = ($user_is_anonym) ? "" : $token_handler->get_new_token($appUserID, 
                                     $toolbox);
                             // Compile Mail to user.
-                            $subject = "Einmalkennwort für " . $toolbox->config->app_name . "  '" . $token .
-                                     "'";
-                            $body .= "<p>Liebe/r " . $user_to_login["Vorname"] . " " .
-                                     $user_to_login["Nachname"] . ",</p>";
-                            // user with user rights !Anonym" shall not get a token
+                            $subject = i("M4m15E|One-time password for %1...", $toolbox->config->app_name, 
+                                    $token);
+                            $body .= i("rtBEhk| ** Dear %1 %2, ** ", $user_to_login["Vorname"], 
+                                    $user_to_login["Nachname"]);
+                            // user with user rights !Toonym" shall not get a token
                             if (strcasecmp($user_to_login["Rolle"], "anonym") == 0) {
-                                $body .= "<p>Die Registrierung muss vom Verwalter noch abgeschlossen werden. Erst danach kann " .
-                                         " ein Einmalkennwort versendet werden.<p>";
+                                $body .= "<p>" . i("fZg2zo|The registration must st...") . "<p>";
                             } else {
                                 // user shall get a token
-                                $body .= "<p>Mit dem Einmalkennwort '" . $token .
-                                         "' besteht die Möglichkeit sich für die nächsten " .
-                                         strval($token_handler->token_validity_period / 60) .
-                                         " Minuten in der Anwendung anzumelden. Danach ist es ungültig." .
-                                         " Groß- oder Kleinschreibung spielt keine Rolle.<p>";
+                                $body .= "<p>" . i("OKImlH|With the one-time passwo...", $token, 
+                                        strval($token_handler->token_validity_period / 60)) . ".<p>";
                             }
                             $body .= $mail_handler->mail_subscript;
-                            $body .= "<p>PS: Im Nutzerprofil besteht die Möglichkeit, ein dauerhaftes Kennwort zu hinterlegen.<p>";
+                            $body .= "<p>" . i("CMC17q|PS: In the user profile,...") . "<p>";
                             $body .= $mail_handler->mail_footer;
                             $send_success = $mail_handler->send_mail($mail_handler->system_mail_sender, 
                                     $mail_handler->system_mail_sender, $mail_mitglied, "", "", $subject, $body);
                             if ($send_success) {
-                                $form_result .= "<b>Das Einmalkennwort wurde an '" . $mail_mitglied .
-                                         "' versendet.</b>";
-                                $toolbox->logger->log(0, $appUserID, 
-                                        "Einmalkennwort an Nutzer versendet.");
+                                $form_result .= "<b>" . i("8oDhBF|The one-time password wa...", 
+                                        $mail_mitglied) . "</b>";
+                                $toolbox->logger->log(0, $appUserID, i("hiQjLL|One-time password sent t..."));
                                 $token_sent = true;
                             } else {
-                                $form_errors .= "Das Einmalkennwort konnte nicht versendet werden. <br>";
+                                $form_errors .= i("nbrk4v|The one-time password co...") . " <br>";
                             }
                         }
                     }
@@ -207,7 +210,7 @@ if ($done > 0) {
                         $toolbox->users->user_table_name, 
                         ["ID" => $_SESSION["User"]["ID"],"LastLogin" => time()
                         ]);
-                $todo = 3;
+            $todo = 3;
             $login_failures = 0;
             $_SESSION["login_failures"] = 0;
         } elseif ($token_sent == true) {
@@ -226,21 +229,19 @@ if ($done > 0) {
                     $appUserID = 0;
                 if (isset($_SESSION["login_failures"])) {
                     $login_failures = $_SESSION["login_failures"] + 1;
-                    $toolbox->logger->log(1, $appUserID, 
-                            "Falsches Kennwort beim login.");
+                    $toolbox->logger->log(1, $appUserID, i("KY7F6q|Wrong password at login."));
                 } else
                     $login_failures = 1;
                 $_SESSION["login_failures"] = $login_failures;
                 if ($login_failures > 0) {
-                    $toolbox->load_throttle("errors/", $toolbox->config->settings_tfyh["init"]["max_errors_per_hour"]);
-                    $form_errors .= "Fehler beim login.<br>Bereits " . $login_failures .
-                             " Fehlversuche. Bitte noch einmal versuchen, " .
-                             "aber mit jedem Versuch dauert es länger.</p>";
+                    $toolbox->load_throttle("errors", 
+                            $toolbox->config->settings_tfyh["init"]["max_errors_per_hour"], 
+                            $user_requested_file);
+                    $toolbox->logger->log_init_login_error("error");
+                    $form_errors .= i("zdAPKK| ** Login error. ** Alre...", $login_failures) . "</p>";
+                    $toolbox->logger->log(1, $appUserID, i("sZKXYK|Wrong password at login."));
                     // try and eroor will become slower and slower.
                     sleep(2 * $login_failures);
-                    $toolbox->logger->log(1, $appUserID, 
-                            "Falsches Kennwort beim login.");
-                    $toolbox->logger->log_init_login_error("error");
                 }
             }
     } elseif ($done === 2) {
@@ -249,12 +250,11 @@ if ($done > 0) {
         $token_handler = new Tfyh_token_Handler("../log/tokens.txt");
         $appUserID = $token_handler->get_user_and_update($entered_data["Token"]);
         if ($appUserID == - 1) {
-            $form_errors .= "Das Einmalkennwort ist falsch oder abgelaufen. ";
-            $form_errors .= "Ein Einmalkennwort kann jederzeit neu angefordert werden. Dazu einfach von vorne mit dem Einloggen beginnen.";
+            $form_errors .= i("1HuxvX|The one-time password is...") . " ";
+            $form_errors .= i("OoZfSs| ** A one-time password ...");
         } elseif ($appUserID == - 2) {
-            $form_errors .= "Für diesen Nutzer sind zu viele Sitzungen offen.";
-            $toolbox->logger->log(1, $appUserID, 
-                    "Für diesen Nutzer sind zu viele Sitzungen offen.");
+            $form_errors .= i("Gc6rWW|Too many sessions open f...");
+            $toolbox->logger->log(1, $appUserID, i("sAM6H9|Too many sessions open f..."));
         } else {
             // login successful
             $user_to_login = $socket->find_record($toolbox->users->user_table_name, 
@@ -270,9 +270,8 @@ if ($done > 0) {
     if ($todo === 3) {
         if (strlen($use_as_role) > 0) {
             if (! $menu->is_allowed_role_change($_SESSION["User"]["Rolle"], $use_as_role))
-                $toolbox->display_error("Rolle nicht zulässig.", 
-                        "Der Nutzer darf die Rolle " . $use_as_role . " nicht einnehmen.", 
-                        $user_requested_file);
+                $toolbox->display_error(i("z7eGHS|Role not allowed."), 
+                        i("xf8bTS|The user may not use the...", $use_as_role), $user_requested_file);
             else
                 $_SESSION["User"]["Rolle"] = $use_as_role;
         }
@@ -307,30 +306,19 @@ echo $menu->get_menu();
 echo file_get_contents('../config/snippets/page_02_nav_to_body');
 
 // page heading, identical for all workflow steps
-?>
-<!-- START OF content -->
-<div class="w3-container">
-	<h3>Login für registrierte Nutzer</h3>
-</div>
-
-<div class="w3-container">
-<?php
-
+echo i("VhzARg| ** Login for registered...");
 echo $toolbox->form_errors_to_html($form_errors);
 echo $form_result;
-echo $form_to_fill->get_html($fs_id);
+echo $form_to_fill->get_html();
 
 // ======== start with the display of either the next form, or the error messages.
-if ($todo == 1) { // step 1. 
-    echo "<a href='../forms/reset_password.php'>Kennwort vergessen?</a>";
+if ($todo == 1) { // step 1.
+    echo "<a href='../forms/reset_password.php'>" . i("SjwGi5|Password forgotten?") . "</a>";
 } elseif ($todo == 2) { // step 2. no special texts for output
 } elseif ($todo == 3) { // step 3.
 }
 
-echo '<h5><br />Ausfüllhilfen</h5><ul>';
 echo $form_to_fill->get_help_html();
-echo "</ul>";
-?></div><?php
+echo i("79Iex2|</div>"); 
 end_script();
-
 

@@ -24,9 +24,9 @@ if ($efa_info->is_allowed_info($_SESSION["User"], "public_" . $info_type)) {
     elseif (strcasecmp("reserved", $info_type) == 0)
         $info = $efa_info->get_reserved($info_mode);
     else
-        $info = 'Error 502: no valid information type provided.';
+        $info = i('BVliju|Error 502: no valid info...');
 } else {
-    $info = 'Der Zugang zu dieser Information wurde nicht gestattet.';
+    $info = i('Apulhe|Access to this informati...');
 }
 echo file_get_contents("../config/snippets/page_iframe_start");
 echo $info;

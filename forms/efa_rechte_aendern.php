@@ -14,25 +14,21 @@ include_once '../classes/tfyh_form.php';
 if (isset($_SESSION["getps"][$fs_id]["id"]) && (intval($_SESSION["getps"][$fs_id]["id"]) > 0))
     $id_to_update = intval($_SESSION["getps"][$fs_id]["id"]);
 else
-    $toolbox->display_error("Nicht zulässig.", 
-            "Die Seite '" . $user_requested_file .
-                     "' muss mit der Angabe der id des zu ändernden Nutzers aufgerufen werden.", 
-                    $user_requested_file);
+    $toolbox->display_error(i("EVb79D|Not allowed."), 
+            i("JdTgrN|The page °%1° must be ca...", $user_requested_file), $user_requested_file);
 // This page requires an id to be set for the user to update.
 if (isset($_SESSION["getps"][$fs_id]["type"]))
     $type = $_SESSION["getps"][$fs_id]["type"];
 else
-    $toolbox->display_error("Nicht zulässig.", 
-            "Die Seite '" . $user_requested_file . "' muss mit der Angabe des Rechtetyps aufgerufen werden.", 
-            $user_requested_file);
+    $toolbox->display_error(i("aalScL|Not allowed."), 
+            i("jmcH6l|The page °%1° must be ca...", $user_requested_file), $user_requested_file);
 
 // get the user which shall be changed.
 $user_to_update = $socket->find_record_matched($toolbox->users->user_table_name, 
         ["ID" => $id_to_update
         ]);
 if ($user_to_update === false)
-    $toolbox->display_error("Nicht gefunden.", 
-            "Der Nutzerdatensatz zur ID '" . $id_to_update . "' konnte nicht gefunden werden.", 
+    $toolbox->display_error(i("d5YI7D|Not found"), i("47Cndc|The user record for ID °...", $id_to_update), 
             $user_requested_file);
 $user_name_display = $user_to_update["Vorname"] . " " . $user_to_update["Nachname"];
 
@@ -51,10 +47,14 @@ foreach ($concessions_set as $concession)
 // if validation fails, the same form will be displayed anew with error messgaes
 $todo = ($done == 0) ? 1 : $done;
 $form_errors = "";
-if (strcasecmp($type, "efaAdmin") == 0)
+$explanation_text = "";
+if (strcasecmp($type, "efaAdmin") == 0) {
     $form_layout = "../config/layouts/efaAdmin_rechte_aendern";
-elseif (strcasecmp($type, "efaWeb") == 0)
+    $explanation_text = i("zqMZlN|efaCloud users can also ...");
+} elseif (strcasecmp($type, "efaWeb") == 0) {
     $form_layout = "../config/layouts/efaWeb_rechte_aendern";
+    $explanation_text = i("8ZhsQk|For efaWeb, additional d...");
+}
 
 // ======== Start with form filled in last step: check of the entered values.
 if ($done > 0) {
@@ -68,8 +68,7 @@ if ($done > 0) {
         // occured.
     } elseif ($done == 1) {
         // retrieve user workflows and form data and update user workflows
-        $mask = $workflows_before;
-        $workflows_after = 0;
+        $workflows_after = $workflows_before;
         // bitwise set or delete flags
         foreach ($workflows_set as $workflow) {
             $mask = 0xFFFFFFFF ^ intval($workflow["Flag"]);
@@ -79,14 +78,10 @@ if ($done > 0) {
                     $workflows_after = $workflows_after | intval($workflow["Flag"]);
                 else
                     $workflows_after = $workflows_after & $mask;
-            } else {
-                // this was no form field, kepp the flag as is
-                $workflows_after = $workflows_after | ($mask & $workflows_before);
             }
         }
         // retrieve user concessions and form data and update user concessions
-        $mask = $concessions_before;
-        $concessions_after = 0;
+        $concessions_after = $concessions_before;
         // bitwise set or delete flags
         foreach ($concessions_set as $concession) {
             $mask = 0xFFFFFFFF ^ intval($concession["Flag"]);
@@ -95,23 +90,22 @@ if ($done > 0) {
                     $concessions_after = $concessions_after | intval($concession["Flag"]);
                 else
                     $concessions_after = $concessions_after & $mask;
-            } else {
-                // this was no form field, kepp the flag as is
-                $concessions_after = $concessions_after | ($mask & $concessions_before);
             }
         }
+        
         $record_for_update["ID"] = $user_to_update["ID"];
         $record_for_update["Workflows"] = $workflows_after;
         $record_for_update["Concessions"] = $concessions_after;
         $res = $socket->update_record($_SESSION["User"][$toolbox->users->user_id_field_name], 
                 $toolbox->users->user_table_name, $record_for_update);
         if ($res === false)
-            $form_errors .= "Datenbankstatement ist fehlgeschlagen.";
+            $form_errors .= i("b3cmve|Database statement faile...");
         $todo = $done + 1;
         // retrieve updated data for display
         $works_list = "<table>" . $toolbox->users->get_user_services(strtolower("Workflows"), 
-                "Allgemeine Rechte", $workflows_after) . $toolbox->users->get_user_services(
-                strtolower("Concessions"), "Berechtigungen für efa Nachrichten und efaWeb", $concessions_after) . "</table>";
+                "efa-Admin Rechte", $workflows_after) . $toolbox->users->get_user_services(
+                strtolower("Concessions"), i("joG6ef|Permissions for efa News..."), $concessions_after) .
+                 "</table>";
     }
 }
 
@@ -134,35 +128,23 @@ echo $menu->get_menu();
 echo file_get_contents('../config/snippets/page_02_nav_to_body');
 
 // page heading, identical for all workflow steps
-?>
-<!-- START OF content -->
-<div class="w3-container">
-	<h3>
-		Die <b><?php echo $type . "-Berechtigungen für " . $user_to_update["Vorname"] . " " . $user_to_update["Nachname"]; ?></b>
-		ändern
-	</h3>
-</div>
-
-<div class="w3-container">
-<?php
+echo i("cIbswS| ** Change ** %1 permiss...", $type, $user_to_update["Vorname"], $user_to_update["Nachname"], 
+        $explanation_text);
 
 echo $toolbox->form_errors_to_html($form_errors);
 echo $form_to_fill->get_html();
 
 if ($todo == 1) { // step 1. No special texts for output
 } elseif ($todo == 2) {
-    echo "<p>Die " . $type . "-Berechtigungen für <b>" . $user_name_display .
-             "</b> wurden geändert.</p><p>Ab dem " . "nächsten Login gilt für ihn:<br>" . $works_list .
-             "</p><p><a href='../forms/efa_rechte_aendern.php?id=" . $user_to_update["ID"] .
-             "&type=efaAdmin'>Zurück zu seinen efa Admin-Berechtigungen</a></p><p><a href='../forms/efa_rechte_aendern.php?id=" .
-             $user_to_update["ID"] . "&type=efaWeb'>Zurück zu seinen efaWeb-Berechtigungen</a></p>";
+    echo "<p>" . i("gmlDim| ** The %1 permissions f...", $type, $user_name_display) . "<br>" . $works_list .
+             "</p><p><a href='../forms/efa_rechte_aendern.php?id=" . $user_to_update["ID"] . "&type=efaAdmin'>" .
+             i("4sJKSe|Back to his efa Admin pe...") .
+             "</a></p><p><a href='../forms/efa_rechte_aendern.php?id=" . $user_to_update["ID"] .
+             "&type=efaWeb'>" . i("j1DeVf|Back to his efaWeb permi...") . "</a></p>";
 }
 
 echo '<div class="w3-container"><ul>';
 echo $form_to_fill->get_help_html();
 echo "</ul></div>";
-?>
-
-</div>
-<?php
+echo i("9TNFSL|</div>");
 end_script();

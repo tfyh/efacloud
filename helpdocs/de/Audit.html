@@ -1,0 +1,66 @@
+<h3>Datenbank-Audit</h3>
+<p>EfaCloud verwendet eine Datenbank, in der neben den efa-Daten
+	auch efaCloud-Nutzerdaten, Änderungsverfolgung und Archiv vorhanden
+	sind. Die efa-Daten werden mit einem oder mehreren efa-PCs mehr oder
+	weniger regelmäßig synchronisiert. In den PCs finden Validierungen und
+	ebenfalls automatische Audits statt, die Daten verändern. So kommt es
+	schon mal zu Inkonsistenzen in den Daten.</p>
+<p>Das Audit dient dazu, diese Inkonsistenzen zu finden, zu sichten
+	und zu beheben.</p>
+<h4>Konfigurationsprüfung</h4>
+<p>Das Layout der Tabellen wird überprüft und verglichen mit dem für
+	die aktuelle Version erwarteten Layout. Abweichungen werden angezeigt.
+</p>
+<p>Bei Abweichungen wird die Option der Korrektur angeboten und
+	empfohlen.</p>
+<h4>Datensätze ohne ecrid Identifizierung</h4>
+<p>Ende 2021 wurde in efaCloud die efaCloud Record Id = ecrid
+	eingeführt, die Datensätze mit genau einem Schlüssel identifizierbar
+	macht. efa als PC Programm verwendet kombinierte Schlüssel, etwa die Id
+	einer Person und den Gültigkeitszeitraum, um einen Datensatz zu
+	identifizieren.</p>
+<p>Bei einem Upgrade von einer Version &lt; 2.3.0_12 sind u.U. noch
+	Datensätze ohne ecrid Identifizierung vorhanden, was umgehend
+	korrigiert werden muss und etwas dauern kann.</p>
+<h4>Korrupte Datensätze, fehlende Angaben</h4>
+<p>Datensätze werden auf Vollständigkeit geprüft. Fehlen Werte in
+	Datenfeldern, werden die Fehler angezigt. Korrupt ist ein Datensatz,
+	dem technisch relevante Informationen fehlen.</p>
+<p>Aus Vorversionen, in denen Fehler in der Löschroutine waren, sind
+	insbesondere leere Datensätze übergeblieben, bei denen der eintrag der
+	Art der letzten Änderung mit gelöscht wurde, so dass der Löschprozess
+	angehalten ist. Diese Datensätze werden peu-à-peu korrigiert.</p>
+<p>Ein andersartig korrupter Datensatz sollte begutachtet und
+	korrigiert werden. Fehlen inhaltlich relevante Informationen, die die
+	Synchronisation mit einem efa-PC unmöglich machen, wird das Problem
+	unter fehlende Angaben dargestellt. Solche Datensätze können häufig
+	noch korrigiert werden.</p>
+<h4>Dubletten</h4>
+<p>In efa gibt es Tabellen, in denen Namen oder ähnliches zusätzlich
+	zum Schlüssel des Datensatzes eindeutig sein sollte, aber diese
+	Eindeutigkeit nicht erzwungen wird. Wenn beispielsweise für einen
+	Personenamen oder ein Fahrtziel mehr als eine Objekt-Id existieren,
+	weil die Person oder das Fahrtziel mehrfahch angelegt wurde, wird dies
+	angezeigt. Das kann Auswertungen verfälschen. Dubletten zu bereinigen
+	ist bisher nur in efa möglich, nicht in efaCloud. Dort gibt es die
+	Funktion 'Zusammenführen' um das zu bewerkstelligen.</p>
+<p>
+<h4>Virtuelle Datenfelder</h4>
+<p>
+	Efa verwendet sogenannte "virtuelle" Datenfelder um Anzeigen zu
+	beschleunigen, zum Beispiel das Datenfeld "AllCrewNames" mit allen
+	Namen der Mannschaft, die sonst über Nachschlagen aus den Ids ermittelt
+	werden müssten. Diese Felder werden beim Schreiben des Datensatzes
+	gesetzt. Wenn nun etwa Namensänderungen stattfinden oder Namen zu Ids
+	werden, weil in der Zwischenzeit ein Mitglied neu aufgenommen wurde,
+	kann es zu Fehlern in den virtuellen Feldern kommen. Über ein
+	Datenbankaudit (efa_daten &gt; Datenbank auditieren) werden diese
+	Fehler korrigiert. Das ist immer automatisch möglich, weil sie keine
+	eigenständige Information enthalten.<br>Strenggenommen ist es aus
+	Gründen des Datenschutzes nach Archivierung eines Datensatzes sogar
+	erforderlich, dadurch den Namen zu archivID:xxx zu korrigieren, weil
+	diese virtuellen Datenfelder unter Umständen noch bereits archivierte
+	Namen enthalten.
+</p>
+<h4>Berechtigung</h4>
+<p>Audittransaktionen sind nur in der Rolle admin möglich.</p>

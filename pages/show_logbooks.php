@@ -47,7 +47,7 @@ if ($action == 0) {
         $trip_logbookname = $trip[0];
         $trip_entryid = intval($trip[1]);
         $trip_startdate = strtotime($trip[2]);
-        if ($trip_startdate > 0) {  // do not use deleted records
+        if ($trip_startdate > 0) { // do not use deleted records
             if (! isset($logbooks[$trip_logbookname])) {
                 $logbooks[$trip_logbookname] = [];
                 $logbooks[$trip_logbookname]["start"] = $trip_startdate;
@@ -73,8 +73,9 @@ if ($action == 0) {
         }
     }
     // Generate the html code to display management table
-    $logbooks_table_html = "<table><tr><th>Name</th><th>Fahrten</th><th>früheste Fahrt</th><th>späteste Fahrt</th>" .
-             "<th>Anzahl Fahrten in</th><th>mögliche Aktion</th></tr>";
+    $logbooks_table_html = "<table><tr><th>" . i(
+            "PfLbaB| ** Name ** Trips ** Ear..." . "<th>Anzahl Fahrten in</th><th>mögliche Aktion") .
+             "</th></tr>";
     foreach ($logbooks as $logbookname => $logbook) {
         $count = "";
         $max_year = "";
@@ -89,15 +90,15 @@ if ($action == 0) {
         $actions = "";
         foreach ($logbook["count"] as $year => $trips_count) {
             if (intval($year) == $max_year)
-                $actions .= $year . "er Fahrten als einzige <a href='?action=2&logbookname=" . $logbookname .
-                         "&selected_year=" . $year . "'>darin behalten</a>.<br>";
+                $actions .= i("dfJUi2|Trips from %1 as only", $year) . " <a href='?action=2&logbookname=" .
+                         $logbookname . "&selected_year=" . $year . "'>" . i("Cboyyi|keep in it") . "</a>.<br>";
             else
-                $actions .= $year . "er Fahrten <a href='?action=1&logbookname=" . $logbookname .
-                         "&selected_year=" . $year . "'>aus diesem Fahrtenbuch löschen</a>.<br>";
+                $actions .= i("QufYal|Trips from %1", $year) . "<a href='?action=1&logbookname=" . $logbookname .
+                         "&selected_year=" . $year . "'>" . i("3nkQKY|delete from this logbook") . "</a>.<br>";
         }
         $logbooks_table_html .= "<tr><td>" . $logbookname . "</td><td>" . $logbook["from"] . " - " .
-                 $logbook["to"] . "</td><td>" . date("d.m.Y", $logbook["start"]) . "</td><td>" .
-                 date("d.m.Y", $logbook["end"]) . "</td><td>" . $count . "</td><td>" . $actions . "</td></tr>";
+                 $logbook["to"] . "</td><td>" . date($dfmt_d, $logbook["start"]) . "</td><td>" .
+                 date($dfmt_d, $logbook["end"]) . "</td><td>" . $count . "</td><td>" . $actions . "</td></tr>";
     }
     $logbooks_table_html .= "</table>";
     
@@ -128,22 +129,25 @@ if ($action == 0) {
         $trip_records[] = $trip_list->get_named_row($trip);
     if ($mode == 0) {
         $trips_table = "<form method='POST' action='?action=" . $action . "&logbookname=" . $logbookname .
-                 "&selected_year=" . $selected_year .
-                 "&mode=1'><table><tr><th>Fahrtenbuch</th><th>Fahrt</th><th>löschen?</th><th>Datum</th><th>Boot</th>" .
-                 "<th>Ziel</th><th>letze Änderung</th><th>Mannschaft</th></tr>";
+                 "&selected_year=" . $selected_year . "&mode=1'><table><tr><th>" . i("cGZgv4|Logbook") .
+                 "</th><th>" . i("8zAeYI|Trip") . "</th><th>" . i("sSO9vY|delete?") . "</th><th>" .
+                 i("2AQdk7|Date") . "</th><th>" . i("3BgOTw|boat") . "</th>" . "<th>" . i(
+                        "hxPAgo|Destination") . "</th><th>" . i("p3eN5N|last change") . "</th><th>" .
+                 i("ClrV6N|Team") . "</th></tr>";
         foreach ($trip_records as $trip_record) {
             $trip_record["Boot"] = (strlen($trip_record["BoatId"]) > 10) ? $boat_names[$trip_record["BoatId"]] : $trip_record["BoatName"];
             $trip_record["Ziel"] = (strlen($trip_record["DestinationId"]) > 10) ? $destination_names[$trip_record["DestinationId"]] : $trip_record["DestinationId"];
             $trips_table .= "<tr><td>" . $trip_record["Logbookname"] . "</td><td>" . $trip_record["EntryId"] .
                      "</td><td style='text-align: center;'><input type='checkbox' name='" .
                      $trip_record["ecrid"] . "'></td><td>" . $trip_record["Date"] . "</td><td>" .
-                     $trip_record["Boot"] . "</td><td>" . $trip_record["Ziel"] . "</td><td>" . date("d.m.Y", 
+                     $trip_record["Boot"] . "</td><td>" . $trip_record["Ziel"] . "</td><td>" . date($dfmt_d, 
                             intval(
-                                    substr($trip_record["LastModified"], 0, 
-                                            strlen($trip_record["LastModified"]) - 3))) . "</td><td>" .
+                                    mb_substr($trip_record["LastModified"], 0, 
+                                            mb_strlen($trip_record["LastModified"]) - 3))) . "</td><td>" .
                      $trip_record["AllCrewNames"] . "</td></tr>";
         }
-        $trips_table .= "</table><br><input type='submit' value='Ausgewählte Fahrten löschen' class='formbutton'/></form>";
+        $trips_table .= "</table><br><input type='submit' value='" . i("vdj8vx|Delete selected trips") .
+                 "' class='formbutton'/></form>";
     } else {
         $deletion_result = "";
         $cnt_deleted = 0;
@@ -157,16 +161,15 @@ if ($action == 0) {
                         $_SESSION["User"][$toolbox->users->user_id_field_name], "efa2logbook", $matching);
                 if (strlen($trip_deletion_result) == 0)
                     $deletion_result .= "<b>" . $record_to_delete["Logbookname"] . ": " .
-                             $record_to_delete["EntryId"] . "</b><br>" . json_encode($record_to_delete) .
-                             "<hr>";
+                             $record_to_delete["EntryId"] . "</b><br>" .
+                             json_encode(str_replace("\"", "\\\"", $record_to_delete)) . "<hr>";
                 else
                     $deletion_result .= "<b>" . $record_to_delete["Logbookname"] . ": " .
-                             $record_to_delete["EntryId"] .
-                             "</b><br>konnte nicht gelöscht werden. Fehlermeldung: " . $trip_deletion_result .
-                             "<hr>";
+                             $record_to_delete["EntryId"] . "</b><br>" .
+                             i("mazy61|Could not be deleted. Er...") . " " . $trip_deletion_result . "<hr>";
             }
         if ($cnt_deleted == 0)
-            $deletion_result = "Es wurden keine Fahrten ausgewählt und daher auch keine Fahrten gelöscht";
+            $deletion_result = i("1gFUrv|No trips have been selec...");
     }
 }
 
@@ -175,46 +178,20 @@ echo file_get_contents('../config/snippets/page_01_start');
 echo $menu->get_menu();
 echo file_get_contents('../config/snippets/page_02_nav_to_body');
 
-?>
-<!-- START OF content -->
-<div class="w3-container">
-	<h3>Übersicht über die Fahrtenbücher</h3>
-	<p>Hier können die Fahrtenbücher strukturell eingesehen und ggf.
-		korrigiert werden.</p>
-</div>
-
-<div class="w3-container">
-	<?php
+echo i("OEps5V| ** Overview of the logb...");
 // show logbook tables.
 if ($action == 0) {
     echo $logbooks_table_html;
-    ?>
-	<p>Für die Aktion wird im ersten Schritt nur angezeigt, was zu tun
-		wäre. Auf Basis dieser Anzeige kann dann entschieden werden, ob die
-		Aktion durchgeführt werden soll, oder nicht.</p>
-<?php
+    echo i("ffsj9S| ** For the action, only...");
 } else {
     if ($mode == 0) {
         echo $trips_table;
-        ?>
-	<p>Mit der Bestätigung werden die ausgewählten Fahrten nun endgültig
-		gelöscht.</p>
-<?php
+        echo i("wir4uQ| ** With the confirmatio...");
     } else {
-        ?>
-	<h4>Die folgenden Fahrten wurden endgültig gelöscht:</h4>
-<?php
+        echo i("sIOQ62| ** The following journe...");
         echo $deletion_result;
     }
-    ?>
-	<p>
-		<a href='../pages/show_logbooks.php'>Weitere Fahrten korrigieren.</a>
-	</p>
-<?php
+    echo i("gBlz7m| ** Correct further trip...");
 }
-?>
-	<!-- END OF Content -->
-</div>
-
-<?php
+echo i("K3jC4w|<!-- END OF Content -->...");
 end_script();

@@ -48,6 +48,11 @@ class Tfyh_logger
     private $daily_inits_logins_errors;
 
     /**
+     * Path to log all bulk transactions
+     */
+    private $log_app_bulk_txs;
+
+    /**
      * The common toolbox used.
      */
     private $toolbox;
@@ -55,6 +60,9 @@ class Tfyh_logger
     private $logs = ["app_info.log","app_warnings.log","app_errors.log","app_init_login_error.log",
             "app_bulk_txs.log","sys_cronjobs.log","debug_init.log","sys_shutdowns.log","app_audit.log",
             "sys_timestamps.log","debug_app.log","debug_sql.log"
+    ];
+
+    private $activities_de = ["init" => "Seitenaufrufe","login" => "Tomeldungen","error" => "Error"
     ];
 
     /**
@@ -99,6 +107,27 @@ class Tfyh_logger
         if (! file_exists($filename) || (filesize($filename) < 3))
             file_put_contents($filename, "timestamp;user;file;duration\n" . $timestamp);
         file_put_contents($filename, $timestamp, FILE_APPEND);
+    }
+
+    /**
+     * temporarily created access_web and access_api logs need to be removed. Introduced 09.02.2023. TODO
+     * remove some day.
+     */
+    public static function remove_obsolete_access_logs ()
+    {
+        $files = scandir("../log");
+        foreach ($files as $file) {
+            $obsolete = (strpos($file, "access_web_") !== false);
+            $obsolete = $obsolete || (strpos($file, "access_api_") !== false);
+            $obsolete = $obsolete || (strpos($file, "access_api_") !== false);
+            $obsolete = $obsolete || ((strpos($file, "api_errors.log.") !== false) &&
+                     (strcasecmp($file, "api_errors.log.previous") !== 0));
+            $obsolete = $obsolete || ((strpos($file, "api_info.log.") !== false) &&
+                     (strcasecmp($file, "api_info.log.previous") !== 0));
+            $obsolete = $obsolete || (strpos($file, "efa_tools_db_") !== false);
+            if ($obsolete)
+                unlink("../log/$file");
+        }
     }
 
     /**
@@ -191,13 +220,15 @@ class Tfyh_logger
             if ($period < $maxAgeSeconds) {
                 $logfile_out .= $line . "\n";
                 // sort list backwards, most recent to be first.
-                $list = date("Y-m-d H:i:s", $elements[0]) . ": User #" . $elements[1] . " mit '" . $elements[2] .
-                         (($elements[3]) ? "'. Hinweis:" . $elements[3] : "'.") . "<br>" . $list;
+                $list = date("Y-m-d H:i:s", $elements[0]) . ": " . i("U01t2T|User") . " #" . $elements[1] .
+                         " mit '" . $elements[2] .
+                         (($elements[3]) ? "'. " . i("T8bnu4|Note:") . " " . $elements[3] : "'.") . "<br>" .
+                         $list;
             }
         }
         if ($remove_older == true)
             file_put_contents($this->log_app_bulk_txs, $logfile_out);
-        return "<b>Sammeltransaktionen der letzten " . $days_to_keep . " Tage</b><br>" . $list;
+        return "<b>" . i("HY5ek8|Bulk transactions of the...", $days_to_keep) . "</b><br>" . $list;
     }
 
     /**
@@ -292,17 +323,18 @@ class Tfyh_logger
      */
     public function get_activities_html (int $count_of_days)
     {
+        global $dfmt_d, $dfmt_dt;
         $activities = $this->get_inits_logins_errors_array($count_of_days);
         $activity_types = $activities["_types_"];
         // format activities header
-        $html = "<table><tr><th>Datum</th>";
+        $html = "<table><tr><th>" . i("FPuc1j|Date") . "</th>";
         foreach ($activity_types as $activity_type => $activity_type_count)
-            $html .= "<th>" . $activity_type . "</th>";
+            $html .= "<th>" . $this->activities_de[$activity_type] . "</th>";
         $html .= "</tr><tr>";
         // format activities data
         foreach ($activities as $activity_date => $activity_date_types) {
             if (strcmp($activity_date, "_types_") !== 0) {
-                $html .= "<td>" . $activity_date . "</td>";
+                $html .= "<td>" . date($dfmt_d, strtotime($activity_date)) . "</td>";
                 foreach ($activity_types as $activity_type => $activity_type_count)
                     $html .= "<td>" .
                              ((isset($activity_date_types[$activity_type])) ? $activity_date_types[$activity_type] : "-") .
@@ -311,7 +343,7 @@ class Tfyh_logger
             }
         }
         // format activities sum
-        $html .= "<td><b>Summe " . $count_of_days . " Tage</b></td>";
+        $html .= "<td><b>" . i("KZvGMc|Total %1 days", $count_of_days) . "</b></td>";
         foreach ($activity_types as $activity_type => $activity_type_count)
             $html .= "<td><b>" . $activity_type_count . "</b></td>";
         $html .= "</tr></table>";
@@ -329,23 +361,23 @@ class Tfyh_logger
         $activities = $this->get_inits_logins_errors_array($count_of_days);
         $activity_types = $activities["_types_"];
         // format activities header
-        $text = "Datum;";
+        $text = i("gDeoVF|Date;");
         foreach ($activity_types as $activity_type => $activity_type_count)
             $text .= $activity_type . ";";
-        $text = substr($text, 0, strlen($text) - 1) . "\n";
+        $text = mb_substr($text, 0, mb_strlen($text) - 1) . "\n";
         // format activities data
         foreach ($activities as $activity_date => $activity_date_types) {
             $text .= $activity_date . ";";
             foreach ($activity_types as $activity_type => $activity_type_count)
                 $text .= ((isset($activity_date_types[$activity_type])) ? $activity_date_types[$activity_type] : "") .
                          ";";
-            $text = substr($text, 0, strlen($text) - 1) . "\n";
+            $text = mb_substr($text, 0, mb_strlen($text) - 1) . "\n";
         }
         // format activities sum
-        $text .= "Summe " . $count_of_days . " Tage;";
+        $text .= i("1smfqD|Total %1 days;", $count_of_days);
         foreach ($activity_types as $activity_type => $activity_type_count)
             $text .= $activity_type_count . ";";
-        $text = substr($text, 0, strlen($text) - 1);
+        $text = mb_substr($text, 0, mb_strlen($text) - 1);
         return $text;
     }
 
@@ -365,7 +397,7 @@ class Tfyh_logger
         $logStr = strval(time()) . ";" . date("d.m H:i:s", time()) . ";" . $user_id . ";" . $logNote . "\n";
         if (filesize($logPath) > 500000) {
             copy($logPath, $logPath . ".previous");
-            file_put_contents($logPath, "continued:\n");
+            file_put_contents($logPath, i("YfDoBA|Continued") . "\n");
         }
         file_put_contents($logPath, $logStr, FILE_APPEND);
     }

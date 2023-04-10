@@ -1,0 +1,306 @@
+i18nParser internationalization automation for the tfyh PHP framework.
+This will parse PHP code and configuration files for Strings which need translation
+and replace them by an i18n resource reference. Existing references are kept.
+All Strings which need translation are given a unique token and put to a catalogue.
+When stored, the catalogue updates a set of language resource files used by the PHP
+code to load the message in the configured translation, based on the token.
+All output is UTF-8 encoded and all console messages stored in '/var/www/html/i18n/last_i18n_run.log'
+
+Add --cleanse or -c to remove all existing *.bak files.
+I18nTranslationsCatalogue started.
+The catalogue format is csv using ';' and '"'. The language resource files are plain
+with resources represented by a token, a pipe and as many lines as needed per resource
+following which start with a single pipe followed by the resource text.
+The catalogue always grows. If you want to remove unused text resources you have to do
+that manually.
+
+I18nTranslationsCatalogue: loading from '/var/www/html/tfyh_common/i18n/catalogue.csv'.
+Languages detected: en, de, fr, it, nl, 
+2168 translation resource items loaded.
+I18nCodeParser started.
+While parsing it will replace all first String arguments by an 'i18n resource reference'.
+And all html snippets are replaced by a '<?= i(...) ?>' PHP code line in which the ...
+also represent an 'i18n resource reference'. That replaces all text which shall be
+echoed to the web user by such a reference.
+All such code parts will be added to the i18n resource catalogue..
+
+I18nCodeParser: cleansing directory '/var/www/html/classes'.
+I18nCodeParser: parsing directory '/var/www/html/classes'.
+I18nCodeParser: parsing file '/var/www/html/classes/tfyh_pivot_table.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/efa_info.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/efa_tools.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/tfyh_menu.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/tfyh_app_sessions.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/cron_jobs.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/tfyh_form.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/tfyh_list.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/tfyh_socket.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/efacloud_api.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/efa_notifier.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/efa_tables.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/tfyh_mail_handler.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/tfyh_backup_handler.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/tfyh_cron_jobs.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/init_i18n.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/tfyh_statistics.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/tfyh_xml_tag.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/efa_config.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/init_version.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/efa_uuids.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/tfyh_toolbox.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/tx_handler.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/init.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/efa_logbook.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/tfyh_gallery.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/tfyh_token_handler.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/efa_record.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/efa_db_layout.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/tfyh_xml.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/efa_audit.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/pdf.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/efa_api.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/sec_concept.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/pdf_adapted.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/tfyh_logger.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/efa_archive.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/tfyh_audit.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/tfyh_config.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/tfyh_user.php'.
+I18nCodeParser: parsing file '/var/www/html/classes/users.php'.
+Totalling html: 0, identifier: 2696, stringLiteral: 2512, numberLiteral: 133, operator: 29, delimiter: 8, comment: 1884, 
+I18nCodeParser: cleansing directory '/var/www/html/forms'.
+I18nCodeParser: parsing directory '/var/www/html/forms'.
+I18nCodeParser: parsing file '/var/www/html/forms/nutzer_finden.php'.
+I18nCodeParser: parsing file '/var/www/html/forms/efa_rechte_aendern.php'.
+I18nCodeParser: parsing file '/var/www/html/forms/mails_nachlesen.php'.
+I18nCodeParser: parsing file '/var/www/html/forms/mail_versenden.php'.
+I18nCodeParser: parsing file '/var/www/html/forms/client_tx_statistics.php'.
+I18nCodeParser: parsing file '/var/www/html/forms/personen_importieren.php'.
+I18nCodeParser: parsing file '/var/www/html/forms/logo_hochladen.php'.
+I18nCodeParser: parsing file '/var/www/html/forms/nutzer_aendern.php'.
+I18nCodeParser: parsing file '/var/www/html/forms/server_log_waehlen.php'.
+I18nCodeParser: parsing file '/var/www/html/forms/datensatz_finden.php'.
+I18nCodeParser: parsing file '/var/www/html/forms/datensatz_aendern.php'.
+I18nCodeParser: parsing file '/var/www/html/forms/fahrten_importieren.php'.
+I18nCodeParser: parsing file '/var/www/html/forms/login.php'.
+I18nCodeParser: parsing file '/var/www/html/forms/farben_aendern.php'.
+I18nCodeParser: parsing file '/var/www/html/forms/support.php'.
+I18nCodeParser: parsing file '/var/www/html/forms/reset_password.php'.
+I18nCodeParser: parsing file '/var/www/html/forms/profil_aendern.php'.
+I18nCodeParser: parsing file '/var/www/html/forms/tabelle_importieren.php'.
+I18nCodeParser: parsing file '/var/www/html/forms/dateiablage.php'.
+I18nCodeParser: parsing file '/var/www/html/forms/workflows_aendern.php'.
+I18nCodeParser: parsing file '/var/www/html/forms/configparameter_aendern.php'.
+I18nCodeParser: parsing file '/var/www/html/forms/archiv_wiederherstellen.php'.
+Totalling html: 0, identifier: 2890, stringLiteral: 3055, numberLiteral: 136, operator: 29, delimiter: 8, comment: 2157, 
+I18nCodeParser: cleansing directory '/var/www/html/pages'.
+I18nCodeParser: parsing directory '/var/www/html/pages'.
+I18nCodeParser: parsing file '/var/www/html/pages/upgrade.php'.
+I18nCodeParser: parsing file '/var/www/html/pages/show_logbooks.php'.
+I18nCodeParser: parsing file '/var/www/html/pages/show_lists.php'.
+I18nCodeParser: parsing file '/var/www/html/pages/nutzer_profil.php'.
+I18nCodeParser: parsing file '/var/www/html/pages/show_actions.php'.
+I18nCodeParser: parsing file '/var/www/html/pages/test_pers_logbook.php'.
+I18nCodeParser: parsing file '/var/www/html/pages/view_archive_record.php'.
+I18nCodeParser: parsing file '/var/www/html/pages/show_logs_client.php'.
+I18nCodeParser: parsing file '/var/www/html/pages/datensatz_neu.php'.
+I18nCodeParser: parsing file '/var/www/html/pages/view_trash_record.php'.
+I18nCodeParser: parsing file '/var/www/html/pages/help.php'.
+I18nCodeParser: parsing file '/var/www/html/pages/efaWeb.php'.
+I18nCodeParser: parsing file '/var/www/html/pages/show_history.php'.
+I18nCodeParser: parsing file '/var/www/html/pages/db_reset.php'.
+I18nCodeParser: parsing file '/var/www/html/pages/db_audit.php'.
+I18nCodeParser: parsing file '/var/www/html/pages/construction.php'.
+I18nCodeParser: parsing file '/var/www/html/pages/show_logs.php'.
+I18nCodeParser: parsing file '/var/www/html/pages/logout.php'.
+I18nCodeParser: parsing file '/var/www/html/pages/client_tx_statistics.php'.
+I18nCodeParser: parsing file '/var/www/html/pages/view_record.php'.
+I18nCodeParser: parsing file '/var/www/html/pages/mein_profil.php'.
+I18nCodeParser: parsing file '/var/www/html/pages/home.php'.
+I18nCodeParser: parsing file '/var/www/html/pages/run_cronjobs.php'.
+I18nCodeParser: parsing file '/var/www/html/pages/logintoken_versenden.php'.
+I18nCodeParser: parsing file '/var/www/html/pages/sec_concept.php'.
+I18nCodeParser: parsing file '/var/www/html/pages/datensatz_loeschen.php'.
+I18nCodeParser: parsing file '/var/www/html/pages/show_changes.php'.
+I18nCodeParser: parsing file '/var/www/html/pages/datenstruktur.php'.
+I18nCodeParser: parsing file '/var/www/html/pages/error.php'.
+I18nCodeParser: parsing file '/var/www/html/pages/monitoring_report.php'.
+I18nCodeParser: parsing file '/var/www/html/pages/show_client_config.php'.
+I18nCodeParser: parsing file '/var/www/html/pages/ec_upgrade.php'.
+I18nCodeParser: parsing file '/var/www/html/pages/alle_berechtigungen.php'.
+I18nCodeParser: parsing file '/var/www/html/pages/getrecord.php'.
+Totalling html: 0, identifier: 3086, stringLiteral: 3610, numberLiteral: 138, operator: 29, delimiter: 8, comment: 2302, 
+I18nCodeParser: cleansing directory '/var/www/html/public'.
+I18nCodeParser: parsing directory '/var/www/html/public'.
+I18nCodeParser: parsing file '/var/www/html/public/phpinfo.php'.
+I18nCodeParser: parsing file '/var/www/html/public/maintenance.php'.
+I18nCodeParser: parsing file '/var/www/html/public/help.php'.
+I18nCodeParser: parsing file '/var/www/html/public/info.php'.
+I18nCodeParser: parsing file '/var/www/html/public/index.php'.
+Totalling html: 0, identifier: 3089, stringLiteral: 3619, numberLiteral: 138, operator: 29, delimiter: 8, comment: 2307, 
+I18nConfigParser started.
+While parsing it will replace all relevant text entries in the configuration
+files in the access, layouts and lists directories by an i18n resource reference.
+All such code parts will be added to the i18n resource catalogue..
+
+I18nCodeParser: cleansing directory '/var/www/html/config/access'.
+I18nConfigParser: parsing directory '/var/www/html/config/access'.
+I18nConfigParser: parsing file '/var/www/html/config/access/api'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/access/imenu'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/access/wmenu'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/access/pmenu'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nCodeParser: cleansing directory '/var/www/html/config/access'.
+I18nConfigParser: parsing directory '/var/www/html/config/access'.
+I18nConfigParser: parsing file '/var/www/html/config/access/concessions'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/access/workflows'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nCodeParser: cleansing directory '/var/www/html/config/layouts'.
+I18nConfigParser: parsing directory '/var/www/html/config/layouts'.
+I18nConfigParser: parsing file '/var/www/html/config/layouts/dataedit_8'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/layouts/fahrten_importieren'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/layouts/datensatz_finden'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/layouts/pw_aendern'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/layouts/client_tx_statistics'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/layouts/personen_importieren'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/layouts/concessions_aendern'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/layouts/dataedit_14'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+/var/www/html/config/layouts/dataedit_14 was saved to disc.
+I18nConfigParser: parsing file '/var/www/html/config/layouts/logo_hochladen'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/layouts/dataedit_18'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/layouts/dataedit_7'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/layouts/reset_password_2'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/layouts/dataedit_17'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/layouts/fahrten_importieren_2'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/layouts/server_log_waehlen'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/layouts/login'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+/var/www/html/config/layouts/login was saved to disc.
+I18nConfigParser: parsing file '/var/www/html/config/layouts/datensatz_finden_2'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/layouts/dataedit_11'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+/var/www/html/config/layouts/dataedit_11 was saved to disc.
+I18nConfigParser: parsing file '/var/www/html/config/layouts/tabelle_importieren_2'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/layouts/personen_importieren_2'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/layouts/nutzer_aendern'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/layouts/reset_password'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/layouts/login_2'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/layouts/configparameter_aendern'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+/var/www/html/config/layouts/configparameter_aendern was saved to disc.
+I18nConfigParser: parsing file '/var/www/html/config/layouts/dataedit_2'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/layouts/efa_xml_importieren'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/layouts/support'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/layouts/dataedit_3'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/layouts/dataedit_9'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+/var/www/html/config/layouts/dataedit_9 was saved to disc.
+I18nConfigParser: parsing file '/var/www/html/config/layouts/dataedit_6'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/layouts/tabelle_importieren'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/layouts/efaAdmin_rechte_aendern'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/layouts/workflows_aendern'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/layouts/archiv_wiederherstellen'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/layouts/nutzer_finden'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/layouts/dataedit_4'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/layouts/dataedit_16'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/layouts/dataedit_5'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+/var/www/html/config/layouts/dataedit_5 was saved to disc.
+I18nConfigParser: parsing file '/var/www/html/config/layouts/dataedit_15'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/layouts/dataedit_10'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/layouts/profil_aendern'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/layouts/dataedit_12'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/layouts/efaWeb_rechte_aendern'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/layouts/dataedit_13'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nCodeParser: cleansing directory '/var/www/html/config/lists'.
+I18nConfigParser: parsing directory '/var/www/html/config/lists'.
+I18nConfigParser: parsing file '/var/www/html/config/lists/api'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/lists/mailverteiler'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/lists/efaExportLists'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/lists/efaAuditVirtualFields'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/lists/efaAuditUUIDnames'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/lists/efaAuditVirtualFieldsFull'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/lists/efaExportTables'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/lists/efaAuditPeriods'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/lists/bearbeiten'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/lists/efaArchive'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/lists/efaAuditUUIDrefs'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/lists/efaAuditNotEmpty'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/lists/logbook_management'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/lists/efaAuditDuplicates'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/lists/verwalten'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/lists/efaAuditCorruptData'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/lists/efaWeb'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nConfigParser: parsing file '/var/www/html/config/lists/mailverteiler_lesen'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nCodeParser: cleansing directory '/var/www/html/config'.
+I18nConfigParser: parsing directory '/var/www/html/config'.
+I18nConfigParser: parsing file '/var/www/html/config/settings_tfyh'.
+Replaced in total: menu: 0, flags: 0, layout: 0, list: 0, tfyhSettings: 0, 
+I18nCodeParser: cleansing directory '/var/www/html/tfyh_common/i18n/catalogue.csv'.
+/var/www/html/tfyh_common/i18n/catalogue.csv was saved to disc.
+/var/www/html/i18n/en.lrf was saved to disc.
+/var/www/html/i18n/de.lrf was saved to disc.
+/var/www/html/i18n/fr.lrf was saved to disc.
+/var/www/html/i18n/it.lrf was saved to disc.
+/var/www/html/i18n/nl.lrf was saved to disc.

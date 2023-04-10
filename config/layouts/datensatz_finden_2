@@ -1,10 +1,7 @@
 tags;required;name;value;label;type;class;size;maxlength
-<div class='w3-row'><div class='w3-col l1'>;; \
-  Field;;zu durchsuchendes Datenfeld;select $options;;20;250
-</div></div><div class='w3-row'><div class='w3-col l1'>;; \
-  Value;;zu findender Text;text;;20;250
-</div></div><div class='w3-row' style='margin-top:20px'><div class='w3-col l1'><div style='float:left'>;; \
-  submit;Finden;;submit;formbutton;;
+<div class='w3-row'><div class='w3-col l1'>;;Field;;yfzcsQ|Data field to be searche...;select $options;;20;250
+</div></div><div class='w3-row'><div class='w3-col l1'>;;Value;;BwRlFt|Text to be found;text;;20;250
+</div></div><div class='w3-row' style='margin-top:20px'><div class='w3-col l1'><div style='float:left'>;;submit;2MRXpo|Find;;submit;formbutton;;
 </div></div></div>;;_no_input;;;;;;
-<li><span class='helptext'>;;_help_text;;Bitte die für Parameter manchmal relevante Syntax beachten. Keine automatische Prüfung.;;;;
+<li><span class='helptext'>;;_help_text;;qJ3tRL|The text is always searc...;;;;
 </span></li>;;_help_text;;;;;;

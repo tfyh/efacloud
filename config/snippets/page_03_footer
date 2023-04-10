@@ -2,7 +2,31 @@
   <!-- End page content -->
 </div>
 
-    <!-- show and hide submenus Javascript -->
-    <script src="../js/sMenu.js"></script>
+    <!-- jQuery framework, smaller version for speed reasons -->
+    <script src="../js_13/jQuery_3.3.1.js"></script>
+
+    <!-- application script code, efa/dilo common -->
+    <script src="../js_13/cGlobals.js"></script>
+    <script src="../js_13/cToolbox.js"></script>
+    <script src="../js_13/cModal.js"></script>
+    <script src="../js_13/cLists.js"></script>
+    <script src="../js_13/cAutocomplete.js"></script>
+    <script src="../js_13/cMenu.js"></script>
+    <!-- application script code, efa/dilo common UNUSED
+    <script src="../js_13/cForm.js"></script>  -->
+
+    <!-- application script code, efa spcific parts -->
+    <script src="../js_13/efaConfig.js"></script>
+    <script src="../js_13/efaListDefs.js"></script>
+    <script src="../js_13/efaInputValidator.js"></script>
+
+    <!-- application script code, efa object handling -->
+    <script src="../js_13/oBoat.js"></script>
+
+    <!-- application script code, efaCloud Scripts -->
+    <script src="../js_13/sConfig.js"></script>
+    <script src="../js_13/sEvents.js"></script>
+    <script src="../js_13/sFormHandler.js"></script>
+
 </body>
 </html>

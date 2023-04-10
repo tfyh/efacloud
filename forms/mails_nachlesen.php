@@ -1,7 +1,7 @@
 <?php
 /**
- * The form for user mailing self service. Based on the Tfyh_form class, please read instructions their to better
- * understand this PHP-code part.
+ * The form for user mailing self service. Based on the Tfyh_form class, please read instructions their to
+ * better understand this PHP-code part.
  * 
  * @author mgSoft
  */
@@ -15,14 +15,14 @@ include_once "../classes/init.php";
 include_once '../classes/tfyh_form.php';
 
 // there are two ways to select a "verteiler", either via the get-value "verteiler", or via the
-// POST-value "An".
+// POST-value "To".
 $verteiler = (isset($_GET["verteiler"])) ? intval($_GET["verteiler"]) : 0;
 
 // === APPLICATION LOGIC ==============================================================
 // if validation fails, the same form will be displayed anew with error messgaes
 $todo = ($done == 0) ? 1 : $done;
 $form_errors = "";
-$form_info = "<p>Im ersten Schritt bitte den Verteiler wählen, um die Mails mit desem Adressaten ausgegeben zu bekommen.</p>";
+$form_info = "<p>" . i("o6WA71|In the first step, pleas...") . "</p>";
 $form_layout = "../config/layouts/mail_nachlesen";
 
 // ======== Start with form filled in last step: check of the entered values.
@@ -41,22 +41,22 @@ if ($done > 0) {
         // get mailto list
         include_once "../classes/tfyh_list.php";
         // there are two ways to select a "verteiler", either via the get-value "verteiler", or via
-        // the POST-value "An".
+        // the POST-value "To".
         if ($verteiler == 0)
-            $list = new Tfyh_list("../config/lists/mailverteiler_lesen", 0, $entered_data["An"], $socket, 
+            $list = new Tfyh_list("../config/lists/mailverteiler_lesen", 0, $entered_data["To"], $socket, 
                     $toolbox);
         else
             $list = new Tfyh_list("../config/lists/mailverteiler_lesen", $verteiler, "", $socket, $toolbox);
         if (! $list)
-            $toolbox->display_error("Ungültiger Mailverteiler", 
-                    "Der ausgewählte Mailverteiler wurde nicht gefunden.", $user_requested_file);
+            $toolbox->display_error(i("hfr2Zo|Invalid mail distributio..."), 
+                    i("xS4f0M|The selected mailing lis..."), $user_requested_file);
         // get mailto list
         if (! $toolbox->users->is_allowed_item($list->get_permission()))
-            $toolbox->display_error("Unzulässiger Mailverteiler", 
-                    "Mails an den ausgewählten Mailverteiler darf vom aktuell angemeldeten User nicht ausgelesen werden.", 
-                    $user_requested_file);
+            $toolbox->display_error(i("2D9pBg|Invalid mail distributio..."), 
+                    i("QvmvUh|Mails to the selected ma..."), $user_requested_file);
         $count_of_mails = 25;
-        $form_info = "<p>Hier sind die letzten $count_of_mails Mails an " . $list->get_list_name() . ".</p>";
+        $form_info = "<p>" . i("NAOKEm|Here are the last %1 mai...", $count_of_mails, $list->get_list_name()) .
+                 "</p>";
         $mails_list = $socket->find_records("Mails", "Verteiler", substr($list->get_list_name(), 0, 64), 1000);
         $mails_to_skip = count($mails_list) - $count_of_mails;
         $todo = 2;
@@ -68,13 +68,14 @@ if ($done > 0) {
                         $toolbox->users->user_id_field_name, $mail_listed[$toolbox->users->user_id_field_name]);
                 $mailfrom = $mail_from_user["Vorname"] . " " . $mail_from_user["Nachname"];
                 $mailto = $list->get_list_name();
-                $subject = $mail_listed["Betreff"];
-                $body = str_replace("\n", "<br>", $mail_listed["Nachricht"]);
-                $mails_formatted = "<p>#" . $i . " <b>Gesendet:</b> " . $mail_listed["versendetAm"] .
-                         "<br /><b>Von:</b> " . $mailfrom . "<br /><b>An:</b> " . $mailto .
-                         "<br /><b>Betreff:</b> " . $subject . "</p><br />" . $body . "<br />Anlage: " .
-                         $mail_listed["Anlage"] . " (kann auf Nachfrage zur Verfügung gestellt werden.)<hr>\n" .
-                         $mails_formatted;
+                $subject = $mail_listed["Subject"];
+                $body = str_replace("\n", "<br>", $mail_listed["Message"]);
+                $mails_formatted = "<p>#" . $i . " <b>" . i("1393xk|Sent:") . "</b> " .
+                         $mail_listed["versendetAm"] . "<br /><b>" . i("yhYGfZ|From:") . "</b> " . $mailfrom .
+                         "<br /><b>" . i("6KXRE6|To:") . "</b> " . $mailto . "<br /><b>" . i(
+                                "XMHPag|Subject:") . "</b> " . $subject . "</p><br />" . $body . "<br />" .
+                         i("hv0TyN|Attachment:") . " " . $mail_listed["Attachment"] . " " .
+                         i("RyaYQ8|(Can be made available o...") . "<hr>\n" . $mails_formatted;
             }
             $i ++;
         }
@@ -98,21 +99,14 @@ echo $menu->get_menu();
 echo file_get_contents('../config/snippets/page_02_nav_to_body');
 
 // page heading, identical for all workflow steps
-?>
-<!-- START OF content -->
-<div class="w3-container">
-	<h3>Mails nachlesen</h3>
-	<h4>Hier besteht die Möglichkeit Mails an Verteiler nachzulesen.</h4>
-<?php
+echo i("47al0R| ** Read mails ** Here y...");
 echo $toolbox->form_errors_to_html($form_errors);
 echo $form_info;
 if ($todo == 1)
-    echo $form_to_fill->get_html(false);
+    echo $form_to_fill->get_html();
 elseif ($todo == 2)
     echo $mails_formatted; // enable file upload
-?>
-	<!-- END OF form -->
-</div><?php
+echo i("NEBbkz|<!-- END OF form --></..."); ?>
 end_script();
 
     

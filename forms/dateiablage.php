@@ -1,7 +1,7 @@
 <?php
 /**
- * The form for upload and import of multiple data records as csv-tables. Based on the Tfyh_form class, please read
- * instructions their to better understand this PHP-code part.
+ * The form for upload and import of multiple data records as csv-tables. Based on the Tfyh_form class, please
+ * read instructions their to better understand this PHP-code part.
  * 
  * @author mgSoft
  */
@@ -38,22 +38,23 @@ if ($done > 0) {
         // step 1 form was filled. Values were valid
         if (isset($entered_data["VerzeichnisNeu"]) && (strlen($entered_data["VerzeichnisNeu"]) > 0)) {
             $res_mkdir = mkdir($cdir . "/" . $entered_data["VerzeichnisNeu"]);
-            $uploadResult = ($res_mkdir === false) ? "Unbekannter Fehler beim Erstellen des Verzeichnisses: '" .
-                     $cdir . "/" . $entered_data["VerzeichnisNeu"] . "'" : "Das Verzeichnis wurde erstellt.";
+            $uploadResult = ($res_mkdir === false) ? i("Yel8jV|Unknown error when creat...", 
+                    $cdir . "/" . $entered_data["VerzeichnisNeu"]) : i("PeQfHu|The directory was create...");
         } elseif (strlen($_FILES['userfile']["name"]) < 1) {
             // Special case upload error. Userfile can not be checked after
             // being entered, must be checked after upload was tried.
-            $form_errors .= "Keine Datei angegeben. bitte noch einmal versuchen.";
+            $form_errors .= i("R8XI15|No file specified. Pleas...");
         } else {
             $tmp_upload_file = file_get_contents($_FILES['userfile']["tmp_name"]);
             if (! $tmp_upload_file)
-                $form_errors .= "Unbekannter Fehler beim Hochladen. bitte noch einmal versuchen.";
+                $form_errors .= i("a5koMa|Unknown error during upl...");
             else {
                 $_SESSION["getps"][$fs_id]["io_file"] = $_FILES['userfile']["name"];
                 $result = file_put_contents($cdir . "/" . $_SESSION["getps"][$fs_id]["io_file"], 
                         $tmp_upload_file);
-                $uploadResult = ($result === false) ? "Unbekannter Fehler beim Upload auf '" . $cdir . "/" .
-                         $_SESSION["getps"][$fs_id]["io_file"] . "'." : $result . " Bytes wurden hochgeladen.";
+                $uploadResult = ($result === false) ? i("w2qoFy|Unknown error while uplo...", 
+                        $cdir . "/" . $_SESSION["getps"][$fs_id]["io_file"]) : i(
+                        "Tu6j0f|%1 Bytes were uploaded.", $result);
                 $todo = $done + 1;
             }
         }
@@ -61,18 +62,20 @@ if ($done > 0) {
 } elseif (isset($_SESSION["getps"][$fs_id]["dfile"])) {
     $toolbox->return_file_to_user($_SESSION["getps"][$fs_id]["dfile"], "application/x-binary");
 } elseif (isset($_SESSION["getps"][$fs_id]["xfile"])) {
-    $unlinkres = unlink($_SESSION["getps"][$fs_id]["xfile"]);
+    $xfile = $_SESSION["getps"][$fs_id]["xfile"];
+    $unlinkres = unlink($xfile);
     if ($unlinkres)
-        $uploadResult = $_SESSION["getps"][$fs_id]["xfile"] . " wurde gelöscht.";
+        $uploadResult = i("ETWO97|%1 was deleted.", $xfile);
     else
-        $uploadResult = $_SESSION["getps"][$fs_id]["xfile"] . " konnte nicht gelöscht werden.";
+        $uploadResult = i("RTVMQw|%1 could not be deleted.", $xfile);
     $todo = 2;
 } elseif (isset($_SESSION["getps"][$fs_id]["xdir"])) {
-    $unlinkres = rmdir($_SESSION["getps"][$fs_id]["xdir"]);
+    $xdir = $_SESSION["getps"][$fs_id]["xdir"];
+    $unlinkres = rmdir($xdir);
     if ($unlinkres)
-        $uploadResult = $_SESSION["getps"][$fs_id]["xdir"] . " wurde gelöscht.";
+        $uploadResult = i("aHoVZc|%1 was deleted.", $xdir);
     else
-        $uploadResult = $_SESSION["getps"][$fs_id]["xdir"] . " konnte nicht gelöscht werden.";
+        $uploadResult = i("HlAWGl|%1 could not be deleted.", $xdir);
     $todo = 2;
 }
 
@@ -93,38 +96,22 @@ echo $menu->get_menu();
 echo file_get_contents('../config/snippets/page_02_nav_to_body');
 
 // page heading, identical for all workflow steps
-?>
-<!-- START OF content -->
-<div class="w3-container">
-	<h3>Dateiablage</h3>
-	<p>Alternativ kann auch ein Verzeichnis erstellt werden.</p>
-	<?php
+echo i("ZAjY7v| ** File storage ** Alte...");
+
 $fileupload_level_of_top = isset($_SESSION["fileupload_level_of_top"]) ? $_SESSION["fileupload_level_of_top"] : 1;
 echo $toolbox->get_dir_contents($cdir, $fileupload_level_of_top);
 echo $toolbox->form_errors_to_html($form_errors);
 
-?>
-</div>
-
-<div class="w3-container">
-<?php
+echo i("Y6Vy5J|</div><div class=°w3-...");
 if ($todo == 1) {
     echo $form_to_fill->get_html(true); // enable file upload
-    echo '<h5><br />Ausfüllhilfen</h5><ul>';
     echo $form_to_fill->get_help_html();
-    echo "</ul>";
 } elseif ($todo == 2) { // step 2. Texts for output
     echo "<p>" . $uploadResult . "</p>";
-    ?>
-	<p>
-		<?php echo "<a href='?cdir=" . $cdir . "'>Hier</a>"; ?> geht es zum nächsten Upload.
-	</p>
-<?php
+    echo i("a8iDlL| ** Here ** go to the ne...", $cdir);
 }
 
 // Help texts and page footer for output.
-?>
-	<!-- END OF form -->
-</div><?php
+echo i("AVZqHm|<!-- END OF form --></..."); ?>
 end_script();
 

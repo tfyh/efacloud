@@ -1,7 +1,7 @@
 <?php
 /**
  * An implementation of a form to define the settings of the data base access.
- *
+ * 
  * @author mgSoft
  */
 
@@ -15,29 +15,30 @@ $toolbox = new Tfyh_toolbox();
 
 // PRELIMINARY SECURITY CHECKS
 // ===== throttle to prevent from machine attacks.
-$toolbox->load_throttle("inits/", $toolbox->config->settings_tfyh["init"]["max_inits_per_hour"]);
+$toolbox->load_throttle("inits", $toolbox->config->settings_tfyh["init"]["max_inits_per_hour"], 
+        "setup_db_connection.php");
 
 // Create PHP-wrapper socket to data base
 include_once '../classes/tfyh_socket.php';
 $socket = new Tfyh_socket($toolbox);
 
 // ===== define default values for configuration
-$cfg_default["db_host"] = "rdbms.hoster.xyz";
-$cfg_default["db_name"] = "efacloudDB";
-$cfg_default["db_user"] = "dbUser";
-$cfg_default["db_up"] = "dbPassword";
+$cfg_db_default["db_host"] = "rdbms.hoster.xyz";
+$cfg_db_default["db_name"] = "efacloudDB";
+$cfg_db_default["db_user"] = "dbUser";
+$cfg_db_default["db_up"] = "dbPassword";
 
 // ===== define display text for field in configuration form
-$cfg_description["db_host"] = "der Server, auf dem die Datenbank gehostet wird";
-$cfg_description["db_name"] = "Name der Datenbank";
-$cfg_description["db_user"] = "Technischer Datenbanknutzer";
-$cfg_description["db_up"] = "Kennwort des technischen Datenbanknutzers";
+$cfg_db_description["db_host"] = "der Server, auf dem die Datenbank gehostet wird";
+$cfg_db_description["db_name"] = "Name der Datenbank";
+$cfg_db_description["db_user"] = "Technischer Datenbanknutzer";
+$cfg_db_description["db_up"] = "Kennwort des technischen Datenbanknutzers";
 
 // ===== define field format in configuration form
-$cfg_type["db_host"] = "text";
-$cfg_type["db_name"] = "text";
-$cfg_type["db_user"] = "text";
-$cfg_type["db_up"] = "password";
+$cfg_db_type["db_host"] = "text";
+$cfg_db_type["db_name"] = "text";
+$cfg_db_type["db_user"] = "text";
+$cfg_db_type["db_up"] = "password";
 
 // === PAGE OUTPUT ===================================================================
 
@@ -52,27 +53,30 @@ echo file_get_contents('../config/snippets/page_02_nav_to_body');
 <div class="w3-container">
 
 <?php
-// set defaults
-$cfg_existing = $toolbox->config->get_cfg();
 // first set defaults
-foreach ($cfg_default as $key => $value)
-    $cfg_to_use[$key] = $cfg_existing[$key];
+$cfg_db_to_use = $cfg_db_default;
+// now overwrite defaults with existing configuration
+$cfg_db_existing = $toolbox->config->get_cfg_db();
+if (is_array($cfg_db_existing))
+    foreach ($cfg_db_default as $key => $value)
+        if (isset($cfg_db_existing[$key]))
+            $cfg_db_to_use[$key] = $cfg_db_existing[$key];
 
 // try to connect in step "done"
 if ((isset($_GET['done']) && intval($_GET["done"]) == 1)) {
     
     // read entered values into $cfg_to_use array.
-    foreach ($cfg_default as $key => $value) {
+    foreach ($cfg_db_default as $key => $value) {
         $new_value = $_POST[$key];
         if (! is_null($new_value) && (strlen($new_value) > 0))
-            $cfg_to_use[$key] = $_POST[$key];
+            $cfg_db_to_use[$key] = $_POST[$key];
     }
     
     // test database access
-    $toolbox->config->set_cfg($cfg_to_use);
+    $toolbox->config->set_cfg_db($cfg_db_to_use);
     $socket = new Tfyh_socket($toolbox);
     $success_db = true;
-    echo "<p>Teste Datenbankverbindung für: " . $cfg_to_use["db_user"] . " ... ";
+    echo "<p>Teste Datenbankverbindung für: " . $cfg_db_to_use["db_user"] . " ... ";
     $socket = new Tfyh_socket($toolbox);
     echo " ... Tfyh_socket erstellt. Verbinde ... ";
     $connect_res = $socket->open_socket();
@@ -86,8 +90,14 @@ if ((isset($_GET['done']) && intval($_GET["done"]) == 1)) {
     // store the configuration
     if ($success_db !== false) {
         // up masking
-        $cfg_to_use["db_up"] = Tfyh_toolbox::swap_lchars($cfg_to_use["db_up"]);
-        $cfgStr = serialize($cfg_to_use);
+        $cfg_db_to_use["db_up"] = Tfyh_toolbox::swap_lchars($cfg_db_to_use["db_up"]);
+        // add existing additional parameters
+        if (is_array($cfg_db_existing))
+            foreach ($cfg_db_existing as $key => $value)
+                if (! isset($cfg_db_to_use[$key]))
+                    $cfg_db_to_use[$key] = $cfg_db_existing[$key];
+        // write to settings file
+        $cfgStr = serialize($cfg_db_to_use);
         $cfgStrBase64 = base64_encode($cfgStr);
         echo "<p>" . $settings_path . '_db wird geschrieben ... ';
         $byte_cnt = file_put_contents($settings_path . "_db", $cfgStrBase64);
@@ -101,7 +111,8 @@ if ((isset($_GET['done']) && intval($_GET["done"]) == 1)) {
         $has_users_table = false;
         if (count($table_names) > 0) {
             foreach ($table_names as $table_name)
-                $has_users_table = $has_users_table || (strcasecmp($table_name, $toolbox->users->user_table_name) == 0);
+                $has_users_table = $has_users_table ||
+                         (strcasecmp($table_name, $toolbox->users->user_table_name) == 0);
         }
         if (! $has_users_table) {
             ?>
@@ -117,8 +128,8 @@ if ((isset($_GET['done']) && intval($_GET["done"]) == 1)) {
 	<p>
 		In der Datenbank wurde eine Tabelle der Nutzer gefunden. Damit ist die
 		Installation nun abgeschlossen. Die Einrichtung kann nun <a
-			href='../install/setup_finish.php'>hier abgeschlossen</a> werden. Wenn
-		Sie die Bestandsdaten nicht weiter verwenden wollen, können Sie <a
+			href='../install/setup_finish.php'>hier abgeschlossen</a> werden.
+		Wenn Sie die Bestandsdaten nicht weiter verwenden wollen, können Sie <a
 			href='../install/setup_clear_db.php'>die Datenbank löschen und neu
 			aufsetzen</a>.
 	</p>
@@ -143,9 +154,10 @@ if ((isset($_GET['done']) && intval($_GET["done"]) == 1)) {
 
     <?php
     // Display form fields depending on the installation mode.
-    foreach ($cfg_to_use as $key => $value) {
-        echo '<tr><td>' . $key . ':<br>' . $cfg_description[$key] . '&nbsp;</td><td><input class="forminput" type="' .
-                 $cfg_type[$key] . '" size="35" maxlength="250" name="' . $key . '" value="' . $value . '"></td></tr>';
+    foreach ($cfg_db_to_use as $key => $value) {
+        echo '<tr><td>' . $key . ':<br>' . $cfg_db_description[$key] .
+                 '&nbsp;</td><td><input class="forminput" type="' . $cfg_db_type[$key] .
+                 '" size="35" maxlength="250" name="' . $key . '" value="' . $value . '"></td></tr>';
     }
     ?>
     </table>

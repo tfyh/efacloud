@@ -11,22 +11,17 @@ include_once "../classes/init.php";
 $tmp_attachement_file = "";
 $user_mailto = $_SESSION["User"];
 if (! isset($user_mailto["EMail"]))
-    $toolbox->display_error("Keine Mail-Adresse.", 
-            "Der Nutzer für den Testversand des persönlichen Logbuchs hat keine Mail-Adresse hinterlegt.", 
+    $toolbox->display_error(i("iZBM6s|No mail address."), i("gIhhVn|The user for the test di..."), 
             $user_requested_file);
 
 // create mails to user. Prepare logbook.
-include_once '../classes/efa_dataedit.php';
-$efa_dataedit = new Efa_dataedit($toolbox, $socket);
 include_once '../classes/efa_logbook.php';
-$efa_logbook = new Efa_logbook($toolbox, $socket, $efa_dataedit);
+$efa_logbook = new Efa_logbook($toolbox, $socket);
 $mails_sent = $efa_logbook->send_logbooks(true);
 if ($mails_sent > 0)
-    $info = "<p>Versand an $mails_sent Adressse erfolgreich.</p>";
+    $info = "<p>" . i("Ladp2w|Dispatch to %1 address s...", $mails_sent) . "</p>";
 else
-    $info = "<p><b>Versand fehlgeschlagen</b>. Der wahrscheinlichste Grund ist, dass in Deinem " .
-             "Fahrtenbuch keine Fahrten sind, alternativ könnte noch sein, dass Deine Email-Adresse " .
-             "als efaCloudUser nicht mit der E-Mail-Adresse übereinstimmt, die in efa hinterlegt ist.</p>";
+    $info = "<p><b>" . i("3XxxvY|Dispatch failed.") . "</b>" . i("iSCF3X|The most likely reason i...") . "</p>";
 
 // === PAGE OUTPUT ===================================================================
 
@@ -36,14 +31,7 @@ echo $menu->get_menu();
 echo file_get_contents('../config/snippets/page_02_nav_to_body');
 
 // page heading, identical for all workflow steps
-?>
-<!-- START OF content -->
-<div class="w3-container">
-	<h3>Testversand persönliches Fahrtenbuch</h3>
-<?php
+echo i("VK7X6Z| ** Test dispatch person...");
 echo $info;
-?>
-	<!-- END OF Content -->
-</div>
-<?php
+echo i("JwFqj0|<!-- END OF Content -->...");
 end_script();

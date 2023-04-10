@@ -50,26 +50,15 @@ echo $menu->get_menu();
 echo file_get_contents('../config/snippets/page_02_nav_to_body');
 
 // page heading, identical for all workflow steps
-?>
-<!-- START OF content -->
-<div class="w3-container">
-	<h3>Server-Log-Dateien einsehen oder herunterladen</h3>
-	<p>Hier kannst Du Überwachungsdateien vom Server ansehen oder herunterladen..</p>
-</div>
-
-<div class="w3-container">
-<?php
-
+echo i("R5S35O| ** View or download ser..."); 
 echo $toolbox->form_errors_to_html($form_errors);
 if ($todo < 2) {
     echo $form_to_fill->get_html($fs_id);
-    echo '<h5><br />Ausfüllhilfen</h5><ul>';
     echo $form_to_fill->get_help_html();
-    echo "</ul>";
 } else
     echo $users_to_show_html;
 
-?></div><?php
+echo i("NvgW7Z|</div>"); 
 end_script();
 
     

@@ -1,0 +1,52 @@
+<h3>Tägliche Wartungsroutinen und automatische Abläufe</h3>
+<p>Ein Web-Server wie der efaCloud-Server hat selbst in der Regel
+	keine Möglichkeit, Regelaktivitäten anzustoßen. Dnnoch gibt es
+	automatische Abläufe.</p>
+<h4>Auslöser</h4>
+<p>Weil man beim efaCloud Server aber davon ausgehen kann, dass es
+	regelmäßig Zugriffe gibt, kann der jeweils erste autorisierte Zugriff
+	am Tag genutzt werden, um die Regelaktivitäten auszulösen.</p>
+<p>Idealtypisch ist der Auslöser ein efa-PC, der in der Nacht neu
+	startet und sich damit neu am efaCloud Server autorisiert. Alternativ
+	ist es der erste efaCloud-Nutzer bei seinbem login.</p>
+<p>Weil die Wartungsroutinen Zeit in Anspruch nehmen, wird der je
+	erste Zugriff a Tag dadurch signifikant verzögert, je nach Größe der
+	Datenbank bis zu 30 Sekunden.</p>
+<h4>Wartungsroutinen</h4>
+<p>Als Regelwartung werden täglich die Daten auf Konsistenz geprüft
+	und, wo automatisch möglich, korrigiert. Log-Dateien werden bereinigt.
+	Die Archivierung nun fälliger Daten wird durchgefüphrt. Die
+	Zugriffsstatistik wird ausgewertet und die Größe der Datenbank erfasst.
+	Das Ergebnis wird als audit.log gespeichert und kann so bei
+	Support-Anfragen mit versendet werden.</p>
+<h4>automatische Abläufe</h4>
+<p>Zur Zeit gibt es zwei Abläufe, die konfiguriert werden können, so
+	dass sie an manchen Tagen zusammen mit den Wartungsarbeiten ausgelöst
+	werden:</p>
+<ul>
+	<li>Versand persönliches Fahrtenbuch an jede Person in
+		efa2persons, für die eine Mail Adresse eingetragen ist und die im
+		aktuellen Fahrtenbuch eine oder mehr Fahrten hat,</li>
+	<li>Versand Regelbericht der Anwendungsüberwachung an die Adresse,
+		die als Kopie-Empfänger von Workflowbenachrichtigungen eingetragen
+		ist.</li>
+</ul>
+<h4>Einstellung</h4>
+<p>Pro automatischem Ablauf wird je eine Zeile im Textfeld
+	eingegeben. Die Syntax ist:</p>
+<ol>
+	<li>Tagangabe = D oder W oder M für täglich, wöchentlich,
+		monatlich und eine Zahl. Beispiele D1 = täglich, W1 = Montags, M1 =
+		Monatserster, M31 = Monatsletzter.</li>
+	<li>Job-Optionen: 'persLogbook' = Versand des persönlichen
+		Fahrtenbuchs an alle Personen, die in efa2persons eine E-Mail Adresse
+		hinterlegt haben oder 'monitoring' = Versand des Regelberichts zur
+		Überwachung an alle efaCloudUser mit der Rolle 'admin'</li>
+</ol>
+<p>in Job pro Ablauf, als 'Tagangabe Typ' z.B. 'M31 persLogbook'.</p>
+<h4>Test</h4>
+<p>Die Wartungsroutinen können zum Test auch manuell gestartet
+	werden unter 'efaCloud einstellen > Wartungsroutinen durchführen'. Die
+	automatischen Abläufe werden so nicht durchgeführt.</p>
+<p>Das persönliche Fahrtenbuch kann man an sich versenden unter 'efa
+	Einstellungen > persönliches Fahrtnebuch testen'</p>

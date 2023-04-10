@@ -1,0 +1,71 @@
+<h3>Database audit</h3>
+<p>EfaCloud uses a database in which, in addition to the efa data
+	efaCloud user data, change tracking and archive. are present. The efa
+	data is synchronised with one or more efa PCs on a more or less regular
+	basis. efa PCs on a more or less regular basis. In the PCs, validations
+	and automatic audits take place in the PCs, which change the data. This
+	is how inconsistencies inconsistencies in the data.</p>
+>
+<p>The audit serves to find these inconsistencies, to sift them out
+	and rectify them.</p>
+<h4>Configuration audit</h4>
+.
+<p>The layout of the tables is checked and compared with the layout
+	expected for expected for the current version. Any deviations are
+	indicated.</p>
+<p>If there are deviations, the option of correction is offered and
+	recommended.</p>
+<h4>Records without ecrid identification</h4>
+<p>At the end of 2021, efaCloud introduced the efaCloud Record Id =
+	ecrid which makes records identifiable with exactly one key. efa as a
+	PC program uses combined keys, such as the Id of a person and the the
+	id of a person and the validity period to identify a record. identify a
+	record.</p>
+<p>When upgrading from version &lt; 2.3.0_12, there may still be
+	records without an records without ecrid identification, which must be
+	corrected immediately and may and may take some time to correct.</p>
+<p>
+<h4>Corrupt records, missing information</h4>
+<p>Data records are checked for completeness. If values are missing
+	in data fields, the errors are indicated. A corrupt record is one that
+	is missing technically relevant information</p>
+.
+<p>From previous versions, in which errors were in the deletion
+	routine, there are empty data records in which the entry for the type
+	of last change was type of the last change was also deleted, so that
+	the deletion process is is stopped. These records are corrected
+	peu-à-peu.</p>
+<p>An otherwise corrupt record should be examined and corrected.
+	corrected. If information is missing that is relevant to the content,
+	the synchronisation with an efa-PC is impossible, the problem will be
+	shown under missing information. Such data records can often still be
+	corrected.</p>
+<h4>Duplicates</h4>
+<p>In efa there are tables in which names or the like in addition
+	should be unique in addition to the record key, but this uniqueness is
+	not uniqueness is not enforced. For example, if for a person name or a
+	destination, more than one object id exists, because the person or
+	destination has been created more than once, this will be displayed.
+	This can distort evaluations. Cleaning up duplicates is only possible
+	in efa, not in efaCloud. There is the function 'Merge' to accomplish
+	this.</p>
+<p>
+<h4>Virtual data fields</h4>
+<p>
+	Efa uses so-called "virtual" data fields to speed up displays, for
+	example the for example the data field "AllCrewNames" with all team
+	names that would names of the team, which would otherwise have to be
+	determined by looking up from the ids. These fields are set when the
+	record is set. If, for instance, names are changed or names become Ids
+	because a new member has been added in the meantime, errors can occur
+	in the virtual fields. Via a database audit (efa_daten &gt; audit
+	database), these errors can be errors are corrected. This is always
+	done automatically because they do not information.<br>Strictly
+	speaking, for reasons of data protection data protection reasons, it is
+	even necessary after archiving a data record to even necessary to
+	correct the name to archivID:xxx, because these virtual these virtual
+	data fields may still contain names that have already been archived.
+	already archived names.
+</p>
+<h4>Authorisation</h4>
+<p>Audit transactions are only possible in the admin role.</p>

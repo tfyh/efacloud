@@ -1,0 +1,9 @@
+tags;required;name;value;label;type;class;size;maxlength
+<div class='w3-row'><div class='w3-col l2'>;*;Tabelle;;bYc0uP|Table into which data is...;"select efa2boatdamages=Schadensmeldungen;efa2boatreservations=Reservierungen; efa2clubwork=Vereinsarbeitsbuch;efa2logbook=Fahrtenbuch;efa2messages=Nachrichten;efa2persons=Personen";;15;
+</div></div><div class='w3-row'><div class='w3-col l2'>;*;ArchivedLessThanDaysAgo;;xUZZ3E| ** What is the maximum ...;text;;10;
+</div></div><p></p><div class='w3-row' style='margin-top:20px'><div class='w3-col l1'>;;submit;Vzgcoh|Restore;;submit;formbutton;;
+</div></div>;;_no_input;;;;;;
+<li><span class='helptext'>;;_help_text;;FFLOHR|Restoration may take som...;;;;
+</span></li><li><span class='helptext'>;;_help_text;;PSgWyn|Relevant for recovery is...;;;;
+</span></li><li><span class='helptext'>;;_help_text;;pmLUiB|Individual records canno...;;;;
+</span></li>;;_help_text;;;;;;

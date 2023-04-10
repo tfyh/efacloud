@@ -1,7 +1,7 @@
 <?php
 /**
- * The form for user profile self service. Based on the Tfyh_form class, please read instructions their to better
- * understand this PHP-code part.
+ * The form for user profile self service. Based on the Tfyh_form class, please read instructions their to
+ * better understand this PHP-code part.
  * 
  * @author mgSoft
  */
@@ -19,10 +19,12 @@ $app_style = file_get_contents("../resources/app-style-no_colors.css");
 $colors = [];
 $color_keys = [];
 foreach (explode("\n", $app_colors) as $color) {
-    $key = explode("=", $color)[0];
-    $value = explode("=", $color)[1];
-    $colors[$key] = $value;
-    $color_keys[] = $key;
+    if (count(explode("=", $color)) > 1) {
+        $key = explode("=", $color)[0];
+        $value = explode("=", $color)[1];
+        $colors[$key] = $value;
+        $color_keys[] = $key;
+    }
 }
 
 // if applicable, read data entered in last step
@@ -82,76 +84,24 @@ echo $menu->get_menu();
 echo file_get_contents('../config/snippets/page_02_nav_to_body');
 
 // page heading, identical for all workflow steps
-?>
-<!-- START OF content -->
-<div class="w3-container">
-	<h3>Farbschema und Font ändern</h3>
-	<p>Hier kann das Farbschema und der Font der Applikation angepasst
-		werden.</p>
-	<h1>Beispiel Überschrift 1</h1>
-	<h4>Beispiel Überschrift 4</h4>
-	<p>
-		<a href='#'>Beispiel Link</a>
-	</p>
-	<label class="cb-container">Radiobutton checked<input type="radio"
-		name="radioexample1" value="" checked /><span class="cb-radio"></span></label><br>
-	<label class="cb-container">Radiobutton unchecked<input type="radio"
-		name="radioexample2" value="" /><span class="cb-radio"></span></label><br>
-	<label class="cb-container">Checkbox checked<input type="checkbox"
-		name="checkboxexample1" value="" checked /><span class="cb-checkmark"></span></label><br>
-	<label class="cb-container">Checkbox unchecked<input type="checkbox"
-		name="checkboxexample2" value="" /><span class="cb-checkmark"></span></label><br>
-	<select class="formselector" name="selectorexample" style="width: 15em">
-		<option value="option 1">option1</option>
-		<option selected value="option 2">dropdown options</option>
-		<option value="option 3">option3</option>
-	</select>
-	<p>&nbsp;</p>
-	<form method=POST action="?changecolors=1">
-		<table style='width: 70%'>
-			<thead>
-				<tr>
-					<th>Farbanwendung</th>
-					<th>Farbwert</th>
-				</tr>
-			</thead>
-			<tbody>
-			  <?php
-    foreach ($color_keys as $color_key) {
-        if (strlen($color_key) > 0) {
-            if (substr($color_key, 0, 1) == '#')
-                $row = "<tr><td><h5>" . substr($color_key, 1) . "</h5></td><td>&nbsp;</td></tr>";
-            else
-                $row = "<tr><td>" . $color_key . "</td><td>" . "<input class='forminput' name=" . $color_key .
-                         " value='" . $colors[$color_key] . "' type=text /></td></tr>";
-            echo $row;
-        }
+echo i("NgPjw9| ** Change colour scheme...");
+foreach ($color_keys as $color_key) {
+    if (strlen($color_key) > 0) {
+        if (substr($color_key, 0, 1) == '#')
+            $row = "<tr><td><h5>" . substr($color_key, 1) . "</h5></td><td>&nbsp;</td></tr>";
+        else
+            $row = "<tr><td>" . $color_key . "</td><td>" . "<input class='forminput' name=" . $color_key .
+                     " value='" . $colors[$color_key] . "' type=text /></td></tr>";
+        echo $row;
     }
-    ?>
-			</tbody>
-		</table>
-		<p>
-			<input name='submit' value='Ausprobieren' type='submit'
-				class='formbutton' />
-		</p>
-	</form>
-	<p><?php
+}
+echo i("5mFmma|    </tbody>   </table> ...");
 if (file_exists("../resources/app-colors-previous.txt")) {
-    echo "<a href='?changecolors=2' class='formbutton'>Zurück zur vorigen Einstellung</a>";
+    echo "<a href='?changecolors=2' class='formbutton'>" . i("OdDC93|Back to previous setting") . "</a>";
 }
 if (file_exists("../resources/app-colors-default.txt")) {
-    echo "&nbsp;&nbsp;&nbsp;<a href='?changecolors=3' class='formbutton'>Zurück auf Standardfarben</a>";
+    echo "&nbsp;&nbsp;&nbsp;<a href='?changecolors=3' class='formbutton'>" .
+             i("j5CpiO|Back to standard colours") . "</a>";
 }
-?>
-</p>
-	<p>
-		<b>Hinweis:</b> in der Regel hält der Browser die Farbeinstellungen im
-		Cache, dann wirkt sich die Änderung zunächst nicht sichtbar aus. Mit
-		F5 oder &lt;Strg&gt;-F5 nach der Aktualisierung kann der Cache bei den
-		meisten Browsern gelöscht werden und erst damit wird dann die neue
-		Farbeinstellung übernommen.
-	</p>
-</div>
-
-<?php
+echo i("s83mkb| ** Note: ** Usually the...");
 end_script();

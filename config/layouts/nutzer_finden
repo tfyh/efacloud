@@ -1,16 +1,11 @@
 tags;required;name;value;label;type;class;size;maxlength
-<div class='w3-row'><div class='w3-col l1'>;; \
-  efaCloudUserID;;efaCloudUserID - oder - ;text;;20;250
-</div></div><div class='w3-row'><div class='w3-col l1'>;; \
-  Vorname;;Vorname - oder - ;text;;20;250
-</div></div><div class='w3-row'><div class='w3-col l1'>;; \
-  Nachname;;Nachname;text;;20;250
-</div></div><div class='w3-row'><div class='w3-col l1'>;; \
-  Volltextsuche;;Volltextsuche;text;;20;250
-</div></div><div class='w3-row' style='margin-top:20px'><div class='w3-col l1'><div style='float:left'>;; \
-  submit;Finden;;submit;formbutton;;
+<div class='w3-row'><div class='w3-col l1'>;;efaCloudUserID;;15iRSs|efaCloudUserID - or -;text;;20;250
+</div></div><div class='w3-row'><div class='w3-col l1'>;;Vorname;;TY6MFV|First name - or -;text;;20;250
+</div></div><div class='w3-row'><div class='w3-col l1'>;;Nachname;;ydEB3g|Last name;text;;20;250
+</div></div><div class='w3-row'><div class='w3-col l1'>;;Volltextsuche;;lJpyEt|Full text search;text;;20;250
+</div></div><div class='w3-row' style='margin-top:20px'><div class='w3-col l1'><div style='float:left'>;;submit;JLWDeX|Find;;submit;formbutton;;
 </div></div></div>;;_no_input;;;;;;
-<li><span class='helptext'>;;_help_text;;Wenn die Nutzer ID (oberstes Feld) angegeben wird, wird der Rest ignoriert;;;;
-</span></li><li><span class='helptext'>;;_help_text;;Die eingegebenen Suchtexte werden exakt als Textteil gesucht.;;;;
-</span></li><li><span class='helptext'>;;_help_text;;Die Volltextsuche sucht den angegebenen Text in allen Einträgen eines Datensatzes der Nutzer;;;;
+<li><span class='helptext'>;;_help_text;;KiFMhh|If the user ID (top fiel...;;;;
+</span></li><li><span class='helptext'>;;_help_text;;ysn50P|The entered search texts...;;;;
+</span></li><li><span class='helptext'>;;_help_text;;GCD6OA|The full text search loo...;;;;
 </span></li>;;_help_text;;;;;;

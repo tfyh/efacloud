@@ -1,8 +1,8 @@
 tags;required;name;value;label;type;class;size;maxlength
-<tr><td>;;_no_input;;Hier bitte das eben Dir per E-Mail gesendete Einmalkennwort eintragen, um dich zu autorisieren.;;;;
-</td></tr><tr><td>;*;Token;;Einmalkennwort;text;20;50
-</td></tr><tr><td>;;submit;Einloggen;;submit;more_btn;;
+<tr><td>;;_no_input;;CLnsaZ|Please enter the one-tim...;;;;
+</td></tr><tr><td>;*;Token;;8YgUEl|One-time password;text;20;50
+</td></tr><tr><td>;;submit;KOipdt|Log in;;submit;more_btn;;
 </td></tr>;;;;;;;;
-"<li><span class=""rowtext"">";;_help_text;;Wenn du kein Einmalkennwort bekommen hast, kannst du es noch einmal von vorne probieren.;;;;
-"</span></li><li><span class=""rowtext"">";;_help_text;;Ein * vor einer Feldbezeichnung gibt an, dass ein Eintrag erforderlich ist.;;;;
+"<li><span class=""rowtext"">";;_help_text;;14r3x2|If you did not get a one...;;;;
+"</span></li><li><span class=""rowtext"">";;_help_text;;kbMn2a|A * in front of a field ...;;;;
 </span></li>;;_help_text;;;;;;

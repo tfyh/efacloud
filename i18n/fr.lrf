@@ -1,0 +1,2844 @@
+HP00DE|Erreur : 
+Edbkq1|
+|---<br>est immédiatement et irrémédiablement supprimé!
+|</b>
+|</p>
+|<p>
+|<span class='formbutton'><a href="?do_reset=full" style='color: #f00'>Base de données
+|tout effacer maintenant et recommencer</a></span>
+|</p>
+|<p>
+|<span class='formbutton'><a href="?do_reset=wo_users"
+|style='color: #f00'>Base de données maintenant tout sauf la table efaCloudUser
+|effacer et recommencer</a></span>
+|</p>
+9Jk1j0|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>
+|Indicateur d'enregistrement pour un enregistrement archivé<sup
+|class='eventitem' id='showhelptext_Archiv'>&#9432 ;</sup>
+|</h3>
+|<p>archivé à partir de la table : %1<br>
+|heure de l'archivage : %2<br>
+|référence (archiveID) : %3<br>
+|%4</p>
+|</div>
+|<div class="w3-container">
+|<table>
+|<tr>
+|<th>champ de données</th>
+|<th>valeur</th>
+|</tr>
+tSyQm8|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>
+|Affichage des enregistrements pour la table<b>%1</b>:
+|</h3>
+|</div>
+|<div class="w3-container">
+|<table>
+|<tr>
+|<th>Champ de données</th>
+|<th>Valeur</th>
+|<th>Signification (pour objet ID, horodatage)</th>
+|</tr>
+t6vg13|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>
+|Configuration d'Efa-client<sup class='eventitem'
+|id='showhelptext_EfaKonfiguration'>&#9432;</sup>afficher
+|</h3>
+|<p>
+|efaCLoud lit toutes les configurations des PC connectés et en déduit le nombre total de feuilles de route et de livrets de travail d'association valides. Pour le reste, il utilise la configuration du
+|client de référence<sup class='eventitem' id='showhelptext_Stammdaten'>&#9432;</sup>, c'est-à-dire le client efa avec le<b>efaCloudUserID
+|'%1'</b>. Le résultat, y compris un contrôle de cohérence, est visible ici. Le client efa utilisé comme référence peut être indiqué<b>dans les<a    href='../forms/configparameter_aendern.php'>paramètres</a>   </b> </p> <h4>.
+|Paramètres pour efaCloud </h4> <ul> <li>Journal de bord actuel : 
+fr1H7j|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>
+|Trouver un enregistrement efa<sup class='eventitem' id='showhelptext_efaDaten'>&#9432 ;</sup>
+|Trouver un enregistrement efa</h3>
+|<p>Ici, tu peux trouver n'importe quel enregistrement efa. Sélectionnez d'abord la table, puis vous pouvez filtrer un champ de données. 
+|Pour les données utilisateur efaCloud, il existe un menu correspondant si vous disposez des autorisations nécessaires.</p>
+|</div>
+|
+|<div class="w3-container">
+odpdN0|
+|<p>
+|Dans des cas vraiment rares, il peut être nécessaire de pouvoir
+|effacer complètement la base de données. Cela est possible ici en appuyant sur un bouton. <br> <b>Mais alors, les données disparaissent vraiment.</b><br>Une reconstruction sur la base
+|d'une sauvegarde du carnet de route n'est pas possible dans son intégralité, car l'
+|historique des données et les administrateurs sont également effacés, à l'exception de 
+|'%1'. Le processus peut prendre 10 à 20 secondes.</p>
+| <h4>Oh non, pas ça alors !</h4> <p> <span class='formbutton'><a href="../pages/home.php">Annuler et retourner à la page d'accueil</a></span>
+| </p> </div> <div class="w3-container">
+qMjfvd|
+|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>
+|Les routines de maintenance quotidienne<sup class='eventitem'
+|id='showhelptext_Wartungsroutinen'>&#9432;</sup>ont été effectuées.
+|</h3>
+|<p>
+QhtP9h|
+|<p>
+|<a href='../pages/show_changes.php'>&gt;&gt;&gt ; Voir le journal des modifications</a>
+|</p>
+|</div>
+stfYYi|<li>'%1' avec la valeur '%2' doit être unique, mais se produit dans les enregistrements :
+OoZfSs|Un mot de passe à usage unique peut être redemandé à tout moment.<br>Pour cela, il suffit de se connecter depuis le début.
+mWiv2U|Un mot de passe à usage unique est envoyé à l'adresse e-mail.<br>Cela permet de supprimer le mot de passe.
+foQQVH|Au-dessus des images, cliquer sur "Parcourir ...", sélectionner les images, cliquer sur "Télécharger" et<b>attendre</b>. 10 à 50 secondes par image. Cette page ne sera actualisée que lorsque le téléchargement sera terminé. Il est préférable de ne pas télécharger plus de 5 images à la fois (pas plus de 20 MByte).
+UngRbx|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Statistiques d'accès</h3>
+|<p>
+|<b>Tableau des activités pilotées par l'utilisateur :</b>connexions (login),
+|appels de pages (init), et erreurs (error).
+|</p>
+jToBj0|
+|<div class="w3-container">
+|<h4>Statistiques d'accès pour le client #%1</h4>
+|<p>Dernier horodatage : %2
+|<p>%3</p>
+|</div>
+nO9bzi|
+|<p>Après avoir supprimé le mot de passe permanent, il est de nouveau possible de se connecter avec un<a
+|href="../forms/login.php">NOUVEAU</a>
+|mot de passe unique<b>ICI</b>. Un nouveau mot de passe permanent est ensuite défini sous "Mon profil".</p>
+yRK4pZ|<br>Ici, toutes les concessions sont listées.<br>
+JRi7Qo|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Toutes les permissions</h3>
+|<h4>Un aperçu des permissions actuellement attribuées</h4>
+|<p></p>
+qnvYay|<br>Ici sont listés tous les workflows.<br>
+uVS3Gb|
+|<ol>
+|<li>Un utilisateur efaCloud peut être une personne ou un utilisateur technique
+|(= un automate/ordinateur), donc par exemple le PC du hangar à bateaux.</li>
+|<li>Les utilisateurs ont un efaCludUserID numérique qui est utilisé pour le
+|login sur le serveur. Exemple : efaCloudUserID '1142'
+|pour 'Alex Admin'. On le définit avec l'option : 'Modifier le profil'</li>
+|<li>Les autorisations pour les utilisateurs efaCloud sont définies par des rôles. Les rôles possibles sont : admin = (administrateur) peut tout
+|modifier, en particulier les données des utilisateurs ; board = (comité) peut tout
+|voir, mais ne peut pas modifier les données des utilisateurs ; bths = (hangar à bateaux) peut
+|modifier ce qu'un PC de hangar à bateaux doit pouvoir modifier ; member = (membre),
+|pas encore développé ; anonymous = (anonyme) pas de droits.</li>
+|<li>Les utilisateurs d'efaCloud peuvent également se voir attribuer un droit d'administration efa, leurs droits sont alors configurés dans le serveur de la même manière que dans le PC efa et s'appliquent à tous les PC efa connectés au serveur. A cet effet, un nom d'admin
+|efa est attribué à l'utilisateur d'efaCloud. Celui-ci peut être utilisé pour le login admin dans l'efa-PC connecté. Exemple 'alexa' pour 'Alex
+|Admin'. Les droits d'administrateur efa sont définis avec l'option
+|'Modifier les droits d'administrateur efa'.</li>
+|</ol>
+|
+|</div>
+|
+|<div class="w3-container">
+nLzqlz|<p>Une mise à niveau ne peut pas être annulée. Il est donc recommandé de faire une sauvegarde du code au préalable.</p> 
+|<form action='?upgrade=1' method='post'> <input type='submit' class='formbutton' value='Jetzt auf - %1 - aktualisieren' /> </form>
+|<p>Attention : le processus démarre en cliquant sur le bouton
+|immédiatement et ne dure que quelques secondes.</p>
+DR7W5h|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Données d'archives<sup class='eventitem' id='showhelptext_Archiv'>&#9432 ;</sup>Restaurer</h3>
+|<p>Ici, les enregistrements d'une table peuvent être restaurés à partir des archives.</p>
+9CQ5UZ|<span class='configHead' onclick="toggleConfigGroup('Archivierung')"><b>Archivage<sup class='eventitem' id='showhelptext_Archiv'>&#9432 ;</sup>d'enregistrements de données ▾</b></span>
+bU8d0n|
+|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Audit pour la base de données %1<sup class='eventitem' id='showhelptext_Audit'>&#9432 ;</sup> </h3> 
+|<p>Voici le résultat de l'audit de la base de données. Remarque : les enregistrements de projet ne peuvent pas être modifiés dans efaCloud. Veuillez utiliser efa à cet effet.</p>
+xqLfjn|<span class='configHead' onclick="toggleConfigGroup('AutomatischeAblaeufe')"><b>Procédures automatiques<sup class='eventitem' id='showhelptext_Wartungsroutinen'>&#9432 ;</sup> ▾</b></span>
+TdBhkc|
+|<span style='display: none;' class='current-logbook'
+|id='%1'></span>
+|<span style='display: none;' class='logbook-allowance'
+|id='%2'></span>
+|<span style='display: none;' class='person-id'
+|id='%3'></span>
+|<!-- Projects grid (4 columns, 1 row; images must have the same size)-->
+|<!-- Display grid (2 columns)-->
+|<div class='w3-row'>
+|<div class="w3-container" id="bths-headerpanel">
+|<div class="w3-col l1"></div>
+|</div>
+|</div>
+|<div class='w3-row'>
+|<div class="w3-col l2">
+|<div class="w3-container" id="bths-toppanel-left">
+|<h4>Bateaux disponibles</h4>
+|</div>
+|<div class="w3-container" id="bths-mainpanel-left">La vue d'ensemble des bateaux disponibles est établie, pour autant que l'autorisation existe.</div>
+|</div>
+|<div class="w3-col l2">
+|<div class="w3-container" id="bths-toppanel-right">
+|<h4>Bateaux indisponibles</h4>
+|</div>
+|<div class="w3-container" id="bths-mainpanel-right">L'aperçu des bateaux indisponibles est créé si l'autorisation existe.</div>
+|</div>
+|</div>
+|<div class='w3-row'>
+|<div class="w3-col l1">
+|<div class="w3-container" id="bths-listpanel-header"></div>
+|</div>
+|<div class="w3-col l1">
+|<div class="w3-container" id="bths-listpanel-list"></div>
+|</div>
+|</div>
+JDVO22|<br><b>Type de bateau et variantes<sup class='eventitem' id='showhelptext_efaTypes'>&#9432 ;</sup></b>
+le6KSU|
+|<h4>Bateaux en route</h4>
+|<iframe src="../public/info.php?type=onthewater&mode=7"
+|title="Boote auf dem Wasser" style="width: 100%; border: none"></iframe>
+cIbswS|<!-- START OF content --> 
+|<div class="w3-container"> 
+| <h3>
+|Modifier les<b>%1-autorisations</b>pour %2 %3<sup class='eventitem' id='showhelptext_NutzerUndBerechtigungen'>&#9432 ;.</sup> 
+| </h3>  
+|</div>  
+|<div class="w3-container">
+V1VijQ|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>
+|Modifier un enregistrement<sup class='eventitem' id='showhelptext_efaDaten'>&#9432 ;</sup>
+|dans la table <span
+|id='editaction'> %1.</span>
+|</h3>
+|</div>
+|
+|<div class="w3-container">
+NgPjw9|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Modifier le schéma de couleurs et la police</h3>
+|<p>Ici, le schéma de couleurs et la police de l'application peuvent être adaptés.</p>
+|<h1>Exemple de titre 1</h1>
+|<h4>Exemple de titre 4</h4>
+|<p>
+|<a href='#'>Exemple de lien</a>
+|</p>
+|<label class="cb-container">Radiobutton checked<input type="radio"
+|name="radioexample1" value="" checked /><span class="cb-radio"></span></label><br>
+|<label class="cb-container">Radiobutton unchecked<input type="radio"
+|name="radioexample2" value="" /><span class="cb-radio"></span></label><br>
+|<label class="cb-container">Checkbox checked<input type="checkbox"
+|name="checkboxexample1" value="" checked /><span class="cb-checkmark"></span></label><br>
+|<label class="cb-container">Checkbox unchecked<input type="checkbox"
+|name="checkboxexample2" value="" /><span class="cb-checkmark"></span></label><br>
+|<select class="formselector" name="selectorexample" style="width: 15em">
+|<option value="option 1">option1</option>
+|<option selected value="option 2">dropdown options</option>
+|<option value="option 3">option3</option>
+|</select>
+|<p>&nbsp ;</p>
+|<form method=POST action="?changecolors=1">
+|<table style='width: 70%'>
+|<thead>
+|<tr>
+|<th>Application de couleur</th>
+|<th>Valeur de couleur</th>
+|</tr>
+|</thead>
+|<tbody>
+E4weTW|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Modifier les paramètres de configuration</h3>
+|<p>
+|Il est possible d'adapter la configuration ici. L'adaptation des couleurs et de la police est possible<b><i><a href='../forms/farben_aendern.php'>ici</a></i></b>
+|. Les données d'accès à la base de données ne peuvent être modifiées que lors de l'installation. 
+|</p>
+xnSRHk|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Modifier le profil personnel</h3>
+|<p>Ici, tu peux modifier ton profil personnel, y compris le mot de passe
+|.</p>
+|</div>
+|
+|<div class="w3-container">
+hGHxvu|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Modifier le %1 de %2</h3>
+|</div>
+|
+|<div class="w3-container">
+qJk3Th|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h2>Modifications de données</h2>
+|<h3>Voici la liste des modifications de données dans la base de données</h3>
+|<p>Chaque modification de données est enregistrée, les 100
+|derniers jours sont représentés ici. Utilisation autorisée uniquement dans un but réglementé.</p>
+QyymBR|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Vérifier la structure actuelle des données</h3>
+|<p>Tu trouveras ici la structure actuelle des données de la base de données du serveur.</p>
+|</div>
+p2mcau|
+|<h4>Livres de travail de l'association de tous les clients</h4>
+2ecyll|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3><br><br><br><br>Chantier</h3>
+|<p>Le site n'existe pas encore, nous sommes en train de le construire.</p>
+|</div>
+gBlz7m|
+|<p>
+|<a href='../pages/show_logbooks.php'>Corriger d'autres trajets.</a>
+|</p>
+uVNY6O|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Créer un nouvel enregistrement</h3>
+|<p>Ici, tu peux créer un nouvel enregistrement pour de nombreuses tables efa.
+|Pour un nouvel utilisateur efaCloud, veuillez utiliser le menu Utilisateur efaCloud
+|.</p>
+|</div>
+|<div class="w3-container">
+|<table>
+|<tr>
+|<th>Tableau</th>
+|<th>Lien vers le formulaire</th>
+|</tr>
+6wKURL|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Concept de protection des données<sup class='eventitem' id='showhelptext_Datenschutzkonzept'>&#9432 ;</sup>générer pour l'application</h3>
+|<p>Un concept de sécurité actuel
+|est généré à partir de l'application et peut être utilisé pour la documentation conformément au RGPD
+|. Veuillez noter que le concept de sécurité ne concerne que l'application
+|. La sécurité du serveur web doit être documentée ailleurs ou être assurée par une CUU correspondante.</p>
+|<p>
+|<a class='formbutton' href="?create=1">Afficher maintenant comme page web</a>&nbsp ; &nbsp ; 
+|<a class='formbutton' href="?create=2">html download</a>&nbsp ; &nbsp ; 
+|<a class='formbutton' href="?create=3">PDF download</a>
+|</p>
+1qHoyA|<span class='configHead' onclick="toggleConfigGroup('Datenschutzkonzept')"><b>Concept de protection des données<sup class='eventitem' id='showhelptext_Datenschutzkonzept'>&#9432 ;</sup> ▾</b></span>
+dQzRS3|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Concept de protection des données pour l'application</h3>
+IknQ2j|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Affichage de l'enregistrement pour un enregistrement supprimé</h3>
+|<p>supprimé de la table : %1<br>
+|Heure de la suppression : %2<br>
+|Une restauration automatique n'est malheureusement pas possible.
+|</p>
+|</div>
+|<div class="w3-container">
+|<table>
+|<tr>
+|<th>Champ de données</th>
+|<th>Valeur</th>
+|</tr>
+rtBEhk|<p>Chère/cher %1 %2,</p>
+SNIjYx|<span class='configHead' onclick="toggleConfigGroup('DebuggingUndBackup')"><b>Le débogage et la sauvegarde ▾</b></span>
+jmEZKD|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Supprimer la base de données %1 et la reconstruire</h3>
+BkDaPm|Supprimer le mot de passe<br>est possible pour chaque utilisateur, veuillez laisser les entrées de mot de passe prédéfinies.
+HKR5lY|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h2>Effacer le mot de passe</h2>
+|<h3>Effacer le mot de passe permanent pour la today</h3>
+|</div>
+|<div class="w3-container">
+9Mf4oC|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Supprimer un enregistrement</h3>
+nIMVa2|</li>
+|</ul>
+|<h4>Différences de configuration entre les différents clients</h4>
+Wk99iY|Echec de l'envoi</b>pour :
+MPbwHx|<p>
+| <a href="../pages/nutzer_profil.php?id= %1">Afficher le profil modifié de l'utilisateur.</a>
+|<br />
+| <a href="../forms/nutzer_aendern.php?id= %1">Continuer à modifier l'utilisateur.</a>
+|</p>
+bCVSSd|
+|<h4>Paramètres du programme du client efa</h4>
+mYjQxu|<span class='configHead' onclick="toggleConfigGroup('efaReferenzclient')"><b>Client de référence efa<sup class='eventitem' id='showhelptext_Stammdaten'>&#9432 ;</sup> ▾</b></span>
+U1NXw3|
+|
+|<!-- Image header -->
+|<div class="w3-container">
+|<p style='text-align: right; margin-bottom: -60px; margin-right: 10px;'>
+|<img src="../resources/efaCloud-Wolke_blau.png" alt="cloud"
+|style="width: 20%">
+|</p>
+|
+|<h2>
+|<br>efaCloud - efa dans le nuage.
+|</h2>
+|<p>Efa a une longue tradition. Sur la voie de la numérisation,
+|le carnet de route le plus populaire d'Allemagne est ici complété par la possibilité
+|de stocker les données dans le cloud. Sûr, accessible de partout, cohérent.</p>
+|<p>Cette interface est la porte d'entrée vers efaWeb et efaCloud :</p>
+|<ul>
+|<li>efaCloud
+|<ul>
+|<li>gestion centralisée des paramètres du serveur et des données du journal de bord</li>
+|<li>surveillance de la communication avec les PC efa connectés et
+|avec efaWeb</li>
+|</ul>
+|
+|<li>efaWeb
+|
+|<ul>
+|<li>programme de journal de bord basé sur le web, fonctionnellement similaire à efa dans
+|la maison du bateau</li>
+|<li>utilisable uniquement par les utilisateurs autorisés par efaCloud</li>
+|</ul>
+|</li>
+|</ul>
+|<p>Je suis toujours heureux de recevoir vos commentaires à support(at)efacloud.org !</p>
+|</div>
+QsB6fc|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h2>Erreur</h2>
+|<h3>Cela n'a malheureusement pas fonctionné.</h3>
+8c5ooi|<b>Erreur</b><br>La mise en page du tableau n'a pas pu être adaptée. Pour plus de détails, voir 'sys_db_audit.log'.
+POzcZe|
+|<p>Format de fichier et noms de champs</p>
+|<ol>
+|<li>Le fichier csv à importer doit être marqué comme avec séparateur : ';' et
+|marqueur de texte : '"' et indiquer sur la première ligne les noms techniques des champs de la
+|table de base de données (liste des noms cf. fonction du menu
+|"Configurer efaCloud > Structure des données"). Les champs extra 'StatusName', 'ValidFromDate', 'InvalidFromDate' sont également autorisés
+|(voir ci-dessous).</li>
+|<li>Les noms sont sensibles à la casse. Si des noms de champs non valides sont utilisés, l'importation sera refusée.</li>
+|</ol>
+|<p>Champs supplémentaires pour une importation simplifiée :</p>
+|<ol>
+|<li>StatusName : Les valeurs autorisées pour StatusName sont celles qui sont indiquées comme nom dans
+|efa2status, par exemple "Invité" (sans les
+|guillemets). La valeur est alors remplacée par l'id et écrite dans
+|le champ StatusId.</li>
+|<li>ValidFromDate, InvalidFromDate : au lieu de l'horodatage Unix difficilement lisible, il est possible d'indiquer ici une date au format JJ.MM.AAAA
+|qui sera ensuite convertie en horodatage lors de l'importation
+|
+|et écrite dans les champs ValidFrom/InvalidFrom.
+|
+|</ol>
+|<p>Options d'importation :</p>
+|<ol>
+|<li><b>créer une nouvelle personne :</b>ajouter une nouvelle personne comme enregistrement.<br>Le champ de données 'Id' ne doit pas être présent, 'FirstName' et 'LastName'
+|ne doivent pas être vides et une personne portant ce nom ne doit pas encore
+|exister. Le 'Gender' doit être MALE ou FEMALE, et le 'StatusName'
+|et le 'StatusId' doivent contenir une valeur valide. Il est recommandé d'indiquer également
+|'ValidFrom' ou 'ValidFromDate', sinon on utilise
+|l'heure actuelle.<br> <i>un exemple :<br>
+|FirstName;LastName;Genre;Birthday;StatusName;ValidFromDate;MembershipNo<br>
+|Max;Kustermann;MALE;2005;Junior(in);01.10.2022;4711
+|</i></li>
+|<li><b>modifier :</b>modifier l'enregistrement actuellement valable d'une personne.
+|<br>Les champs de données 'FirstName' et 'LastName' et/ou 'Id' doivent
+|définir clairement une personne existante et actuellement valable. Si
+|les trois champs sont indiqués, le champ 'Id' est prioritaire pour la
+|sélection. Les champs 'ValidFrom' et 'ValidFromDate' doivent être manquants
+|ou vides.<br> <i>un exemple (modifie le nom et le
+|statut) :<br>Id;FirstName;LastName;StatusName<br>
+|12345678-1234-5678-90ab-1234567890ab;Max;Mustermann;Senior(in)
+|</i></li>
+|</ol>
+|<p>Toujours effectuer un contrôle avant d'importer</p>
+|<ol>
+|<li>le tableau. Il est indiqué si une importation est possible
+|et ce qui va se passer.</li>
+|<li>Confirmer l'importation. Les enregistrements sont importés.</li>
+|</ol>
+JTl0ci|
+|<p>Format de fichier et noms de champs</p>
+|<ol>
+|<li>Le fichier csv à importer doit être identifié comme avec séparateur : ';' et
+|marqueur de texte : '"' et indiquer sur la première ligne les noms techniques des champs de la
+|table de base de données (liste des noms cf. fonction du menu
+|"Configurer efaCloud > Structure des données").</li>
+|<li>Les noms sont sensibles à la casse. Si des noms de champs non valides sont utilisés, l'importation est refusée.</li>
+|<li>Les UUID ne peuvent pas être utilisés, les noms sont toujours importés, tout comme les noms sont toujours saisis.</li>
+|</ol>
+|<p>Les champs de données autorisés sont :</p>
+|<ul>
+|<li>Logbookname - chaîne de caractères. Doit être présent.</li>
+|<li>EntryId - nombre entier. Doit être présent.</li>
+|<li>Date - Chaîne de caractères (Format : YYYY-MM-DD)</li>
+|<li>EndDate - Chaîne de caractères (Format : YYYY-MM-DD)</li>
+|<li>BoatVariant - Entier</li>
+|<li>BoatName - Chaîne de caractères</li>
+|<li>CoxName - Chaîne de caractères</li>
+|<li>Crew1Name ... Crew24Name - Chaîne de caractères</li>
+|<li>StartTime - Chaîne de caractères</li>
+|<li>EndTime - Chaîne de caractères</li>
+|<li>DestinationName - Chaîne de caractères</li>
+|<li>WatersNameList - Chaîne de caractères</li>
+|<li>Distance - Chaîne de caractères</li>
+|<li>SessionType - Chaîne de caractères (choix dans le jeu de types, désignations anglaises, par ex. NORMAL, TRAININGSCAMP)</li>
+|</ul>
+|<p>Un contrôle a toujours lieu d'abord avant l'importation.</p>
+|<ol>
+|<li>télécharger le tableau. Il est indiqué si une importation est possible
+|et ce qui va se passer.</li>
+|<li>Confirmer l'importation. Les enregistrements sont importés.</li>
+|</ol>
+ZAjY7v|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Stockage des fichiers</h3>
+|<p>Il est également possible de créer un répertoire.</p>
+TN8gcV|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>
+|Trouver un utilisateur efaCloud<sup class='eventitem'
+|id='showhelptext_NutzerUndBerechtigungen'>&#9432 ;</sup></h3>
+|<p>Ici, tu peux trouver un utilisateur efaCloud en indiquant l'efaCloudUserID
+|ou son prénom ou son nom. Les personnes qui effectuent des trajets
+| sont enregistrées dans le tableau efa pour les personnes.</p>
+|<p>
+|<b>Cette page est la page d'entrée pour toute forme de
+|traitement des utilisateurs.</b>Les options d'affichage et de modification sont
+|présentées sous forme de liens dans le résultat de la recherche.
+|</p>
+|</div>
+|
+|<div class="w3-container">
+n0Qm21|<b>première variante de type</b><br>numéro
+3MiqbN|Pour l'accès avec un mot de passe permanent, l'adresse e-mail enregistrée<br>ou le numéro de membre / numéro d'utilisateur peuvent être utilisés.
+FxOni8|<i>Uniquement à des fins de support :</i>noter les informations de débogage
+ffsj9S|
+|<p>Pour l'action, la première étape se contente d'indiquer ce qu'il faudrait faire
+|sans quoi. Sur la base de cet affichage, on peut ensuite décider si l'
+|action doit être exécutée ou non.</p>
+sOvbNc|Pour la délimitation de la nouvelle version, une date de fin de validité de la version précédemment en vigueur doit être indiquée.<br>Les modifications : %1 ne peuvent pas être effectuées. Le formulaire a été réinitialisé.
+PJnOSl|Pour la délimitation de la nouvelle version, la nouvelle date de fin de validité de la version valable jusqu'à présent doit se situer plus d'un jour après son début de validité.<br>Les modifications : %1 ne peuvent pas être effectuées. Le formulaire a été réinitialisé.
+BXvWj2|<b>quatrième variante de type</b><br>numéro
+lf6RQG|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h1>
+|<br>
+|<br>
+|<br>Aide
+|</h1>
+|<p>L'aide d'efaCloud est disponible sur la</p>
+|<ul>
+|<li><a href='https://www.efacloud.org'>page d'accueil d'efaCloud</a></li>
+|</ul>
+|<p>et sur le forum spécialement créé à cet effet sur la</p>
+|<ul>
+|<li><a href='efa.nmichael.de'>page d'accueil d'efa.</a></li>
+|</ul>
+|</div>
+|<!-- END OF content -->
+Z4iAHN|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Aide dans efaCloud</h3>
+|<p>EfaCloud offre une aide contextuelle, elle est indiquée<br>par le &#9432;<b>en exposant. 
+|</b>.<br>En cliquant sur le &#9432;, le texte explicatif apparaît.</p><p>Dans cette version, il y a les textes d'aide suivants :</p>
+|<ul>
+a8iDlL|
+|<p><a href='?cdir=%1'>Ici</a>pour le prochain téléchargement. </p>
+Bkefzy|<span class='configHead' onclick="toggleConfigGroup('Alle')"><b>Cacher tout</b></span>
+HWpoVD|Pendant combien de jours les clients doivent-ils être informés de la suppression<sup class='eventitem' id='showhelptext_Loeschbenachrichtigung'>&#9432 ;</sup>d'un enregistrement ?
+yBbRP6|Id de la personne dans efa. <i>(le cas échéant, complété automatiquement)</i>
+fU75vS|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Importer des personnes</h3>
+|<p>Ici, les données du tableau efa Personnes peuvent être modifiées en tant que Transaction de masse
+|.</p>
+Yxab32|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Importer une table</h3>
+|<p>Ici, une table de la base de données peut être importée.</p>
+atUZOz|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Importer des trajets</h3>
+|<p>Ici, de nouveaux trajets peuvent être importés dans le tableau efa Carnets de route en tant que
+|transaction de masse.</p>
+|<p>Cela demande beaucoup de travail. Compter une seconde
+|de temps de traitement par 5 trajets pour le contrôle et l'importation.</p>
+0AKx35|
+|<p>Dans l'étape suivante, le tableau est téléchargé et importé tel qu'il est présenté. Veuillez confirmer que l'importation doit être effectuée (pas d'annulation possible).</p>
+zmwOIb|
+|<p>Dans l'étape suivante, le tableau est téléchargé et importé tel qu'il est présenté. Veuillez confirmer que l'importation doit être effectuée (pas d'annulation possible).</p>
+uDpZVK|
+|</div>
+|<div class="w3-container">
+|<h3>Informations sur la protection des données</h3>
+|<ul class="listWithMarker">
+|<li>Ces informations sont fournies exclusivement à des fins de contrôle pour les titulaires de fonctions dans la gestion des autorisations. Elle ne doit pas être transmise.</li>
+|</ul>
+|</div>
+wLHGFz|
+|</div>
+|<div class="w3-container">
+|<h4>Informations sur la protection des données</h4>
+|<ul>
+|<li>Si tu vois cette page, tu as le droit de voir et, le cas échéant, de modifier ces données, bien qu'il ne s'agisse pas de tes propres données. Utilisation autorisée uniquement dans un but réglementé.</li>
+|<li>La transmission des informations est expressément interdite.</li>
+|</ul>
+|</div>
+07OND4|
+|</div>
+|<div class="w3-container">
+|<h3>Informations sur la protection des données</h3>
+|<ul>
+|<li>Dans le cadre de la mesure, tu as donné ton accord pour l'enregistrement, la transmission et le traitement des données personnelles à des fins associatives, conformément aux dispositions de la loi sur la protection des données.</li>
+|<li>Tu as ici la possibilité d'obtenir les renseignements garantis sur les
+|données enregistrées concernant ta personne. Celles-ci sont toutes énumérées ici.</li>
+|</ul>
+|</div>
+iAJ3Mj|<br><b>Données d'inventaire</b>
+TLKuVl|<span class='configHead' onclick="toggleConfigGroup('Fahrtenbuecher')"><b>Carnets de route<sup class='eventitem' id='showhelptext_Fahrtenbuecher'>&#9432 ;</sup> ▾</b></span>
+pHuTRf|
+|<h4>Carnets de route de tous les clients</h4>
+FVAYy8|
+|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>
+|<br>
+|<br>
+|<br>
+|<br>Déconnecté
+|</h3>
+|<p>
+|La déconnexion a réussi.<br>
+|<br>
+|<br>&nbsp;
+|</p>
+|</div>
+YxcJ4k|La connexion au serveur efaCloud est possible avec l'ID utilisateur efaCloud ou, alternativement, le nom efadmin ou l'adresse e-mail enregistrée et le mot de passe correspondant.<br>Pour configurer l'identifiant utilisateur, l'administrateur du carnet de route de l'association est généralement d'une grande aide.<br><br>
+zdAPKK|Erreur lors de la connexion.<br>Déjà %1 tentatives infructueuses. Veuillez réessayer, mais cela prend plus de temps à chaque tentative.
+VhzARg|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Connexion pour les utilisateurs enregistrés</h3>
+|</div>
+|
+|<div class="w3-container">
+Zb6TUk|
+|
+|<div class="w3-container">
+|<h3>
+|<br>
+|<br>
+|<br>
+|<br>
+|<br>Travaux de maintenance
+|</h3>
+|<p>
+|L'application est actuellement en maintenance jusqu'à probablement.<br>
+|<b>
+ffAkIP|<span class='configHead' onclick="toggleConfigGroup('Stammdaten')"><b>Données de base de l'association<sup class='eventitem' id='showhelptext_Stammdaten'>&#9432 ;</sup> ▾</b></span>
+C1HUuR|
+|</ul>
+|<p>
+|Plus d'informations sont disponibles sur le site web &gt;&gt;&gt ;<a
+|href='https://www.efacloud.org' target='_blank'>efaCloud
+|(ouvre un nouvel onglet).</a>
+|</p>
+|</div>
+PfLbaB|Nom</th><th>Trajets</th><th>Trajet le plus tôt</th><th>Trajet le plus tard</th>
+gyvihB|<i>Non recommandé, ralentit considérablement la première connexion de la journée :</i>Sauvegarder les tableaux lors de la routine quotidienne
+s83mkb|
+|</p>
+|<p>
+|<b>Remarque :</b>en règle générale, le navigateur conserve les paramètres de couleur dans le
+|cache, la modification n'a alors pas d'effet visible dans un premier temps. Avec
+|F5 ou &lt;Ctrl&gt;-F5 après la mise à jour, le cache peut être effacé dans la plupart des navigateurs et ce n'est qu'alors que le nouveau
+|réglage de couleur est pris en compte.
+|</p>
+|</div>
+leDYGI|<span class='configHead' onclick="toggleConfigGroup('Benachrichtigungen')"><b>Notifications<sup class='eventitem' id='showhelptext_Benachrichtigungen'>&#9432 ;</sup> ▾</b></span>
+kyJIX0|<br><b>Autres</b>
+OEps5V|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Aperçu des carnets de route</h3>
+|<p>Ici, les carnets de route peuvent être consultés au niveau de la structure et éventuellement 
+|corrigés.</p>
+|</div>
+|
+|<div class="w3-container">
+qtWECm|<span class='configHead' onclick="toggleConfigGroup('Informationsweitergabe')"><b>Transmission d'informations<sup class='eventitem' id='showhelptext_Informationsweitergabe'>&#9432 ;</sup> ▾</b></span>
+VIxLAS|Mot de passe<br><i>ne peut être défini que pour les nouveaux utilisateurs et les utilisateurs ayant le rôle de 'bths'.</i>
+NeJqoO|effectué.</b>
+|</p>
+|<p>
+CDDC8L|</li>
+|<li>Période : 
+m4Yd1V|<span class='configHead' onclick="toggleConfigGroup('PersoenlichesFahrtenbuch')"><b>Journal de bord personnel<sup class='eventitem' id='showhelptext_PersoenlichesFahrtenbuch'>&#9432 ;</sup> ▾</b></span>
+IGCugZ|Merci de contribuer à l'amélioration du logiciel en transmettant ces informations à votre équipe de support.<br>Merci !
+dH58zd|
+|<p>Merci de me faire part de ta préoccupation ou d'un souhait concernant la
+|fonctionnalité d'efaCloud. J'essaierai de vous aider dès que possible. En période de vacances, il peut y avoir des retards, mais la réponse est généralement attendue dans un délai d'une semaine environ.</p>
+|<p>Je suis également heureux de recevoir vos commentaires sur efaCloud, vos suggestions et vos demandes. Ce formulaire est à envoyer à 'efacloud.org'.</p>
+r2pLmi|Attention : les catalogues de cours d'eau peuvent être imposés par la fédération. Dans ce cas, les eaux ne doivent pas être modifiées ici.<br>
+tsxGYJ|<b>Veuillez définir un nouveau mot de passe ici.</b>(Pour les règles, voir les aides au remplissage ci-dessous)<br>
+pARkCd|<p>Veuillez utiliser efaWeb pour voir vos propres parcours. Dans le menu à gauche se trouve le changement.</p>
+C13cVm|
+|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Profil de %1</h3>
+|</div>
+|<div class="w3-container">
+TkljK3|
+|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h2>Profil de
+MT1L4O|
+|<h4>Paramètres de projet utilisés</h4>
+|<p>
+|efaCloud utilise les paramètres du client de référence s'il a été<b><a
+|href='../forms/configparameter_aendern.php'>défini dans les paramètres</a></b>
+|. Si aucun efaCloudUserID n'y est indiqué, les paramètres de projet du club de démonstration RC Blanc-Bleu sont utilisés
+|
+|.</p>
+47al0R|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Lire les mails</h3>
+|<h4>Ici, il est possible de lire les mails envoyés à la liste de diffusion.</h4>
+m2oeV3|<b>deuxième variante de type</b><br>numéro
+XlbAYa|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Envoyer des mails à des listes de diffusion</h3>
+|<p>Les mails sont envoyés un par un, toujours avec un seul
+|"To"-Recipient. Selon la quantité, cela peut prendre un peu de temps et entraîner un classement en spam sur la page de réception. C'est pourquoi nous vous prions de l'utiliser avec parcimonie.</p>
+|<p>
+|<b>ATTENTION :</b>La session se termine au bout de 10 minutes si une
+|nouvelle page n'est pas appelée.
+|
+|
+|<p>
+rpXiYW|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Envoyer des mails aux utilisateurs</h3>
+|<p>Un mail a été créé pour l'envoi direct d'un mot de passe.</p>
+y1NFtw|
+|
+|<div class="w3-container">
+|<h3>Envoyer une demande d'assistance ou un feedback</h3>
+AAnHHF|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Messages du serveur</h3>
+|<p>Informations, avertissements et erreurs avec ID de l'utilisateur qui les a déclenchés.
+|Tout ce que l'application a enregistré. Les informations présentées peuvent contenir des données personnelles et ne peuvent être utilisées que dans un but réglementé.</p>
+|<div class='w3-row' style='padding: 10px;'>
+jYPnW7|<br>Paramètres pour efaWeb
+Cvnhnq|</li>
+|<li>Début de l'année sportive : 
+cJuiTT|<span class='configHead' onclick="toggleConfigGroup('Synchronisation')"><b>Synchronisation<sup class='eventitem' id='showhelptext_Synchronisation'>&#9432 ;</sup> ▾</b></span>
+VK7X6Z|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Test d'envoi du carnet de route personnel</h3>
+93vxJy|Les %1 autorisations de<b>%2</b>ont été modifiées.</p><p>A partir de la prochaine connexion, il sera soumis à :
+gmlDim|Les %1 autorisations de<b>%2</b>ont été modifiées.</p><p>A partir de la prochaine connexion, il sera soumis à :
+dm895V|
+|    <p>
+|<b>La modification des données est %1 effectuée.</b>
+|</p>
+|<p>
+EADCwd|
+|    <p>
+|<b>La modification des données est
+jKbHGN|
+|<p>
+|L'importation du fichier a été effectuée. <br /> <a
+|href="../pages/mein_profil.php">Ici</a>vous retournez à la
+|page d'accueil personnelle.
+|</p>
+02b3TQ|
+|<p>
+|L'importation du fichier a été effectuée. <br />Le protocole correspondant est:
+|</p>
+x1uDKx|
+|<p>
+|L'importation du fichier a été effectuée. <br />Le protocole correspondant est:
+|</p>
+0alDAs|
+|<p>Le téléchargement des fichiers et la vérification des données ont été effectués avec succès. Ce qui suit
+|est une représentation de ce qui est importé.</p>
+7MLPuQ|
+|<p>Le téléchargement des fichiers et la vérification des données ont été effectués avec succès. Ce qui suit
+|est une représentation de ce qui est importé.</p>
+MSsBTV|
+|<p>Le téléchargement des fichiers a réussi. Ce qui est
+|importé est représenté ci-dessous. Veuillez faire attention à l'indication d'erreur d'importation, car
+|c'est en général le signe que quelque chose ne va pas avec le fichier de téléchargement.</p>
+|<p>L'étape suivante consiste à télécharger le tableau et à l'importer tel qu'il est présenté. Veuillez confirmer que l'importation doit être effectuée.</p>
+sIOQ62|
+|<h4>Les trajets suivants ont été définitivement supprimés :</h4>
+v0PFwa|Le mot de passe permanent peut être supprimé<a href='../forms/reset_password.php'>ICI.</a>
+53Wfwp|
+|<p>L'admissibilité de la restauration des enregistrements doit généralement être clarifiée du point de vue de la protection des données, car les enregistrements ont été automatiquement déplacés en raison de la configuration de la protection des données.</p>
+|<p>N'oubliez pas d'adapter également la configuration de l'archivage, sinon il se peut que les enregistrements soient à nouveau archivés lors de la prochaine exécution nocturne.</p>
+cFCO2q|
+|<p>La restauration est terminée. Le résultat : %1
+|<br /> <a href="../forms/archiv_wiederherstellen.php">Autres données
+|récupérer</a>.
+|</p>
+YzzXXw|<b>troisième variante de type</b><br>numéro
+XLx3yi|</h2>
+|<h3>Voici les données personnelles que tu as sauvegardées</h3>
+|</div>
+|<div class="w3-container">
+ntVguG|
+|<h4>Définitions des types</h4>
+D6jbrA|Type de modification<sup class='eventitem' id='showhelptext_VersionierteDatenAnpassen'>&#9432 ;</sup>
+NxSz36|Type de modification<sup class='eventitem' id='showhelptext_VersionierteDatenAnpassen'>&#9432 ;</sup>
+ihbPIc|Type de modification<sup class='eventitem' id='showhelptext_VersionierteDatenAnpassen'>&#9432 ;</sup>
+vE4oO4|Type de modification<sup class='eventitem' id='showhelptext_VersionierteDatenAnpassen'>&#9432 ;</sup>
+HVtA0e|
+|
+|
+|<h3>Mise à niveau de l'application %1</h3>
+|<p>La mise à niveau décompresse le code et écrase ainsi les
+|fichiers de code existants. Toutes les données existantes, comme par exemple les logs, les uploads,
+|backups etc. sont conservées. La base de données n'est pas modifiée.</p>
+fzBHFZ|
+|<h3>Mise à niveau de l'application efaCloud Server</h3>
+|<p>La mise à niveau décompresse le code et écrase les fichiers
+|code existants. Toutes les données existantes, telles que les logs, les téléchargements, les sauvegardes, etc. sont conservées. La base de données n'est pas modifiée.</p>
+|<p>Le système est actuellement installé : <b>%1</b><br>Le moment de l'installation était : <b>%2</b></p>
+|<p>Une mise à niveau ne peut pas être annulée. Il est toutefois possible d'effectuer une mise à niveau vers le bas de toutes les versions encore disponibles en utilisant la même méthode.</p>
+|
+|<p>
+|<form action='?upgrade=1' method='post'>
+QC2brN|
+|    <br /> <label><b>Mettre à jour vers la version suivante:&nbsp ;</b></label><select
+|name='version' class='formselector' style='padding-right: 15px'>%1
+|</select> <br /> <br /> <label class="cb-container">J'accepte que mon
+|URL serveur (%2) et la version maintenant installée soient transmis à efacloud.org
+|<input type="checkbox" name="agreeAutoregistration"
+|checked><span class="cb-checkmark"></span>
+|</label><br /> <input type='hidden' name='src_subdir'
+|value='%3' /> <input type='submit'
+|class='formbutton' value='Jetzt aktualisieren' />
+|</form>
+|<p>Veuillez noter : le processus démarre en cliquant sur le bouton
+|immédiatement et ne dure que quelques secondes.</p>
+HQqMpM|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Télécharger le logo de l'association</h3>
+|<p>Vous pouvez télécharger le logo de votre association ici. Il sera affiché directement dans le menu en haut à gauche après le
+|téléchargement.</p>
+|<p>
+|Le format doit être un fichier "png". Il est possible de convertir d'autres
+|formats, par exemple avec le<a
+|href='https://bild.online-convert.com/de/umwandeln-in-png'>convertisseur PNG en ligne</a>.
+|Un format 4:3 est judicieux (plus large que haut), la résolution ne devrait pas dépasser 500 pixels de large, l'idéal étant 400*300 pixels.
+|</p>
+qlPgLK|<br><b>Règles d'utilisation</b>
+ifd7Tj|<span id='valDateLabel'>valable jusqu'à la date</span>
+pwTyiY|<span id='valDateLabel'>valable jusqu'à la date</span>
+wDrGSj|<span id='valDateLabel'>valable jusqu'à la date</span>
+wUePmA|<span id='valDateLabel'>valable jusqu'à la date</span>
+3wwpoP|<span id='valTimeLabel'>valable jusqu'à l'heure</span>
+BUTBgf|<span id='valTimeLabel'>valable jusqu'à l'heure</span>
+ItMepU|<span id='valTimeLabel'>valable jusqu'à l'heure</span>
+zHbuNz|<span id='valTimeLabel'>valable jusqu'à l'heure</span>
+Z7mnAX|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h2>Historique des versions d'un enregistrement</h2>
+|<p>Les versions sont les plus récentes énumérées en premier, à chaque fois uniquement les champs de données modifiés dans la
+|version par rapport à la version précédente. Utilisation
+|autorisée uniquement dans un but réglementé.</p>
+|<h4>De la table '%1'</h4>
+HixbNW|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Consulter les fichiers journaux des clients ou les afficher en tant que pivot</h3>
+|<p>Ici, tu peux consulter les derniers fichiers journaux
+|et statistiques envoyés par un client.</p>
+|</div>
+|
+|<div class="w3-container">
+R5S35O|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Consulter ou télécharger les fichiers journaux du serveur</h3>
+|<p>Ici, tu peux consulter ou télécharger les fichiers de surveillance du serveur...</p>
+|</div>
+|
+|<div class="w3-container">
+2jun3e|.</b><br>Nous vous prions d'excuser les éventuels
+|inconvénients.<br>
+|<br>
+|<br>
+|<br>&nbsp;
+|</p>
+|</div>
+UXT258|
+|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h3>Bienvenue, %1</h3>
+xUZZ3E|Combien de jours maximum peuvent s'écouler depuis l'archivage?<br>(0 = restaurer toutes les données archivées) :
+Bi1XKi|
+|<p>Lors de l'importation, l'ID doit être indiqué dans chaque enregistrement.
+|Les enregistrements qui ont un ID existant sont écrasés. Tous les
+|champs de la table correspondant à un champ de la table de la base de données
+|seront écrasés, donc également supprimés le cas échéant.
+|Les enregistrements ayant un nouvel ID seront recréés.</p>
+|<p>Les tables à importer doivent indiquer sur la première ligne les noms des champs de la table de la base de données, les majuscules et les minuscules sont importantes.
+|Si des noms de champs non valides sont utilisés, l'importation ne peut pas avoir lieu. Les tables à importer qui se composent d'une seule colonne
+|dans laquelle se trouve l'ID entraînent la suppression de l'ensemble des
+|enregistrements avec l'ID correspondant.</p>
+|<p>Dans la première étape, le tableau est téléchargé et vérifié. Dans la
+|deuxième étape, l'importation a lieu. Celle-ci doit être explicitement
+|confirmée.</p>
+wir4uQ|
+|<p>Avec la confirmation, les trajets sélectionnés sont maintenant définitivement
+|supprimés.</p>
+QRqTTI| parsing 
+Gg90pW|#Erreur mkdir a échoué dans le répertoire '%1'.
+6qoA8U|#Erreur à l'ouverture du fichier '%1'.
+Cd30Mz|#Erreur : Echec du décodage de la sauvegarde non masquée '%1'.
+g1Qw1Z|#Erreur : L'importation a été annulée à cause d'une erreur de syntaxe dans le fichier d'importation.
+tAzk9C|#Erreur : Importation annulée à cause de l'absence des colonnes suivantes du fichier d'importation dans la table cible :
+UB62oq|#Erreur : Importation annulée. Le fichier d'importation doit contenir une colonne %1.
+AkIopi|#Erreur : Sauvegarde masquée '%1' non disponible.
+5qjixH|#Erreur : Le répertoire cible '%1' pour la décompression existe déjà, abandon.
+XFt9AM|#Erreur : Le chemin zip '%1' n'existe pas.
+iU8UQg|#Ligne %1 Le champ de données %2 doit être unique, mais il y a un autre enregistrement avec la même valeur et l'ID %3.
+Ng9RpS|$Titre
+VtVRHk|%1 fichiers de sauvegarde d'une taille totale de %2 mégaoctets.
+3Fniwt|%1 Archive de sauvegarde d'une capacité totale de %2 Mo.
+CGJnuw|%1 Archive de sauvegarde d'une taille totale de %2 Mo.
+Tu6j0f|%1 octets ont été téléchargés.
+HlAWGl|%1 n'a pas pu être supprimé.
+RTVMQw|%1 n'a pas pu être supprimé.
+lT47yu|%1 ecrids ont été ajoutés. (L'étape met à jour un maximum de %2 enregistrements et doit être répétée le cas échéant).
+GsvRx8|%1 a été modifié de '%2' à '%3'.
+J8QheD|%1 a été modifié de '%2' à '%3'.
+ETWO97|%1 a été supprimé.
+aHoVZc|%1 a été supprimé.
+c6AQAt|'%1' est écrit ...
+1iSIZo|'%1' avec valeur '%2' a plus d'un id associé :
+jYvso7|Expéditeur 'no-reply' des courriers générés par le système.
+RNkGtP|(%1 enregistrements avec %2 colonnes chacun)
+RyaYQ8|(Peut être mis à disposition sur demande).
+5zJxTU|(contenu vide)
+HpsAcF|(vide)
+IHwVLV|(vide)
+WjRsQw|(vide)
+izUp6M|(vide)
+pMMn46|(vide)
+E0Klof|(pour efa dans le hangar à bateaux à partir de la version 2.3.2)
+gEQmZw|(numéro : %1)
+9iFvXO|*Importer ce fichier XML ou zip :
+7CXyyL|*Télécharger ce fichier :
+8nIqnM|*Télécharger ce fichier :
+9EIqRT|*Télécharger ce fichier :
+ryiCJ3|*Télécharger ce fichier :
+yrvZC9|-SUPPRIMÉ-
+KcQ7EG|Fichiers .htaccess ajoutés.
+89mWdC|Fichiers .htaccess en ordre.
+H2g0xi|Suppression des fichiers .htaccess.
+011tZB|efa2messages
+01G01O|</div>
+06ISXt|efaWeb_fahrtenabzeichen
+08pBug|
+|<div class='w3-col l2'>
+|<a
+|href='../pages/show_history.php?
+0Kn6bl|efa logbook (Mitglieder, aktuelles Jahr)
+0Wguyh|</div>
+28oiYL|uuid_crews
+2ZtK9d|efa waters
+35nGTf|efaWeb_waters
+3I0zNC|efa messages
+3WGTtr|audit_boatdamages
+3fXeDv|clientID
+3hobFq|efa2clubwork
+4F2pUd|uuid_groups
+5DE143|uuid_persons
+5O1GIg|
+|</table>
+|</div>
+|<div class="w3-container">
+|<div class='w3-row'>
+5mFmma|    </tbody>   </table>   <p>    <input name='submit' value='Test' type='submit'     class='formbutton' />   </p>  </form>  <p>
+5snezC|efaWeb_own_sessions
+6AqUAc|audit_crews
+77gvXM|</div>
+79Iex2|</div>
+7DoAKB|efa2waters
+7HQ9oh|archive_persons
+7IkKPl|uuid_boatdamages
+7mttPz|Datensätze zu Objekt
+7vsZ5C|audit_waters
+85h9K3|restore_records
+8fKtJg|audit_statistics
+8qQEHT|noValues
+9J3v6X|<p>&nbsp;</p>
+|<p>
+|<small>&copy; efacloud - nmichael.de</small>
+|</p>
+9TNFSL|
+|
+|</div>
+EinecO|@Titre
+AVZqHm|
+|<!-- END OF form -->
+|</div>
+AecuMb|audit_groups
+BxvIay|efa boatdamages
+DiRyic|</div>
+Ec4cuQ|audit_destinations
+G8gfUr|audit_statistics
+HZyICm|efa logbook
+IDOKUa|
+|<!-- END OF Content -->
+|</div>
+IHM6iH|efa2boatdamages
+IrVjsR|audit_groups
+J7QkU7|leaving_members
+JZKR1D|
+|</div>
+Jmeusw|efa crews
+JwFqj0|
+|<!-- END OF Content -->
+|</div>
+K3jC4w|
+|<!-- END OF Content -->
+|</div>
+KmCBHj|
+|<!-- END OF Content -->
+|</div>
+L6DB6I|
+|<!-- END OF Content -->
+|</div>
+L9Ym7M|efa boatstatus
+LDkjpT|efa2status
+LLIH9L|efa2boats
+LSoAtS|</div>
+LdZU5S|efa persons
+Ln40nr|audit_boats
+M7KYYi|efaWeb_messages
+MCB3HR|
+|<!-- START OF content -->
+|<div class="w3-container">
+|<h2>
+Mhni4P|efa autoincrement
+MzO39d|efa boats
+NEBbkz|
+|<!-- END OF form -->
+|</div>
+NvgW7Z|</div>
+OYvYwM|efa2crews
+OdmufW|uuid_statistics
+Og13VW|efa boatreservations
+OkHOab|</div>
+P0YpJt|select config_error
+P1fAgB|audit_boatreservations
+PG51A2|efa destinations
+PMDKK5|
+|<!-- START OF content -->
+|<div class="w3-container">
+PTzhSt|audit_crews
+PZe0Fq|
+|<!-- END OF Content -->
+|</div>
+PhJ3L4|
+|</div>
+QkBmJq|efa2boatreservations
+RMcKPn|efaWeb_opentrips
+RTrgNa|Gelöschte Datensätze anzeigen
+RzF1Cc|audit_clubwork
+SdHxry|efaWeb_boatstatus
+SgVvTy|archive_messages
+TElAlA|audit_sessiongroups
+TTt5oN|known_members
+ToJ4AJ|
+|</div>
+|<!-- END OF Content -->
+TvpBpw|uuid_destinations
+U2fWGk|new_members
+U6s9jf|select 0=?;1=no options available
+UNxVUo|efaWeb_boatreservations
+UnpGlv|clientName
+Uo3OuT|
+|<!-- END OF Content -->
+|</div>
+VKTHVY|audit_boatdamages
+VLBFN0|
+|</div>
+VNaOll|
+|<!-- END OF form -->
+|
+|</div>
+Vcxli6|efaWeb_destinations
+VeRvIJ|efa status
+W1J7N5|efaWeb_persons
+WfIlRT|
+|</div>
+WlX6QJ|
+|<!-- START OF content -->
+|<div class="w3-container">
+X1Ie8W|audit_waters
+XkjFUN|uuid_logbooks
+Y6Vy5J|
+|</div>
+|
+|<div class="w3-container">
+YA9OMZ|efa2sessiongroups
+YzWJOY|
+|</table>
+|</div>
+Z5hMom|efaWeb_groups
+ZQt0Ty|efaWeb_boatdamages
+ZtD0fF|efa sessiongroups
+Wixvhp|[valeur par défaut à la création]
+ZjgTv2|[efa] Nouvelle réservation de bateau pour le bateau %1
+Q49rLD|[efa] Nouvelle avarie de bateau pour le bateau
+5KSMXt|[efa] Nouveau message à l'ADMIN de %1, objet :
+J33vQj|[champ avec clé de données]
+pUUKZR|[champ clé avec correction centrale]
+m5fazU|[Liste des ID d'objets]
+r6ReJu|[aucun client de référence défini, veuillez vérifier les paramètres].
+353Us1|[non disponible]
+pRZsYG|[non disponible]
+VpjI4B|[non défini]
+75hzYb|[plusieurs possibilités]
+YXYsQR|[non défini]
+Ct5cWh|Un * devant une désignation de champ indique qu'un enregistrement est nécessaire.
+Q8hY5U|Un * devant une désignation de champ indique qu'un enregistrement est nécessaire.
+SqKLVH|Un * devant une désignation de champ indique qu'un enregistrement est nécessaire.
+kbMn2a|Un * devant une désignation de champ indique qu'un enregistrement est nécessaire.
+uXMQ3A|Un * devant une désignation de champ indique qu'un enregistrement est nécessaire.
+XtZapR|Le passage du contexte : %1 à %2 n'est pas autorisé. La session a été interrompue.
+4XUWj8|Il existe une version plus récente du programme.
+NY2pjM|Une nouvelle avarie de bateau a été enregistrée dans efa pour le bateau %1 par %2.
+ha2Cdj|Une nouvelle réservation de bateau pour le bateau %1 existe au %2.
+fPOtOW|Un nouvel enregistrement pour un statut de bateau est généré lorsqu'un nouvel enregistrement est généré pour un bateau. Le statut du bateau n'existe pas indépendamment du bateau.
+0za9nH|Il y a un nouveau message pour l'admin de %1, sujet :
+PXYG2n|une nouvelle version n'a pas pu être créée. La base de données signale :
+GzZrqa|une nouvelle version a été créée.
+B0quSZ|Un enregistrement avec l'identifiant unique '%1' a été créé dans %2.
+uUKDIW|Un enregistrement avec l'identifiant unique '%1' a été créé dans %2.
+62cGIf|Abréviation
+uhcKky|Annulé, voir sys_db_audit.log
+NHMrlY|Abandonné(e). Ecrid disponible.
+ytlK51|Abandonné(e). Non autorisé pour %1.
+WcL0zL|Statistiques d'accès
+Apulhe|L'accès à cette information n'a pas été autorisé.
+hNikUk|L'accès à cette information n'a pas été autorisé.
+UU8ZrV|Accès des derniers %1 jours
+W9GB51|Accès derniers %1 jours
+Db4zRO|Agis avec prudence, car il n'est pas possible d'annuler.
+H4cPNL|Agis avec prudence, car il n'est pas possible d'annuler.
+SFHQnk|Agis avec prudence, car il n'est pas possible d'annuler.
+YhtIO6|Agis avec prudence, car il n'est pas possible d'annuler.
+d1Uqaw|Agis avec prudence, car il n'est pas possible d'annuler.
+oGM4r2|Agis avec prudence, car il n'est pas possible d'annuler.
+tX2Q4L|Agis avec prudence, car il n'est pas possible d'annuler.
+F7t6Jn|Action
+Z4VNs0|Clients actifs
+A3XyqV|Jours actifs (nombre)
+2IHJZD|actif
+H5p5xA|Propriété auto increment ajoutée à `%1`.`%2`.
+xw01aj|Ajout de la colonne `%1`.`%2` avec la définition actuelle.
+S1nQio|Ajout d'une propriété unique à `%1`.`%2`.
+wiUFNS|Colonne supplémentaire %1.%2
+uflrtX|Tableau supplémentaire %1.
+dChSPi|Adresse : Indication supplémentaire
+xFYpHb|Adresse : Ville
+ziMakE|Adresse de l'établissement : Pays
+lFotwQ|Adresse de l'établissement : Code postal
+s2oiG5|Adresse de la ville : Rue
+7pzDSf|Échec de l'insertion d'admin. Message d'erreur : %1.
+gl6P6y|Nom d'admin dans efa pour admin login là
+zRhNpd|Administrateurs
+hck0cP|Fonctions d'édition avancées : Importation & Assistant d'édition
+uaBj0s|Fonctions d'édition avancées : Importation & Assistant d'édition
+8MYKLF|Après avoir cliqué sur le bouton "Télécharger", il ne se passe rien sur cette page dans un premier temps. Elle ne sera actualisée que lorsque le téléchargement sera terminé.
+1yDSbE|Après l'envoi test, le message peut être traité plus en détail.
+JmUHGQ|Il est ensuite possible de se reconnecter avec un NOUVEAU mot de passe à usage unique, qui vous permet également de configurer un nouveau mot de passe permanent.
+1Hbi5c|Âge en jours :
+TCnjRe|Âge en jours :
+y10Kn9|Âge en jours :
+d3o4EA|Album non trouvé. Annuler la recherche.
+ceZwjN|Toutes les autorisations
+O8zMCW|tout est fait.
+Q4c8jW|Tous les id
+2kJu6N|Tous les modules de l'installation de référence sont présents.
+rARwTp|Tous les noms
+oR4Ytj|Tous les trajets pour %1 dans le carnet de route '%2' jusqu'à présent :
+7TpRPM|Tous les utilisateurs
+JS8Dme|Tous les utilisateurs
+2JgEKN|Une erreur est survenue lors de l'enregistrement du fichier '%1' à l'emplacement '%2'.
+usHKvV|Un numéro de séquence de formulaire ou un jeton de séquence de formulaire non valable a été indiqué.
+CW7uhM|demande anonyme pour aucun formulaire : %1/%2
+8FHeg0|anonyme
+gwpsJR|Statistiques d'accès API
+tg2LqL|Erreur dans la configuration de l'application : galerie '%1' non définie. Veuillez vérifier cela avec votre administrateur.
+3MjQY3|Erreur dans la configuration de l'application : liste non définie. Veuillez vérifier avec votre administrateur.
+4t2ytU|Erreur dans la configuration de l'application : liste non définie. Veuillez vérifier avec votre administrateur.
+eG3R6d|Erreur dans la configuration de l'application : liste non définie. Veuillez vérifier avec votre administrateur.
+rcxg1I|Surcharge de l'application
+KWQvhQ|Application
+CZ56mL|L'enregistrement d'archive #%1 n'a pas pu être restauré. Raison : Le décodage de l'enregistrement a échoué.
+i0VBLI|archivé
+9hnY2G|sur
+mlOh7N|Appendice 1 :
+8dh5sK|Annexe 2 :
+hv0TyN|Annexe :
+0Q3eYq|Audit terminé.
+yDwhyh|Vérification terminée
+xeigZw|Auditer la base de données
+wTWCqf|Protocole d'audit :
+KKGLqS|auditer
+LYwuMx|auditer
+OZYUda|auditer
+QsmoVM|auditer
+hqvnxI|auditer
+WP2gSG|Auteur :
+nOchmJ|Auteur
+83QHfx|Déroulements automatiques déclenchés comme 'cronjobs'. Un job par ligne, comme 'type d'indication de jour', par exemple 'M31 persLogbook'.
+VJYunY|Marquer automatiquement les messages à l'admin comme lus
+tuglOc|Marquer automatiquement les messages à l'admin comme lus
+HLqSDT|Marquer automatiquement les messages au gardien du bateau comme lus
+QWR8R7|Marquer automatiquement les messages au gardien du bateau comme lus
+De1RPi|disponible pour le téléchargement au format csv.
+xf8yxL|Moyenne
+bNnasv|noValues
+yAZlsH|Aller et retour
+4sJKSe|Retour à ses droits d'administrateur efa
+j1DeVf|Retour à ses autorisations efaWeb
+OdDC93|Retour au paramètre précédent
+j5CpiO|Retour aux couleurs standard
+qGBrpj|Retour aux
+ulXKGl|Vérification de la sauvegarde
+UAsVwN|Sauvegarde terminée.
+wyBzeb|Sauvegarde ignorée par la configuration.
+0mGwCy|Sauvegardes
+V4T3Wv|Sauvegardes
+202buq|InsigneAB
+hCB0jI|Insigne
+s0IJfr|Comme ce courrier n'a pu être envoyé à personne, il n'a pas été enregistré dans les courriers envoyés.
+VyQSE6|Anniversaire ou année
+2oRhAT|Bateau (Id)
+RlaAwv|Avaries de bateau, date du rapport
+98y3IF|Dégâts aux bateaux
+QxUXcf|Dégâts aux bateaux
+MPgCdU|Bateau-km par distance
+japu2o|Réservations de bateaux, date de début
+61cAaQ|Type de bateau
+IeBMNG|Type de bateau
+ZJB7XX|Variante de bateau
+iPlaKi|Type de bateau
+tCnBmJ|Type de bateau
+3lHvNg|Boot,StatutActuel,StatutBase
+zkm1hq|Bateau,DateDepuis,DateAu
+wOD59L|Boot,Description
+YgIziQ|Bateau-km par nom
+3BgOTw|Bateau
+GEVnOt|Bateau
+U2OtU4|Bateau
+bWQfY3|Bateau
+GvnWap|Bateaux
+KMnmP4|personne qui comptabilise
+HY5ek8|Transactions de masse des derniers %1 jours
+EJN8bL|Transactions en vrac
+pvrbnx|par heure de départ
+Re0a6b|par numéro de trajet
+yFzxZ7|Annuler le trajet
+uZon0P|L'enregistrement ne peut pas être supprimé. Aucun enregistrement trouvé pour la clé [%1] dans %2.
+ak6ZuS|Impossible d'insérer l'enregistrement, la fourniture d'ecrid est interdite pour les versions d'API inférieures à 3.
+Gc2E76|L'enregistrement ne peut pas être inséré. A déjà plus de 30 jours (%1) et la clé indiquée [%2] est déjà utilisée.
+CRISZB|L'enregistrement ne peut pas être inséré. La clé [%1] indiquée est utilisée par un enregistrement valide et ne doit pas être corrigée.
+tdVyu3|La session ne peut pas être insérée : %1 (journal de bord %2). Elle est trop similaire à la session existante, la clé ne doit donc pas être corrigée afin d'éviter la duplication des sessions.
+x6zeNt|L'enregistrement ne peut pas être modifié. Violation de période dans %1. motif : %2.
+bNidHS|L'enregistrement ne peut pas être mis à jour. Aucun enregistrement trouvé pour la clé [%1] dans %2.
+ey9S8D|Relevé des listes
+03zAeI|Président/présidente
+WpnNE8|Président/présidente
+QQRAVY|Change- and App-Info|Avertissements|Enregistrements du journal des erreurs Nettoyage terminé
+YpUO6w|Déclaration de modification vérifiée.
+PfOrhR|Modifier le logo de l'association
+RQpeAQ|Modifier le schéma de couleurs
+i0SFzf|Compteur de modifications non valide
+FE4Of4|Compteur de modifications manquant
+QipHX2|Modifier les autorisations d'Efa admin
+BmvSBP|Modifier l'enregistrement efa
+NL410D|Modifier les droits d'efa
+l9FjVt|Modifier les droits efaWeb
+JSKWqI|Modifier les autorisations efaWeb
+YhzWIM|Historique des modifications
+biT1cV|Historique des modifications
+e1szHW|Modification des données de profil sur efaCloud par l'utilisateur #.
+717BEv|Modifier les paramètres
+IQyGXQ|Modifier le mot de passe
+Lw1jAT|Modifier le mot de passe
+ErLqsR|Modifier le profil maintenant
+lvGRAt|Modifier le profil/mot de passe
+DAwDVx|Modifier le profil
+nc58pc|Modifier l'enregistrement
+xBbzbd|Modifier l'enregistrement
+A3uBQ0|modifier le profil de %1
+dD2G5j|Modifier l'utilisateur
+G4gfja|Modifier les utilisateurs maintenant
+vskZuv|modifier/supprimer
+08PFcm|Modification
+sNh3bq|Colonne `%1`.`%2` modifiée avec la définition actuelle.
+gjYPBf|ID modifiée :
+nxPrrc|Changelog (également pour Security-Concept)
+84qqTb|Modifications
+E6z7DI|Modifications
+DkY0nv|caractères longs.
+42jTgj|Vérifier la ligne
+cKcnOB|Vérifier la ligne
+XBFzrv|Cochez la case des images et cliquez sur "Télécharger" sous les images. Toutes les images sont mises à disposition dans une archive zip qui peut être écrite directement dans le dossier "Téléchargements" selon les paramètres du navigateur.
+XIGJqp|Vérifié/total : %1/%2, aucune correction requise.
+mfU3JA|vérifié : %1, corrigé : %2, correction échouée : %3, doublons dans les archives : %4, pas de vérification ou de référence requise : $skipped.
+a5ador|vérifié : %1, corrigé : %2, échoué : %3.
+RHFSbA|Vérification du résultat
+U14TYS|Nettoyer les données
+p4z2js|Sessions obsolètes supprimées. Enregistrements restants :
+25nrUp|Activités des clients
+O00zsH|Configurations du client :
+CXR0Eq|Messages du client
+A8OMxk|Client
+59YAGh|Session PHP '%1' fermée
+W353w8|Logo de l'association
+bjIgH7|Travail de l'association qui ne correspond pas à la période du carnet de travail de l'association.
+r8hjy3|Carnet de travail de l'association
+rXpZ9D|Livres de travail de l'association
+2jDemj|Livres de travail de l'association
+R3tJPp|Travail associatif, date d'exécution
+EoJitr|Couleur (code hexadécimal RGB)
+2Tgeqq|Sélection et ordre des colonnes
+n0VQUK|Entreprise qui gère le site (hébergeur)
+Ne1yvo|Comparer la version
+iRfNHa|Terminé pour le mandant de référence %1
+6QCftb|Update_table_layout(%1) terminé.
+Sr2ozD|clôturé(e). Autres clés à corriger :
+3Dhpv1|clôturé(e). Aucune autre clé à corriger.
+deuFgY|Clôturé .
+vOXx8v|Terminé
+jtlDMv|Dump de configuration :
+3VwQtV|Erreur de configuration.
+YG4BuC|Erreur de configuration.
+qaczPb|Erreur de configuration.
+R7RsS0|Configuration :
+9roxH1|configurer efa
+ww1i98|configurer efa
+BN4UxH|connecté comme
+7DhJc1|Connexion
+rH1lEJ|Connexion
+xZpcQw|Contact
+3oww70|Continuer
+S5pVS3|Continuer
+AxOnvy|api_select continué pour la table
+YfDoBA|Continué
+sXKQJL|Continuer
+Koyi0z|contrôlé
+LqnMVd|contrôlé
+LvABqh|contrôlé
+tYBQ6X|contrôlé
+Y719BT|Corriger les carnets de route
+MQEsnc|Corriger maintenant - attendre - cela prend jusqu'à 5 minutes !
+Z6itd3|Corriger l'enregistrement.
+IfdaoB|Correction des champs virtuels pour l'enregistrement avec ecrid '%1'.
+fTom5D|Correction d'enregistrements corrompus.
+mazy61|n'a pas pu être supprimé. Message d'erreur :
+8N2N5h|Nombre d'accès
+8fGF1t|Nombre de rôles non privilégiés :
+OPc8WE|Nombre de rôles privilégiés :
+MzZXhV|Nombre d'enregistrements
+HmXvbp|Compteur pour
+ovmMoC|Créer un nouvel utilisateur efaCloud
+kl2r3O|Créer une sauvegarde
+wA7mOS|Créer une sauvegarde
+RUOkfa|créer à nouveau
+0dYrp9|Créer un enregistrement
+9opurV|Créer des statistiques
+GLB0lW|Créer des statistiques
+wpf4AI|Créer la table `%1` avec toutes les colonnes selon la mise en page actuelle.
+sBbPVu|Créer un utilisateur
+Tix00e|créé :
+WRvThr|Créer une nouvelle table vide `%1`...
+fukYdH|La création de fichiers de déclaration dans les statistiques publiques n'est pas autorisée.
+auPGvi|Les justificatifs d'autorisation dans l'enregistrement de transaction VERIFY n'ont pas pu être vérifiés.
+rhWBec|Jobs cron lancés (heure de la dernière exécution : %1)
+tOvSot|Devise Prix d'achat
+TeD6Nm|Réservations en cours et à venir
+5zkQ5A|état actuel
+ZC5KSz|Actuellement installé :
+VDv9EA|Actuellement connecté en tant que
+5DTJs0|actuellement aucune inscription.
+WfHwY7|Dommage par bateau
+MaWHhj|Déclaration de sinistre No.
+c6Z279|Audit de la base de données
+zwn7oV|Audit de la base de données
+vCGSbJ|Erreur de connexion de la base de données :
+R51PFL|Échec de la connexion à la base de données :
+s2Mkwj|Connexion à la base de données réussie, mais échec de l'instruction de test 'SELECT 1'.
+NUSssM|Manipulation de la base de données interrompue. L'utilisateur n'est pas valide.
+5Ca1BA|Manipulation de la base de données interdite pour l'utilisateur inconnu '%1'.
+mMnBAj|Manipulation de la base de données interdite pour l'utilisateur '%1'. Privilèges d'accès insuffisants.
+4YsmYP|Échec de l'instruction de base de données '%1 ...'. Erreur : '%2'.
+RDW9DK|Modifications des données
+yfzcsQ|champ de données à rechercher
+ZqPC6r|Les enregistrements pour lesquels l'indication de la dernière modification manque sont automatiquement corrigés, 50 au maximum par exécution de maintenance et par table.
+8NQHuj|Les enregistrements de la table %1 ne peuvent pas être supprimés.
+0bh9MB|Les enregistrements dont le type de dernière modification est 'delete' ne peuvent plus être modifiés.
+1neX8H|Les enregistrements dont le type de dernière modification est 'delete' ne peuvent plus être modifiés.
+25MwnR|Les enregistrements dont le type de dernière modification est 'delete' ne peuvent plus être modifiés.
+606Fgi|Les enregistrements dont le type de dernière modification est 'delete' ne peuvent plus être modifiés.
+6f32ej|Les enregistrements dont le type de dernière modification est 'delete' ne peuvent plus être modifiés.
+BfdHSB|Les enregistrements dont le type de dernière modification est 'delete' ne peuvent plus être modifiés.
+DvbNl4|Les enregistrements dont le type de dernière modification est 'delete' ne peuvent plus être modifiés.
+FyAwMu|Les enregistrements dont le type de dernière modification est 'delete' ne peuvent plus être modifiés.
+SVqu0B|Les enregistrements dont le type de dernière modification est 'delete' ne peuvent plus être modifiés.
+VFgfBG|Les enregistrements dont le type de dernière modification est 'delete' ne peuvent plus être modifiés.
+VyKWDh|Les enregistrements dont le type de dernière modification est 'delete' ne peuvent plus être modifiés.
+YT8F2I|Les enregistrements dont le type de dernière modification est 'delete' ne peuvent plus être modifiés.
+YXLkt7|Les enregistrements dont le type de dernière modification est 'delete' ne peuvent plus être modifiés.
+fMwva8|Les enregistrements dont le type de dernière modification est 'delete' ne peuvent plus être modifiés.
+ksacLR|Les enregistrements dont le type de dernière modification est 'delete' ne peuvent plus être modifiés.
+phWHuQ|Les enregistrements dont le type de dernière modification est 'delete' ne peuvent plus être modifiés.
+yxtlEE|Structure de données
+A9f60R|Échec de la connexion à la base de données.
+kyaQS2|Erreur de base de données. %1 n'a pas pu être ajouté dans %2 :
+c4rD0F|Erreur dans la base de données. %1 n'a pas pu être supprimé de %2 : inexistant.
+UCqEEe|Erreur dans la base de données. %1 n'a pas pu être mis à jour dans %2 :
+XuZqEh|Erreur de base de données. Le contenu de %1 n'a pas pu être supprimé de %2 :
+b3cmve|Échec de l'instruction de base de données.
+hEeUtZ|Échec de la déclaration de base de données.
+5pH8pE|Echec de la commande de mise à jour de la base de données. Message d'erreur :
+W6N63R|Mise à jour de database_layout à %1.
+UWZxe7|Date de fabrication
+HViZiY|Date d'achat
+uQWc7Z|Date de vente
+67lUBl|Date du CUU Avec cette entreprise (hébergeur)
+2AQdk7|Date
+gDeoVF|Date ;
+FPuc1j|Date
+eCGctK|Date
+o9byQ7|Date
+qJrVjF|Date
+ihdtPy|Cher(e)
+eEUD9N|Chère
+BuXeTn|Cher(e)
+x8SrYA|Cher destinataire,
+H3gNGJ|Cher(e)
+cr2i2h|Chère
+i91IKQ|Amour(s)
+xhXR6R|MODE DEBUG
+NapRG7|Dépistage des erreurs
+w1eFbl|décrypté :
+dTEKcz|Bateau par défaut
+K9R4zK|Par défaut pour cette version du programme :
+FfY75P|Type de trajet par défaut
+N5AIs4|supprimer les enregistrements vides corrompus
+MyjroH|Supprimer le répertoire s'il est vide
+MxrIKd|Supprimer l'enregistrement efa
+c32XmM|Supprimer le fichier
+3nkQKY|supprimer de ce journal de bord
+rVVVg2|supprimer le mot de passe
+8Y01p6|Supprimer l'ensemble de données
+MNpvhU|Supprimer l'ensemble de données
+vdj8vx|Supprimer les trajets sélectionnés
+sSO9vY|supprimer ?
+161Fzy|Supprimé
+WqXFAz|Supprimé
+aSM2pl|Supprimé
+IH9RiO|Supprimer %1 %2 Enregistrement avec les valeurs actuelles :
+sOovvb|La suppression du mot de passe permanent n'est possible qu'avec l'indication d'une adresse e-mail enregistrée.
+PqTYzs|Déposé dans la configuration :
+GEYxEV|Description (Ne pas utiliser ';')
+cvB976|Description (Ne pas utiliser ';')
+iqvOp0|Description (Ne pas utiliser ';')
+oMccPH|Description (Ne pas utiliser ';')
+B9EOmx|Description :
+OJFiWA|Description
+PFX4fS|Description
+W9iqqC|Désignation du statut
+fRvtL4|Désignation de la randonnée
+QEQS9z|Cible
+hxPAgo|Cible
+0ymNar|Détails
+BuukBt|Accès direct
+ZNvHsT|Accès direct
+hX0dDX|Répertoire
+3XxxvY|Échec de l'envoi.
+mvC38h|Envoi réussi pour :
+Ladp2w|Envoi réussi à %1 adresse.
+UrEE7g|Afficher la structure des données
+ht5yHC|Distance (par ex. 10 km)
+OoCAVz|Distance
+dlOC9f|audit_boatreservations
+miz0SV|Réalisé .
+cmjKme|Télécharger le fichier
+2FZhhA|Téléchargement en cours :
+YEcCUE|Téléchargement
+TQrqJw|Supprimer la table `%1`.
+TuOggl|Colonne obsolète `%1`.`%2` a été supprimée.
+zQY162|L'index obsolète `%1`.`%2` a été supprimé.
+2p7kEh|Supprimer la table `%1`...
+XRCLkB|Vérification des doublons
+dyCw0A|Vérifie les doublons.
+0zU8XJ|Durée : %1 secondes.
+RGeCEH|Durée : %1 secondes.
+WsmOAA|Durée : %1 secondes.
+pp5hEg|Durée : %1 secondes.
+tZIRPY|Durée : %1 secondes.
+xnRS5I|Durée : %1 secondes.
+zxvnvd|Durée : %1 secondes.
+oK13vo|Ecriteau
+uxuAAD|Ecrid est absent. Pas de modification ou de suppression d'enregistrements sans ecrid dans l'API V3 et supérieure.
+mhjGNl|Indication d'Ecrid manquante.
+VbeC4b|Modifier les dommages de bateau
+YHWITo|Modifier les dommages de bateau
+hdwm6Z|Modifier les réservations de bateaux
+r9TL22|Modifier les réservations de bateaux
+YFoAPi|Modifier le statut du bateau
+tnzEpe|Modifier le statut du bateau
+cdETXT|Modifier les bateaux
+lkugXA|Modifier les bateaux
+2OZnfa|Traiter le travail de l'association
+SZjXvL|Traiter le travail de l'association
+QdCrU7|Traiter les groupes
+VsKl9y|Traiter les groupes
+716LLK|Modifier le carnet de route
+UhFdb3|Modifier le carnet de route
+DGYpXg|Modifier les personnes et le statut
+fcIJjT|Modifier les personnes et le statut
+I268Bx|Modifier les objectifs et les cours d'eau
+Z9muzc|Modifier les objectifs et les cours d'eau
+Eu831Y|Modifier les équipes
+gry3jS|Modifier les équipes
+8CNKUo|Modifier le badge de trajet
+8NUMcP|Modifier le badge de trajet
+9aBBX0|modifier/supprimer dans un nouvel onglet
+aIaf9l|modifier/supprimer dans un nouvel onglet
+TyHyOI|efa nouvel enregistrement
+v8VjM1|données efa
+MVZjKP|Réglages efa
+deBLXi|Efa_archive::versionized_to_archive rencontré $pos_of_archive_id_in_list 
+4c2kZc|Efa_archive::versionized_to_archive rencontré $pos_of_archive_id_in_list 
+iRGaIO|efaAdminName ne peut contenir que des caractères a-z, 0-9 et '_'. Pas de majuscules, pas de caractères spéciaux, pas d'espaces.
+WpcBzB|efaAdminName doit comporter entre 4 et 10 caractères.
+85vTIT|Aide efaCloud
+0HdBJp|Concept de protection des données efaCloud
+W2wpqV|Concept de sécurité efaCloud
+PlK3cE|Utilisateurs efaCloud
+zqMZlN|Les utilisateurs efaCloud peuvent également se voir attribuer des droits d'administration efa, leurs droits sont alors configurés dans le serveur de la même manière que dans le PC efa et agissent sur tous les PC efa connectés au serveur. Pour ce faire, un nom d'administrateur efa doit être attribué à l'utilisateur d'efaCloud. Celui-ci peut être utilisé pour la connexion d'administration dans l'efa-PC connecté. Exemple 'alexa' pour 'Alex Admin'. Option 'Modifier les droits d'administrateur efa'.
+15iRSs|efaCloudUserID - ou -
+5GosWb|efaWeb pour les bateaux : Afficher le carnet de route
+fIyhiE|efaWeb pour les bateaux : Afficher le carnet de route
+4JGwyS|efaWeb : Inscrire des trajets dans le carnet de route pour le hangar à bateaux #3
+iKutaN|efaWeb : Inscrire des trajets dans le carnet de route pour le hangar à bateaux #3
+EzjqFN|efaWeb : Inscrire des trajets dans le carnet de route pour le hangar à bateaux #4
+eWvkQf|efaWeb : Inscrire des trajets dans le carnet de route pour le hangar à bateaux #4
+VCiXlw|efaWeb : Inscrire des trajets dans le carnet de route pour le hangar à bateaux #1
+YbxSVD|efaWeb : Inscrire des trajets dans le carnet de route pour le hangar à bateaux #1
+Z9WBfK|efaWeb : Inscrire des trajets dans le carnet de route pour le hangar à bateaux #2
+n2dNm8|efaWeb : Inscrire des trajets dans le carnet de route pour le hangar à bateaux #2
+3L5MHB|efaWeb pour le suivi : Laisser des messages
+3QfGIe|efaWeb pour le suivi : Laisser des messages
+atCyn8|efaWeb : Lire les déclarations de sinistre
+slon3e|efaWeb : Lire les déclarations de sinistre
+FOIAd0|efaWeb : Lire les messages
+NDiu3F|efaWeb : Lire les messages
+ZcpuyD|efaWeb : lire les réservations
+jg5vNC|efaWeb : lire les réservations
+DCulJk|efaWeb : Réserver des bateaux
+rq8s1c|efaWeb : Réserver des bateaux
+CowNyK|efaWeb : Déposer une déclaration de sinistre
+yyPnCq|efaWeb : Déposer une déclaration de sinistre
+WwI0Sx|Soit l'URL de votre serveur est incorrecte, soit le serveur a une erreur de serveur interne.
+GTufO2|carnet de route électronique
+6cZFHd|EMail
+8wfvuE|EMail
+LMFCXE|EMail
+eiCoTk|champs de données vides
+Oju3Ki|table vide
+InlfaA|Fin (heure)
+MFU1ZD|Fin (trajet de plusieurs jours)
+uE7sbD|Fin le
+5cu4oU|Terminer le trajet
+7YoQfb|Fin
+H6xh5s|saisir une valeur.
+wwLnzB|Inscrire un trajet
+pfu2ta|Entrées des autres années
+M7SjbB|Entrées de cette année
+fKG3hw|EntréeId,bateau,heure de début,destination
+BqM9Lt|EntréeId,date,bateau,Cox,équipage,heure de début,heure de fin,destination,distance
+BVliju|Erreur 502 : aucun type d'information valable n'est indiqué.
+3vkMSJ|Erreur lors de la vérification des données :
+edML3Q|Erreur lors de l'exécution d'une instruction SELECT de la base de données.
+WWu9LQ|Erreur dans la séquence des formulaires.
+EvZXbc|Erreur lors de la mise à jour de l'enregistrement dans %1. L'enregistrement avec la clé n'a pas pu être trouvé :
+2dhcic|Erreur lors de
+6HrzgB|Erreur : Le fichier '%1' n'a pas été trouvé.
+8XihSu|Erreur : Le fichier '%1' n'a pas été trouvé.
+zR3M1H|Erreur : Aucun efacloud record Id (ecrid) n'a été indiqué lors de la requête.
+sgBY7F|Erreur : Aucun nom de table n'a été indiqué lors de la requête.
+jVHp9d|Erreur : L'enregistrement dans la table '%1' avec l'ecrid '%2' n'existe pas.
+vB1jX7|Erreur : L'utilisateur n'a pas suffisamment de droits pour initialiser la base de données.
+NLNSFH|Erreur :
+qZ10EG|Erreur
+RwHQSN|Dépassement de la durée maximale d'inactivité de %1 minutes.
+1ZDOoa|Dépassement de la durée maximale de session de &1 heures.
+2srRi7|Exclure lors de concours
+ayX9bN|Exclure du travail de l'association
+uMWKvT|Exclure des statistiques
+ADuZsp|exclure des statistiques
+RtlLSq|Exécuter Ligne
+3EqVT5|Exécuter une commande du système d'exploitation
+uLPcqR|Exécuter une commande du système d'exploitation
+sBBcUy|Instruction de base de données exécutée pour l'utilisateur '%1' : %2.
+uvguxW|configuration existante :
+8uK9et|Quitter efa
+WFMtXB|Quitter efa
+ZQ4lM0|Terminer
+1zKW1z|Exporter les données.
+0MPbLH|ID externe
+t32eUO|Suppression de l'extra '%1'.
+f6ykNp|efaWeb_sessiongroups
+sHmiya|Échec de l'instruction de base de données pour l'utilisateur '%1' : %2 Erreur : '%3' dans %4.
+xfM8pp|Échec de l'archivage de l'id : %1 pour %2. aucun ecrid disponible.
+WsILpP|Échec de l'archivage de l'id : %1 pour %2. Aucun enregistrement correspondant à l'ecrid '%3' n'a été trouvé.
+Ll1PcH|Id. n'a pas pu être copié : Copier %1 pour %2 dans l'archive. Raison :
+3tX6IN|L'enregistrement n'a pas pu être vidé ou supprimé après l'archivage : %1 pour %2. raison :
+3Srdaj|Le fichier de session existant n'a pas pu être lu :
+INS7kx|Le fichier de session '%1' n'a pas pu être supprimé.
+Mi1B56|Échec de l'écriture d'un nouveau fichier de session :
+kGf6KR|Le fichier de session rafraîchi n'a pas pu être écrit :
+nLVyxC|Le fichier de session rafraîchi n'a pas pu être écrit :
+fposcc|Échec de la recherche. Raison :
+avyj0D|Champ
+0SC9ay|Le fichier n'existe pas.
+5Crr2x|Autorisations de fichier pour
+Vu1bh5|Autorisations de fichier pour
+JCP71T|Fichier : %1 Utilisateur après vérification de la session appUserID %2, rôle : %3.
+wdLerX|Fichier
+Rhz5mZ|Filtre dans la colonne :
+tzF0EL|Filtre :
+O39Sks|Supprimer définitivement des utilisateurs
+SxaQ2N|Trouver un enregistrement efa
+AFfNO8|Trouver des utilisateurs
+2MRXpo|Trouver
+JLWDeX|Trouver
+xCemhH|Prénom et nom
+TY6MFV|Prénom - ou -
+PU7fh8|Prénom
+Y4qNDN|Prénom
+zOaP8F|Prénom
+8e7Bmw|Correction par
+zgUx5E|Corrigé
+NARfje|Pied de page sous les e-mails générés par le système
+gF0grL|Pour %1, il manque la catégorie %2.
+w7n9cV|Pour %1, il y a en plus dans %2 : %3
+EwvOZD|Pour %1, il manque dans %2 : %3.
+5jgFwZ|Pour %1, la catégorie %2 est vide.
+iwE1Bg|Pour %1, les valeurs du paramètre %2 ne sont pas identiques.
+8ZhsQk|Pour efaWeb, des autorisations différenciées peuvent en outre être attribuées à l'utilisateur efaCloud. Cela n'a toutefois de sens que dans le rôle 'membre'.
+xjjbhP|Pour les nouvelles déclarations de sinistre, veuillez utiliser efaWeb.
+Cf48Vk|Pour les nouveaux messages, veuillez utiliser efaWeb.
+j2CGJe|La validité des nouveaux objets ne doit pas être limitée.
+MuH95U|Pour les nouvelles réservations, veuillez utiliser efaWeb.
+UgtfgC|Pour les nouveaux trajets, veuillez utiliser efaWeb.
+Mfgl2o|Terminé pour la table %1. Renvoie %2 enregistrements.
+73XuU8|Pour des raisons techniques, le formulaire est entièrement réinitialisé en cas d'informations erronées.
+H9UN5Y|Pour des raisons techniques, le formulaire est entièrement réinitialisé en cas d'informations erronées.
+HX2HsG|Pour des raisons techniques, le formulaire est entièrement réinitialisé en cas d'informations erronées.
+JL2WtJ|Pour des raisons techniques, le formulaire est entièrement réinitialisé en cas d'informations erronées.
+L3Bf0j|Pour des raisons techniques, le formulaire est entièrement réinitialisé en cas d'informations erronées.
+L9HPzL|Pour des raisons techniques, le formulaire est entièrement réinitialisé en cas d'informations erronées.
+NrQGhl|Pour des raisons techniques, le formulaire est entièrement réinitialisé en cas d'informations erronées.
+Ts6lR3|Pour des raisons techniques, le formulaire est entièrement réinitialisé en cas d'informations erronées.
+Uh4oI2|Pour des raisons techniques, le formulaire est entièrement réinitialisé en cas d'informations erronées.
+ZDJHuD|Pour des raisons techniques, le formulaire est entièrement réinitialisé en cas d'informations erronées.
+bv78Ko|Pour des raisons techniques, le formulaire est entièrement réinitialisé en cas d'informations erronées.
+eBYUZI|Pour des raisons techniques, le formulaire est entièrement réinitialisé en cas d'informations erronées.
+mSiGMf|Pour des raisons techniques, le formulaire est entièrement réinitialisé en cas d'informations erronées.
+nEgKIt|Pour des raisons techniques, le formulaire est entièrement réinitialisé en cas d'informations erronées.
+umMRru|Pour des raisons techniques, le formulaire est entièrement réinitialisé en cas d'informations erronées.
+xgZ6QS|Pour des raisons techniques, le formulaire est entièrement réinitialisé en cas d'informations erronées.
+zZ6QxD|Pour des raisons techniques, le formulaire est entièrement réinitialisé en cas d'informations erronées.
+ffkuoc|Pour la recherche, au moins un champ doit contenir une entrée.
+mwgz0K|Pour la configuration encore existante du client %1, il n'y a plus d'utilisateur efaCloud.
+JIIqc3|Les actions suivantes sont disponibles pour cet utilisateur (veuillez cliquer sur le lien) :
+jY9jZE|pour les utilisateurs
+iti1xU|Pour quel client ?
+0kFZ0X|Vérifier l'accès aux répertoires interdits ...
+obg4CF|La clé de données du formulaire '%1' ne correspond pas à une clé de champ du formulaire %2, étape %3
+v9Y9Xk|Format :
+QmZI3x|Vérification de la configuration du cadre ...
+fLEOod|Champ libre 1
+r5e8fj|Champ libre 1
+ODxMEM|Champ libre 2
+trUBiT|Champ libre 2
+gTYQjX|Champ libre 3
+nGKaUU|Champ libre 3
+1t2W9I|à partir d'une session anonyme.
+KZunv7|De la date
+C3bKnx|à partir du fichier
+1i1RBL|de l'heure
+mymSDY|De :
+yhYGfZ|De :
+c2yXTk|De
+lJpyEt|Recherche plein texte
+kgufgC|Fonction
+UGlDe1|Impossible d'ajouter d'autres compteurs système.
+gFMPPA|uuid_boats
+gPmeyF|
+|             </p>
+gXEDSy|
+|<div class='w3-col l2'>
+gdHeK9|efa2clubwork
+9CKxCr|Sexe
+OrvMhQ|Récupérer sous forme de fichier csv à télécharger :
+oGFs8D|Nous vous souhaitons beaucoup de succès !
+zPZZ34|Motif
+hFXbhB|audit_boatstatus
+hPmRBV|
+|</div>
+hS2MVC|efa2boatstatus
+4Bzo0W|Erreur de manipulation. %1 n'a pas pu être supprimé de %1, car on ne peut pas supprimer son propre utilisateur.
+dF0DWJ|Bonjour %1 %2,
+yNm37C|Aide
+NAOKEm|Voici les %1 derniers mails envoyés à %2.
+hC9k7m|Ici, tu peux modifier des tables entières si elles ont un Id unique (les autres ne peuvent pas être sélectionnées).
+gxNfWP|Ici, vous pouvez modifier les données d'un utilisateur.
+OD4mjI|Ici, tu peux modifier les autorisations de message d'un utilisateur.
+xb6rnq|Ici, tu peux modifier le profil de l'utilisateur.
+6f8ECD|Ici, tu peux modifier les autorisations de workflow d'un utilisateur.
+paNb2T|Ici, tu peux modifier des tableaux entiers.
+JcwPrk|Ici, vous pouvez modifier les données de l'utilisateur.
+1HahpW|Ici, tu peux saisir le profil du nouvel utilisateur qui sera ensuite créé dans la banque de données.
+UHO0DE|Ici, tu peux trouver un enregistrement des tableaux efa.
+SEbIoq|Ici, tu peux importer des données pour des personnes sous forme de tableaux csv.
+fe8jQg|Ici, tu peux importer des données pour des personnes sous forme de tableaux csv.
+jNWS1l|Tu peux importer ici des tableaux eFa-XML. Le tableau correspondant est supprimé et réécrit.
+CpLUaw|Remarque :
+c02HGj|Remarque :
+qiOgPr|Remarques
+hju1JV|Archivierte Datensätze anzeigen
+hnGBvK|audit_status
+LHk83t|privé :
+D6ZypP|Page d'accueil
+YakGpo|Page d'accueil
+m9CO2y|Page d'accueil
+MzCIkc|Travaux de maintenance
+fFviiD|Un mot de passe à usage unique ne peut toutefois être utilisé qu'en combinaison avec l'adresse e-mail.
+iL8k6A|efa2groups
+rBRXe8|Id non défini
+LOWEsI|ID
+gvdW5g|Si un mot de passe permanent est défini, tu ne peux pas utiliser de mot de passe à usage unique.
+KiFMhh|Si l'ID utilisateur (champ supérieur) est indiqué, le reste est ignoré.
+14r3x2|Si tu n'as pas reçu de mot de passe à usage unique, tu peux réessayer.
+LNrNwl|Si ton mot de passe permanent est supprimé, tu peux te connecter avec un mot de passe à usage unique et le redéfinir sous "Mon profil".
+4kkzns|L'image a été reconnue.
+LhyISC|Importer une sauvegarde
+qUU4YM|Importer une sauvegarde
+KJallV|Importer des données personnelles
+k0MUQb|Importer des trajets
+AC50KL|Importer des utilisateurs
+1P07E8|L'importation de membres est possible sous un point de menu séparé.
+taO63K|dans l'enregistrement de données avec l'ID
+XUdGql|En total %1 références à des ID d'objets dans la base de données.
+0nSbjg|en total [%1] enregistrements dans %2 tables.
+BtUecZ|dans la base de données
+TOfV45|dans la base de données
+o6WA71|Veuillez sélectionner dans la première étape la liste de distribution qui doit recevoir les mails avec ce destinataire.
+Kzbcet|Total %1 tables avec %2 enregistrements.
+5Bd5LG|Total %1 utilisateurs.
+AkTh7r|Total %1 utilisateurs.
+0gJ1yz|Total [%1*%2] enregistrements * colonnes dans %3 tables.
+qHF8o7|en total :
+ny15Xd|Clé incomplète pour la fixation dans cette table. Enregistrement : %1, champs clés attendus : %2.
+aXHg3t|Indices disponibles.
+5OhRYr|Indices attendus.
+pmLUiB|Les enregistrements individuels ne peuvent pas être récupérés, mais il est possible de les afficher.
+QzwDXO|Type d'info non reconnu :
+Gcji2b|Informations sur les réservations de bateaux sans login visible
+meZ7oy|Information sur les bateaux sur l'eau visible sans login
+Mi3MiT|Informations sur les bateaux endommagés visibles sans login
+HzhgbZ|Information sur les bateaux non disponibles sans login visible
+mBOQpn|Indication sur le type de dernière modification (LastModification) manquante.
+Y1BObA|Information
+vkPG2M|Info
+1HO6kz|Statistiques d'initialisation, de connexion et d'erreur collectées (dernière étape).
+RfjVOh|Statistiques d'initialisation, de connexion et d'erreurs collectées.
+9vOwbr|Insérer l'enregistrement admin '%1' dans 'efaCloudUsers'.
+CWEDJn|Insérer un nouveau nom :
+b5wSVV|Installé par :
+uz08Wi|Les modules PHP installés ont été vérifiés.
+Bc1JCp|Dommage d'assurance
+OkL5GN|Valeur d'assurance
+cq6KYu|Appel non valide
+ckQubu|Changement de contexte non valide
+GUOWvb|ID de champ non valide dans settings_tfyh :
+2D9pBg|Liste de distribution de courrier invalide
+hfr2Zo|Liste de distribution de courrier invalide
+X6z2gz|Nom de l'ensemble invalide dans l'ensemble de données
+rLfaDg|Date de début non valide : %1. Les trajets peuvent être enregistrés au maximum 5 jours à l'avance.
+4OEKwB|Invisible
+IPD1Fr|Invisible
+VicTNV|Invisible
+ftBV4E|Il ne peut pas être mis à jour.
+43SSV8|Le fait que les lettres soient en majuscules ou en minuscules ne joue aucun rôle.
+OO3p6S|il n'est pas recommandé de modifier les enregistrements de la table Insignes de conduite dans efaCloud.<hr>
+HxsB1x|Il est possible que %1 fonctionne sans ces modules, mais cela n'a pas été testé.
+6HRo0G|Il est fortement recommandé d'utiliser les mêmes définitions de type pour tous les clients. En effet, ils échangent des données via efaCloud, qui peuvent être compromises en cas de configuration différente. La correction doit être effectuée dans les programmes efa.
+Fy3Nzi|Il n'a plus été possible de déterminer la cause de l'erreur.
+ivW60E|audit_status
+j9rny5|uuid_boatreservations
+jDyoLH|efaWeb_logbook
+jGuZDr|archive_logbook
+jHg5lq|efaWeb_boats
+Cboyyi|y conserver
+6NrPjS|Date de référence pour l'archivage :
+mDzsS8|Clé manquante
+SXW6e1|Le keyfixing n'est pas autorisé pour les ensembles de données avec un ID d'ensemble de données efaCloud (ecrid).
+oBavoZ|KilomètreAB
+iJOhK4|Kilomètres
+l8nz8C|audit_boats
+lIzc0X|noListForThisRole
+lTMUZN|</div>
+|<div class='w3-row' style='padding: 10px;'>
+4fsAVc|dernière activité inconnue
+z1kw92|dernière activité :
+p3eN5N|dernière modification
+MGQrre|Indication sur le moment de la dernière modification non valable
+0RONRY|dernière modification le
+16Y1dm|dernière modification le
+6GWqSd|dernière modification le
+GRle6r|dernière modification le
+Gvv8Dg|dernière modification le
+NbuQaN|dernière modification le
+OEfcur|dernière modification le
+PLLYW3|dernière modification le
+Puw9Gv|dernière modification le
+WjRbBU|dernière modification le
+XnSyaD|dernière modification le
+eEoNb0|dernière modification le
+jd1fNj|dernière modification le
+ob5C4d|dernière modification le
+sYmnGU|dernière modification le
+yXxn29|dernière modification le
+zFXDsw|dernière modification le
+PXbdAA|Nom de famille
+l4txC2|Nom de famille
+ydEB3g|Nom de famille
+yqi6jN|Nom de famille
+oH9DoY|derniers déplacements
+6oAetm|dernière variante
+imsQg3|Indication de l'heure de la dernière modification (LastModified) manquante
+Nf88wl|Complément kilométrique
+z5D2q8|Dernière sauvegarde de %1.
+zkwDI7|Lignes
+ZmqZlm|Liste tronquée après %1 enregistrements.
+CBjPta|Configuration de liste introuvable. Erreur dans la configuration de l'application.
+Txe8Uq|Liste des groupes autorisés
+tSRTJf|Liste des enregistrements corrompus
+Uht2dK|Liste des ID d'objets
+DyueMN|Liste des références aux ID d'objets
+SqtY4N|Liste des tables par taille
+jgDFp0|Lister les utilisateurs
+ljq1Qx|uuid_clubwork
+R74F98|Protection de charge pour
+YEU1wy|Chargement de la ligne
+KOipdt|Connexion 
+gsVOpm|Connexion 
+XCjlyh|Rotation et analyse des journaux terminées
+xhJ9cc|Carnet de route %1, trajet #%2
+V0q9le|Carnet de route du hangar à bateaux 1 (doit contenir AAAA)
+lFAuqp|Livre de bord du hangar à bateaux 2 (doit contenir AAAA)
+S84YVk|Carnet de route hangar à bateaux 3 (doit contenir AAAA)
+FHeG0D|Carnet de route hangar à bateaux 4 (doit contenir AAAA)
+tNO7yZ|Texte du carnet de route
+9gZllT|Carnet de route
+A6NWPJ|Carnet de route
+cGZgv4|Carnet de route
+kqKRmK|Carnet de route
+4aLEcN|Carnets de route
+R0W8GE|Carnets de route
+UEM4kg|Carnets de route
+tAZZwi|Carnet de route
+u6KRSK|Carnet de route
+vb5sne|Carnet de route
+OzqrOs| efaCloudUserID
+eAyB1z|Login token envoyé à l'utilisateur : %1 (%2) n'a pas pu être envoyé.
+o94iyq|Login token envoyé à l'utilisateur :
+4RX8ec|Déconnexion
+4viwOG|Déconnexion
+sOWvNq|Déconnexion
+tk0t49|Déconnexion
+O1N4lu|Consulter un membre
+mA4mRY|
+|</div>
+mCCQdU|
+|<!-- END OF Content -->
+|</div>
+UbM9MJ|Adresse de messagerie Copie des destinataires des notifications de workflow.
+IwDHk3|Adresse e-mail pour signaler un nouveau message à admin
+ciH3c2|Adresse e-mail pour signaler une nouvelle avarie de bateau
+bZPxRq|Adresse e-mail pour les avis de nouvelle réservation de bateau
+QvmvUh|Les e-mails envoyés à la liste de diffusion sélectionnée ne peuvent pas être lus par l'utilisateur actuellement enregistré.
+8I1Ul0|Fichier de session mal formaté :
+08PLC8|Gérer les admins
+bljsmA|Gérer les admins
+A1hr23|Administrer les carnets de travail de l'association
+oFez2p|Administrer les carnets de travail de l'association
+JCrsVR|Administrer des projets et des feuilles de route
+mbqbNM|Administrer des projets et des feuilles de route
+ycf5ig|Fabricant
+KjDtDE|Marquer comme lus les messages adressés à Admin
+gTJ2qi|Marquer comme lus les messages adressés à Admin
+I6YQ4r|Marquer les messages au gardien du bateau comme lus
+U5Mcye|Marquer les messages au gardien du bateau comme lus
+7HmEWX|Âge maximum
+1QRXV3|nombre maximal de personnes étrangères au groupe
+H9kI5D|poids maximal de l'équipe
+7e8XGU|Maximum
+ct8Zr0|Liste des membres
+M9JjE6|Membre
+D1T6Ho|Numéro de membre
+8hLYiU|Membre
+6OvfoX|Message numéro
+OMRZJ7|Déclaration :
+ZdR7Gs|Messages des 50 derniers jours
+b9g4X4|Messages, date de création
+x7jU3K|Communication
+rQTx6e|Âge minimum
+EAFHgk|Ajout d'un %1 manquant.
+l9y94L|Colonne manquante %1.%2
+II49o0|Champs manquants vérifiés.
+SWDxtq|Colonne d'historique `%1` manquante dans la table `%2`. Les instructions d'insertion et de mise à jour de la base de données échouent. Veuillez corriger la configuration.
+pMdghG|Données manquantes
+dAwKF1|Nom d'enregistrement manquant dans l'ensemble de données.
+rgqM2t|Paramètre manquant : %1. L'application ne peut pas être lancée.
+mp2bOE|Tableau manquant %1.
+k9CKDs|Mode :
+nYXAHD|Modèle
+2slTvw|Modifier maintenant
+BsweJy|Modifier maintenant
+DW4jJM|Modifier maintenant
+DddBXT|Modifier maintenant
+IRuTJj|Modifier maintenant
+IVthzP|Modifier maintenant
+Latx0o|Modifier maintenant
+ZWWWSt|Modifier maintenant
+bZWYdj|Modifier maintenant
+ffptTI|Modifier maintenant
+gDLrFs|Modifier maintenant
+i15O3R|Modifier maintenant
+iBsIQ6|Modifier maintenant
+mpjqL9|Modifier maintenant
+nCxlwt|Modifier maintenant
+oAnK9A|Modifier maintenant
+zJdWYf|Modifier maintenant
+zz4vdo|Modifier maintenant
+d7vLxb|modifier
+bq4pYu|Surveiller
+Nza13s|Sauvegarde la plus récente de %1.
+Ksm76W|Mon profil
+n6ky2H|Byte.
+nRHHwb|audit_destinations
+9vGHkQ|Désignation de l'association
+hJ7Bsi|Nom de celui qui est responsable de l'exploitation
+dO0l4o|Complément de nom
+eZWzUq|Complément de nom
+9HtXZo|Nom
+FZawRf|Nom
+cTStCe|Nom
+hvLW0s|Nom
+vDf51g|Ni efaAdminName ni %1 ne sont indiqués dans l'enregistrement de transaction VERIFY. Vérification impossible.
+0Bc3sn|Nouvelle entrée
+cIKrjx|Nouveau mot de passe
+ZH4LGD|pas de bateau indiqué
+SMOZBB|Aucune modification n'a été consignée.
+5rekMK|Aucune modification n'a été effectuée.
+lBnu0m|Aucune statistique client disponible.
+26WMwL|pas de contenu trouvé.
+B826Ym|Aucun enregistrement supprimé n'a été trouvé.
+sL3Wq9|Pas de différences dans la configuration pertinente du programme.
+CoAYmk|Pas de différences dans la définition du type.
+AZp3UC|Aucune adresse e-mail n'est enregistrée pour ce compte.
+QEeiO2|Aucun fichier indiqué. Veuillez réessayer.
+R8XI15|Aucun fichier n'est indiqué. Veuillez réessayer.
+Rlv6xi|Aucun fichier indiqué. Veuillez réessayer.
+WFA42N|Aucun fichier indiqué. Veuillez réessayer.
+mYd52x|Aucun fichier n'est indiqué. Veuillez réessayer.
+pPggDq|Aucun id n'a été trouvé pour le statut '%1'.
+KyVvaE|Aucune image n'a été trouvée dans le fichier #%1 '%2'.
+SI2aD0|Pas de fixation de clé pour ce tableau.
+9Qyhtr|pas de dernière erreur mysqli disponible.
+ZPBjQx|Aucune définition de liste trouvée.
+iZBM6s|Pas d'adresse de messagerie.
+bQNlhS|Aucun mail enregistré pour cet utilisateur, donc pas d'envoi possible d'un mot de passe à usage unique.
+bYRqTv|Aucun enregistrement correspondant trouvé.
+U24lUJ|Aucun utilisateur correspondant trouvé.
+Vpmha6|Pas de version correspondante trouvée. Pour plus de détails, voir ci-dessous ainsi que dans le fichier
+I3zknU|Aucune métadonnée trouvée.
+JjCWn9|Aucune donnée modifiée n'a été introduite ou des erreurs sont présentes. Rien n'a donc été modifié.
+pXgPvV|Avec le numéro d'utilisateur comme information de compte, il n'est pas possible de demander un mot de passe à usage unique.
+0xh80B|Il n'est pas possible de demander un mot de passe à usage unique avec le numéro d'utilisateur comme information de connexion.
+355gfL|Personne
+DEPfjp|Personne
+5LFPnH|Aucun identifiant de page n'a été trouvé lors de l'initialisation pendant l'appel.
+7n26tL|Pas de mot de passe ou mot de passe trop court indiqué dans l'enregistrement de la transaction VERIFY. Vérification impossible.
+vI6UBA|Aucune image disponible dans cet album.
+KFwEDL|Aucun enregistrement trouvé.
+nDkWmB|Aucun enregistrement trouvé.
+bKEeu8|aucun enregistrement à archiver.
+V7c5k8|Pas de mandant de référence identifié.
+BwU3GN|Aucune version de serveur trouvée. Est-ce que c'est peut-être le localhost ?
+M4AobL|Pas de mémoire disponible, mode test.
+VTLYoN|Pas de table de ce type.
+0471BS|Aucun enregistrement supprimé à nettoyer.
+1gFUrv|Aucun trajet n'a été sélectionné et donc aucun trajet n'a été supprimé.
+4C9I5e|Aucun utilisateur pour
+wyHjxb|Aucun utilisateur pour
+nWooch|Aucune valeur définie pour
+JTclLO|Aucun historique de version disponible.
+Xn806o|Aucun historique de version disponible.
+7TSRnp|Aucune valeur.
+7mUP2w|pas de
+5UcqeO|Non admissible.
+8ARdau|Non admissible.
+9R86C3|Non admissible.
+CQTQ0R|Non admissible.
+EVb79D|Non admissible.
+FPNSjs|Non admissible.
+KjzmnU|Non admissible.
+VhNoKp|Non admissible.
+aalScL|Non admissible.
+lTNFEv|Non autorisé.
+uBlPNN|Non admissible.
+yMxAqF|Non admissible.
+2t62D0|non défini
+dB1fLF|non défini
+FHyizx|Non trouvé.
+M19SkN|Non trouvé.
+PBQQGF|Non trouvé.
+VvUAbG|Non trouvé.
+d5YI7D|Non trouvé.
+1Pq6VT|NON OK.
+XJvUh4|NON OK.
+FEabHF|PAS OK
+2hvcxV|encore indiqué.
+eGLG1w|non défini
+LlqlPF|non utilisé.
+l3xH18|pas encore rafraîchi, pour les utilisateurs
+N2DEyA|REMARQUE : Les pièces jointes ont été supprimées et doivent être rattachées.
+AGFCdm|Remarque : les paramètres linguistiques ne s'appliqueront qu'au prochain clic.
+T8bnu4|Remarque :
+p71s5H|Remarque :
+fD6eVJ|Remarques
+rT8wtF|pas
+46r1cW|Numéro 1 - 12
+qn00xE|Numéro 1 - 12
+SuYXae|Numéro 13 - 24
+W6OxRn|Numéro 13 - 24
+hYuVK4|Nombre d'accès
+W14LOF|Nombre de travail de l'association
+NijhLI|Nombre d'enregistrements
+gCxn2q|Nombre de demandes
+3EihyE|Nombre de sièges
+QvwM9W|Nombre de sièges
+bN94jQ|Nombre de sièges
+zN9uFR|Nombre de sièges
+8UxLNR|Nombre de trajets
+K1NJOq|Nombre de variantes
+Jl8rPJ|Numéro
+nv2Oy2|efa statistics
+o5pCKD|</div>
+|<!-- END OF Content -->
+|</div>
+3jcnUv|ID de l'objet
+BrYHfg|ID de l'objet
+QWboNj|ID de l'objet
+SdhCaQ|ID de l'objet
+UtMoad|ID de l'objet
+V9185F|ID de l'objet
+YNiVz6|ID de l'objet
+hNFMUF|ID de l'objet
+pETnND|ID de l'objet
+YQMCEW|ID d'objet collectés
+OV7xZi|IDs objet en total.
+FjaAjn|ID de l'objet en
+wJIXR7|ID de l'objet
+WdYaFk|Objet valable jusqu'au :
+kKEQHN|Entrave
+EAfgop|Ok. Tous les enregistrements contiennent les informations ecrid requises.
+CfkyuH|Ok. Paramètres de configuration Version de la mise en page
+sk2yd0| version %1.
+O1BjoP|ok.
+fANxN5|ok.
+lKuUN0|ok.
+sQuH9Y|ok.
+vI1rIC|ok.
+CBxZVW|Un niveau plus haut
+M4m15E|Mot de passe unique pour %1 '%2'.
+SUuG3E|Mot de passe unique envoyé pour supprimer le mot de passe de l'application '%1'.
+7G15iQ|Mot de passe unique envoyé pour réinitialiser le mot de passe.
+hiQjLL|Mot de passe unique envoyé à l'utilisateur.
+8YgUEl|Mot de passe à usage unique
+gTp06U|Mot de passe à usage unique
+OdAp4b|Mise à jour en ligne
+T06lHl|Mise à jour en ligne
+nchfyO|uniquement pour le groupe
+R0wh6L|uniquement dans Sortie de bateau avec Id (numéro)
+SKkVXe|uniquement dans Sortie de bateau avec numéro
+cg2vkM|Seules les personnes enregistrées dans le carnet de route peuvent réserver un bateau.
+jnk5Ij|uniquement avec le barreur
+Pj5VdW|Oups ! une erreur fatale.
+RMYTH2|Les trajets ouverts ne peuvent être traités que dans efaWeb ou dans le programme PC.
+0Ne1yX|Dommages ouverts aux bateaux
+Y0Nnwo|Dommages ouverts aux bateaux
+Rqub4S|Déclarations de sinistre ouvertes
+aBfAtM|Ouvrir/fermer les listes de bateaux
+A0aN1k|Ouvert
+ai7VD4|Ou il n'a plus d'enregistrement actuellement valable. Le cas échéant, le nom indiqué n'est pas non plus unique. Il ne peut pas être mis à jour. Pour cela, la dernière version existante doit d'abord être validée.
+Kxg8sl|Ordre des noms
+2iK73T|Notre association utilise efaCloud et peut être désignée comme association utilisatrice sur efacloud.org.
+DJV8m7|éditer la table efa
+MBZSgY|Sortie du dernier fichier journal téléchargé
+5jvc1j|Surcharge pour '%1'. Période de surveillance : %2 secondes, limite : %3 événements, attente jusqu'à présent : %4 secondes.
+cpLo7L|Données de diagnostic de surcharge. L'événement a été déclenché par '%1', pour '%2'.
+HIkuMt|Aperçu des carnets de route et des carnets de travail de l'association.
+FalTMo|Aperçu
+QDV6IR|Propriétaire
+zcNkU0|La page '%1' doit être appelée comme page suivante avec une identification d'enregistrement.
+6skWc5|La page '%1' doit être appelée comme page suivante de Trouver enregistrement.
+b1CfJu|La page '%1' doit être appelée comme page suivante de Trouver enregistrement.
+5bm14Z|La page '%1' doit être appelée avec l'indication efaCloudUserID du client à rapporter.
+ov4KAp|La page '%1' doit être appelée en indiquant l'id ou l'efaCloudUserID de l'utilisateur à modifier.
+EomIlN|écluses passées
+DMXYCB|Mot de passe oublié ?
+SjwGi5|Mot de passe oublié ?
+aSg4LC|Mot de passe
+wfb4w9|Mot de passe
+QxUPtc|Réservations passées par bateau
+Ech3QZ|Réservations passées par personne
+bqGw5V|Exécuter les routines de maintenance (patience)
+pYGgkq|Autorisation
+joG6ef|Autorisations pour efa Nachrichten et efaWeb
+VCcc4J|Autorisations par rôle
+FdP56V|Personne (Id)
+zErjpE|La personne n'a pas pu être trouvée
+7UNg40|Carnet de route personnel
+LGa1J1|Personnes, non valide depuis
+D9NwwV|Téléphone
+RJ96L3|Les compléments de nom tels que 'de' ou autres doivent être inscrits dans le nom de famille (p. ex. 'Eckhard' - 'von Hirschhausen').
+dmdcpx|Les compléments de nom tels que 'de' ou autres doivent être inscrits dans le nom de famille (p. ex. 'Eckhard' - 'von Hirschhausen').
+AdwVBx|S'il vous plaît à "
+arUUZe|Veuillez saisir une date valide dans "%2" (et non "%2").
+6ytHoP|Veuillez saisir une adresse e-mail valide dans "%1".
+CLnsaZ|Saisis ici le mot de passe à usage unique que tu viens de recevoir par e-mail pour t'autoriser.
+qxoh5L|Veuillez saisir ici le mot de passe à usage unique que vous venez de recevoir afin de supprimer votre mot de passe permanent.
+2hxIEV|Vous trouverez en annexe la sauvegarde des données de l'application telle qu'elle a été configurée. Traitez ces données comme défini dans votre ensemble de règles de protection des données. Cela inclut généralement la suppression après un court laps de temps.
+OI0hj9|Veuillez maintenant vous déconnecter et vous reconnecter, le mot de passe est toujours le même.
+s6B4AE|Veuillez noter que ce moyen fonctionne pendant %1 jours maximum. Ensuite, elle sera bloquée pour des raisons de sécurité.
+TxBnFe|VEUILLEZ NOTER : N'utilisez les informations fournies que dans le but prévu. La transmission des listes exportées ici n'est pas autorisée.
+Fiwrt1|Veuillez noter
+RuxnkA|Veuillez faire attention à la syntaxe requise, aucun contrôle technique n'est effectué.
+2wp4Nk|Veuillez sélectionner le log.
+IjHmYc|veuillez envoyer en tant que mail
+RYw5AW|Veuillez définir dans le menu 'Régler efaCloud / Régler les paramètres'.
+1ci7d1|Veuillez utiliser le filtre ou télécharger la liste complète.
+CYEWjP|Veuillez utiliser l'adresse mail comme information de compte.
+kL1ygA|Veuillez utiliser l'adresse mail comme information de compte.
+fn5jng|Veuillez utiliser l'adresse mail comme information de connexion.
+liKdKf|Remarque :
+itE88b|Utilisateurs privilégiés (également pour Security-Concept)
+cXYJJu|traitées. Résultat de la recherche :
+YonxH0|Traitement des enregistrements à partir de #%1.
+a8gRBK|Le profil a été modifié.
+vOVG5E|Interdiction d'utiliser des bateaux
+Zknloz|Les enregistrements de projet ne peuvent pas être modifiés dans efaCloud. Veuillez utiliser efa à cet effet.
+ugf7Xy|Propriété
+JX2kP6|Mis à disposition le %1 par %2 à %3. Le transfert et la copie de cette liste ne sont pas autorisés.
+CMC17q|PS : Il est possible de définir un mot de passe permanent dans le profil utilisateur.
+O1HWlA|Vérifier l'accès aux répertoires accessibles au public ...
+CTGqm4|Prix d'achat
+w7VUs5|Enregistrements supprimés restant :
+qhU3kM|efa2statistics
+qraFMw|</div>
+r3NxLY|Consulter l'information
+r3pK7A|
+|  </p>
+|</div>
+BG4WZl|Lire les enregistrements
+VOmyV3|Lire les enregistrements
+VR0oRs|Lire les enregistrements
+87yEmY|Lire les messages à l'admin
+MITE9y|Lire les messages à l'admin
+G4T8O5|Lire les messages au gardien du bateau
+GETdvw|Lire les messages au gardien du bateau
+kJ6gZq|Lu
+vp2UUx|prêt .
+mINcAx|État de base
+vQfgCq|Reconstruire la base de données
+za2NmI|Destinataire du carnet de bord personnel
+ZmVUvv|Destinataire :
+ZgWLaf|Ensemble de données supprimé le
+MJ2srE|L'ensemble de données n'existe pas.
+S9MHHT|L'enregistrement à supprimer n'a pas été trouvé.
+1NueuX|Ensemble de données Versions
+FmQZaR|Ensemble de données :
+C94hEq|Enregistrements trouvés.
+zYFpuX|Enregistrements trouvés.
+ShX0Ie|Les enregistrements d'un journal des totaux virtuel ne peuvent pas être modifiés.
+ltxpNk|Enregistrements par table :
+YOdyR9|Enregistrements sans ecrid
+jnzy2g|Enregistrements
+xhYaXI|Enregistrements
+uMJF7t|Configuration des références
+lW1weM|Références collectées
+vWuyPP|Références aux ID d'objets dans
+twIq91|Session rafraîchie :
+Hq7qsl|rafraîchi
+RhKowz|rafraîchi
+vOFqk1|Refusé de démarrer une nouvelle session pour : %1, car %2 sessions sont actuellement ouvertes.
+PSgWyn|La date de l'archivage est pertinente pour la restauration, contrairement à l'âge de l'enregistrement pour l'archivage. Ces deux valeurs peuvent être sensiblement différentes. La raison en est que pour les données versionnées, cet âge ne peut pas être déterminé de manière triviale.
+uDZ8bh|Remarques
+lrang0|Corrigé par
+lKMzP1|Corrigé le
+liztYS|Accès à distance via efaRemote
+zE951V|Accès à distance via efaRemote
+UDQgXV|Fichier de session d'application '%1' supprimé
+B9Tygk|Supprimer les fichiers qui ne sont plus nécessaires.
+tpeQge|Supprime les fichiers.
+NfubnI|Renommer les doublons
+V5XtIe|Réouvrir l'ensemble de données
+angZst|Frais de réparation
+8OgBzr|Répéter le nouveau mot de passe
+TrwbS5|Répéter le mot de passe
+1Psi5w|Répéter ton mot de passe
+fOZSP1|Réponse à (mail)
+1YO1yW|Déclarer un dommage
+CAX8fi|Signaler une erreur
+pqL2ki|Rapporté à
+cuF2PJ|Signalé par
+JwgzHG|Signalé le
+1TZFAm|N° de réservation
+l3VrzO|Type de réservation
+hhDEh2|Réservations
+yxCXqW|Réservations
+GFqP0A|Réserver un bateau
+p3vqAi|Réserver
+Zt0ZqG|Responsable (nom)
+FFLOHR|La restauration peut prendre du temps, merci de patienter ...
+0LiLBm|La restauration pour les enregistrements de %1 archivés depuis moins de %2 jours est terminée : %3 fois avec succès, %4 fois sans succès.
+2G2m52|Restaurer à partir des archives
+wiLfGW|Restaurer la version V%1.
+Vzgcoh|Restaurer
+AmEL6s|Restaurer la configuration existante
+7Jw6Iu|Résultat du contrôle d'intégrité des données
+e5VOu1|Résultat du contrôle de la mise en page
+NrXqXo|Résultat du contrôle de la configuration
+ArvB70|Résultat du contrôle de conformité à la période
+DwVsCD|Gréement
+lmwgwD|Gréement
+tVF58f|Gréement
+xBfzm2|Gréement
+z7eGHS|Rôle non autorisé.
+P47vFY|Rouleau
+8RhH9W|Rôles
+gtLFK0|Itinéraire
+rqm7uR|efa fahrtenabzeichen
+sHl4hd|audit_logbooks
+aBry6x|Prix de vente
+NvItHb|Enregistrer
+hYYtfA|Enregistrer
+iM0FxL|Enregistrer la configuration existante.
+M4P1uK|Concept de sécurité créé.
+saSTkk|Sélectionner les images à télécharger :
+YhyKTz|Sélectionner la table
+epwaIX|sélectionner Utiliser les erreurs de syntaxe dans la définition du formulaire.
+rOaloE|sélectionner/mettre à jour
+1vgJ3q|Tableau sélectionné :
+jIay6a|Envoyer un token de connexion efaCloud
+VkSSmT|Envoyer un jeton de connexion
+sVUA3S|n'envoyer que pour la classe de dommage 'inutilisable'.
+L9ZdPG|Envoyer également les logs API et le log d'audit (nécessaire lors d'une demande d'assistance).
+3tUUPL|Envoyer la sauvegarde par e-mail.
+zmsFb6|Échec de l'envoi pour : '%1'.
+1393xk|Envoyé :
+akyasw|Envoyé :
+SvaKYg|Numéro de série
+JMdyYP|Échec complet de l'accès au serveur.
+hOqvCZ|Application serveur
+hjdoBL|Application serveur
+qwMH39|Messages du serveur
+IEwtHj|Service / Feedback
+26flZh|Session vérifiée :
+RHGlRZ|Contexte de la session : %1, actuel : %2
+7MQHkj|Groupe de randonnées
+Ukfuhg|session_open - initialise le tableau de sessions PHP.
+nWbfxq|Définir automatiquement avec l'âge
+LjCmY9|Définit le standard pour `%1`.`%2` de NULL à %3.
+vHyDe6|Mettre les champs obligatoires manquants par défaut
+K1bZta|Définir un mot de passe pour efaCloud
+iPXyEn|Mise en place de la case à cocher.
+ydOyJW|Configurer efaCloud
+rObLc3|défini
+cmOGiF|Définir les droits d'accès à la structure de fichiers créée.
+CD3PrG|Paramètres pour efaCloud
+Z6AXS3|Afficher les données d'archives
+Wzrjo6|Afficher l'enregistrement d'archives
+JUw3H1|Afficher l'enregistrement actuel
+dnQoBs|Afficher les déclarations de sinistre
+ZKVVWo|Afficher l'enregistrement supprimé
+sRQXxQ|Afficher les détails
+WIRI9i|Afficher l'enregistrement efa
+efjxwi|Afficher la liste filtrée
+o58jwc|Afficher dans la liste
+1hcXo7|Afficher le fichier journal.
+jf1sW3|Afficher le fichier journal.
+YjpUT1|Afficher les messages
+wTY6KX|Afficher la configuration PHP
+5sCN40|Afficher le profil
+J6CBlP|Afficher l'ensemble de données
+4l5FTD|Afficher la corbeille
+32t78v|Afficher les réservations
+KHeqx2|Afficher les réservations
+htDoQ0|Afficher les trajets
+Qgr3Gt|Afficher les utilisateurs
+uo2ViI|afficher
+u9WjgW|Arrêt de %1. script démarré à %2
+LQkc0F|Signature sous les courriers générés par le système
+eosDhG|Taille (kB) :
+NKmdC2|Contrôle de la taille : tableaux et enregistrements
+MnUz4K|Taille Demandes
+bq7XVl|Taille des réponses
+bciyl7|Sauter %1 %2 manquant
+nLel3k|Trier en cliquant sur l'en-tête de la colonne (seulement partiellement), passer de l'ordre croissant à l'ordre décroissant en cliquant une deuxième fois.
+sp2W9z|efa2persons
+SomMhj|Activité sportive
+ROnbpI|Destination par défaut
+9reeG3|Équipe par défaut
+LB0r2L|Début (heure)
+yQ1qgk|Démarrer efaCloud
+9H3wls|Démarrer efaWeb
+7QPJ0h|Le démarrage est le hangar à bateaux
+d7WN8G|Début de la période de surveillance :
+dnQznW|Début le
+Ef9qFy|Commencer le trajet
+gS4qXx|Démarrer une nouvelle session :
+Q843R8|démarré
+W81e1T|démarré
+mGzOgz|démarré
+BbNX8o|Démarre api_select pour le mandant %1 pour la table %2 et la version api %3.
+h00O8b|Début de l'examen à :
+7tTMfJ|Démarrage de la sauvegarde des données.
+mrO2j6|Démarrage des tâches quotidiennes.
+X2GfIo|Démarrage du contrôle d'intégrité de la base de données.
+Yx56GO|Démarre init_efa_data_base().
+8hPspQ|Démarrage de
+YPmPF9|Démarrage de
+mrY3PQ|Démarrage de
+rmslRn|Démarrage de
+wyGERI|Démarrage
+e6HgQI|Téléchargement de statistiques
+spZnNV|Statistiques
+POnf6N|Statut
+VSCsCr|Définition du style du tableau (syntaxe en ligne, par ex. : border:1px solid #000088 ;)
+VGinON|Définition de style cellule corps
+RziD3J|Définition de style de la cellule En-tête
+YriW9N|Définition de style ligne
+2yWFRU|Sujet :
+HCNOra|Sujet :
+XMHPag|Sujet :
+NeJuR0|Sujet
+OymftT|envoyer
+wTnmiM|Souscriptions, masque 
+id0bwJ|Réussite de l'opération.
+vsbqU2|Réussite de l'opération.
+xeTyR1|Support / Mise à niveau
+iiTAZJ|Sans indication du nom et du club, les demandes d'assistance ne sont pas traitées. Le temps de réaction est en général inférieur à une semaine, parfois plus long en période de vacances.
+PAIiKT|synchroniser avec KanuEfb
+ytvi8G|synchroniser avec KanuEfb
+DVJZn1|Les compteurs système ne peuvent pas être modifiés, car cela pourrait entraîner des erreurs dans l'application.
+PnEMKA|Messages du système
+tEsOVw|efaWeb_crews
+pGNnML|Table (entre parenthèses : nombre d'enregistrements)
+X36oqA|Utiliser la table comme cible :
+uwYaTR|Vérification de la configuration des tableaux ...
+bYc0uP|Table dans laquelle les données doivent être restaurées :
+0i10mg|Nom de la table;Nom de la colonne;Type de données;Longueur des données
+xRpQLT|Nom de table;Table versionnée;Nom de colonne;Type de données;Longueur de données;ID d'objet;Clé;Correction de clé
+AFDcif|Table :
+k55LAo|Table :
+TjrkjA|Tableau
+WWOePq|Tableau
+bJ44LM|Tables et enregistrements
+bxlpav|Tables et enregistrements
+G5m6Ej|Reprendre maintenant
+HLbrnw|Reprendre maintenant
+aa9tiK|Reprendre maintenant
+UF5ROO|Zones cibles
+v8r9C2|Numéro de variante de cible
+jPAGA4|Cibles
+pOzbf5|Contrôleur sur le numéro de position de la liste
+xJzfix|Contrôleur sur le numéro de position de la liste
+1yAYIE|Nom de l'équipe
+ClrV6N|Équipe
+DCYvxF|Tester l'interface
+P7qqn3|tester le carnet de route personnel
+liBwB2|Texte relatif au bateau
+BwRlFt|texte à trouver
+5nzLeq|texte
+02SBJ9|Merci pour votre demande. Le serveur efacloud.org signale :
+4plJZf|C'est tout ce qu'il y a à faire.
+9tMKlx|La page '%1' doit être appelée en indiquant l'id de l'ensemble de données à afficher.
+pYJiV8|La page '%1' doit être appelée en indiquant l'id de l'ensemble de données à afficher.
+hYvVME|L'abréviation qui doit être utilisée pour votre association.
+J54Euo|Les quantités et les temps de transaction sous forme de tableau croisé dynamique
+VG4gUV|L'enregistrement d'archive #%1 n'a pas pu être restauré. Motif :
+o1UBxC|L'enregistrement d'archive #%1 n'a pas pu être restauré. Motif :
+0mLtWK|L'association dans laquelle efaCloud est utilisé.
+KAPg7y|Le champ auto-incrémenté '%1' ne doit pas être défini dans un enregistrement avec l'API V3.
+AebG0R|Le bateau est occupé par l'écriture : %1 du %2 %3 au %4 %5.
+0CIAFU|Le bateau est
+N2MgjZ|La modification est immédiatement reprise dans la base de données et enregistrée simultanément dans le log.
+YWg7T3|La modification est immédiatement reprise dans la base de données et enregistrée simultanément dans le log.
+4zk8rq|Les modifications ne seront visibles pour l'utilisateur concerné qu'après s'être déconnecté et reconnecté.
+cDp91U|Les modifications ne seront visibles pour l'utilisateur concerné qu'après s'être déconnecté et reconnecté.
+u8kMxd|Les modifications : %1 ne peuvent pas être effectuées ou seulement en partie. Le formulaire a été réinitialisé.
+s4u2Lr|Les modifications : %1 ne peuvent pas être effectuées. Le formulaire a été réinitialisé.
+eRiGtK|Le travail de l'association le %1 ne se trouve pas dans la période valable pour le livre de travail de l'association '%2' (%3 - %4).
+opBjzY|Le travail de l'association '%1' le jour %2 ne se trouve pas dans la période valable pour le livre de travail de l'association '%3' (%4 - %5).
+1VQeE3|Le cahier de travail de l'association %1 n'est pas connu.
+Aa7tu3|le protocole de l'audit de configuration
+81bKNO|La modification des données prend effet immédiatement dans le serveur efaCloud, dans les PC efa connectés seulement après la prochaine synchronisation.
+86Nb4G|La modification des données prend effet immédiatement dans le serveur efaCloud, dans les PC efa connectés seulement après la prochaine synchronisation.
+9dUOLQ|La modification des données prend effet immédiatement dans le serveur efaCloud, dans les PC efa connectés seulement après la prochaine synchronisation.
+EdGsT5|La modification des données prend effet immédiatement dans le serveur efaCloud, dans les PC efa connectés seulement après la prochaine synchronisation.
+FXvmEJ|La modification des données prend effet immédiatement dans le serveur efaCloud, dans les PC efa connectés seulement après la prochaine synchronisation.
+Fzl2Mt|La modification des données prend effet immédiatement dans le serveur efaCloud, dans les PC efa connectés seulement après la prochaine synchronisation.
+Jf0W3r|La modification des données prend effet immédiatement dans le serveur efaCloud, dans les PC efa connectés seulement après la prochaine synchronisation.
+M1TX5b|La modification des données prend effet immédiatement dans le serveur efaCloud, dans les PC efa connectés seulement après la prochaine synchronisation.
+YtwoYJ|La modification des données prend effet immédiatement dans le serveur efaCloud, dans les PC efa connectés seulement après la prochaine synchronisation.
+bX0UwA|La modification des données prend effet immédiatement dans le serveur efaCloud, dans les PC efa connectés seulement après la prochaine synchronisation.
+fOoJDo|La modification des données prend effet immédiatement dans le serveur efaCloud, dans les PC efa connectés seulement après la prochaine synchronisation.
+ktSLdA|La modification des données prend effet immédiatement dans le serveur efaCloud, dans les PC efa connectés seulement après la prochaine synchronisation.
+qY471o|La modification des données prend effet immédiatement dans le serveur efaCloud, dans les PC efa connectés seulement après la prochaine synchronisation.
+r5FkMm|La modification des données prend effet immédiatement dans le serveur efaCloud, dans les PC efa connectés seulement après la prochaine synchronisation.
+rsIdGA|La modification des données prend effet immédiatement dans le serveur efaCloud, dans les PC efa connectés seulement après la prochaine synchronisation.
+wv7nF9|La modification des données prend effet immédiatement dans le serveur efaCloud, dans les PC efa connectés seulement après la prochaine synchronisation.
+0Uumzu|Le champ de données '%1' ne peut contenir que 'true', 'false' ou rien, la valeur '%2' n'est pas valable.
+ii65L9|Le champ de données '%1' doit être unique. La valeur '%2' est déjà occupée par '%3 %4'.
+2uwpcG|Le champ de données '%1' doit contenir une valeur numérique, la valeur '%2' n'est pas valable.
+Isis2Z|La configuration de la base de données a été mise à jour (%1 octets).
+PUAtWz|La base de données a été reconstruite et %1 %2 reconfigurée en tant qu'administrateur comme auparavant, afin qu'elle puisse encore être administrée.
+e551y9|La base de données a été reconstruite, à l'exception de la table efaCloudUsers.
+pm2wvp|La date de l'entrée #%1 du carnet de route est en dehors de la période indiquée pour le groupe de trajets sélectionné '%2'.
+ceZU15|La suppression du mot de passe dans la base de données a échoué.
+YdTDBW|Les détails de l'entrée sont :
+PeQfHu|Le répertoire a été créé.
+GmOMkX|L'efaCloudUserID doit être un nombre entier.
+015RH6|L'efaCloudUserID doit être supérieur à 10 et inférieur à 1.000.000.000.
+SC6SXl|L'adresse e-mail "%1" est déjà occupée par %2 %3, elle ne peut pas être utilisée deux fois.
+bBTcin|La date de fin '%1' est antérieure à la date de début '%2'.
+FM9hJL|La date de fin ne correspond pas à l'année déterminée par le nom.
+rwl5Jj|La date de fin de l'entrée #%1 du carnet de route se situe en dehors de la période indiquée pour le groupe de trajets sélectionné '%2'.
+ysn50P|Les textes de recherche saisis sont recherchés exactement comme partie de texte.
+HFNMBp|L'année civile attendue n'a pas pu être déterminée à partir du nom.
+Q77SFy|Le champ 'ActiveDays' a une valeur non valide.
+ZjU51G|Le fichier '%1' a été téléchargé.
+fUMqe5|Le fichier n'a pas pu être téléchargé. Description de l'erreur : '%1'.
+AE2Uq5|Le téléchargement du fichier a été effectué avec succès. Veuillez vérifier à gauche si l'affichage convient ainsi.
+kXZ9rj|Les %1 identifiants d'objet suivants de la somme %2 ne sont pas (plus) utilisés :
+U7JDda|Le résultat suivant de l'activité a été enregistré :
+WOnK0g|Le résultat suivant de l'activité a été enregistré :
+8h4mmf|Les modifications suivantes doivent être effectuées lors de l'importation :
+8gVWmU|Les modifications suivantes ont été effectuées lors de l'importation :
+9mww2x|Les modifications suivantes ont été apportées :
+cFEi41|Les modifications suivantes ont été apportées :
+qn2cjQ|Les champs de données suivants ne sont pas des champs du tableau des carnets de route : %1.
+4SVUF8|Les modules suivants sont manquants sur le serveur par rapport à l'installation de référence :
+GCD6OA|La recherche plein texte recherche le texte spécifié dans tous les enregistrements d'un ensemble de données des utilisateurs.
+9jRxQE|Le sexe doit être soit 'MALE' soit 'FEMALE'.
+x76oqA|La langue
+slCqRl|La liste '%1' ne doit pas être éditée pour le rôle '%2' ou les abonnements ou workflows autorisés pour l'utilisateur actuel (%3 %4).
+hFKtKU|La liste est triée par nom et la dernière version valide de l'objet est affichée.
+cTaWzE|La liste est triée selon le champ filtré : %1.
+gqkGOQ|L'envoi des logs et des statistiques a lieu en général une fois par jour. Les données datent donc d'hier.
+qoSgaT|L'envoi des logs et des statistiques a lieu en général une fois par jour. Les données datent donc d'hier.
+QZLbIG|Le fichier journal
+hxETBN|Le carnet de route %1 (numéro de trajet : '%2') n'est pas connu.
+dIcKzE|Le carnet de route %1 n'est pas connu.
+wOmMPf|Le carnet de route
+RxkkKI|Le message a été envoyé à %1 membres et enregistré avec le résultat dans la base de données :
+iSCF3X|La raison la plus probable est qu'il n'y a pas de trajets dans le carnet de route, mais il se peut aussi que l'adresse e-mail comme efaCloudUser ne corresponde pas à l'adresse e-mail qui est enregistrée dans efa.
+VFh57f|Les données nécessaires '%1' manquent dans l'ensemble de données : %2.
+n47bZV|Les données nécessaires '%1' manquent dans l'enregistrement : '%2'.
+LdOZnH|La nouvelle version ne le rejoint pas (écart > 2 minutes).
+2SudTe|La nouvelle version chevauche la version existante de plus de 2 minutes.
+Pv4vGW|L'ancienne version n'a pas pu être limitée dans sa validité. La base de données signale :
+Nz8G7x|Le mot de passe à usage unique '%1' peut être utilisé pour supprimer le mot de passe permanent de l'application pour les %2 prochaines minutes.
+ULBtgs|Le mot de passe à usage unique n'a pas pu être envoyé.
+nbrk4v|Le mot de passe à usage unique n'a pas pu être envoyé.
+1HuxvX|Le mot de passe à usage unique est incorrect ou a expiré.
+K7CeYe|Le mot de passe à usage unique est incorrect ou a expiré.
+8oDhBF|Le mot de passe à usage unique a été envoyé à "%1".
+PeJo45|Le mot de passe à usage unique a été envoyé à "%1".
+Pb2uDW|L'ordre des listes d'archives dans ../config/lists/efaArchive doit correspondre aux tableaux dans les Efa_archive::$archive_settings. Erreur lors de : %1. ANNULATION.
+jmcH6l|La page '%1' doit être appelée avec l'indication du type de droit.
+JdTgrN|La page '%1' doit être appelée en indiquant l'id de l'utilisateur à modifier.
+NBPC0G|La page '%1' doit être appelée en indiquant l'id de l'utilisateur à modifier.
+FJDHAh|La page '%1' doit être affichée en indiquant l'id du fichier à adresser. 
+yR7zed|Le mot de passe ne peut être défini que pour les nouveaux utilisateurs et les utilisateurs ayant le rôle de 'bths'.
+655rFb|Le mot de passe a été modifié.
+b25fYT|Le mot de passe a été modifié.
+W37MTN|Le mot de passe n'est pas assez sûr dans "%1". %2
+6617qN|Le mot de passe doit comporter au moins 8 caractères. Le mot de passe doit contenir des caractères de trois groupes parmi les quatre groupes suivants : Chiffres, lettres minuscules, lettres majuscules, caractères spéciaux. Les caractères spéciaux autorisés sont !&quot;#$%&'*+,-./:;<=>?@[\]^_`{|}~
+9p9GjU|Le mot de passe doit comporter entre 8 et 32 caractères et contenir au moins trois des groupes de caractères 'minuscules', 'majuscules', 'chiffres' et 'caractères spéciaux'.
+aJ5Cy9|Le mot de passe doit comporter entre 8 et 32 caractères.
+iJUmCH|Le mot de passe doit contenir des caractères appartenant à trois des quatre groupes suivants : Chiffres, lettres minuscules, lettres majuscules, caractères spéciaux. Les caractères spéciaux autorisés sont !"#$%&'*+,-./:;<=>?@[]^_`{|}~.
+scIPSc|Les mots de passe doivent correspondre. Le mot de passe n'est pas modifié.
+xVSLCZ|Les mots de passe doivent correspondre. Le mot de passe n'est pas modifié.
+ZgYTwD|La période de est inférieure à un an.
+HEhURD|Les autorisations sont communiquées à tous les clients efa connectés lors de l'ouverture de session admin, tu ne devrais donc plus les définir dans le client...
+hL4rxQ|Les autorisations n'ont aucun effet sur les clients efa connectés ou sur l'application serveur efaCloud.
+4hdqAF|Le processus est ainsi terminé.
+GkURzg|L'enregistrement de la table '%1' avec l'ID d'enregistrement '%2' n'a pas pu être trouvé.
+hWh4Y3|Il manque à l'enregistrement le champ '%1' dont l'unicité doit être vérifiée.
+xh2TM5|L'enregistrement à modifier avec l'ecrid '%1' n'a pas pu être trouvé dans la table %2.
+oSuy4P|L'enregistrement n'a pas été créé. Le formulaire a été réinitialisé.
+sYfgN8|L'enregistrement n'a pas été créé. Le formulaire a été réinitialisé.
+xq5ret|L'enregistrement avec le %1 '%2' de la table %3 n'a pas pu être supprimé. La base de données signale :
+AUhcRm|L'enregistrement avec le %1 '%2' de la table %3 est déjà un enregistrement de suppression.
+uf5AMD|L'enregistrement avec le %1 '%2' de la table %3 a été supprimé.
+cAP24j|L'enregistrement
+fZg2zo|L'enregistrement doit encore être finalisé par l'administrateur. Ce n'est qu'alors qu'un mot de passe à usage unique peut être envoyé.
+BFNYBY|La transaction demandée ne se trouve pas dans le conteneur.
+NeU2jA|Le champ requis '%1' ne doit pas être vide pour les nouveaux enregistrements.
+bZbb82|La restauration pour les enregistrements de %1 archivés depuis moins de %2 jours a malheureusement provoqué l'erreur suivante :
+D7SPTM|Le rôle '%1' n'a pas d'autorisation pour l'action '%2'. Aucune autorisation appropriée n'a pu être trouvée, ni dans les sous-descriptions, ni dans les workflows.
+xS4f0M|La liste de diffusion sélectionnée n'a pas été trouvée.
+9mmdUG|La session est encore active, on continue avec n'importe quelle action du menu.
+5dqGwa|La session a été mise à jour.
+QVV55u|La taille de l'archive du code source est trop petite. Quelque chose s'est mal passé lors du téléchargement. C'est pourquoi le processus s'interrompt ici.
+uuZ8U8|La taille de l'archive du code source est trop petite. Quelque chose s'est mal passé lors du téléchargement. C'est pourquoi le processus s'interrompt ici.
+mo19gA|L'indication '%1' ne représente pas une adresse e-mail valide.
+QQKP9h|L'indication d'une date de début de validité n'est pas autorisée pour les modifications.
+slqdAt|La date de début doit être antérieure ou égale à la date de fin.
+QgsW8r|La date de début doit se situer dans le futur.
+VDMUsh|les erreurs de synchronisation
+aCcatt|Le tableau est versionné.
+yXukLG|La mise en page des tableaux a été adaptée.
+xo9xjE|Le tableau affiche toutes les listes disponibles dans le rôle %1 avec l'autorisation nécessaire pour afficher la liste. La liste peut être consultée en cliquant sur la description.
+qJ3tRL|Le texte est toujours recherché en tant que partie du contenu du champ de données, ainsi par exemple Si l'on trouve dans les carnets de route avec l'indication "123" du numéro de trajet également les trajets 1230, 1231, 1232, 2123, 3123, ... .
+RqYBEi|La transaction ne peut pas être exécutée, la clé est déjà utilisée.
+dN1n95|La transaction ne peut pas être exécutée, la clé est déjà utilisée.
+bJGu9Q|La transaction n'a pas encore été envoyée ou est en attente d'une réponse.
+mY35PB|Le trajet %1 avec début %2 et fin %3 ne se trouve pas dans la période valable pour le carnet de route %4 (%5 - %6).
+Aujsqx|Le trajet existe déjà, il ne peut pas être créé.
+ZF44WW|Le trajet existe déjà, il ne peut pas être créé.
+thc1PS|Le trajet a été ajouté.
+KwSMMI|Le trajet a été mis à jour.
+rmbd4P|Le trajet est ajouté.
+6tD5vO|Le trajet ne se situe pas dans la période valable pour le groupe de trajets '%1'.
+AyanBa|Le trajet est mis à jour.
+h2NkfK|Le trajet avec début %1 et fin %2 ne se trouve pas dans la période valable pour le carnet de route '%3' (%4 - %5).
+Uqbi57|La définition de type pour %1 n'a pas pu être chargée.
+hBPwLR|La définition de type pour %1 n'existe pas.
+R1C9sE|Le champ unique '%1' n'est pas unique. Autre occurrence dans l'objet avec id '%2'.
+kiqQLC|Le champ unique '%1' n'est pas unique. Autre occurrence dans l'ensemble de données avec ecrid '%2'.
+jdB8fj|L'image téléchargée #%1 est de :
+ZQSvHw|L'utilisateur n'a pas pu être identifié.
+c1Gjma|L'utilisateur n'a pas pu être identifié.
+cyN5oe|L'utilisateur pour l'envoi du jeton de connexion n'a pas été trouvé.
+gIhhVn|L'utilisateur pour l'envoi test du journal de bord personnel n'a pas enregistré d'adresse e-mail.
+xf8bTS|L'utilisateur n'est pas autorisé à utiliser le rôle %1.
+47Cndc|L'enregistrement de l'utilisateur pour l'ID '%1' n'a pas pu être trouvé.
+BGJkSQ|L'enregistrement de l'utilisateur pour l'ID '%1' n'a pas pu être trouvé.
+GJLu3j|L'enregistrement de l'utilisateur pour l'ID '%1' n'a pas pu être trouvé.
+pbDY3P|L'ancienne version a été limitée dans sa validité.
+Yhu6l5|La date de début de validité n'a pas été saisie correctement, veuillez réessayer.
+21KOoL|La version de l'objet '%1'.
+SPDW0F|Le fichier zip '%1' n'a pas pu être créé.
+ATSnFO|Il y a trop d'utilisateurs connectés en ce moment. Veuillez réessayer plus tard. Nous vous remercions de votre compréhension.
+2AaqLH|Il n'existe pas encore de formulaire d'édition pour le tableau Livre de travail de l'association.
+R2ORRQ|Il n'existe pas de formulaire d'édition pour la table Configurations statistiques. Les configurations statistiques ne sont pas utilisées dans efaCloud, veuillez les éditer dans le client PC.
+r4yqil|Les réglages n'ont aucun effet sur l'utilisation d'efaCloud ou d'efaWeb.
+fudXmI|Cette page a été consultée sans indication de l'ID client.
+AicQjQ|Cet enregistrement a été supprimé. Seul le reste de la suppression est encore disponible.
+scNlB8|Temps en secondes entre deux contrôles de modification automatiques. La valeur par défaut est 60, désactiver avec 0.
+nlanLa|Temps en secondes entre deux synchronisations automatiques de téléchargement. La valeur par défaut est 3600.
+rFKAAZ|Temps maintenant :
+R9sv8M|Heure :
+ACEfVr|Heure
+x8hxVv|Délai dépassé en raison de l'inactivité.
+kbRZ71|fois
+TMSdWl|Horodatage là :
+NLPzjP|Titre
+0K9Ayf|Pour compléter les insignes de course, il faut utiliser efa comme programme PC.
+P4Mt4D|Pour compléter les statistiques, il faut utiliser efa comme programme PC.
+I4sydt|Pour supprimer le mot de passe, veuillez indiquer l'adresse e-mail enregistrée :
+ZkSXcw|Pour réinitialiser le mot de passe, veuillez vous adresser à l'administrateur de l'application dans le club.
+fjQeZR|Pour définir votre mot de passe, veuillez utiliser l'adresse suivante
+2fTRpv|vers le serveur efaCloud
+6KXRE6|An :
+STiNM1|A
+EBIhOz|aujourd'hui
+Gc6rWW|Trop de sessions ouvertes pour cet utilisateur.
+MMoUVY|Trop de sessions ouvertes pour cet utilisateur.
+sAM6H9|Trop de sessions ouvertes pour cet utilisateur.
+1smfqD|Total %1 jours ;
+KZvGMc|Total %1 jours
+EsUbNY|Total
+F6snKT|Total
+KhEE7l|Total
+WLvJO7|Total
+Z4dgHJ|Total
+nDBbCc|Total
+wNrHCN|Total
+tpwI4a|archive_damages
+52B267|Volumes de trafic des derniers jours vers les utilisateurs ayant le rôle 'bths' (hangar à bateaux).
+S0Lse6|Erreur dans le conteneur de transaction :
+ipgDJE|Transaction ignorée.
+JkJqGq|Transaction : %1 non-concordance_server_side_records.
+ebzhv5|Transaction : aucune clé libre n'a été trouvée qui puisse être utilisée côté client pour la correction de clé. Correction de clé annulée.
+dTHKvl|Transaction : la valeur de clé '%1' a été reconnue comme libre_au_client.
+irFk1J| %1
+nrTQdY| %1
+w6LYgh|Échec du transfert vers le serveur efaCloud.
+qECzxn|Déclencher la sauvegarde
+KbKtBC|Lancement des tâches Cron
+BJR12l|Trajet dans le carnet de route, date de début
+dGLZjB|Numéro de trajet
+exItow|Numéro de trajet
+8zAeYI|Trajet
+dfJUi2|Trajets de %1 comme seuls trajets
+QufYal|Trajets de %1
+8CQaLz|Trajets des 30 derniers jours
+8QYlfo|Trajets qui ne correspondent pas à la période du carnet de route.
+Kracb7|Trajets
+rckzWH|Trajets
+4cenTr|Type de la dernière modification.
+5sDUxa|Type de la dernière modification.
+8L1JOu|Type de la dernière modification.
+BapoPO|Type de la dernière modification.
+ChM90G|Type de la dernière modification.
+EgJpL1|Type de la dernière modification.
+JKjuTI|Type de la dernière modification.
+VGObJU|Type de la dernière modification.
+WABGHo|Type de la dernière modification.
+WqtAvX|Type de la dernière modification.
+Y7JyOD|Type de la dernière modification.
+bwxVd4|Type de la dernière modification.
+jVeFhK|Type de la dernière modification.
+lzeFj0|Type de la dernière modification.
+msLZ1U|Type de la dernière modification.
+o7RIYt|Type de la dernière modification.
+uiPb75|Type de la dernière modification.
+TNUH68|Type de statut
+Il6Xae|Type de trajet
+5yN29k|Type
+uD4TTa|audit_persons
+uPD1Dz|
+|</table>
+|</div>
+YRkM5b|Impossible de supprimer la session d'application inactive '%1'.
+CVStxl|erreur indéfinie
+phvRfA|indéfini
+KARSRU|erreur indéterminée, veuillez vérifier l'enregistrement.
+0xNazF|Il n'a malheureusement pas été possible de créer une entrée de corbeille.
+yf8erz|Malheureusement, le traitement du formulaire ne peut pas être poursuivi car une page de formulaire n'a pas été enregistrée depuis trop longtemps.
+V8fLMV|L'enregistrement de données ne peut malheureusement pas être affiché, car il manque au moins un champ clé.
+pH7Sis|Malheureusement, il n'y a pas d'historique des modifications pour cet enregistrement.
+BnxvUl|Cela n'a malheureusement pas fonctionné. Le jeton de connexion indiqué n'est pas ou plus valable.
+zxg9i4|Malheureusement, cela n'a pas fonctionné. L'utilisateur '%1' du jeton de connexion n'est pas (plus) enregistré.
+0IaBC8|Référence unique de l'enregistrement (ecrid)
+1ouvj5|Référence unique de l'enregistrement (ecrid)
+2zpN2g|Référence unique de l'enregistrement (ecrid)
+9BOV1Y|Référence unique de l'enregistrement (ecrid)
+9fsJcb|Référence unique de l'enregistrement (ecrid)
+AX585k|Référence unique de l'enregistrement (ecrid)
+FFSdn0|Référence unique de l'enregistrement (ecrid)
+Fjvte0|Référence unique de l'enregistrement (ecrid)
+GbGY1g|Référence unique de l'enregistrement (ecrid)
+Lg1vxg|Référence unique de l'enregistrement (ecrid)
+PM0Z7L|Référence unique de l'enregistrement (ecrid)
+Q24ykn|Référence unique de l'enregistrement (ecrid)
+YWdMWp|Référence unique de l'enregistrement (ecrid)
+e68r97|Référence unique de l'enregistrement (ecrid)
+eIq8Xc|Référence unique de l'enregistrement (ecrid)
+eaRT3T|Référence unique de l'enregistrement (ecrid)
+ltX3IU|Référence unique de l'enregistrement (ecrid)
+NwyE88|démarrage inconnu
+7qmVxb|Erreur inconnue lors du téléchargement. veuillez réessayer.
+R64uhq|Erreur inconnue lors du téléchargement. veuillez réessayer.
+RAACdM|Erreur inconnue lors du téléchargement. veuillez réessayer.
+a5koMa|Erreur inconnue lors du téléchargement. Veuillez réessayer.
+xJsUjf|Erreur inconnue lors du téléchargement. Veuillez réessayer.
+Yel8jV|Erreur inconnue lors de la création du répertoire : '%1'.
+w2qoFy|Erreur inconnue lors du téléchargement vers '%1'.
+IzCLZv|ID inconnu
+VCdF1p|inconnu
+AvnsF9|déverrouiller efa
+k8VdhO|déverrouiller efa
+GuEiQo|Décompression et copie de l'archive du code source
+v32JTG|Messages non lus
+PXDvBO|jusqu'à la date
+Eqz3VC|Jusqu'à l'heure
+aGIzxm|jusqu'à
+UU1TV0|Actualiser %1 avec : %2
+iCqOma|Mise à jour après le téléchargement
+Y9hsnl|Mettre à jour l'enregistrement
+eG5Cqz|Actualiser le trajet
+tzrcLT|mettre à jour :
+hB8ltL|ACTUALISER
+234kPR|Télécharger et vérifier maintenant
+31anwS|Télécharger et vérifier maintenant
+75KimF|Télécharger et vérifier maintenant
+QVqYRs|Télécharger et importer maintenant
+XtuNgZ|Télécharger maintenant
+KLgQSh|Téléchargement de l'article :
+chH4U9|Téléchargé :
+txXT1g|Télécharger
+XPbBHm|Paramètre utilisé de la liste :
+eI2ua5|Utilisateur après contrôle de la BD : appUserID : %1, rôle : 
+PI741T|L'utilisateur n'a pas défini de hachage de mot de passe dans son profil.
+a9d5U7|L'utilisateur n'est pas admin et ne peut donc rien modifier. Annulation de la demande.
+aCa6RR|Nom de l'utilisateur
+cTi6L7|Utilisateur non trouvé.
+zOZlkQ|Numéro de l'utilisateur
+psSYI1|L'utilisateur a tenté de modifier les données d'autres utilisateurs sans avoir le rôle useradmin ou l'autorisation de workflow correspondante.
+gI7hvr|L'utilisateur a essayé de changer son propre rôle d'accès sans avoir le rôle useradmin
+m6BPH3|L'utilisateur a essayé de changer son propre nom de compte '%1' en '%2' sans avoir le rôle useradmin.
+T5N6rh|L'utilisateur a essayé de modifier son propre rôle 'Concessions' sans utiliser le rôle 'useradmin'.
+A2Zw3z|L'utilisateur a essayé de changer son propre ID utilisateur '%1' en ''%2' sans utiliser le rôle useradmin
+4RIp1F|L'utilisateur a essayé de modifier ses propres workflows sans utiliser le rôle useradmin
+U01t2T|Utilisateur
+e8yebR|Utilisateur
+eTvuhh|Vérifier l'utilisateur et les droits d'accès
+8E9X2M|Utilisateurs avec droits d'administration efa (également pour Security-Concept)
+awmNYz|variante habituelle
+v9YvYn|archive_clubwork
+Zjd3XU|valide à partir de
+gFHiKG|valide à partir de
+qlbSpW|valide à partir de
+vGrXlG|valide à partir de
+7998Uw|valide
+afDbIr| (wildcard *) :
+W1p3g6|Valeur
+ulIoAv|Échec de la vérification. Colonne %1.%2 extra.
+rxMN98|Échec de la vérification. Colonne %1.%2 manquante.
+3EWY5V|Échec de la vérification. Colonne %1.%2 avec taille %3 au lieu de %3.
+mwaK4O|Échec de la vérification. Colonne %1.%2 avec type %3 au lieu de %3.
+nPmhjO|Échec de la vérification. Index %1.%2 extra.
+9mUNZn|Échec de la vérification. Index %1.%2 non inclus dans les index de %1.
+9g3u60|Échec de la vérification. Tableau %1 extra.
+KprqM0|Échec de la vérification. Tableau %1 manquant.
+DQYc1I|Échec de la vérification
+P1TqTx|Échec de la vérification
+gLdeJY|Vérification réussie pour '%1'.
+111oMV|Vérifier le mot de passe de l'utilisateur
+EqK0xN|Version (compteur de modifications)
+OXb6cw|Version (compteur de modifications)
+PluTvv|Version (compteur de modifications)
+YsPjcR|Version (compteur de modifications)
+bCHlEQ|Version (compteur de modifications)
+bzYgA7|Version (compteur de modifications)
+dEsPhQ|Version (compteur de modifications)
+ed0qiK|Version (compteur de modifications)
+lMnBVC|Version (compteur de modifications)
+lht05f|Version (compteur de modifications)
+nauyTu|Version (compteur de modifications)
+o8f4hm|Version (compteur de modifications)
+t0puPg|Version (compteur de modifications)
+tVU4eD|Version (compteur de modifications)
+uCyGY5|Version (compteur de modifications)
+ujuTde|Version (compteur de modifications)
+wBg0wK|Version (compteur de modifications)
+j09UFf|Mise à niveau de la version
+f8865P|La version V%1 de l'enregistrement dans la table '%2' avec l'ID d'enregistrement '%3' n'a pas pu être restaurée. Raison :
+07MoEU|Version valable jusqu'au :
+d1qWsf|Voir les paramètres du client
+erIeb6|Afficher les détails et les modifier si nécessaire en cliquant sur l'entrée de la colonne '%1'.
+PupsO7|Voir les données de base
+4Gic54|voir
+4PkFAz|voir
+AByOf6|voir
+B6wzYu|voir
+FlfcWr|voir
+IqBXjy|voir
+L6AeK2|voir
+TM7PIY|Annonces
+XZwd9r|voir
+ZTCxkg|voir
+ePOJhc|voir
+fvhAlH|voir
+IaiL4s|Champs de données virtuels
+R223pr|Correction des champs virtuels.
+vxUq2O|efaWeb_status
+wUV9W1|efaWeb
+wXtjdR|efa2fahrtenabzeichen
+uvau7j|AVERTISSEMENT : Le script n'a pas atteint le bas de la page.
+ZS7PdQ|Avertissement : Le délestage de l'application %1 a été déclenché. Détails : 
+sbWQdK|Avertissements
+Xi3PrW|Liste des cours d'eau
+jNHmSX|Eaux
+nBd1Oa|Jour de la semaine (uniquement pour les réservations hebdomadaires)
+ZfnDtn|Quand commence l'année du carnet de route ?
+G3BLoW|avec %1 enregistrements
+r7eyg9|avec l'ID %1 créer
+BAnNhO|avec le nom
+3oQw2U|avec l'ID de l'objet
+OKImlH|Le mot de passe à usage unique '%1' permet de se connecter à l'application pendant les %2 prochaines minutes. Passé ce délai, il n'est plus valable. Les majuscules ou les minuscules ne sont pas importantes
+Ei35rV|avec l'ID de l'enregistrement
+IVseh0|Flux de travail, masque 
+wpvByz|efa2destinations
+cBjbuk|Écrire le message
+KY7F6q|Mot de passe incorrect lors de la connexion.
+sZKXYK|Mot de passe incorrect lors de la connexion.
+xknZlx|audit_sessiongroups
+xxdpER|efa2logbook
+yGorGi|noListForThisRole
+ylwGEq|archive_reservations
+3oq4XF|Tu peux choisir entre tous les clients pour lesquels une statistique est disponible.  S'il en manque un, le serveur n'a pas reçu de statistiques de ce client.
+iydGls|Tu peux choisir entre tous les clients pour lesquels une statistique est disponible.  S'il en manque un, le serveur n'a pas reçu de statistiques de ce client.
+eNwq9h|Ton adresse e-mail pour la prise de contact par le support.
+G4czbF|Ton prénom
+T1m6yT|Ton nom de famille
+cM6Ctj|Ton mot de passe
+X9LNW4|Ta demande
+yr04AO|efa2logbook
+zNN6AZ|efa groups
+yByDpt|Zipper des fichiers.
+KtXJLq|{paramètre non valide avec point-virgule}

@@ -1,7 +1,7 @@
 <?php
 /**
- * The form for user profile self service. Based on the Tfyh_form class, please read instructions their to better
- * understand this PHP-code part.
+ * The form for user profile self service. Based on the Tfyh_form class, please read instructions their to
+ * better understand this PHP-code part.
  * 
  * @author mgSoft
  */
@@ -29,8 +29,10 @@ if ($done > 0) {
     if (strlen($form_errors) > 0) {
         // do nothing. This avoids any change, if form errors occured.
     } elseif ($done == 1) {
-        if (intval($entered_data["type"]) < 2)
-            echo header("Location: ../pages/show_logs_client.php?clientID=" . $entered_data["clientID"]);
+        if (intval($entered_data["type"]) < 4)
+            echo header(
+                    "Location: ../pages/show_logs_client.php?clientID=" . $entered_data["clientID"] . "&type=" .
+                             $entered_data["type"]);
         else
             echo header("Location: ../pages/client_tx_statistics.php?clientID=" . $entered_data["clientID"]);
     }
@@ -56,8 +58,13 @@ if (isset($form_filled) && ($todo == $form_filled->get_index())) {
             }
         }
         if (count($select_options_list) == 0)
-            $select_options_list[] = "0=keine Client Statistik vorhanden";
+            $select_options_list[] = "0=" . i("lBnu0m|no client statistics ava...");
         $form_to_fill->select_options = $select_options_list;
+        $radio_options = ["1=" . i("QZLbIG|the log file"),"2=" . i("VDMUsh|the Synchronisation erro..."),
+                "3=" . i("Aa7tu3|the configuration audit ..."),
+                "4=" . i("J54Euo|The amount of transactio...")
+        ];
+        $form_to_fill->radio_options = $radio_options;
     }
 }
 
@@ -69,27 +76,15 @@ echo $menu->get_menu();
 echo file_get_contents('../config/snippets/page_02_nav_to_body');
 
 // page heading, identical for all workflow steps
-?>
-<!-- START OF content -->
-<div class="w3-container">
-	<h3>Client-Log-Dateien einsehen oder als Grafik anzeigen</h3>
-	<p>Hier kannst Du die von einen Client zuletzt gesendeten Logdateien
-		und Statistiken als Grafik ansehen.</p>
-</div>
-
-<div class="w3-container">
-<?php
-
+echo i("HixbNW| ** View client log file...");
 echo $toolbox->form_errors_to_html($form_errors);
 if ($todo < 2) {
-    echo $form_to_fill->get_html($fs_id);
-    echo '<h5><br />Ausfüllhilfen</h5><ul>';
+    echo $form_to_fill->get_html();
     echo $form_to_fill->get_help_html();
-    echo "</ul>";
 } else
     echo $users_to_show_html;
 
-?></div><?php
+echo "</div>";
 end_script();
 
     

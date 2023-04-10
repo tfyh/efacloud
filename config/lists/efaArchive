@@ -1,7 +1,11 @@
 id;permission;name;select;from;where;options
-1;admin;archive_damages;Damage,BoatId,Description,ReportDate,Fixed,ecrid;efa2damages;NOT (`LastModification` = 'delete') AND (DATEDIFF(NOW(), `ReportDate`) > {DamageAgeDays});
-2;admin;archive_reservations;Reservation,BoatId,Reason,ecrid;efa2boatreservations;NOT (`LastModification` = 'delete') AND NOT (`Type` = 'WEEKLY') AND (DATEDIFF(NOW(), `DateTo`) > {ReservationAgeDays});
-3;admin;archive_clubwork;Id,PersonId,Description,Date,ecrid;efa2clubwork;NOT (`LastModification` = 'delete') AND (DATEDIFF(NOW(), `Date`) > {ClubworkAgeDays});
-4;admin;archive_logbook;EntryId,BoatId,Date,ecrid;efa2clubwork;NOT (`LastModification` = 'delete') AND (DATEDIFF(NOW(), `Date`) > {TripAgeDays});
-5;admin;archive_messages;MessageId,Date,Subject,Read,ecrid;efa2messages;NOT (`LastModification` = 'delete') AND (DATEDIFF(NOW(), `Date`) > {MessageAgeDays});
-6;admin;archive_persons;Id,InvalidFrom,FirstName,LastName,ecrid;efa2persons;NOT (`LastModification` = 'delete');sort=Id.-InvalidFrom
+1;bths;tpwI4a|archive_damages;Damage,BoatId,Description,ReportDate,Fixed,LastModified,ecrid;efa2boatdamages;NOT (`LastModification` = 'delete') AND (DATEDIFF(NOW(), `ReportDate`) > {DamageAgeDays});
+2;bths;ylwGEq|archive_reservations;Reservation,BoatId,DateFrom,Reason,LastModified,ecrid;efa2boatreservations;NOT (`LastModification` = 'delete') AND NOT (`Type` = 'WEEKLY') AND (DATEDIFF(NOW(), `DateTo`) > {ReservationAgeDays});
+3;bths;v9YvYn|archive_clubwork;Id,PersonId,Description,Date,LastModified,ecrid;efa2clubwork;NOT (`LastModification` = 'delete') AND (DATEDIFF(NOW(), `Date`) > {ClubworkAgeDays});
+4;bths;jGuZDr|archive_logbook;EntryId,BoatId,Date,LastModified,Comments,ecrid;efa2logbook;NOT (`LastModification` = 'delete') AND (DATEDIFF(NOW(), `Date`) > {SessionAgeDays});
+5;bths;SgVvTy|archive_messages;MessageId,Date,Subject,Read,LastModified,ecrid;efa2messages;NOT (`LastModification` = 'delete') AND (DATEDIFF(NOW(), `Date`) > {MessageAgeDays});
+6;bths;7HQ9oh|archive_persons;Id,InvalidFrom,FirstName,LastName,LastModified,ecrid;efa2persons;NOT (`LastModification` = 'delete');sort=Id.-InvalidFrom
+7;admin;85h9K3|restore_records;ID,Time,Table,Record;efaCloudArchived;(`Table`='{Table}') AND (DATEDIFF(NOW(), `Time`) < {ArchivedLessThanDaysAgo});sort=ID
+8;admin;hju1JV|Archivierte Datenstze a...;ID,Time:dt,Table,Record;efaCloudArchived;1;sort=ID&link=ID:../pages/view_archive_record.php?id=
+9;admin;7mttPz|Datenstze zu Objekt;ID,Time,Table,Record;efaCloudArchived;(`Record` LIKE '%{IdEntry}%');sort=ID
+10;admin;RTrgNa|Gelschte Datenstze anz...;ID,Table,TrashedAt,TrashedRecord;efaCloudTrash;1;sort=ID&link=ID:../pages/view_trash_record.php?id=

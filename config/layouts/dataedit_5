@@ -1,0 +1,83 @@
+tags;required;name;value;label;type;class;size;maxlength
+<span id='vSpanSystemData'><div class='w3-row'><div class='w3-col l3'>;;Id;;UtMoad|object Id;text;display-bold;90%;36
+</div><div class='w3-col l3'>;;ecrid;;Lg1vxg|unique record reference ...;text;display-bold;90%;20
+</div><div class='w3-col l3'>;;ValidFrom;;Zjd3XU|valid from;text;display-bold;90%;20
+</div></div><div class='w3-row'><div class='w3-col l3'>;;LastModified;;jd1fNj|last modified on;text;display-bold;90%;20
+</div><div class='w3-col l3'>;;ChangeCount;;nauyTu|Version (change counter);text;display-bold;90%;20
+</div><div class='w3-col l3'>;;LastModification;;WqtAvX|Type of last change;text;display-bold;90%;20
+</div></div><div class='w3-row'><div class='w3-col l1'><hr>;;_no_input;;;;;
+</div></div></span><div class='w3-row'><div class='w3-col l3' id='vDiv-wayOfChange'>;;wayOfChange;;ihbPIc| ** Type of change ** &#...;"select 0=Inhalte ändern;1=Gültig Bis ändern;2=eine neue Version erzeugen";#versionized-wayOfChange;90%;50
+</div><div class='w3-col l3' id='vDiv-ValidityFromDate'>;;ValidityFromDate;;pwTyiY| ** valid until date ** ;date;#versionized-ValidityFromDate;90%;50
+</div><div class='w3-col l3' id='vDiv-ValidityFromTime'>;;ValidityFromTime;;3wwpoP| ** valid until time ** ;text;#versionized-ValidityFromTime;90%;50
+</div></div><span id='versionized-data'><div class='w3-row'><div class='w3-col l1'><hr>;;_no_input;;;;;
+</div></div><div class='w3-row'><div class='w3-col l2'>;;Name;;FZawRf|Name;text;;90%;50
+</div><div class='w3-col l2'>;;NameAffix;;dO0l4o|Name suffix;text;;90%;50
+</div></div><div class='w3-row'><div class='w3-col l1'>;;_no_input;;JDVO22| ** Boat type and varian...;;;
+</div></div><div class='w3-row'><div class='w3-col l4'>;;VariantCount;;K1NJOq|Number of variants;"select 0=;1=eine;2=zwei;3=drei;4=vier";#boats-VariantCount;80%;12
+</div><div class='w3-col l4'>;;DefaultVariant;;awmNYz|usual variant;text;;80%;12
+</div><div class='w3-col l4'>;;LastVariant;;6oAetm|last variant;text;display-bold;80%;12
+</div></div><div class='w3-row'><div class='w3-col l2 boatvariant-1'>;;TypeVariant1;;n0Qm21| ** first type variant *...;text;#boats-TypeVariant-1;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2 boatvariant-1'>;;TypeCoxing1;;tYBQ6X|Controlled;select $named_options;#boats-TypeCoxing-1;90%;50
+</div><div class='w3-col l2 boatvariant-1'>;;TypeSeats1;;3EihyE|Number of seats;select $named_options;#boats-TypeSeats-1;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2 boatvariant-1'>;;TypeType1;;iPlaKi|Boat type;select $named_options;#boats-TypeType-1;90%;50
+</div><div class='w3-col l2 boatvariant-1'>;;TypeRigging1;;xBfzm2|Rigging;select $named_options;#boats-TypeRigging-1;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2 boatvariant-1'>;;TypeDescription1;;oMccPH|Description (Please do n...;text;#boats-TypeDescription-1;90%;150
+</div></div><div class='w3-row'><div class='w3-col l2 boatvariant-2'>;;TypeVariant2;;m2oeV3| ** second type variant ...;text;#boats-TypeVariant-2;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2 boatvariant-2'>;;TypeCoxing2;;Koyi0z|Controlled;select $named_options;#boats-TypeCoxing-2;90%;50
+</div><div class='w3-col l2 boatvariant-2'>;;TypeSeats2;;zN9uFR|Number of seats;select $named_options;#boats-TypeSeats-2;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2 boatvariant-2'>;;TypeType2;;61cAaQ|Boat type;select $named_options;#boats-TypeType-2;90%;50
+</div><div class='w3-col l2 boatvariant-2'>;;TypeRigging2;;lmwgwD|Rigging;select $named_options;#boats-TypeRigging-2;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2 boatvariant-2'>;;TypeDescription2;;cvB976|Description (Please do n...;text;#boats-TypeDescription-2;90%;150
+</div></div><div class='w3-row'><div class='w3-col l2 boatvariant-3'>;;TypeVariant3;;YzzXXw| ** third type variant *...;text;#boats-TypeVariant-3;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2 boatvariant-3'>;;TypeCoxing3;;LvABqh|Controlled;select $named_options;#boats-TypeCoxing-3;90%;50
+</div><div class='w3-col l2 boatvariant-3'>;;TypeSeats3;;QvwM9W|Number of seats;select $named_options;#boats-TypeSeats-3;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2 boatvariant-3'>;;TypeType3;;IeBMNG|Boat type;select $named_options;#boats-TypeType-3;90%;50
+</div><div class='w3-col l2 boatvariant-3'>;;TypeRigging3;;tVF58f|Rigging;select $named_options;#boats-TypeRigging-3;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2 boatvariant-3'>;;TypeDescription3;;GEYxEV|Description (Please do n...;text;#boats-TypeDescription-3;90%;150
+</div></div><div class='w3-row'><div class='w3-col l2 boatvariant-4'>;;TypeVariant4;;BXvWj2| ** fourth type variant ...;text;#boats-TypeVariant-4;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2 boatvariant-4'>;;TypeCoxing4;;LqnMVd|Controlled;select $named_options;#boats-TypeCoxing-4;90%;50
+</div><div class='w3-col l2 boatvariant-4'>;;TypeSeats4;;bN94jQ|Number of seats;select $named_options;#boats-TypeSeats-4;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2 boatvariant-4'>;;TypeType4;;tCnBmJ|Boat type;select $named_options;#boats-TypeType-4;90%;50
+</div><div class='w3-col l2 boatvariant-4'>;;TypeRigging4;;DwVsCD|Rigging;select $named_options;#boats-TypeRigging-4;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2 boatvariant-4'>;;TypeDescription4;;iqvOp0|Description (Please do n...;text;#boats-TypeDescription-4;90%;150
+;;changed-TypeVariant;;;hidden;#changed-TypeVariant;;
+;;changed-TypeCoxing;;;hidden;#changed-TypeCoxing;;
+;;changed-TypeSeats;;;hidden;#changed-TypeSeats;;
+;;changed-TypeType;;;hidden;#changed-TypeType;;
+;;changed-TypeRigging;;;hidden;#changed-TypeRigging;;
+;;changed-TypeDescription;;;hidden;#changed-TypeDescription;;
+</div></div><div class='w3-row'><div class='w3-col l1'>;;_no_input;;qlPgLK| ** Usage rules ** ;;;
+</div></div><div class='w3-row'><div class='w3-col l2'>;;OnlyWithBoatCaptain;;jnk5Ij|only with helmsman;checkbox;;;
+</div></div><div class='w3-row'><div class='w3-col l2'>;;AllowedGroupIdList;;Txe8Uq|List of allowed groups;text;;90%;50
+</div><div class='w3-col l2'>;;MaxCrewWeight;;H9kI5D|maximum team weight;text;;10;12
+</div></div><div class='w3-row'><div class='w3-col l2'>;;RequiredGroupId;;nchfyO|only for group;text;;90%;50
+</div><div class='w3-col l2'>;;MaxNotInGroup;;1QRXV3|maximum number of outsid...;text;;10;12
+</div></div><div class='w3-row'><div class='w3-col l2'>;;DefaultCrewId;;9reeG3|Standard Team;text;;90%;50
+</div><div class='w3-col l2'>;;DefaultSessionType;;FfY75P|Default Trip Type;text;;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2'>;;DefaultDestinationId;;ROnbpI|Standard destination;text;;90%;50
+</div></div><div class='w3-row'><div class='w3-col l1'>;;_no_input;;iAJ3Mj| ** Inventory data ** ;;;
+</div></div><div class='w3-row'><div class='w3-col l2'>;;Manufacturer;;ycf5ig|Manufacturer;text;;90%;50
+</div><div class='w3-col l2'>;;ManufactionDate;;UWZxe7|Date of manufacture;date;;10;20
+</div></div><div class='w3-row'><div class='w3-col l2'>;;Model;;nYXAHD|Model;text;;90%;50
+</div><div class='w3-col l2'>;;SerialNo;;SvaKYg|Serial number;text;;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2'>;;Owner;;QDV6IR|Owner;text;;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2'>;;PurchaseDate;;HViZiY|Date of purchase;date;;10;20
+</div><div class='w3-col l4'>;;PurchasePrice;;CTGqm4|Purchase price;text;;85%;50
+</div><div class='w3-col l4'>;;PurchasePriceCurrency;;tOvSot|Currency Purchase price;text;;80%;50
+</div></div><div class='w3-row'><div class='w3-col l2'>;;SellingDate;;uQWc7Z|Date of sale;date;;10;20
+</div><div class='w3-col l2'>;;SellingPrice;;aBry6x|Sales price;text;;90%;50
+</div><div class='w3-col l2'>;;InsuranceValue;;OkL5GN|Insurance value;text;;90%;50
+</div></div><div class='w3-row'><div class='w3-col l1'>;;_no_input;;kyJIX0| ** Other ** ;;;
+</div></div><div class='w3-row'><div class='w3-col l2'>;;FreeUse1;;r5e8fj|Free field 1;text;;90%;50
+</div><div class='w3-col l2'>;;FreeUse2;;trUBiT|Free field 2;text;;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2'>;;FreeUse3;;nGKaUU|Free field 3;text;;90%;50
+</div><div class='w3-col l2'>;;EfbId;;;text;;90%;50
+</div></div><div class='w3-row'><br><div class='w3-col l2'>;;ExcludeFromStatistics;;ADuZsp|Exclude from statistics;checkbox;;;
+</div><div class='w3-col l4'>;;Invisible;;IPD1Fr|Invisible;checkbox;;;
+</div><div class='w3-col l4'>;;Deleted;;161Fzy|Deleted;checkbox;;;
+</div></div></span><div class='w3-row'><div class='w3-col l1'> <br>;;submit;IRuTJj|Modify now;;submit;formbutton;;
+</div></div>;;_no_input;;;;;;
+<li><span class='helptext'>;;_help_text;;FXvmEJ|The data change takes ef...;;;;
+</span></li><li><span class='helptext'>;;_help_text;;Ts6lR3|For technical reasons, t...;;;;
+</span></li><li><span class='helptext'>;;_help_text;;606Fgi|Data records with type o...;;;;
+</span></li>;;_help_text;;;;;;

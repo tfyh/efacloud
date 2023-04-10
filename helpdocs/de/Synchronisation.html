@@ -1,0 +1,39 @@
+<h3>Synchronisation</h3>
+<p>Zwischen den efa-PCs und dem efaCloud Server findet ein
+regelmäßiger Datenaustausch statt, um die Daten konsistent zu
+halten. Denn jeder efa-PC hält eine Kopie der Daten, damit er auch
+weiter läuft, wenn mal das Internet ausfällt.</p>
+<p>Es gibt zwei Richtungen: upload = Senden der Daten vom PC zum
+efaCloud Server und download = Holen der Daten vom efaCloud Server
+durch den efa PC. Aktiv ist immer der efa-PC, der efaCloud Server
+reagiert nur.</p>
+<h4>Synchronisation bei Programmstart am efa-PC</h4>
+<p>Wird an einem efa-PC efa gestartet und efaCloud ist als
+Projektspeicher aktiviert, findet sofort eine
+Download-Synchronisation statt.</p>
+<h4>Automatische Download-Synchronisation</h4>
+<p>Weil mehrere PCs an einen efaCloud-Server angeschlossen sein
+können, können sich Daten auf dem Server verändern, ohne dass ein
+efa-PC des mitbekommt. Deswegen wird regelmäßig nach neuen Daten
+gefragt. Das Intervall zwischen zwei automatischen
+Download-Synchronisationen ist im Standard eine Stunde.</p>
+<h4>Automatischer Änderungscheck</h4>
+<p>Die meiste Zeit ändert sich nichts an den Daten. Deswegen gibt es
+die Möglichkeit, nachzufragen, wann die letzte Schreibaktivität von
+Daten im efaCloud-Server war. Dieser Änderungscheck ist eine sehr
+kompakte, schnelle Abfrage und erfordert keine Autorisierung, weil er
+nur Auskunft darüber gibt, ob überhaupt irgendjemand Daten
+verändert hat. Das Intervall zwischen zwei automatischen 
+Änderungschecks ist im Standard eine Minute. Wird eine Änderung
+gemeldet, löst das eine Synchronisation im efa-PC aus.</p>
+<h4>Automatische Upload-Synchronisation</h4>
+<p>Ein efa-PC, der Daten lokal verändert, schreibt diese Änderung
+auch in die efaCloud Datenbank. Wenn das immer klappt, benötigt man
+keine Upload-Synchronisation. Weil es aber immer mal wieder zu
+Unterbrechungen im Betrieb kommt, dient eine tägliche
+Upload-Synchronisation zum Nachladen nicht übertragener Änderungen
+aus dem efa-PC an den efaCloud Server.</p>
+<p>Die Upload-Synchronisation findet im efa-PC einmal am Tag in
+Zusammenhang mit der ersten Download-Synchronisation des Tages statt.
+Sie kann darüber hinaus durch einen automatischen Ablauf im efa-PC
+angestoßen werden.</p>

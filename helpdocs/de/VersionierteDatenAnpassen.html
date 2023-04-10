@@ -1,0 +1,21 @@
+<h3>Ändern von versionierten Daten</h3>
+<p>Efa verwendet Tabellen mit Einträgen, die mehrere Versionen mit
+	aufeinanderfolgender Gültigkeit haben. Die Tabellen sind: Gruppen,
+	Gewässer, Personen und Ziele.</p>
+<p>In diesen Tabellen kann grunsätzlich nur die letzte Version
+	geändert werden. Es gibt drei Änderungsmodi:</p>
+<ol>
+	<li>Inhalte ändern:<br>Der Gültigkeitszeitraum bleibt gleich,
+		Der Datensatz wird inhaltlich geändert (z. B. neue e-Mail Adresse.)
+	</li>
+	<li>Gültig Bis ändern:<br>Das Ende des Gültigkeitszeitraums
+		wird verändert. Es werden keine Inhalte geändert, ggf. eingetragene
+		Änderungen werden ignoriert. Um unbeschränkte Gültigkeit zu erreichen,
+		muss das Datum der Gültigkeit leer sein.
+	</li>
+	<li>eine neue Version erzeugen: der 'Gültig Bis' Wert des
+		Datensatzes wird so gesetzt wie angegeben, es wird eine neuen Version
+		erzeugt die direkt im Anschluss und dann unbegrenzt gültig ist als
+		Kopie der aktuellen Version. Es werden keine Inhalte geändert, ggf.
+		eingetragene Änderungen werden ignoriert.</li>
+</ol>

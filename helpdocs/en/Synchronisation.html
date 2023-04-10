@@ -1,0 +1,41 @@
+<h3>Synchronisation</h3>
+<p>There is a regular data exchange between the efa PCs and the
+	efaCloud server. exchange takes place regularly to keep the data
+	consistent. consistent. This is because each efa-PC keeps a copy of the
+	data, so that it can continue to continues to run even if the internet
+	goes down.</p>
+<p>There are two directions: upload = sending the data from the PC
+	to the efaCloud server and download = fetching the data from the
+	efaCloud server. by the efa PC. The efa-PC is always active, the
+	efaCloud server only only reacts.</p>
+<h4>Synchronisation at programme start on efa-PC</h4>
+.
+<p>If efa is started on an efa-PC and efaCloud is activated as the
+	project project storage, a download synchronization takes place
+	immediately. download synchronization takes place immediately.</p>
+<h4>Automatic download synchronisation</h4>
+<p>Because several PCs can be connected to one efaCloud server, data
+	on the server can data on the server can change without any efa PC
+	being aware of it. efa-PC is aware of this. For this reason, new data
+	is regularly regularly. The interval between two automatic download
+	synchronisations is one hour by default.
+<h4>Automatic change check</h4>
+<p>Most of the time, nothing changes in the data. That is why there
+	is possibility to ask when the last write activity of data in the
+	efaCloud data was in the efaCloud server. This change check is a very
+	query and does not require any authorisation, because it only only
+	provides information on whether anyone has changed any has changed any
+	data. The interval between two automatic change checks is one minute by
+	default. If a change is is reported, it triggers a synchronisation in
+	the efa-PC.</p>
+<h4>Automatic upload synchronisation</h4>
+<p>An efa-PC that changes data locally also writes this change to
+	the efaCloud. to the efaCloud database. If this always works, there is
+	no need for no upload synchronisation. However, because there are
+	always interruptions in the operation, a daily upload synchronisation
+	is synchronisation is used to reload changes that have not been
+	transferred from the from the efa-PC to the efaCloud server.
+<p>The upload synchronisation takes place in the efa-PC once a day
+	in in connection with the first download synchronisation of the day. It
+	can also be triggered by an automatic process in efa-PC. can be
+	triggered.</p>

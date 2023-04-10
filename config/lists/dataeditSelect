@@ -1,5 +1,0 @@
-id;permission;name;select;from;where;options
-1;member;Boote;Id,Name;efa2boats;(InvalidFrom > 9999999999999);sort=Name
-2;member;Destinationen;Id,Name;efa2destinations;(InvalidFrom > 9999999999999);sort=Name
-3;member;Personen;Id,FirstLastName;efa2persons;(InvalidFrom > 9999999999999);sort=FirstLastName
-4;member;Status;Id,Name;efa2status;1;sort=Name

@@ -1,8 +1,8 @@
 id;permission;headline;link
-Startseite;.anonymous;Startseite ;../public/index.php
-efaWeb;anonymous;efaWeb starten ;../forms/login.php?goto=pages/efaWeb.php
-Login;anonymous;efaCloud starten ;../forms/login.php
-Logout;.anonymous;Abmelden ;../pages/logout.php
-ResetPW;.anonymous;Kennwort vergessen ;../forms/reset_password.php
-Hilfe;anonymous;Hilfe ;../public/help.php
-Info;.anonymous;Info ;../public/info.php
+Startseite;.anonymous;YakGpo|Homepage;../public/index.php
+efaWeb;anonymous;9H3wls|Start efaWeb;../forms/login.php?goto=pages/efaWeb.php
+Login;anonymous;yQ1qgk|Start efaCloud;../forms/login.php
+Logout;.anonymous;tk0t49|Logout;../pages/logout.php
+ResetPW;.anonymous;DMXYCB|Password forgotten?;../forms/reset_password.php
+Hilfe;anonymous;yNm37C|Help;../public/help.php
+Info;.anonymous;vkPG2M|Info;../public/info.php

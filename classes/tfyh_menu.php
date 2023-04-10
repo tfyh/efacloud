@@ -35,14 +35,14 @@ class Tfyh_menu
      * HTML snippet at start of level 2 item.
      */
     private $html_item_l2 = '<div class="w3-bar-block w3-hide w3-medium subMenu{parent}">' . "\n" .
-             '<a{href} class="w3-bar-item w3-bar-item-2 menuitem" id="{id}" ' . '{onclick}{hidden}>{headline}</a>' .
-             "\n" . '</div>' . "\n";
+             '<a{href} class="w3-bar-item w3-bar-item-2 menuitem" id="{id}" ' .
+             '{onclick}{hidden}>{headline}</a>' . "\n" . '</div>' . "\n";
 
     /**
      * HTML snippet at end of menu
      */
     private $html_menu_end = '<footer class="w3-small w3-center" id="footer">' .
-             '<br><br><br>##user##<br>##version##<br>##copyright##</footer></div>' . "\n" .
+             '<br><br>##user##<br>##version##<br>##copyright##<br>##applogo##<br>&nbsp;</footer></div>' . "\n" .
              "<!--============================== menu - end ===========================-->" . "\n";
 
     /**
@@ -79,6 +79,10 @@ class Tfyh_menu
         foreach ($raw_menu_def_array as $raw_menu_def) {
             
             $menu_def = $raw_menu_def;
+            // check whether i18n replacement is needed
+            if ($this->toolbox->is_valid_i18n_reference($menu_def["headline"])) 
+                $menu_def["headline"] = i($menu_def["headline"]);
+                
             $menu_def["caret"] = '';
             $menu_def["parent"] = "";
             // multiple option for the link: direct call to a javascript function, event definition or page
@@ -105,7 +109,7 @@ class Tfyh_menu
                 if (strlen($menu_def["link"]) == 0) {
                     // if the link is empty, open a sub menu at level 1
                     $menu_def["onclick"] = ' onclick="openSubMenu(\'' . $menu_def["id"] . '\')"';
-                    $menu_def["caret"] = '<b>&#x25be</b>';
+                    $menu_def["caret"] = ' <b>&#x25be</b>';
                 }
             }
             $this->menu_def_array[] = $menu_def;
@@ -115,11 +119,13 @@ class Tfyh_menu
                  isset($_SESSION["User"][$this->toolbox->users->user_lastname_field_name])) ? $_SESSION["User"][$this->toolbox->users->user_firstname_field_name] .
                  " " . $_SESSION["User"][$this->toolbox->users->user_lastname_field_name] . " (" .
                  $_SESSION["User"]["Rolle"] . ")" : "";
-        $version = $toolbox->config->app_info["version_string"];
-        $copyright = $toolbox->config->app_info["copyright"];
         $this->html_menu_end = str_replace("##user##", $username, $this->html_menu_end);
-        $this->html_menu_end = str_replace("##version##", $version, $this->html_menu_end);
-        $this->html_menu_end = str_replace("##copyright##", $copyright, $this->html_menu_end);
+        $this->html_menu_end = str_replace("##version##", $toolbox->config->app_info["version_string"], 
+                $this->html_menu_end);
+        $this->html_menu_end = str_replace("##copyright##", $toolbox->config->app_info["copyright"], 
+                $this->html_menu_end);
+        $this->html_menu_end = str_replace("##applogo##", $toolbox->config->app_info["applogo"], 
+                $this->html_menu_end);
     }
 
     /**
@@ -135,7 +141,7 @@ class Tfyh_menu
         $allowance_array = [];
         foreach ($raw_menu_definitions as $raw_menu_definition) {
             $roles = explode(",", str_replace(".", "", $raw_menu_definition["permission"]));
-            $activity = trim($raw_menu_definition["headline"]);
+            $activity = i(trim($raw_menu_definition["headline"]));
             foreach ($roles as $role) {
                 $prefix = substr($role, 0, 1);
                 if (($prefix != '#') && ($prefix != '@') && ($prefix != '$')) {
@@ -154,7 +160,7 @@ class Tfyh_menu
                 $nvp = explode("=", trim($role_def));
                 $role = str_replace("*", "", $nvp[0]);
                 $allowance_str .= "<li><b>" . $role . "</b>: " .
-                         ((! isset($allowance_array[$role])) ? "nicht verwendet." : $allowance_array[$role]) .
+                         ((! isset($allowance_array[$role])) ? i("LlqlPF|not used.") : $allowance_array[$role]) .
                          "</li>\n";
             }
         }
@@ -254,12 +260,12 @@ class Tfyh_menu
     {
         $m_html = $this->html_menu_start;
         if ($this->toolbox->config->debug_level > 0)
-            $m_html .= "<span style='color:#b00;background-color:#fff;text-align:center;' class='w3-bar-item'><b>DEBUG-MODUS</b></span>\n";
+            $m_html .= "<span style='color:#b00;background-color:#fff;text-align:center;' class='w3-bar-item'><b>" .
+                     i("xhXR6R|DEBUG MODE") . "</b></span>\n";
         $m_html .= $this->html_list_l1;
         $l = 1;
         $close_list = "";
         $l1_i = 0;
-        
         foreach ($this->menu_def_array as $item) {
             $id = $item["id"];
             if ($item["level"] === 2) {

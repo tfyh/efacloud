@@ -1,0 +1,28 @@
+tags;required;name;value;label;type;class;size;maxlength
+<span id='vSpanSystemData'><div class='w3-row'><div class='w3-col l3'>;;Damage;;MaWHhj|Damage report no.;text;display-bold;90%;20
+</div><div class='w3-col l3'>;;ecrid;;Fjvte0|unique record reference ...;text;display-bold;90%;20
+</div></div><div class='w3-row'><div class='w3-col l3'>;;LastModified;;Gvv8Dg|last modified on;text;display-bold;90%;20
+</div><div class='w3-col l3'>;;ChangeCount;;ed0qiK|Version (change counter);text;display-bold;90%;20
+</div><div class='w3-col l3'>;;LastModification;;msLZ1U|Type of last change;text;display-bold;90%;20
+</div></div><div class='w3-row'><div class='w3-col l1'><hr>;;_no_input;;;;;
+</div></div></span><div class='w3-row'><div class='w3-col l2' id='editDamage-BoatId'>;;BoatId;;bWQfY3|boat;text;;85%;20
+</div><div class='w3-col l2'>;;Severity;;0CIAFU|The boat is;"select UNDEFINED=;FULLYUSEABLE=voll benutzbar;LIMITEDUSEABLE=eingeschränkt benutzbar;NOTUSEABLE=nicht benutzbar";;90%;50
+</div></div><div class='w3-row'><div class='w3-col l1'>;;Description;;PFX4fS|Description;textarea;;4;
+</div></div><div class='w3-row'><div class='w3-col l4'>;;ReportDate;;JwgzHG|Reported on;date;;90%;20
+</div><div class='w3-col l4'>;;ReportTime;;pqL2ki|Reported at;text;;90%;10
+</div><div class='w3-col l2'>;;ReportedByPersonId;;cuF2PJ|Reported by;text;;85%;50
+</div></div><div class='w3-row'><div class='w3-col l4'><br>;;Fixed;;zgUx5E|Fixed;checkbox;;;
+</div><div class='w3-col l4'><br>;;Claim;;Bc1JCp|Insurance claim;checkbox;;;
+</div><div class='w3-col l2'>;;RepairCosts;;angZst|Repair costs;text;;90%;50
+</div></div><div class='w3-row'><div class='w3-col l4'>;;FixDate;;lKMzP1|Remedied on;date;;90%;20
+</div><div class='w3-col l4'>;;FixTime;;8e7Bmw|Fixed at;text;;90%;10
+</div><div class='w3-col l2'>;;FixedByPersonId;;lrang0|Remedied by;text;;85%;50
+</div></div><div class='w3-row'><div class='w3-col l2'>;;LogbookText;;tNO7yZ|Logbook text;textarea;;4;
+</div><div class='w3-col l2'>;;Notes;;fD6eVJ|Notes;textarea;;4;
+</div></div><div class='w3-row'><div class='w3-col l1' id='changed-values-text'>;;_no_input;;;;;;
+</div></div><div class='w3-row'><div class='w3-col l1'> <br>;;submit;Latx0o|Modify now;;submit;formbutton;;
+</div></div>;;_no_input;;;;;;
+<li><span class='helptext'>;;_help_text;;M1TX5b|The data change takes ef...;;;;
+</span></li><li><span class='helptext'>;;_help_text;;bv78Ko|For technical reasons, t...;;;;
+</span></li><li><span class='helptext'>;;_help_text;;SVqu0B|Data records with type o...;;;;
+</span></li>;;_help_text;;;;;;

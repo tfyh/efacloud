@@ -1,0 +1,59 @@
+<h3>Daily maintenance routines and automatic processes</h3>
+.
+<p>A web server such as the efaCloud server does not usually have
+	the not have the possibility to initiate control activities. However,
+	there are automatic processes.</p>
+<h4>Triggers</h4>
+<p>But because the efaCloud server can be assumed to be accessed
+	regularly the efaCloud server, the first authorised access of the day
+	can be used of the day can be used to trigger the rule activities.
+<p>Ideally, the trigger is an efa-PC that restarts during the night
+	and therefore and reauthorises itself on the efaCloud server.
+	Alternatively it is the first efaCloud user to log in.</p>
+<p>Because of the maintenance routing, the efaCloud server is not
+	available.
+<p>Because the maintenance routines take time, the first access a
+	day is first access a day is significantly delayed, depending on the
+	size of the database. up to 30 seconds.</p>
+<p>
+<h4>Maintenance routines</h4>
+<p>As a regular maintenance routine, the data are checked daily for
+	consistency and corrected where automatically possible. Log files are
+	cleaned up. Archiving of data that is now due is carried out. The
+	Access statistics are evaluated and the size of the database is
+	recorded. The result is saved as audit.log and can be sent with support
+	requests. support enquiries.</p>
+>
+<h4>automatic processes</h4>
+<p>At present, there are two workflows that can be configured so
+	that so that on some days they are triggered together with the
+	maintenance work.</p>
+<ul>
+	<li>Send personal logbook to each person in efa2persons, for whom
+		a mail address is entered and who has one or more current logbook has
+		one or more journeys,</li>
+	<li>Send application monitoring rule report to the address, which
+		is entered as the copy recipient of workflow notifications.</li>
+</ul>
+<h4>Setting</h4>
+<p>For each automatic workflow, one line is entered in the text
+	field. is entered. The syntax is:</p>
+<ol>
+	<li>Day specification = D or W or M for daily, weekly, monthly and
+		a number. Examples D1 = daily, W1 = Mondays, M1 =. First of the month,
+		M31 = Last of the month.</li>
+	<li>Job options: 'persLogbook' = sending the personal logbook to
+		all persons who have deposited an e-mail address in efa2persons. email
+		address in efa2persons or 'monitoring' = sending the regular
+		monitoring to all efaCloudUser with the role 'admin'.</li>
+</ol>
+<p>in job per flow, as 'tag specification type' e.g. 'M31
+	persLogbook'.</p>
+<h4>Test</h4>
+<p>The maintenance routines can also be started manually for
+	testing. for testing under 'Set efaCloud > Run maintenance routines'.
+	The automatic routines will not be carried out in this way.</p>
+<p>You can send the personal logbook to yourself under 'efa Settings
+	> Test personal logbook'</p>
+<p>The personal logbook can be sent to you under 'efaCloud settings
+	> Test personal logbook'.

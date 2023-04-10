@@ -1,15 +1,15 @@
 id;permission;headline;link
-parsing_error;anonymous;Fehler melden ;../api/parsing_error
-nop;guest;Schnittstelle testen ;../api/nop
-info;guest;Information abfragen ;../api/info
-insert;member;Datensatz anlegen ;../api/insert
-update;member;Datensatz aktualisieren ;../api/update
-list;member;Datensätze lesen ;../api/list
-delete;bths;Datensatz löschen ;../api/delete
-keyfixing;bths;Datensatz korrigieren ;../api/keyfixing
-select;bths;Datensätze lesen ;../api/select
-synch;bths;Datensätze lesen ;../api/synch
-verify;bths;Nutzerkennwort verifizieren ;../api/verify
-backup;bths;Backup anstoßen ;../api/backup
-cronjobs;bths;Cronjobs anstoßen ;../api/cronjobs
-upload;bths;Statistik upload ;../api/upload
+parsing_error;anonymous;CAX8fi|Report error;../api/parsing_error
+nop;guest;DCYvxF|Test interface;../api/nop
+info;guest;r3NxLY|Query information;../api/info
+insert;member;0dYrp9|Create record;../api/insert
+update;member;Y9hsnl|Update record;../api/update
+list;member;VR0oRs|Read data records;../api/list
+delete;bths;MNpvhU|Delete record;../api/delete
+keyfixing;bths;Z6itd3|Correct record;../api/keyfixing
+select;bths;BG4WZl|Read data records;../api/select
+synch;bths;VOmyV3|Read data records;../api/synch
+verify;bths;111oMV|Verify user password;../api/verify
+backup;bths;qECzxn|Trigger backup;../api/backup
+cronjobs;bths;KbKtBC|Trigger cronjobs;../api/cronjobs
+upload;bths;e6HgQI|Statistics upload;../api/upload

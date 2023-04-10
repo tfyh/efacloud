@@ -18,14 +18,16 @@ if (isset($_GET["type"]))
 else
     $type = "info";
 
-$selection = "";
+$selection = "<div class='w3-row'>";
 $available_logs = $toolbox->config->settings_tfyh["logger"]["logs"];
-$categories_to_show = ["api" => "Anbindung","app" => "Serveranwendung","debug" => "Fehlersuche",
-        "sys" => "Systemmeldungen"
+$categories_to_show = ["api" => i("7DhJc1|Connection"),"app" => i("hOqvCZ|Server application"),
+        "debug" => i("NapRG7|Debugging"),"sys" => i("PnEMKA|System messages")
 ];
-$types_to_show = ["info" => "Information","warnings" => "Warnungen","errors" => "Fehler",
-        "bulk_txs" => "Sammeltransaktionen","api" => "Anbindung","app" => "Serveranwendung",
-        "cronjobs" => "Regelaufgaben","db_audit" => "Datenbanküberprüfung"
+$types_to_show = ["info" => i("Y1BObA|Information"),"warnings" => i("sbWQdK|Warnings"),
+        "errors" => i("qZ10EG|Errors"),"bulk_txs" => i("EJN8bL|Bulk transactions"),
+        "api" => i("rH1lEJ|Connection"),"app" => i("hjdoBL|Server application"),
+        "cronjobs" => i("MzCIkc|Housekeeping tasks"),"db_audit" => i("c6Z279|Data base audit"),
+        "efa_tools" => i("zwn7oV|Data base audit")
 ];
 $configured_logs = [];
 foreach ($available_logs as $available_log) {
@@ -36,46 +38,50 @@ foreach ($available_logs as $available_log) {
 }
 
 foreach ($categories_to_show as $category_to_show => $category_display) {
-    $heading = "<h5>" . $category_display . "<h5><p>";
+    $heading = "<div class='w3-col l4'><h5>" . $category_display . "<h5><p>";
     $files_found = "";
     foreach ($types_to_show as $type_to_show => $type_display) {
         $filename = "../log/" . $category_to_show . "_" . $type_to_show . ".log";
         if (file_exists($filename))
             $files_found .= "<a href='?category=" . $category_to_show . "&type=" . $type_to_show .
-                     "' class='formbutton'>" . $type_display . "</a>&nbsp;&nbsp;";
+                     "' class='formbutton'>" . $type_display . "</a><br><br>";
     }
     if (strlen($files_found) > 0)
-        $selection .= $heading . $files_found . "</p>";
+        $selection .= $heading . $files_found . "</p></div>";
 }
+$selection .= "</div>";
 
-$log = "<h4>" . $categories_to_show[$category] . ", " . $types_to_show[$type] . "</h4>";
+$log = "<h4><b>" . $categories_to_show[$category] . ", " . $types_to_show[$type] . "</b> " .
+         i("C3bKnx|from the file") . " '";
 $filename = "../log/" . $category . "_" . $type . ".log";
-$log = "<h4>" . $filename . "</h4><code>";
+$log .= $filename . "'</h4><ul>";
 if (! file_exists($filename))
-    $log .= "Datei nicht vorhanden.";
-else
-    $log .= str_replace("\n", "<br>", file_get_contents($filename));
-$log .= "</code>";
+    $log .= i("0SC9ay|File does not exist.");
+else {
+    $split = "";
+    if (strcasecmp($categories_to_show[$category], "Connection") == 0) {
+        $log_lines = explode("\n[20", file_get_contents($filename));
+        $split = "[20";
+    } else
+        $log_lines = explode("\n", file_get_contents($filename));
+    for ($l = count($log_lines) - 1; $l >= 0; $l --)
+        if (strlen($log_lines[$l]) > 5) {
+            if (strcasecmp($categories_to_show[$category], "Server application") == 0)
+                $log .= "<li>" . htmlspecialchars(str_replace(";", "; ", substr($log_lines[$l], 11))) . "</li>";
+            else
+                $log .= "<li>" . htmlspecialchars($split . $log_lines[$l]) . "</li>";
+        }
+}
+$log .= "</ul>";
 
 // ===== start page output
 echo file_get_contents('../config/snippets/page_01_start');
 echo $menu->get_menu();
 echo file_get_contents('../config/snippets/page_02_nav_to_body');
 
-?>
-<!-- START OF content -->
-<div class="w3-container">
-	<h3>Server-Meldungen</h3>
-	<p>Informationen, Warnungen und Fehler mit ID des auslösenden Nutzers.
-		Alles was die Anwendung protokolliert hat. Die dargestellte
-		Information kan persönliche Daten enthalten und darf nur im geregelten
-		Zweck verwendet werden.</p>
-	<h4>Vorhandene Logs</h4>
-	<div class='w3-row' style='padding: 10px;'><?php echo $selection; ?></div>
-	<h4>Ausgewählter Log</h4>
-	<div class='w3-row' style='padding: 10px;'><?php echo $log; ?></div>
-	<!-- END OF Content -->
-</div>
-
-<?php
+echo i("AAnHHF| ** Server messages ** I...");
+echo $selection;
+echo i("lTMUZN|</div><div class=°w3-ro...");
+echo $log;
+echo i("o5pCKD|</div><!-- END OF Conte...");
 end_script();

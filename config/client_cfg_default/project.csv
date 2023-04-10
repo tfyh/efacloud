@@ -1,0 +1,5 @@
+Type;Name;CurrentLogbookEfaBase;CurrentLogbookEfaBoathouse;BoathouseId;ChangeCount;LastModified;ProjectID;ClubName;AddressStreet;AddressCity;GlobalAssociationName;RegionalAssociationName;MemberOfDRV;StartDate;EndDate;ProjectName;Description;StorageType;StorageUsername;StoragePassword;EfaCloudURL;AdminName;AdminEmail;LastWatersTemplateHash
+Boathouse;Bootshaus;2022;2022;1;81;1665069321643;;;;;;;;;;;;;;;;;;
+Club;;;;;13;1606425703222;14012c67-ca28-407c-aab5-7bc8409dfb74;RC Weiss-Blau;Wolke 7;12345 Imhimmel;Deutscher Ruderverband;Landesruderverband Berlin;true;;;;;;;;;;;
+Logbook;2022;;;;1;1643218989372;;;;;;;;01.01.2022;31.12.2022;;;;;;;;;
+Project;;;;;89;1665069321412;;;;;;;;;;efaCloudDemo;Demonstrationsprojekt für die efaCloud Funktion;file/efaCloud;1818;*~c:aJWM9b+qHSsFZzdi1TiSjg==;http://localhost;Martin Glade;info@tfyh.org;2.2.2_49#N4nfXLY+7b0kkE0FUXiyXg==

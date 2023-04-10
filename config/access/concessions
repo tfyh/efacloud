@@ -1,15 +1,18 @@
 ID;Name;Titel;Beschreibung;Flag
-1;MsgReadAdmin;Nachrichten an Admin lesen;;1
-2;MsgMarkReadAdmin;Nachrichten an Admin als gelesen markieren;;2
-3;MsgAutoMarkReadAdmin;Nachrichten an Admin automatisch als gelesen markieren;;4
-4;MsgReadBoatMaintenance;Nachrichten an Bootswart lesen;;8
-5;MsgMarkReadBoatMaintenance;Nachrichten an Bootswart als gelesen markieren;;16
-6;MsgAutoMarkReadBoatMaintenance;Nachrichten an Bootswart automatisch als gelesen markieren;;32
-7;ewLogbookEntry;efaWeb: Fahrten in das aktuelle Fahrtenbuch eintragen;64
-8;ewMessageEntry;efaWeb: Nachrichten hinterlassen;;128
-9;ewDamageEntry;efaWeb: Schadensmeldungen abgeben;;256
-10;ewReservationEntry;efaWeb: Boote reservieren;;512
-11;ewLogbookView;efaWeb: Das Fahrtenbuch anzeigen;;1024
-12;ewMessageView;efaWeb: Nachrichten lesen;;2048
-13;ewDamageView;efaWeb: Schadensmeldungen lesen;;4096
-14;ewReservationView;efaWeb: Reservierungen lesen;;8192
+1;MsgReadAdmin;87yEmY|Read messages to Admin;;1
+2;MsgMarkReadAdmin;KjDtDE|Mark messages to admin a...;;2
+3;MsgAutoMarkReadAdmin;tuglOc|Automatically mark messa...;;4
+4;MsgReadBoatMaintenance;GETdvw|Read messages to boat ke...;;8
+5;MsgMarkReadBoatMaintenance;I6YQ4r|Mark messages to boat ke...;;16
+6;MsgAutoMarkReadBoatMaintenance;HLqSDT|Automatically mark messa...;;32
+7;ewLogbookEntryBths1;YbxSVD|efaWeb: Enter trips in t...;;64
+8;ewMessageEntry;3L5MHB|efaWeb: Leave messages;;128
+9;ewDamageEntry;CowNyK|efaWeb: Submit damage re...;;256
+10;ewReservationEntry;rq8s1c|efaWeb: Reserve boats;;512
+11;ewLogbookView;5GosWb|efaWeb: Display the logb...;;1024
+12;ewMessageView;NDiu3F|efaWeb: Read messages;;2048
+13;ewDamageView;slon3e|efaWeb: Read damage repo...;;4096
+14;ewReservationView;ZcpuyD|efaWeb: Read reservation...;;8192
+15;ewLogbookEntryBths2;n2dNm8|efaWeb: Enter trips in t...;;16384
+16;ewLogbookEntryBths3;iKutaN|efaWeb: enter trips in l...;;32768
+17;ewLogbookEntryBths4;EzjqFN|efaWeb: enter trips in l...;;65536

@@ -1,23 +1,14 @@
 tags;required;name;value;label;type;class;size;maxlength
-<div class='w3-row'><div class='w3-col l2'>;*; \
-  Vorname;;Ihr Vorname;text;;90%;250
-</div><div class='w3-col l2'>;*; \
-  Nachname;;Ihr Nachname;text;;90%;250
-</div></div><div class='w3-row'><div class='w3-col l1'>;*; \
-  EMail;;Ihr E-Mail-Adresse für die Kontaktaufnahme durch den Support;email;;95%;250
-</div></div><div class='w3-row'><div class='w3-col l1'>;*; \
-  Verein;;Der Verein, bei dem efaCloud eingesetzt wird;text;;90%;250
-</div></div><div class='w3-row'><div class='w3-col l1'>;*; \
-  Anliegen;;Ihr Anliegen;textarea;;4;
-</div></div><div class='w3-row'><div class='w3-col l1'>;;_no_input;; ;;;;
-</div></div><div class='w3-row'><div class='w3-col l1'>;; \
-  NamedUser;;Unser Verein nutzt efaCloud und darf auf efacloud.org als nutzender Verein benannt werden.;checkbox;;5;5
-</div></div><div class='w3-row'><div class='w3-col l1'>;; \
-  SendLogs;;Die API-Logs und den Auditlog mit senden (erforderlich bei einer Supportanfrage);checkbox;;5;5
-</div></div><div class='w3-row'><div class='w3-col l1'><div style='float:right'>;; \
-  submit;absenden;;submit;formbutton;;
+<div class='w3-row'><div class='w3-col l2'>;*;Vorname;;G4czbF|Your first name;text;;90%;250
+</div><div class='w3-col l2'>;*;Nachname;;T1m6yT|Your last name;text;;90%;250
+</div></div><div class='w3-row'><div class='w3-col l1'>;*;EMail;;eNwq9h|Your e-mail address for ...;email;;95%;250
+</div></div><div class='w3-row'><div class='w3-col l1'>;*;Verein;;0mLtWK|The association where ef...;text;;90%;250
+</div></div><div class='w3-row'><div class='w3-col l1'>;*;Anliegen;;X9LNW4|Your request;textarea;;4;
+</div></div><div class='w3-row'><div class='w3-col l1'>;;_no_input;;;;;;
+</div></div><div class='w3-row'><div class='w3-col l1'>;;NamedUser;;2iK73T|Our club uses efaCloud a...;checkbox;;5;5
+</div></div><div class='w3-row'><div class='w3-col l1'>;;SendLogs;;L9ZdPG|Send the API logs and th...;checkbox;;5;5
+</div></div><div class='w3-row'><div class='w3-col l1'><div style='float:right'>;;submit;OymftT|submit;;submit;formbutton;;
 </div></div></div>;;_no_input;;;;;;
-<li><span class='helptext'>;;_help_text;;Ein * vor einer Feldbezeichnung gibt an, dass ein Eintrag erforderlich ist.;;;;
-</span></li><li><span class='helptext'>;;_help_text;;Ohne Angabe des Namens und des Vereins werden Supportanfragen nicht  \
- bearbeitet. Die Reaktionszeit beträgt in der Regel unter einer Woche, in Urlaubszeiten schon mal länger.;;;;
+<li><span class='helptext'>;;_help_text;;SqKLVH|A * in front of a field ...;;;;
+</span></li><li><span class='helptext'>;;_help_text;;iiTAZJ|Support requests will no...;;;;
 </span></li>;;_help_text;;;;;;

@@ -1,16 +1,16 @@
 id;permission;name;select;from;where;options
-1;member;Offene Schadensmeldungen;BoatId>efa2boats.Name@Id,Damage,Severity,Description,Fixed,ReportDate,ReportTime,FixDate,FixTime, \
-  ReportedByPersonId,ReportedByPersonName,FixedByPersonId,FixedByPersonName,LogbookText,ChangeCount,BoatId,LastModification;efa2boatdamages; \
-  (ISNULL(Fixed) AND NOT (`efa2boatdamages`.`LastModification` = 'delete')); \
+1;member;Rqub4S|Open damage reports;BoatId>efa2boats.Name@Id,Damage,Severity,Description,Fixed,ReportDate:d,ReportTime, \
+  FixDate:d,FixTime,ReportedByPersonId,ReportedByPersonName,FixedByPersonId,FixedByPersonName,LogbookText,ChangeCount,BoatId, \
+  LastModification,ecrid;efa2boatdamages;(ISNULL(`Fixed`) AND NOT (`efa2boatdamages`.`LastModification` = 'delete')); \
   sort=#Damage&link=Damage:../pages/view_record.php?def=bearbeiten.1.Damage.
-2;member;Ungelesene Nachrichten;MessageId,Date,Time,To,From,Subject,Text,Read,ToBeMailed,ChangeCount,LastModification;efa2messages; \
-  (ISNULL(`Read`) AND NOT (`efa2messages`.`LastModification` = 'delete')); \
+2;member;v32JTG|Unread messages;MessageId,Date:d,Time,To,From,Subject,Text,Read,ToBeMailed,ChangeCount,LastModification, \
+  ecrid;efa2messages;(ISNULL(`Read`) AND NOT (`efa2messages`.`LastModification` = 'delete')); \
   sort=-MessageId&link=MessageId:../pages/view_record.php?def=bearbeiten.2.MessageId.
-3;board;Fahrten der letzten 30 Tage;Logbookname,EntryId,Date,BoatId>efa2boats.Name@Id,StartTime,EndTime,AllCrewNames, \
-  Distance,Comments,ChangeCount,Logbookname,LastModification;efa2logbook; \
-  ((DATEDIFF(CURRENT_TIMESTAMP, Date) < 30) AND NOT (`efa2logbook`.`LastModification` = 'delete') AND (`efa2boats`.`InvalidFrom` = '9223372036854775807')); \
+3;board;8CQaLz|Trips of the last 30 day...;Logbookname,EntryId,Date:d,BoatId>efa2boats.Name@Id,StartTime,EndTime, \
+  AllCrewNames,Distance,Comments,ChangeCount,LastModification,ecrid;efa2logbook;((DATEDIFF(CURRENT_TIMESTAMP, Date) < 30)  \
+  AND NOT (`efa2logbook`.`LastModification` = 'delete') AND (`efa2boats`.`InvalidFrom` = '9223372036854775807')); \
   sort=-Date.-EntryId&link=EntryId:../pages/view_record.php?def=bearbeiten.3.EntryId.
-4;board;Reservierungen;VirtualBoat,BoatId>efa2boats.Name@Id,Reservation,Type,DateFrom,DateTo,TimeFrom,TimeTo, \
-  PersonId,PersonName,Reason,Contact,ChangeCount,BoatId,LastModification;efa2boatreservations; \
+4;board;hhDEh2|Reservations;VirtualBoat,BoatId>efa2boats.Name@Id,Reservation,Type,DateFrom:d,DateTo:d,TimeFrom,TimeTo, \
+  PersonId,PersonName,Reason,Contact,ChangeCount,BoatId,LastModification,ecrid;efa2boatreservations; \
   ((DATEDIFF(CURRENT_TIMESTAMP, DateTo) < 0) AND NOT (`efa2boatreservations`.`LastModification` = 'delete')); \
   sort=-DateFrom&link=Reservation:../pages/view_record.php?def=bearbeiten.4.Reservation.

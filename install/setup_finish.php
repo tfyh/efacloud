@@ -10,12 +10,11 @@
 
 // ===== initialize toolbox
 include_once '../classes/tfyh_toolbox.php';
-$settings_path = "../config/settings";
-$toolbox = new Tfyh_toolbox($settings_path);
+$toolbox = new Tfyh_toolbox();
 
 // PRELIMINARY SECURITY CHECKS
 // ===== throttle to prevent from machine attacks.
-$toolbox->load_throttle("inits/", $toolbox->config->settings_tfyh["init"]["max_inits_per_hour"]);
+$toolbox->load_throttle("inits", $toolbox->config->settings_tfyh["init"]["max_inits_per_hour"], "setup_finish.php");
 
 // remove install file from root folder
 unlink("../install.php");

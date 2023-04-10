@@ -1,0 +1,266 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title></title>
+<meta name="generator" content="LibreOffice 5.4.3.2 (Linux)" />
+<meta name="author" content="Martin Glade" />
+<meta name="created" content="2008-03-11T21:16:22" />
+<meta name="changed" content="2021-12-29T18:46:40.358456776" />
+<style type="text/css">
+{#CSS#}
+</style>
+
+</head>
+<body lang="en-UK" dir="ltr">
+	<h1 style="margin-top: 16cm;">
+		<b>Security concept efaCloud</b>
+	</h1>
+	<p>
+		Security concept for the efaCloud application for the association.
+		{#club#}<br /> As of: {#print date#}<br /> efaCloud Server.
+		{#efaCloudVersion#}
+	</p>
+	<p>
+		<br /> <br />
+
+	</p>
+	<p>© nmichael.com</p>
+
+	<h1 style="page-break-before: always">Basic data</h1>
+	<p>
+		Club: {#Verein#}<br /> Responsible for the operation of the efaCloud.
+		Server: {#Betriebsverantwortlich#}<br /> Operator of the web server:
+		{#Hoster#}<br /> URL of the efaCloud application: {#ServerURL#}<br />
+		Date of AVV with the operator of the web server: {#AVVdatum#}<br />
+		efaCloud version: {#efaCloudVersion#}<br /> PHP version:
+		{#PHPversion#}<br /> PHP extensions: {#PHPextensions#}<br />
+		Database Version: {#MySQLversion#}<br /> Database User Password
+		length: {#dbUserKennwortlaenge#}<br /> Backup strategy: Daily backup
+		of all table data for 10 days, every 10 days. Backup of oldest daily
+		backup for 100 days<br /> User password security: 8 - 32 characters
+		from three groups of the following four groups must be included:
+		Numerals, lower case letters, upper case letters, special characters.
+		Permitted special characters are
+		!&quot;#$%&amp;'*+,-./:;&lt;=&gt;?@[\]^_`{|}~
+	</p>
+	<h1>Technical safety</h1>
+	<h2>Technical structure</h2>
+	<p>The application consists of an executable PHP script, which
+		accesses accesses a MySQL database, and a file system for code storage
+		Code storage, configuration and monitoring.</p>
+	<p>The file system is not externally readable except for selected
+		directories. externally readable. Only the directories that are
+		accessed directly via browser or accessed directly via browser or API:
+		api, forms, js, license, pages, public, resources.</p>
+	<p>All other directories are readable both through authorization
+		assignment, as well as by depositing a .htaccess file. file for access
+		from the outside.</p>
+	<p>
+		<span lang="en-UK">The application uses besides the standard
+			modu</span><span lang="en-UK">l</span><span lang="en-UK">en of PHP no
+			framework.</span>
+	</p>
+	<h3>Database security</h3>
+	<p>The technical user used to access the application's Database is
+		stored in the configuration. This Configuration is located in the
+		inaccessible area of the file directory and is not stored in plain
+		text, but is additionally "hidden" by simple symmetrical scrambling
+		and subsequent subsequent base64 encoding. This does not protect
+		against real hackers, but it requires an access to the protected
+		server area and is thus secured.</p>
+	<h3>Load limiting</h3>
+	<p>The application has a built-in load limiter that limits max.
+		{#max_inits_per_hour#} accesses or API containers and max.
+		{#max_errors_per_hour#} errors per hour on both the PHP application
+		and the API. After that, any access or API container rejected.</p>
+	<h2>Application access</h2>
+	<p>
+		<span lang="en-UK">The API and the PHP application encapsulate
+			all database accesses, so direct SQL statements by the user are are
+			not possible. </span><span lang="en-UK">On the API, up to. up to ten
+			transactions bundled in a container, e.g. for Synchronization of
+			multiple data sets.</span>
+	</p>
+	<p>
+		<span lang="en-UK">The user will be notified in the API for
+			each</span><span lang="en-UK">n</span><span lang="en-UK"></span><span
+			lang="en-UK">container</span><span lang="en-UK">authorized. </span><span
+			lang="en-UK">When</span><span lang="en-UK">using</span><span
+			lang="en-UK">the browser. use of the browser, the successful
+			login establishes a session established, which </span><span lang="en-UK">in
+			case of inactivity after. 10 minutes is closed.</span>
+	</p>
+	<p>
+		<span lang="en-UK">The communication takes place exclusively
+			over HTTPS to protect the data from being read, lost and manipulated.
+			protect. </span><span lang="en-UK">Use via HTTP is blocked in the
+			Server setting blocked.</span>
+	</p>
+	<h3>efaCloud Server Application</h3>
+	<p>
+		<span lang="en-UK">Human users basically access... via PHP
+			forms </span><span lang="en-UK">or pages </span><span lang="en-UK">access
+			the data. Technical users, such as for example, a boathouse PC, can
+			access via an API.</span>
+	</p>
+	<p>
+		<span lang="en-UK">You authorize yourself for this with a
+			Password, which is stored in the user record as a hash. </span><span
+			lang="en-UK">To do this, the PHP supplied Hashalgorithm
+			supplied with PHP is used in the default setting.</span>
+	</p>
+	<h3>efaWeb</h3>
+	<p>efaWeb provides a Javascript application within the efaCloud
+		server offering. It is accessed via the pages/bths.php page. page. The
+		javascript parts are completely located in the directory js (see
+		above).</p>
+	<p>efaWeb does not access the data directly, but via the API, just
+		like the data, just like the boathouse PC does. There is no direct
+		access from the efaWeb logbook application to the database.</p>
+	<p>Users of efaWeb are identified and authorized via the API.
+		authorized through the API, where the bths.php page, when a session is
+		open the current user to efaWeb, who does not need to authorize
+		himself again. need to authorize.</p>
+	<h3>Authorization concept</h3>
+	<p>The efaCloud application distinguishes six roles, those marked
+		with *. marked are privileged roles, for which the Authorizations are
+		listed by name below. Each role has basically all permissions of the
+		role listed before:</p>
+
+	<ul>
+		<li><b>anonymous</b>: the user who is not logged in.</li>
+		<li><b>guest</b>: guest access for testing purposes</li>
+		<li><b>member</b>: club members, access to own profile. to check
+			the data stored in the club</li>
+		<li><b>*bths</b>: Boathouse PC to enter trips, Damage reports,
+			messages to Admin etc.</li>
+		<li><b>*board</b><span style="font-weight: normal">: </span><span
+			style="font-weight: normal">Board functions</span></li>
+		<li><b>*admin</b><span style="font-weight: normal">: </span><span
+			style="font-weight: normal">Application administrator</span></li>
+	</ul>
+	<p>
+		<b>The permissions on the web are:</b>
+	</p>
+	<p>{#accessibleWebPerRole#}</p>
+	<p>
+		<b>The permissions on the API interface are:</b>
+	</p>
+	<p>{#accessableAPIperRole#}</p>
+	<p>The admin permission profiles used in efa are stored in efaCloud
+		to ensure consistency across all clients through centralized
+		Administration, but without effect. An admin access is always checked
+		online, i.e. a boathouse PC that is offline, can only be be managed by
+		the local efa superadmin.</p>
+	<h2>Monitoring</h2>
+
+	<p>The application includes extensive monitoring logic as well as.
+		the possibility of auditing.</p>
+	<h3>Logs</h3>
+	<p>Every transaction on the API, every login, every error and every
+		data change, and every list deployment is logged. However, the
+		corresponding logs are only accessible to users in the role of 'admin'
+		role, as it also contains, in particular, in the data change log
+		contains real data.</p>
+	<p>Users with an administrative privilege must be that their
+		activity can be recorded and assigned.</p>
+	<p>The log is only accessible to users in the 'admin' role. can be
+		assigned.</p>
+	<h3>Audit, cronjobs</h3>
+
+	<p>The application performs periodic "audits" during which the
+		authorization structure in the file directory and corrects it if
+		necessary.</p>
+	<h3>Audit, cron jobs is made.</h3>
+	<p>Cron jobs are used for database control and allow the Dispatch
+		of logbooks to members.</p>
+	<h2>Interfaces, export and import of data</h2>
+
+	<p>All accesses are executed via HTTPS. Only during the
+		installation, a one-time sftp access is required to store the
+		installation file Installation file in the root directory. Upgrades
+		also use HTTPS access to the efaCloud server.</p>
+	<p>Data can be exported as lists via the API as well as via the
+		User application to be exported as lists. The export via the API is
+		required for the synchronization of the boathouse PCs with the server.
+		The export as a list in the server application is for administrative
+		purposes - it is written along with the exporting user and and
+		requires the permission level "board".</p>
+	<p>Data can be imported as lists via the API as well as via the
+		User application to be imported as lists. Importing via the API is
+		required for the synchronization of the boathouse PCs with the server.
+		Exporting as a list in the server application is used for Restoring
+		backups and require 'admin' privileges.</p>
+	<h1>Procedures</h1>
+
+	<p>In order to adequately ensure data protection. the following
+		procedures for granting and verifying permissions. agreed.</p>
+	<h2>Authorization allocation</h2>
+	<p>Permissions will be assigned by a user with the the
+		authorization "admin" after checking the function of the user in the
+		club. The authorization "board" is thereby assigned only to function
+		holders in the Association.</p>
+	<h2>Removal of authorization</h2>
+
+	<p>The authorization "board" or "admin" will be withdrawn in the
+		event that the Association function from by a user with the
+		authorization "admin" to "member". The user is set to the "anonymous"
+		permission level when the user leaves the association set to the
+		authorization level "anonymous".</p>
+	<h2>Permission control</h2>
+
+	<p>Once a year, the permissions are checked by the operator of the
+		of the application.</p>
+	<h2>Deletion concept</h2>
+	<p>An automated deletion or anonymization of the data does not take
+		place.</p>
+	<h2>Process control</h2>
+	<p>Once a year, this security concept will be updated and submitted
+		the association's board of directors and the data protection officer
+		for and the data protection officer for information and control of
+		appropriate implementation of the application.</p>
+	<h1>Audit</h1>
+	<p>The following is a summary of the current Access Status and the
+		current audit result is provided. Variable Information always refers
+		to the last 14 days, thus represents therefore only represent a random
+		sample.</p>
+	<p>With regard to the data sets, it should be noted that versioned
+		tables. (efa2boats, efa2destinations, efa2groups, efa2persons) usually
+		contain more data contain more records than objects, because an object
+		like the for example the person has several records with different
+		temporal validity.</p>
+	<p>This monitoring information is also available to the
+		administrator available online.</p>
+	<h2>Access statistics</h2>
+	<h3>Accesses over the last 14 days via the web</h3>
+
+	<p>The access type is login, init (= page views), and error.
+		(generated redirects to the error.php error page) are distinguished.</p>
+	<p>{#ZugriffeWeb#}</p>
+	<h3>Accesses in the last 14 days via the API</h3>
+
+	<span>{#ZugriffeAPI#}</span>
+	<h3>Data changes in the last 14 days</h3>
+	<p>{#ChangesAll#}</p>
+	<h2>Named users</h2>
+	<p>Users with special rights are listed by name here for the
+		control of the security concept by the club board.</p>
+	<h3>Privileged users</h3>
+	<p>The users with privileged roles are:</p>
+	<p>{#privilegierteNutzer#}</p>
+	<h3>Users with efa admin privileges</h3>
+
+	<p>The users with efa-Admin rights are:</p>
+	<p>{#efaAdminNutzer#}</p>
+	<h2>Configuration overview</h2>
+	<p>Somewhat less technical than the audit log is the Compilation of
+		parameters that are configured by the administrator.</p>
+	<p>{#configuration#}</p>
+	<h2>Current Daily Audit</h2>
+
+	<p>On a daily basis, efaCloud records the status in the form of an
+		audit. At creation of the concept, an audit was performed, the result
+		of which is is printed here as well.</p>
+	<p>{#auditLog#}</p>
+</body>
+</html>

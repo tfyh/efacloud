@@ -1,11 +1,11 @@
 id;permission;name;select;from;where;options
-1;bths;name_boats;Id,Name,ecrid,InvalidFrom;efa2boats;1;
-2;bths;name_clubwork;Id,Description,ecrid;efa2clubwork;1;
-3;bths;name_crews;Id,Name,ecrid;efa2crews;1;
-4;bths;name_destinations;Id,Name,ecrid,InvalidFrom;efa2destinations;1;
-5;bths;name_groups;Id,Name,ecrid,InvalidFrom;efa2groups;1;
-6;bths;name_persons;Id,FirstName,LastName,ecrid,InvalidFrom;efa2persons;1;
-7;bths;name_sessiongroups;Id,Name,ecrid;efa2sessiongroups;1;
-8;bths;name_statistics;Id,Name,ecrid;efa2statistics;1;
-9;bths;name_status;Id,Name,ecrid;efa2status;1;
-10;bths;name_waters;Id,Name,ecrid;efa2waters;1;
+1;bths;;Id,Name,Deleted,ecrid,InvalidFrom;efa2boats;NOT (`LastModification` = 'delete');sort=Id.-InvalidFrom&firstofblock=Id&cache_seconds=7200
+2;bths;;Id,Description,ecrid;efa2clubwork;NOT (`LastModification` = 'delete');cache_seconds=7200
+3;bths;;Id,Name,ecrid;efa2crews;NOT (`LastModification` = 'delete');cache_seconds=7200
+4;bths;;Id,Name,Deleted,ecrid,InvalidFrom;efa2destinations;NOT (`LastModification` = 'delete');sort=Id.-InvalidFrom&firstofblock=Id&cache_seconds=7200
+5;bths;;Id,Name,ecrid,Deleted,InvalidFrom;efa2groups;NOT (`LastModification` = 'delete');sort=Id.-InvalidFrom&firstofblock=Id&cache_seconds=7200
+6;bths;;Id,FirstName,LastName,Deleted,ecrid,InvalidFrom;efa2persons;NOT (`LastModification` = 'delete');sort=Id.-InvalidFrom&firstofblock=Id&cache_seconds=7200
+7;bths;;Id,Name,ecrid;efa2sessiongroups;NOT (`LastModification` = 'delete');cache_seconds=7200
+8;bths;;Id,Name,ecrid;efa2statistics;NOT (`LastModification` = 'delete');cache_seconds=7200
+9;bths;;Id,Name,ecrid;efa2status;NOT (`LastModification` = 'delete');cache_seconds=7200
+10;bths;;Id,Name,ecrid;efa2waters;NOT (`LastModification` = 'delete');cache_seconds=7200

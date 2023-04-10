@@ -17,9 +17,7 @@ class Users extends Tfyh_user
         parent::__construct($toolbox);
     }
 
-    /*
-     * ======================== Application specific user property management =====================
-     */
+    /* ======================== Application specific user property management ===================== */
     /**
      * Provide an html table with all stored data of the user.
      * 
@@ -34,7 +32,7 @@ class Users extends Tfyh_user
     {
         $user_to_read = $socket->find_record($this->user_table_name, $this->user_id_field_name, $user_id);
         if ($user_to_read === false)
-            return "<table><tr><td><b>Nutzer nicht gefunden.</b>&nbsp;&nbsp;&nbsp;</td>" . "<td>" .
+            return "<table><tr><td><b>" . i("cTi6L7|User not found.") . "</b>&nbsp;&nbsp;&nbsp;</td>" . "<td>" .
                      $this->user_id_field_name . ": '" . $user_id . "'</td></tr>\n";
         else
             return $this->get_user_profile_on_array($user_to_read, $socket, $short);
@@ -80,23 +78,23 @@ class Users extends Tfyh_user
                      $user_to_read[$this->user_lastname_field_name] . "</b>&nbsp;&nbsp;&nbsp;</td>";
             $html_str .= "<td>" . $user_to_read["Strasse"] . ", " . $user_to_read["Plz"] . " " .
                      $user_to_read["Ort"] . "</td></tr>\n";
-            $html_str .= "<tr><td><b>Telefon</b>&nbsp;&nbsp;&nbsp;</td><td>privat: " .
+            $html_str .= "<tr><td><b>" . i("D9NwwV|Phone") . "</b>&nbsp;&nbsp;&nbsp;</td><td>" . i("LHk83t|home:") . " " .
                      $user_to_read["Telefon_privat"] . " / mobil: " . $user_to_read["Handy"] . "</td></tr>\n";
         }
-        $html_str .= "<tr><th><b>Eigenschaft</th><th>Wert</th></tr>";
+        $html_str .= "<tr><th><b>" . i("ugf7Xy|Property") . "</th><th>Wert</th></tr>";
         $no_values_for = "";
         foreach ($user_to_read as $key => $value) {
             $show = ! $short || (strcasecmp($key, "EMail") === 0) || (strcasecmp($key, "Rolle") === 0);
             if ($value && $show && (strcasecmp($key, "ecrhis") != 0)) {
                 if (strcasecmp($key, "Passwort_Hash") === 0)
                     $html_str .= "<tr><td><b>" . $key . "</b>&nbsp;&nbsp;&nbsp;</td><td>" .
-                             ((strlen($value) > 10) ? "gesetzt" : "nicht gesetzt") . "</td></tr>\n";
+                             ((strlen($value) > 10) ? i("rObLc3|set") : i("eGLG1w|not set")) . "</td></tr>\n";
                 elseif (strcasecmp($key, "Subskriptionen") === 0)
                     $html_str .= $this->get_user_services("subscriptions", $key, $value);
                 elseif (strcasecmp($key, "Workflows") === 0)
                     $html_str .= $this->get_user_services("workflows", $key, $value);
                 elseif (strcasecmp($key, "Concessions") === 0)
-                    $html_str .= $this->get_user_services("workflows", $key, $value);
+                    $html_str .= $this->get_user_services("concessions", $key, $value);
                 else
                     $html_str .= "<tr><td><b>" . $key . "</b>&nbsp;&nbsp;&nbsp;</td><td>" . $value .
                              "</td></tr>\n";
@@ -106,8 +104,8 @@ class Users extends Tfyh_user
                 $no_values_for .= $key . ", ";
         }
         if (strlen($no_values_for) > 0)
-            $html_str .= "<tr><td><b>keine Werte gesetzt für</b>&nbsp;&nbsp;&nbsp;</td><td>" . $no_values_for .
-                     "</td></tr>\n";
+            $html_str .= "<tr><td><b>" . i("nWooch|No values set for") . "</b>&nbsp;&nbsp;&nbsp;</td><td>" .
+                     $no_values_for . "</td></tr>\n";
         
         $html_str .= "</table>";
         return $html_str;

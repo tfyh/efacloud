@@ -1,0 +1,153 @@
+<h3>efa-Daten</h3>
+<p>Das PC-Programm efa hält sämtliche Daten in 17 Tabellen mit in
+	Summe 491 Datenfeldern.</p>
+<h4>Tabellen</h4>
+<p>Vier Tabellen in efa sind „versioniert“, d. h. Sie enthalten
+	Objekte mit mehreren Datensätzen, die je einen Gültigkeitszeitraum
+	haben. In zehn der 17 Tabellen dient eine Objekt ID (UUID) als Schlüssel zum
+	Datensatz oder – für die versioneierten Tabellen – zum Objekt.</p>
+<p>Dre Tabellen sind abhängig von der Bootstabelle: Bootsstatus – da
+	gibt es genau einen Datenatz pro Boot, Bootsschäden und Reservierungen,
+	die neben dem Zähler auch die Objekt ID (UUID) des Bootes als Schlüssel haben, so
+	dass eine Reservierungsnummer mehrfach vorkommen kann, was aber in der
+	Regel nicht passiert.</p>
+<table>
+	<tr>
+		<th>Inhalt</th>
+		<th>Tabelle</th>
+		<th>Versioniert</th>
+		<th>Objekt ID</th>
+		<th>Datenfelder</th>
+	</tr>
+	<tr>
+		<td>Technische Zähler</td>
+		<td>efa2autoincrement</td>
+		<td></td>
+		<td></td>
+		<td>8</td>
+	</tr>
+	<tr>
+		<td>Bootsschäden</td>
+		<td>efa2boatdamages</td>
+		<td></td>
+		<td></td>
+		<td>25</td>
+	</tr>
+	<tr>
+		<td>Reservierungen</td>
+		<td>efa2boatreservations</td>
+		<td></td>
+		<td></td>
+		<td>23</td>
+	</tr>
+	<tr>
+		<td>Boote</td>
+		<td>efa2boats</td>
+		<td>X</td>
+		<td>X</td>
+		<td>46</td>
+	</tr>
+	<tr>
+		<td>Bootsstatus</td>
+		<td>efa2boatstatus</td>
+		<td></td>
+		<td></td>
+		<td>16</td>
+	</tr>
+	<tr>
+		<td>Vereinarbeitsbuch</td>
+		<td>efa2clubwork</td>
+		<td></td>
+		<td>X</td>
+		<td>19</td>
+	</tr>
+	<tr>
+		<td>Mannschaften</td>
+		<td>efa2crews</td>
+		<td></td>
+		<td>X</td>
+		<td>34</td>
+	</tr>
+	<tr>
+		<td>Ziele</td>
+		<td>efa2destinations</td>
+		<td>X</td>
+		<td>X</td>
+		<td>21</td>
+	</tr>
+	<tr>
+		<td>Fahrtenabzeichen (DRV)</td>
+		<td>efa2fahrtenabzeichen</td>
+		<td></td>
+		<td></td>
+		<td>27</td>
+	</tr>
+	<tr>
+		<td>Gruppen</td>
+		<td>efa2groups</td>
+		<td>X</td>
+		<td>X</td>
+		<td>14</td>
+	</tr>
+	<tr>
+		<td>Fahrtenbuch</td>
+		<td>efa2logbook</td>
+		<td></td>
+		<td></td>
+		<td>82</td>
+	</tr>
+	<tr>
+		<td>Nachrichten</td>
+		<td>efa2messages</td>
+		<td></td>
+		<td></td>
+		<td>17</td>
+	</tr>
+	<tr>
+		<td>Personen</td>
+		<td>efa2persons</td>
+		<td>X</td>
+		<td>X</td>
+		<td>41</td>
+	</tr>
+	<tr>
+		<td>Wanderfahrten</td>
+		<td>efa2sessiongroups</td>
+		<td></td>
+		<td>X</td>
+		<td>15</td>
+	</tr>
+	<tr>
+		<td>Statistikvorlagen</td>
+		<td>efa2statistics</td>
+		<td></td>
+		<td>X</td>
+		<td>80</td>
+	</tr>
+	<tr>
+		<td>Mitgliedsstatusarten</td>
+		<td>efa2status</td>
+		<td></td>
+		<td>X</td>
+		<td>13</td>
+	</tr>
+	<tr>
+		<td>Gewässer</td>
+		<td>efa2waters</td>
+		<td></td>
+		<td>X</td>
+		<td>10</td>
+	</tr>
+</table>
+<h4>Gültigkeitsregeln</h4>
+<p>Neben der Eindeutigkeit der Schlüssel gibt es weitere
+	Gültigkeitsregeln, die auf Datensätze angewendet werden. Wenn sie
+	verletzt werden, kann efa den Datensatz nicht speichern. Deswegen
+	müssen diese Regeln auch in efaCloud geprüft werden. Wenn die Prüfung
+	nicht exakt gleich abläuft, kann es zu der Situation kommen, dass
+	Datensätze zwischen efa-PC und efaCloud Server nicht synchron werden.</p>
+<h4>Daten bearbeiten</h4>
+<p>Die Datenbearbeitung in efaCloud ist möglich, wird aber noch
+	nicht empfohlen. Grund ist die noch unvollständige Implementierung der
+	Gültigkeitsprüfung in efaCloud – es könnte nach Bearbeitung zu
+	Synchronitionsproblemen kommen.</p>

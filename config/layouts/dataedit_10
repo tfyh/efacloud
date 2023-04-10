@@ -1,0 +1,32 @@
+tags;required;name;value;label;type;class;size;maxlength
+<span id='vSpanSystemData'><div class='w3-row'><div class='w3-col l3'>;;PersonId;;FdP56V|Person (Id);text;display-bold;90%;36
+</div><div class='w3-col l3'>;;ecrid;;ltX3IU|unique record reference ...;text;display-bold;90%;20
+</div></div><div class='w3-row'><div class='w3-col l3'>;;LastModified;;16Y1dm|last modified on;text;display-bold;90%;20
+</div><div class='w3-col l3'>;;ChangeCount;;ujuTde|Version (change counter);text;display-bold;90%;20
+</div><div class='w3-col l3'>;;LastModification;;jVeFhK|Type of last change;text;display-bold;90%;20
+</div></div><div class='w3-row'><div class='w3-col l1'><hr>;;_no_input;;OO3p6S|it is not recommended to...;;;
+</div></div></span><div class='w3-row'><div class='w3-col l2'>;;Abzeichen;;hCB0jI|Badge;text;;90%;12
+</div><div class='w3-col l2'>;;AbzeichenAB;;202buq|BadgeAB;text;display-bold;90%;12
+</div></div><div class='w3-row'><div class='w3-col l2'>;;Kilometer;;iJOhK4|Kilometre;text;;90%;12
+</div><div class='w3-col l2'>;;KilometerAB;;oBavoZ|KilometreAB;text;display-bold;90%;12
+</div></div><div class='w3-row'><div class='w3-col l2'>;;Fahrtenheft;;GTufO2|Electronic logbook;text;display-bold;90%;50
+</div><div class='w3-col l2'>;;GUI_VORNAME;;;text;display-bold;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2'>;;GUI_NACHNAME;;;text;display-bold;90%;50
+</div><div class='w3-col l2'>;;GUI_JAHRGANG;;;text;display-bold;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2'>;;GUI_ANZABZEICHEN;;;text;display-bold;90%;50
+</div><div class='w3-col l2'>;;GUI_ANZKM;;;text;display-bold;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2'>;;GUI_ANZABZEICHENAB;;;text;display-bold;90%;50
+</div><div class='w3-col l2'>;;GUI_ANZKMAB;;;text;display-bold;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2'>;;GUI_LETZTESJAHR;;;text;display-bold;90%;50
+</div><div class='w3-col l2'>;;GUI_LETZTEKM;;;text;display-bold;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2'>;;GUI_LETZTESDATUM;;;text;display-bold;90%;50
+</div><div class='w3-col l2'>;;GUI_VERSION;;;text;display-bold;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2'>;;GUI_SCHLUESSEL;;;text;display-bold;90%;50
+</div><div class='w3-col l2'>;;GUI_SIGNATUR;;;text;display-bold;90%;50
+</div></div><div class='w3-row'><div class='w3-col l2'>;;GUI_STATUS;;;text;display-bold;90%;50
+</div></div><div class='w3-row'><div class='w3-col l1'> <br>;;submit;zz4vdo|Modify now;;submit;formbutton;;
+</div></div>;;_no_input;;;;;;
+<li><span class='helptext'>;;_help_text;;81bKNO|The data change takes ef...;;;;
+</span></li><li><span class='helptext'>;;_help_text;;xgZ6QS|For technical reasons, t...;;;;
+</span></li><li><span class='helptext'>;;_help_text;;BfdHSB|Data records with type o...;;;;
+</span></li>;;_help_text;;;;;;

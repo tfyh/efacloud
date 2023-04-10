@@ -1,8 +1,8 @@
 <?php
 
 /**
- * This class provides a gallery utility. <p>The gallery can upload images, manipulate them and show
- * a thumbnail set of all files included.</p>
+ * This class provides a gallery utility. <p>The gallery can upload images, manipulate them and show a
+ * thumbnail set of all files included.</p>
  */
 class Tfyh_gallery
 {
@@ -50,7 +50,7 @@ class Tfyh_gallery
 
     /**
      * Build a gallery based on the definition provided in the csv file at $file_path.
-     *
+     * 
      * @param String $file_path
      *            path to file with list definitions. List definitions contain of:
      *            key;title;validFrom;validTo;members. members is a comma (,) separated list of
@@ -84,24 +84,24 @@ class Tfyh_gallery
     /**
      * Resize an image and store it under new filename. Use stored resized image, if existing. See
      * https://stackoverflow.com/questions/14649645/resize-image-in-php
-     *
+     * 
      * @param String $image_file
      *            path to image file.
      * @param String $resized_image_file
      *            path to store resized image file.
      * @param int $w_new
-     *            resized image width. If !$crop, the aspect ratio will be kept. Portrait format
-     *            images will get $h_new height, landscape images get $w_new width.
+     *            resized image width. If !$crop, the aspect ratio will be kept. Portrait format images will
+     *            get $h_new height, landscape images get $w_new width.
      * @param int $h_new
-     *            resized image height. If !$crop, the aspect ratio will be kept. Portrait format
-     *            images will get $h_new height, landscape images get $w_new width.
+     *            resized image height. If !$crop, the aspect ratio will be kept. Portrait format images will
+     *            get $h_new height, landscape images get $w_new width.
      * @param bool $crop
      *            set true (default) to crop image rather than rescale.
      * @return resource resized image. Will return the previously resized image resource, if
      *         $resized_image_file does exist.
      */
-    public function resize_image (String $image_file, String $resized_image_file, int $w_new, 
-            int $h_new, bool $crop = true)
+    public function resize_image (String $image_file, String $resized_image_file, int $w_new, int $h_new, 
+            bool $crop = true)
     {
         if (file_exists($resized_image_file)) {
             $dst = imagecreatefromjpeg($resized_image_file);
@@ -140,10 +140,10 @@ class Tfyh_gallery
     }
 
     /**
-     * Return an html string which can be used to show a preview image in a separate roaster. The
-     * html is a complete htl page. The image is base64 encoded and included, together with links to
-     * previous and next image.
-     *
+     * Return an html string which can be used to show a preview image in a separate roaster. The html is a
+     * complete htl page. The image is base64 encoded and included, together with links to previous and next
+     * image.
+     * 
      * @param String $preview_image_name
      *            the file name of the preview.
      */
@@ -167,10 +167,8 @@ class Tfyh_gallery
                  "</head><body style='text-align:center;background-color: black;margin:0px;padding:0px;'>";
         $html .= "<div id=wrapper style='text-align:center;background-color: black;margin:0px;padding:0px;'>" .
                  "<div style='display:inline-block;'>" . "<img src='data:image/gif;base64," . base64_encode(
-                        file_get_contents(
-                                "../uploads/" . $this->key . "/previews/" . $this_preview_file)) .
-                 "'><br>" .
-                 "<span style='color:white;font-size:3em;line-height:1.5em;'><a href='?gallery=" .
+                        file_get_contents("../uploads/" . $this->key . "/previews/" . $this_preview_file)) .
+                 "'><br>" . "<span style='color:white;font-size:3em;line-height:1.5em;'><a href='?gallery=" .
                  $this->key . "&preview=" . $prev_preview_file .
                  "'>&#9664;</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='?gallery=" . $this->key . "&preview=" .
                  $next_preview_file . "'>&#9654;</a></span>" . "</div></div></body></html>";
@@ -178,19 +176,18 @@ class Tfyh_gallery
     }
 
     /**
-     * Return an html string which can be used to build a gallery. The name of the file is displayed
-     * together with a checkbox having the very same name, so that it can be embedded in a form. The
-     * html is framed by a &lt;td&gt; tag. The image is base64 encoded and included.
-     *
+     * Return an html string which can be used to build a gallery. The name of the file is displayed together
+     * with a checkbox having the very same name, so that it can be embedded in a form. The html is framed by
+     * a &lt;td&gt; tag. The image is base64 encoded and included.
+     * 
      * @param String $thumb_image_file
      *            the file path to the thumbnail.
      */
     private function get_thumb_html (String $thumb_image_file)
     {
         $thumb_image_name = basename($thumb_image_file);
-        $html = "<td style='border: 0px; padding:5px; text-align:center;'><a href='?gallery=" .
-                 $this->key . "&preview=" . $thumb_image_name .
-                 "' target='_blank'><img src='data:image/gif;base64," .
+        $html = "<td style='border: 0px; padding:5px; text-align:center;'><a href='?gallery=" . $this->key .
+                 "&preview=" . $thumb_image_name . "' target='_blank'><img src='data:image/gif;base64," .
                  base64_encode(file_get_contents($thumb_image_file)) .
                  "'></a><br /><input type='checkbox' name='" . $thumb_image_name . "'>&nbsp;" .
                  $thumb_image_name . "</td>";
@@ -247,9 +244,9 @@ class Tfyh_gallery
 
     /**
      * Simple getter
-     *
-     * @return array all gallery definitions retrieved from the list definition file to which the
-     *         user has access. Will be an empty array on errors.
+     * 
+     * @return array all gallery definitions retrieved from the list definition file to which the user has
+     *         access. Will be an empty array on errors.
      */
     public function get_all_definitions (int $mitgliedsnummer)
     {
@@ -263,7 +260,7 @@ class Tfyh_gallery
 
     /**
      * Check whether the user shall be granted access to the gallery.
-     *
+     * 
      * @return boolean true, if access is allowed, false, if not
      */
     public function is_allowed (int $mitgliedsnummer, array $gallery_definition = null)
@@ -276,9 +273,9 @@ class Tfyh_gallery
     }
 
     /**
-     * Return a html code of this gallery based on its definition or the provided options. Includes
-     * a form for upload and download.
-     *
+     * Return a html code of this gallery based on its definition or the provided options. Includes a form for
+     * upload and download.
+     * 
      * @param int $n_columns
      *            the count of columns within the gallery
      * @return string html formatted table for web display.
@@ -286,28 +283,23 @@ class Tfyh_gallery
     public function get_html (int $mitgliedsnummer, int $n_columns)
     {
         if (count($this->gallery_definition) === 0)
-            return "<p>Application configuration error: gallery '" .
-                     $this->gallery_definition["title"] . "' not defined. " .
-                     "Please check with your administrator.</p>";
+            return "<p>" . i("tg2LqL|Application configuratio...", $this->gallery_definition["title"]) . "</p>";
         
-        $gallery_html = '<p><b>Hochladen:</b><br />Über den Bildern auf "Durchsuchen ..." klicken, ' .
-                 'Bilder auswählen, "Hochladen" klicken und <b>warten</b>. Pro Bild 10 -50 ' .
-                 'Sekunden. Erst wenn das Hochladen komplett abgeschlossen ist, aktualisiert ' .
-                 'sich diese Seite. Besser nicht mehr als 5 Bilder (nicht mehr als 20 MByte) ' .
-                 'auf einmal hochladen.</p>';
+        $gallery_html = '<p><b>' . i("KLgQSh|Upload:") . '</b><br />' . i(
+                'foQQVH| ** Above the pictures c...') . "</p>";
         
         $gallery_html .= '<form action="?gallery=' . $this->gallery_definition["key"] .
-                 '&upload=1" method="post" enctype="multipart/form-data"><p>Bilder zum Upload auswählen: ' .
+                 '&upload=1" method="post" enctype="multipart/form-data"><p>' .
+                 i('saSTkk|Select images to upload:') . " " .
                  '<input type="file" name="fileToUpload[]" multiple="multiple">' .
-                 '<input type="submit" value="Hochladen" name="upload"></form><br />' .
-                 '<b>Nach dem Klick auf den Knopf "Hochladen" passiert erst einmal nichts ' .
-                 'mit dieser Seite. Sie wird erst nach Abschluss des Hochladens aktualisiert.</b>';
+                 '<input type="submit" value="' . i('txXT1g|Upload') . '" name="upload"></form><br />' . '<b>' . i(
+                        '8MYKLF|After clicking on the °U...') . '</b>';
         
         // build table header
         $gallery_html .= '<p><b>ALBUM ' . $this->gallery_definition["title"] . "</b>";
-        $gallery_html .= '&nbsp;&nbsp;&nbsp;<a href="?gallery=' . $this->gallery_definition["key"] .
-                 '">aktualisieren nach upload</a>';
-        $gallery_html .= (count($this->thumb_files) == 0) ? '<br />Keine Bilder im Album vorhanden.' : '';
+        $gallery_html .= '&nbsp;&nbsp;&nbsp;<a href="?gallery=' . $this->gallery_definition["key"] . '">' .
+                 i('iCqOma|update after upload') . '</a>';
+        $gallery_html .= (count($this->thumb_files) == 0) ? '<br />' . i('vI6UBA|No pictures available in...') : '';
         $gallery_html .= '<form action="?gallery=' . $this->gallery_definition["key"] .
                  '&download=1"  method="post"> ';
         $gallery_html .= '</p><div style="overflow-x: auto; white-space: nowrap;"><table width=800px style="border: 0px;"><tr>';
@@ -321,19 +313,18 @@ class Tfyh_gallery
             $gallery_html .= $this->get_thumb_html($thumb_dir . $thumb_file);
             $i_columns ++;
         }
-        $gallery_html .= '</tr></table></div><input type="submit" value="Herunterladen" name="download"></form>';
-        $gallery_html .= '<p><b>Herunterladen:</b><br />Haken bei Bildern setzen und unter den ' .
-                 'Bildern "Herunterladen" klicken. Es werden alle Bilder in einem Zip-Archiv ' .
-                 'bereitgestellt, das je nach Browser-Einstellung u. U. ' .
-                 'direkt in den "Downloads"-Ordner geschrieben wird. </p>';
+        $gallery_html .= '</tr></table></div><input type="submit" value="' . i('YEcCUE|Download') .
+                 '" name="download"></form>';
+        $gallery_html .= '<p><b>' . i('2FZhhA|Download:') . '</b><br />' . i(
+                'XBFzrv|Check the box for pictur...') . '</p>';
         
         return $gallery_html;
     }
 
     /**
-     * Uploads all images posted as "fileToUpload", i. e. when using the get_html() function to
-     * create the form display.
-     *
+     * Uploads all images posted as "fileToUpload", i. e. when using the get_html() function to create the
+     * form display.
+     * 
      * @param String $user_name
      *            name of user for file naming, e.g. John_Doe
      * @return string upload result String for display.
@@ -357,33 +348,32 @@ class Tfyh_gallery
             // Check if image file is a actual image or fake image
             $check = getimagesize($_FILES["fileToUpload"]["tmp_name"][$i]);
             if ($check !== false) {
-                $upload_res .= "Bild wurde erkannt. ";
+                $upload_res .= i("4kkzns|Image was recognized.") . " ";
                 $exif = exif_read_data($_FILES["fileToUpload"]["tmp_name"][$i]);
                 if ($exif === false) {
-                    $upload_res .= "Keine Headerdaten gefunden. ";
+                    $upload_res .= i("I3zknU|No meta data found.") . " ";
                     $captured = date("Ymd_His");
                 } else {
-                    $upload_res .= "Das hochgeladene Bild #" . ($i + 1) . " ist von: " .
+                    $upload_res .= i("jdB8fj|The uploaded image #%1 i...", strval($i + 1)) . " " .
                              $exif["DateTimeOriginal"];
                     if (isset($exif["DateTimeOriginal"])) {
                         $date_time_original_exif = DateTime::createFromFormat("Y:m:d H:i:s", 
                                 $exif["DateTimeOriginal"]);
-                        $timestamp_original = strtotime(
-                                $date_time_original_exif->format("Y-m-d H:i:s"));
+                        $timestamp_original = strtotime($date_time_original_exif->format("Y-m-d H:i:s"));
                         $captured = date("Ymd_His", $timestamp_original);
                     } else {
                         $captured = date("Ymd_His");
                     }
-                    $upload_res .= ", Größe (kB): " . intval($exif["FileSize"] / 1024);
-                    $upload_res .= ", Format: " . $exif["COMPUTED"]["Width"] . "*" .
+                    $upload_res .= ", " . i("eosDhG|Size (kB):") . " " . intval($exif["FileSize"] / 1024);
+                    $upload_res .= ", " . i("v9Y9Xk|Format:") . " " . $exif["COMPUTED"]["Width"] . "*" .
                              $exif["COMPUTED"]["Height"] . ".";
                 }
                 $target_file = $target_dir . $captured . $user_name . ".jpg";
                 $thumbnail_file = $thumbnail_dir . $captured . $user_name . ".jpg";
                 $preview_file = $preview_dir . $captured . $user_name . ".jpg";
                 if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"][$i], $target_file)) {
-                    $upload_res .= " Die Datei " . basename($_FILES["fileToUpload"]["name"][$i]) .
-                             " wurde hochgeladen.<br />";
+                    $upload_res .= " " . i("ZjU51G|The File °%1° was upload...", 
+                            basename($_FILES["fileToUpload"]["name"][$i])) . "<br />";
                     $thumbnail = $this->resize_image($target_file, $thumbnail_file, 150, 150);
                     $preview = $this->resize_image($target_file, $preview_file, 1200, 1200, false);
                     if (! empty($exif['Orientation'])) {
@@ -405,29 +395,28 @@ class Tfyh_gallery
                         }
                     }
                 } else {
-                    $upload_res .= "Die Datei konnte nicht hochgeladen werden. Fehlerhinweis: '" .
-                             $_FILES["fileToUpload"]["error"][$i] . "'.<br />";
+                    $upload_res .= i("fUMqe5|The File could not be up...", 
+                            $_FILES["fileToUpload"]["error"][$i]) . "<br />";
                 }
             } else {
-                $upload_res .= "In der Datei #" . ($i + 1) . " '" .
-                         $_FILES["fileToUpload"]["tmp_name"][$i] .
-                         "' wurde kein Bild erkannt. <br />";
+                $upload_res .= i("KyVvaE|No image was detected in...", strval($i + 1), 
+                        $_FILES["fileToUpload"]["tmp_name"][$i]) . " <br />";
             }
         }
         return $upload_res;
     }
 
     /**
-     * Downloads selected images when using the get_html() function to create the form display.
-     * Function exits on normal download without any display.
-     *
+     * Downloads selected images when using the get_html() function to create the form display. Function exits
+     * on normal download without any display.
+     * 
      * @return string download result String for display.
      */
     public function download_images ()
     {
         $target_dir = "../uploads/" . $this->key . "/";
         if (! is_dir($target_dir))
-            return "Album nicht gefunden. Abbruch.";
+            return i("d3o4EA|Album not found. Cancel.");
         
         $download_res = "";
         $n_downloads = 0;
@@ -457,7 +446,7 @@ class Tfyh_gallery
             unlink($zipname);
             exit();
         } else {
-            return "Die Zip-Datei " . $zipname . " konnte nicht erzeugt werden.";
+            return i("SPDW0F|The zip file °%1° could ...", $zipname);
         }
     }
 }

@@ -1,10 +1,18 @@
 <?php
 
 /**
- * static class file for the sql definition of efa tables to build and adjust the table layout.
+ * static class file for the sql definition of efa tables to build and adjust the table layout. The expected
+ * layout is defined in Efa_tables $db_layout_version_target.
  */
 class Efa_db_layout
 {
+
+    /**
+     * The version of the data base layout targeted for this efaCloud software release. If the configuration
+     * has a different version, The data base layout shall be adjusted during the upgrade procedure. Integer
+     * value.
+     */
+    public static $db_layout_version_target = 10;
 
     /**
      * The data base layout, to be read from a ../config/db_layout/Vx file. . It is an array of versions,
@@ -151,7 +159,7 @@ class Efa_db_layout
     }
 
     /**
-     * Build the sql command set (multiple commands) to create a table: DROP TABLE, CREAT TABLE (with all
+     * Build the sql command set (multiple commands) to create a table: DROP TABLE, CREATE TABLE (with all
      * columns), ALTER ... ADD UNIQUE, and ALTER ... MODIFY ... AUTO_INCREMENT
      * 
      * @param String $db_layout_version
@@ -191,7 +199,7 @@ class Efa_db_layout
                          "` INT UNSIGNED NOT NULL AUTO_INCREMENT";
             }
         }
-        $sql_cmds[0] = substr($sql_cmd, 0, strlen($sql_cmd) - 2) . ")";
+        $sql_cmds[0] = mb_substr($sql_cmd, 0, mb_strlen($sql_cmd) - 2) . ")";
         return $sql_cmds;
     }
 
@@ -221,7 +229,8 @@ class Efa_db_layout
      * @param int $max_version
      *            the maximum version to check for
      */
-    public static function compare_db_layout (Tfyh_socket $socket, int $max_version)
+    // TODO function since Jan 2023 / 2.3.2_09 obsolete. Remove some day
+    private static function compare_db_layout (Tfyh_socket $socket, int $max_version)
     {
         $db_layout_read = [];
         $table_names = $socket->get_table_names();
@@ -239,19 +248,19 @@ class Efa_db_layout
         $not_matching = "";
         for ($v = 1; $v <= $max_version; $v ++) {
             $matched = true;
-            $not_matching = "Vergleiche Version " . $v . "\n";
-            $not_matching .= "-------------------\n";
-            $db_layout = self::db_layout($v); 
+            $not_matching .= "\n" . i("Ne1yvo|Compare version") . " " . $v . "\n";
+            $not_matching .= "--------------------\n";
+            $db_layout = self::db_layout($v);
             foreach ($db_layout as $table_name => $table_columns) {
                 if (isset($db_layout_read[$table_name])) {
                     foreach ($db_layout[$table_name] as $column_name => $column_definition) {
                         if (! isset($db_layout_read[$table_name][$column_name])) {
-                            $not_matching .= "Fehlende Spalte $table_name.$column_name\n";
+                            $not_matching .= i("l9y94L|Missing column %1.%2", $table_name, $column_name) . "\n";
                             $matched = false;
                         }
                     }
                 } else {
-                    $not_matching .= "Fehlende Tabelle $table_name\n";
+                    $not_matching .= i("mp2bOE|Missing table %1.", $table_name) . "\n";
                     $matched = false;
                 }
             }
@@ -259,12 +268,12 @@ class Efa_db_layout
                 if (isset($db_layout[$table_name])) {
                     foreach ($db_layout_read[$table_name] as $column_name => $column_definition) {
                         if (! isset($db_layout[$table_name][$column_name])) {
-                            $not_matching .= "Extra Spalte $table_name.$column_name\n";
+                            $not_matching .= i("wiUFNS|Additional column %1.%2", $table_name, $column_name) . "\n";
                             $matched = false;
                         }
                     }
                 } else {
-                    $not_matching .= "Extra Tabelle $table_name\n";
+                    $not_matching .= i("uflrtX|Additional table %1.", $table_name) . "\n";
                     $matched = false;
                 }
             }
@@ -272,7 +281,8 @@ class Efa_db_layout
                 return $v;
         }
         file_put_contents("../log/db_layout_check.log", $not_matching);
-        return "Keine passende Version gefunden.";
+        return i("Vpmha6|No matching version foun...") .
+                 " '../log/db_layout_check.log'";
     }
 }
     

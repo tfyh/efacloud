@@ -4,16 +4,18 @@
  *
  * @author mgSoft
  */
+
+// ===== initialize toolbox & internationalization.
+include_once "../classes/init_i18n.php";  // usually this is included with init.php
+include_once '../classes/tfyh_toolbox.php';
+$toolbox = new Tfyh_toolbox();
+load_i18n_resource($toolbox->config->language_code);
+
 // remove all remnants of the session.
 session_start(); // you need to start the session to be able to destroy it.
                  // delete the extra session file which was stored for load throttling (session
                  // counter)
-$session_file = "../log/sessions/" . session_id();
-if (file_exists($session_file))
-    unlink($session_file);
-// now destroy the session
-session_destroy();
-$_SESSION = array();
+$toolbox->app_sessions->session_close("logout", session_id());
 
 // ===== initialize toolbox and socket and start session.
 $user_requested_file = __FILE__;
@@ -26,23 +28,6 @@ echo file_get_contents('../config/snippets/page_01_start');
 echo $menu->get_menu();
 echo file_get_contents('../config/snippets/page_02_nav_to_body');
 
-?>
-
-<!-- START OF content -->
-<div class="w3-container">
-	<h3>
-		<br>
-		<br>
-		<br>
-		<br>Abgemeldet
-	</h3>
-	<p>
-		Die Abmeldung war erfolgreich.<br>
-		<br>
-		<br>&nbsp;
-	</p>
-</div>
-
-<?php
+echo i("FVAYy8| ** Logged off ** Logo...");
 end_script();
 

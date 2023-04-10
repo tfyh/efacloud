@@ -30,11 +30,10 @@ if ($done > 0) {
         $url = 'https://www.efacloud.org/support/request.php';
         $data = $entered_data;
         if (isset($entered_data["SendLogs"]) && (strlen($entered_data["SendLogs"]) > 0)) {
-            $monitoring_report = $toolbox->logger->zip_logs();
+            $monitoring_report = "../log/" . $toolbox->logger->zip_logs();
             $data["monitoring_report_zip"] = str_replace("=", "_", 
                     str_replace("/", "-", 
-                            str_replace("+", "*", 
-                                    base64_encode(utf8_encode(file_get_contents($monitoring_report))))));
+                            str_replace("+", "*", base64_encode(file_get_contents($monitoring_report)))));
         }
         
         unset($data["SendLogs"]);
@@ -46,7 +45,7 @@ if ($done > 0) {
         $context = stream_context_create($options);
         $post_result = file_get_contents($url, false, $context);
         if ($post_result === false)
-            $post_result = "Übertragung an den efaCloud Server gescheitert.";
+            $post_result = i("w6LYgh|Transfer to efaCloud ser...");
         $todo = 2;
     }
 }
@@ -68,36 +67,20 @@ echo $menu->get_menu();
 echo file_get_contents('../config/snippets/page_02_nav_to_body');
 
 // page heading, identical for all workflow steps
-?>
-
-<div class="w3-container">
-	<h3>Supportanfrage oder Feedback senden</h3>
-	<?php
-
+echo i("y1NFtw| ** Send support request..."); 
 echo $toolbox->form_errors_to_html($form_errors);
 
 // ======== start with the display of either the next form, or the error messages.
 if ($todo == 1) {
-    ?>
-	<p>Bitte lassen Sie mich Ihr Anliegen wissen. Ich versuche sobald wie
-		möglich zu helfen. In Urlaubszeiten kann es dabei schon mal zu
-		Verzögerungen kommen, normalerweise ist eine Antwort in etwa einer
-		Woche zu erwarten.</p>
-	<p>Ich freue mich auch über Feedback zu efaCloud, Anregungen und
-		Wünsche. Dieses Formular geht an 'efacloud.org'.</p>
-<?php
+    echo i("dH58zd| ** Please let me know y...");
     // step 1. Show form.
-    echo $form_to_fill->get_html($fs_id);
+    echo $form_to_fill->get_html();
     // insert help text as right hand menu for mobile access
-    echo '<h5><br />Ausfüllhilfen</h5><ul>';
     echo $form_to_fill->get_help_html();
-    echo "</ul>";
 } elseif ($todo == 2) {
-    echo "<p>Vielen Dank für Ihre Anfrage. Der efacloud.org Server meldet:</p><p>";
+    echo "<p>" . i("02SBJ9|Thank you for your reque...") . "</p><p>";
     echo $post_result;
-    echo "</p><p>Der Vorgang ist damit abgeschlossen.</p>";
+    echo "</p><p>" . i("4hdqAF|The process is now compl...") . "</p>";
 }
-?>
-</div>
-<?php
+echo i("PhJ3L4|</div>");
 end_script();

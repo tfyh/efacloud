@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="../resources/w3-style.css">
   <link rel="stylesheet" href="../resources/app-style.css">
+  <link rel="stylesheet" href="../resources/efacloud-style.css">
   <link rel="icon" href="../resources/favicon.ico" type="image/x-icon">
   <link rel="shortcut icon" href="../resources/favicon.ico" type="image/x-icon" />
 </head>
@@ -14,8 +15,9 @@
 
 <!-- Sidebar/menu -->
 <nav class="w3-sidebar w3-bar-block w3-collapse w3-top menubar" 
-            style="z-index:3;width:200px" id="menuSidebar">
+            style="z-index:3;width:200px;overflow-y: hidden;" id="menuSidebar">
   <div class="w3-container">
-    <a href='../public/index.php'><img src="../resources/efacloud-logo_512.png" alt="efacloud Logo" 
-            style="width:180px"></a>
+    <a href='../public/index.php'><img src="../resources/logo_verein.png" alt="bitte Vereinslogo in der Konfiguration hochladen." style="width:180px"></a>
+    <span id='sidebar_clubname'></span>
+    <span id='sidebar_logbook'></span>
   </div>

@@ -1,0 +1,3 @@
+id;permission;name;select;from;where;options
+1;bths;yr04AO|efa2logbook;Logbookname,EntryId,Date,EndDate,ecrid,LastModification,LastModified,ChangeCount;efa2logbook;1;
+2;bths;3hobFq|efa2clubwork;ClubworkbookName,Id,Date,Description,FirstLastName,ecrid,LastModification,LastModified,ChangeCount;efa2clubwork;1;

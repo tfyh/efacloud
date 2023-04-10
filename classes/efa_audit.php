@@ -1,81 +1,22 @@
 <?php
 
+//TODO introduced to avoid a fata error when updating from < 2.3.2_13 to 2.3.2_13ff. in April 2023. Remove some day
+if (! function_exists("i"))
+    include_once "../classes/init_i18n.php";
+    
 /**
- * class file for the efaCloud table auditing
+ * class file for the efaCloud data verification and modification. This class adds to the Efa_tables class
+ * whih deifnes tables type semantics and contains static checker functions.
  */
 class Efa_audit
 {
 
     /**
-     * The data base connection socket.
+     * Defaults values for some of those columns that must not be empty.
      */
-    private $socket;
-
-    /**
-     * The generic toolbox.
-     */
-    private $toolbox;
-
-    /**
-     * The efa tables function set.
-     */
-    private $efa_tables;
-
-    /**
-     * Column names of those columns that are expected to be unique for the same UUID. If with a dot, both
-     * parts ANDed must be unique.
-     */
-    private static $warn_duplicates = ["efa2boats" => ["Name"
-    ],"efa2destinations" => ["Name"
-    ],"efa2groups" => ["Name"
-    ],"efa2persons" => ["FirstName.LastName"
-    ]
-    ];
-
-    /**
-     * Column names of those columns that must be unique, additionally to the key fields. If two key fields
-     * ANDed must be unique, they are separated by a dot.
-     */
-    private static $assert_unique = ["efa2autoincrement" => [],"efa2boatdamages" => ["Damage.BoatId"
-    ],"efa2reservations" => ["Reservation.BoatId"
-    ],"efa2boatstatus" => [],"efa2clubwork" => [],"efa2crews" => ["Name"
-    ],"efa2fahrtenabzeichen" => [],"efa2logbook" => ["EntryId.Logbookname"
-    ],"efa2messages" => [],"efa2sessiongroups" => ["Name.Logbook"
-    ],"efa2statistics" => ["Name","Position"
-    ],"efa2status" => ["Name"
-    ],"efa2waters" => ["Name"
-    ],"efa2boatdamages" => [],"efa2boatreservations" => [],"efa2boats" => [],"efa2destinations" => [],
-            "efa2groups" => [],"efa2persons" => []
-    ];
-
-    /**
-     * The list indices for assert unique referencing (../config/lists/efaAuditDuplicates)
-     */
-    private static $assert_unique_list_id = ["efa2boatdamages" => 1,"efa2boatreservations" => 2,
-            "efa2boats" => 3,"efa2boatstatus" => 4,"efa2crews" => 5,"efa2destinations" => 6,"efa2groups" => 6,
-            "efa2logbooks" => 8,"efa2persons" => 9,"efa2sessiongroups" => 10,"efa2statistics" => 11,
-            "efa2status" => 12,"efa2waters" => 13
-    ];
-
-    /**
-     * Column names of those columns that must not be empty.
-     */
-    public static $assert_not_empty = ["efa2autoincrement" => [],"efa2boatstatus" => [],
-            "efa2clubwork" => ["PersonId","Date","Description","Hours"
-            ],"efa2crews" => ["Name"
-            ],"efa2fahrtenabzeichen" => [],"efa2logbook" => [],"efa2messages" => [],
-            "efa2sessiongroups" => ["Logbook","Name","StartDate","EndDate"
-            ],"efa2statistics" => ["Name","Position"
-            ],"efa2status" => ["Name"
-            ],"efa2waters" => ["Name"
-            ],"efa2boatdamages" => ["Severity"
-            ],"efa2boatreservations" => ["Type"
-            ],"efa2boats" => ["Name"
-            ],"efa2destinations" => ["Name"
-            ],"efa2groups" => ["Name"
-            ],"efa2persons" => ["StatusId","Gender"
-            ],"efa2project" => [],"efa2admins" => ["Name","Password"
-            ],"efa2types" => ["Category","Type","Value"
+    private static $defaults_not_empty_values = [
+            "efa2boatdamages" => ["Severity" => "LIMITEDUSEABLE"
+            ],"efa2boatreservations" => ["Type" => "ONETIME"
             ]
     ];
 
@@ -83,7 +24,7 @@ class Efa_audit
      * Column names of those columns that must be checked not to contain a UUID of a record which shall be
      * deleted.
      */
-    private static $assert_not_referenced = [
+    private static $assert_not_referenced_fields = [
             "efa2boats" => ["efa2boatdamages.BoatId","efa2boatreservations.BoatId",
                     "efa2boatstatus.BoatId","efa2logbook.BoatId"
             ],"efa2crews" => ["efa2boats.DefaultCrewId"
@@ -103,42 +44,49 @@ class Efa_audit
     ];
 
     /**
-     * The list indices for UUID referencing. Use $this->build_indices to initialize respective associative
-     * arrays
+     * Column names of those columns that are expected to be unique for the same UUID. If with a dot, both
+     * parts ANDed must be unique.
      */
-    private static $uuid_list_id = ["efa2boats" => 1,"efa2clubwork" => 2,"efa2crews" => 3,
-            "efa2destinations" => 4,"efa2groups" => 5,"efa2persons" => 6,"efa2sessiongroups" => 7,
-            "efa2statistics" => 8,"efa2status" => 9,"efa2waters" => 10
+    private static $warn_duplicates_fields = ["efa2boats" => ["Name"
+    ],"efa2destinations" => ["Name"
+    ],"efa2groups" => ["Name"
+    ],"efa2persons" => ["FirstName.LastName"
+    ]
     ];
 
     /**
-     * For a bulk operation collect first all names and their ids to speed up uniqueness and references checks
+     * The list indices for assert unique referencing (../config/lists/efaAuditDuplicates)
      */
-    private $ids_for_names = array();
+    private static $assert_unique_list_id = ["efa2boatdamages" => 1,"efa2boatreservations" => 2,
+            "efa2boats" => 3,"efa2boatstatus" => 4,"efa2crews" => 5,"efa2destinations" => 6,"efa2groups" => 6,
+            "efa2logbooks" => 8,"efa2persons" => 9,"efa2sessiongroups" => 10,"efa2statistics" => 11,
+            "efa2status" => 12,"efa2waters" => 13
+    ];
 
     /**
-     * collect the latest validities per UUID for bulk updates.
+     * The data base connection socket.
      */
-    private $invalidFroms_per_ids = array();
+    private $socket;
 
     /**
-     * collect the ecrids latest valid record per UUID for bulk updates.
+     * The generic toolbox.
      */
-    private $ecrids_per_ids = array();
-
-    /**
-     * collect the ecrids latest valid record per UUID for bulk updates.
-     */
-    private $table_names = array();
+    private $toolbox;
 
     /**
      * public Constructor.
+     * 
+     * @param Tfyh_toolbox $toolbox
+     *            application toolbox
+     * @param Tfyh_socket $socket
+     *            the socket to connect to the database
      */
-    public function __construct (Efa_tables $efa_tables, Tfyh_toolbox $toolbox)
+    public function __construct (Tfyh_toolbox $toolbox, Tfyh_socket $socket)
     {
-        $this->efa_tables = $efa_tables;
-        $this->socket = $efa_tables->socket;
         $this->toolbox = $toolbox;
+        $this->socket = $socket;
+        include_once "../classes/efa_record.php";
+        include_once "../classes/efa_tables.php";
         include_once '../classes/tfyh_list.php';
     }
 
@@ -172,33 +120,56 @@ class Efa_audit
     /**
      * This runs a full data integrity audit and returns the result as html String
      * 
+     * @param bool $html
+     *            set true to get a html formatted output, false for log text.
      * @return string the audit result.
      */
-    public function data_integrity_audit ()
+    public function data_integrity_audit (bool $html)
     {
         include_once "../classes/tfyh_list.php";
+        $audit_user = $_SESSION["User"];
+        $audit_user_id = $audit_user[$this->toolbox->users->user_id_field_name];
+        $user_is_admin = (strcasecmp($_SESSION["User"]["Rolle"], "admin") == 0);
+        
+        // update client configurations to ensure they are up to date before the audit starts.
+        include_once "../classes/efa_config.php";
+        $efa_config = new Efa_config($this->toolbox);
+        $efa_config->parse_client_configs();
         
         $lists = [];
+        $lists["corrupt"] = [];
         $lists["uuidnames"] = [];
         $lists["uuidref"] = [];
         $lists["duplicate"] = [];
         $lists["nonempty"] = [];
+        $lists["virtual"] = [];
         
         $uuid_names = [];
         $uuid_invalids32 = [];
+        $uuid_deleted = [];
         $uuid_refs = [];
         $table_keys = [];
+        $start_time = time();
+        $last_step = time();
         
         // start with collection of all UUID names and invalid froms
         // =========================================================
-        $audit_result = "<li><b>Liste der UUIDs in der Datenbank:</b></li>\n<ul>";
+        $audit_result = "<li><b>" . i("Uht2dK|List of object IDs") .
+                 "<sup class='eventitem' id='showhelptext_UUIDecrid'>&#9432;</sup>" . " " .
+                 i("BtUecZ|in the database") . "</b></li>\n<ul>";
+        $audit_log = date("Y-m-d H:i:s") . " +0 " . i("X2GfIo|Starting data base integ...") . "\n";
         $all_ids_count = 0;
-        for ($list_id = 1; $list_id <= 11; $list_id ++) {
+        $list_definitions = new Tfyh_list("../config/lists/efaAuditUUIDnames", 0, "", $this->socket, 
+                $this->toolbox);
+        $list_definitions = $list_definitions->get_all_list_definitions();
+        for ($list_index = 0; $list_index < count($list_definitions); $list_index ++) {
+            $list_id = intval($list_definitions[$list_index]["id"]);
             $lists["uuidnames"][$list_id] = new Tfyh_list("../config/lists/efaAuditUUIDnames", $list_id, "", 
                     $this->socket, $this->toolbox);
             $table_name = $lists["uuidnames"][$list_id]->get_table_name();
             $ids_count = 0;
             $col_invalidFrom = $lists["uuidnames"][$list_id]->get_field_index("InvalidFrom");
+            $col_deleted = $lists["uuidnames"][$list_id]->get_field_index("Deleted");
             foreach ($lists["uuidnames"][$list_id]->get_rows() as $row) {
                 // add to name index
                 $uuid = $row[0];
@@ -211,23 +182,37 @@ class Efa_audit
                 // add to validity index
                 $invalidFrom = $row[$col_invalidFrom];
                 if (is_null($invalidFrom))
-                    $invalidFrom = $this->efa_tables->forever64;
-                $invalidFrom32 = $this->efa_tables->value_validity32($invalidFrom);
+                    $invalidFrom = Efa_tables::$forever64;
+                $invalidFrom32 = Efa_tables::value_validity32($invalidFrom);
                 if (! isset($uuid_invalids32[$uuid]) || ($invalidFrom32 > $uuid_invalids32[$uuid]))
                     $uuid_invalids32[$uuid] = $invalidFrom32;
+                // add to deleted index
+                $deleted_val = $row[$col_deleted];
+                $uuid_deleted[$uuid] = isset($deleted_val) && (strlen($deleted_val) > 0) &&
+                         (strcasecmp($deleted_val, "true") == 0);
             }
             if ($ids_count > 0)
-                $audit_result .= "<li>$ids_count UUIDs in $table_name.</li>\n";
+                $audit_result .= "<li>$ids_count " . i("FjaAjn|Object IDs in") . " $table_name.</li>\n";
             $all_ids_count += $ids_count;
         }
-        $audit_result .= "<li>$all_ids_count UUIDs in Summe.</li>\n";
+        $duration = time() - $last_step;
+        $last_step = time();
+        $audit_result .= "<li>$all_ids_count " . i("OV7xZi|Object IDs in total.") . "</li>\n";
+        $audit_result .= "<li>" . i("tZIRPY|Duration: %1 seconds.", $duration) . "</li>";
         $audit_result .= "</ul>";
+        $audit_log .= date("Y-m-d H:i:s") . " +" . $duration . " " . i("YQMCEW|Object IDs collected") . "\n";
         
         // continue with compilation of all UUID references
         // ================================================
-        $audit_result .= "<li><b>Liste der Referenzen auf UUIDs in der Datenbank:</b></li>\n<ul>";
+        $audit_result .= "<li><b>" . i("DyueMN|List of references to ob...") .
+                 "<sup class='eventitem' id='showhelptext_UUIDecrid'>&#9432;</sup>" . " " .
+                 i("TOfV45|in the database") . "</b></li>\n<ul>";
         $all_id_refs_count = 0;
-        for ($list_id = 1; $list_id <= 11; $list_id ++) {
+        $list_definitions = new Tfyh_list("../config/lists/efaAuditUUIDrefs", 0, "", $this->socket, 
+                $this->toolbox);
+        $list_definitions = $list_definitions->get_all_list_definitions();
+        for ($list_index = 0; $list_index < count($list_definitions); $list_index ++) {
+            $list_id = intval($list_definitions[$list_index]["id"]);
             $lists["uuidref"][$list_id] = new Tfyh_list("../config/lists/efaAuditUUIDrefs", $list_id, "", 
                     $this->socket, $this->toolbox);
             $table_name = $lists["uuidref"][$list_id]->get_table_name();
@@ -235,8 +220,8 @@ class Efa_audit
             $key_cols = [];
             $name_cols = [];
             $table_keys[$table_name] = "";
-            if (is_array(Efa_tables::$key_fields[$table_name]))
-                foreach (Efa_tables::$key_fields[$table_name] as $field_name) {
+            if (is_array(Efa_tables::$efa_data_key_fields[$table_name]))
+                foreach (Efa_tables::$efa_data_key_fields[$table_name] as $field_name) {
                     $field_index = $lists["uuidref"][$list_id]->get_field_index($field_name);
                     if ($field_index !== false) { // for reservations and damages the BoatId is a key field,
                                                   // but not in list.
@@ -279,34 +264,115 @@ class Efa_audit
                 }
             }
             if ($id_refs_count > 0)
-                $audit_result .= "<li>$id_refs_count Referenzen auf UUIDs in $table_name:</li>\n";
+                $audit_result .= "<li>$id_refs_count " . i("vWuyPP|References to object IDs...") .
+                         " $table_name</li>\n";
             $all_id_refs_count += $id_refs_count;
         }
         
-        /*
-         * for debugging: echo "<code>"; foreach ($uuid_refs as $uuid => $refs) { $name = $uuid_names[$uuid];
+        /* for debugging: echo "<code>"; foreach ($uuid_refs as $uuid => $refs) { $name = $uuid_names[$uuid];
          * $count = count($refs); echo "uuid: $uuid: $name Anzahl: $count<br>"; $c = 0; foreach($refs as $ref)
-         * { if ($c < 10) echo "&nbsp;&nbsp;&nbsp;" . $ref . "<br>"; $c++; } } echo "</code>"; exit();
-         */
-        $audit_result .= "<li>In Summe $all_id_refs_count Referenzen auf UUIDs in der Datenbank.</li>\n";
+         * { if ($c < 10) echo "&nbsp;&nbsp;&nbsp;" . $ref . "<br>"; $c++; } } echo "</code>"; exit(); */
+        $duration = time() - $last_step;
+        $last_step = time();
+        $audit_result .= "<li>" .
+                 i("XUdGql|In sum %1 references to ...", $all_id_refs_count) . "</li>\n";
+        $audit_result .= "<li>" . i("pp5hEg|Duration: %1 seconds.", $duration) . "</li>";
         $audit_result .= "</ul>";
+        $audit_log .= date("Y-m-d H:i:s") . " +" . $duration . " " . i("lW1weM|References collected") . "\n";
+        
+        // continue with check for corrupt data
+        // ====================================
+        $audit_result .= "<li><b>" . i("tSRTJf|List of corrupt records") .
+                 "<sup class='eventitem' id='showhelptext_AuditKorrupteDatensaetze'>&#9432;</sup>" . "</b><br>" .
+                 i(
+                        "ZqPC6r|Data records for which t...") .
+                 "</li>\n<ul>";
+        $all_id_refs_count = 0;
+        $list_definitions = new Tfyh_list("../config/lists/efaAuditCorruptData", 0, "", $this->socket, 
+                $this->toolbox);
+        $list_definitions = $list_definitions->get_all_list_definitions();
+        $corrupt_records_cnt_all = 0;
+        $corrupt_records_list_all = "";
+        for ($list_index = 0; $list_index < count($list_definitions); $list_index ++) {
+            $corrupt_records_cnt = 0;
+            $corrupt_records_list = "";
+            $list_id = intval($list_definitions[$list_index]["id"]);
+            $lists["corrupt"][$list_id] = new Tfyh_list("../config/lists/efaAuditCorruptData", $list_id, "", 
+                    $this->socket, $this->toolbox);
+            $table_name = $lists["corrupt"][$list_id]->get_table_name();
+            $ecrid_index = $lists["corrupt"][$list_id]->get_field_index("ecrid");
+            $lastModification_index = $lists["corrupt"][$list_id]->get_field_index("LastModification");
+            $lastModified_index = $lists["corrupt"][$list_id]->get_field_index("LastModified");
+            $changeCount_index = $lists["corrupt"][$list_id]->get_field_index("ChangeCount");
+            foreach ($lists["corrupt"][$list_id]->get_rows() as $row) {
+                $cause = "";
+                if (! isset($row[$ecrid_index]) || strlen($row[$ecrid_index]) == 0)
+                    $cause .= i("mhjGNl|Ecrid specification is m...") . ", ";
+                if (! isset($row[$lastModification_index]) || is_null($row[$lastModification_index]) ||
+                         strlen($row[$lastModification_index]) == 0)
+                    $cause .= i("mBOQpn|Information on the type ...") . ", ";
+                if (! isset($row[$lastModified_index]) || is_null($row[$lastModified_index]) ||
+                         strlen($row[$lastModified_index]) == 0)
+                    $cause .= i("imsQg3|LastModified information...") . ", ";
+                if (isset($row[$lastModified_index]) && strlen($row[$lastModified_index]) < 3)
+                    $cause .= i("MGQrre|Last modification date i...") . ", ";
+                if (! isset($row[$changeCount_index]) || is_null($row[$changeCount_index]) ||
+                         strlen($row[$changeCount_index]) == 0)
+                    $cause .= i("FE4Of4|Change counter missing") . ", ";
+                if (isset($row[$changeCount_index]) && intval($row[$changeCount_index]) == 0)
+                    $cause .= i("i0SFzf|Change counter invalid") . ", ";
+                if (strlen($cause) == 0)
+                    $cause = i("KARSRU|undetermined error, plea...");
+                // get full record
+                $full_record = (isset($row[$ecrid_index])) ? $this->socket->find_record($table_name, "ecrid", 
+                        $row[$ecrid_index]) : $lists["corrupt"][$list_id]->get_named_row($row);
+                $empty_notification = (Efa_record::is_content_empty($table_name, $full_record)) ? i(
+                        "5zJxTU|(empty content)") . " " : "";
+                $corrupt_records_list .= "<li>$cause " . i("taO63K|in record with the ID") . " '" .
+                         $row[$ecrid_index] . "' $empty_notification<a class='eventitem' id='viewrecord_" .
+                         $table_name . "_" . $row[$ecrid_index] . "'>" . i("XZwd9r|view") . "</a></li>\n";
+                // collect key of referencing record
+                $corrupt_records_cnt ++;
+            }
+            if ($corrupt_records_cnt > 0) {
+                $corrupt_records_list_all .= "<li>" . i("OZYUda|audit") . " $table_name:</li><ul>\n" .
+                         $corrupt_records_list . "</ul>";
+                $corrupt_records_cnt_all += $corrupt_records_cnt;
+            } else {
+                $corrupt_records_list_all .= "<li>" . i("LYwuMx|audit") . " $table_name: " . i("lKuUN0|ok.") . "</li>";
+            }
+        }
+        $duration = time() - $last_step;
+        $last_step = time();
+        $dauer_li = "<li>" . i("WsmOAA|Duration: %1 seconds.", $duration) . "</li>";
+        if ($corrupt_records_cnt_all > 0)
+            $audit_result .= $corrupt_records_list_all . $dauer_li . "</ul>";
+        else
+            $audit_result .= "<li>" . i("7TSRnp|None.") . "</li>$dauer_li</ul>";
+        $audit_log .= date("Y-m-d H:i:s") . " +" . $duration . " " . i("fTom5D|Corrupt records fixed.") . "\n";
         
         // continue with duplicate warnings and unique assertions
         // ======================================================
-        $audit_result .= "<li><b>Dublettencheck:</b></li>\n<ul>";
-        for ($list_id = 1; $list_id <= 13; $list_id ++) {
+        $audit_result .= "<li><b>" . i("XRCLkB|Duplicate check") . "</b>" .
+                 "<sup class='eventitem' id='showhelptext_AuditDubletten'>&#9432;</sup>" . "</li>\n<ul>";
+        $list_definitions = new Tfyh_list("../config/lists/efaAuditDuplicates", 0, "", $this->socket, 
+                $this->toolbox);
+        $list_definitions = $list_definitions->get_all_list_definitions();
+        for ($list_index = 0; $list_index < count($list_definitions); $list_index ++) {
+            $list_id = intval($list_definitions[$list_index]["id"]);
             $lists["duplicate"][$list_id] = new Tfyh_list("../config/lists/efaAuditDuplicates", $list_id, "", 
                     $this->socket, $this->toolbox);
             $table_name = $lists["duplicate"][$list_id]->get_table_name();
-            $audit_result .= "<li>auditiere $table_name:</li>\n<ul>";
+            $audit_result .= "<li>" . i("QsmoVM|audit") . " $table_name:</li>\n<ul>";
             $id_col = $lists["duplicate"][$list_id]->get_field_index("Id");
             
             // prepare arrays
             $warn_duplicates_cols = [];
             $warn_duplicates_vals = [];
-            if (is_array(self::$warn_duplicates[$table_name]) &&
-                     (count(self::$warn_duplicates[$table_name]) > 0)) {
-                foreach (self::$warn_duplicates[$table_name] as $field_names) {
+            if (isset(self::$warn_duplicates_fields[$table_name]) &&
+                     is_array(self::$warn_duplicates_fields[$table_name]) &&
+                     (count(self::$warn_duplicates_fields[$table_name]) > 0)) {
+                foreach (self::$warn_duplicates_fields[$table_name] as $field_names) {
                     $warn_duplicates_cols[$field_names] = [];
                     $warn_duplicates_vals[$field_names] = [];
                     foreach (explode(".", $field_names) as $field_name) {
@@ -318,8 +384,9 @@ class Efa_audit
             
             $assert_unique_cols = [];
             $assert_unique_vals = [];
-            if (is_array(self::$assert_unique[$table_name]) && (count(self::$assert_unique[$table_name]) > 0)) {
-                foreach (self::$assert_unique[$table_name] as $field_names) {
+            if (is_array(Efa_record::$assert_unique_fields[$table_name]) &&
+                     (count(Efa_record::$assert_unique_fields[$table_name]) > 0)) {
+                foreach (Efa_record::$assert_unique_fields[$table_name] as $field_names) {
                     $assert_unique_cols[$field_names] = [];
                     $assert_unique_vals[$field_names] = [];
                     foreach (explode(".", $field_names) as $field_name) {
@@ -359,6 +426,7 @@ class Efa_audit
             
             // issue warnings for duplicates
             if (count($warn_duplicates_cols) > 0) {
+                $invalid_now = time();
                 foreach ($warn_duplicates_vals as $fieldnames => $value_list) {
                     foreach ($value_list as $value => $occurrences) {
                         if (count($occurrences) > 1) {
@@ -373,17 +441,21 @@ class Efa_audit
                                         $ids[$occurrence[$id_col]] += 1;
                                 }
                                 if (count($ids) > 1) {
-                                    $audit_result .= "<li>'$fieldnames' mit Wert '$value' hat mehr als eine zugehörige Id:";
+                                    $audit_result .= "<li>" . i(
+                                            "1iSIZo|°%1° with value °%2° has...", $fieldnames, 
+                                            $value);
                                     foreach ($ids as $id => $cnt) {
                                         $audit_result .= "<br>" . $id;
                                         $invalid32 = $uuid_invalids32[$id];
                                         if (isset($uuid_names[$id]))
                                             $audit_result .= " = " . htmlspecialchars($uuid_names[$id]);
                                         if ($invalid32 > 0)
-                                            $audit_result .= ", " .
-                                                     $this->efa_tables->format_validity32($invalid32);
+                                            $audit_result .= ", " . Efa_tables::format_validity32($invalid32);
+                                        if (isset($uuid_deleted[$id]) && $uuid_deleted[$id])
+                                            $audit_result .= " " . i("yrvZC9|-DELETED-");
                                         if (isset($uuid_refs[$id]))
-                                            $audit_result .= " (" . count($uuid_refs[$id]) . " mal)";
+                                            $audit_result .= " (" . count($uuid_refs[$id]) . " " . i("kbRZ71|times") .
+                                                     ")";
                                         $audit_result .= "; ";
                                     }
                                     $audit_result .= "</li>\n";
@@ -401,22 +473,25 @@ class Efa_audit
                 foreach ($assert_unique_vals as $fieldnames => $value_list) {
                     foreach ($value_list as $value => $occurrences) {
                         if (count($occurrences) > 1) {
-                            $audit_result .= "<li>'$fieldnames' mit Wert '$value' muss eindeutig sein, kommt aber vor in Datensätzen:<br>";
+                            $audit_result .= i(
+                                    "stfYYi| ** °%1° with value °%2°...", 
+                                    $fieldnames, $value) . "<br>";
                             foreach ($occurrences as $occurrence) {
                                 $audit_result .= "        ";
                                 $named_row = $lists["duplicate"][$list_id]->get_named_row($occurrence);
                                 foreach ($named_row as $key => $value) {
                                     $audit_result .= "$key = $value";
-                                    if ($this->is_UUID($value)) {
+                                    if (! is_null($value) && $this->is_UUID($value)) {
                                         $invalid32 = $uuid_invalids32[$value];
                                         if ($invalid32 > 0)
-                                            $audit_result .= ", " .
-                                                     $this->efa_tables->format_validity32($invalid32);
+                                            $audit_result .= ", " . Efa_tables::format_validity32($invalid32);
                                         if (isset($uuid_refs[$value]))
                                             $audit_result .= " (" . count($uuid_refs[$value]) . " mal)";
                                     }
                                     $audit_result .= "; ";
                                 }
+                                $audit_result .= " <a class='eventitem' id='viewrecord_" . $table_name . "_" .
+                                         $named_row["ecrid"] . "'>" . i("ePOJhc|view") . "</a>";
                                 $audit_result .= "<br>";
                             }
                             $audit_result .= "</li>\n";
@@ -426,34 +501,124 @@ class Efa_audit
             }
             $audit_result .= "</ul>";
         }
+        $duration = time() - $last_step;
+        $last_step = time();
+        $audit_result .= "<li>" . i("0zU8XJ|Duration: %1 seconds.", $duration) . "</li>";
         $audit_result .= "</ul>";
+        $audit_log .= date("Y-m-d H:i:s") . " +" . $duration . " " . i("dyCw0A|Duplicates checked.") . "\n";
         
         // continue with non-empty checks
         // ==============================
-        $audit_result .= "<li><b>Fehlende Angaben:</b></li>\n<ul>";
-        for ($list_id = 1; $list_id <= 11; $list_id ++) {
+        $audit_result .= "<li><b>" . i("pMdghG|Missing information") .
+                 "<sup class='eventitem' id='showhelptext_AuditKorrupteDatensaetze'>&#9432;</sup>" .
+                 "</b></li>\n<ul>";
+        $list_definitions = new Tfyh_list("../config/lists/efaAuditNotEmpty", 0, "", $this->socket, 
+                $this->toolbox);
+        $list_definitions = $list_definitions->get_all_list_definitions();
+        for ($list_index = 0; $list_index < count($list_definitions); $list_index ++) {
+            $list_id = intval($list_definitions[$list_index]["id"]);
             $lists["nonempty"][$list_id] = new Tfyh_list("../config/lists/efaAuditNotEmpty", $list_id, "", 
                     $this->socket, $this->toolbox);
             $table_name = $lists["nonempty"][$list_id]->get_table_name();
-            $audit_result .= "<li>auditiere $table_name:</li>\n<ul>";
-            $asserts = self::$assert_not_empty[$table_name];
+            $audit_result .= "<li>" . i("hqvnxI|audit") . " $table_name:</li>\n<ul>";
+            $assert_not_empty = array_merge(Efa_tables::$efa_data_key_fields[$table_name], 
+                    Efa_record::$assert_not_empty_fields[$table_name]);
+            $defaults = isset(self::$defaults_not_empty_values[$table_name]) ? self::$defaults_not_empty_values[$table_name] : false;
             foreach ($lists["nonempty"][$list_id]->get_rows() as $row) {
                 $named_row = $lists["nonempty"][$list_id]->get_named_row($row);
                 $missing = "";
+                $defaulting = "";
+                $default_values = "";
                 $recordstr = "";
+                $record_update = ["ecrid" => $named_row["ecrid"]
+                ];
                 foreach ($named_row as $key => $value) {
-                    if (in_array($key, $asserts) && (strlen($value) == 0))
-                        $missing .= $key . ", ";
+                    if (in_array($key, $assert_not_empty) && (strlen($value) == 0)) {
+                        if (is_array($defaults) && array_key_exists($key, $defaults)) {
+                            $defaulting .= $key . ", ";
+                            $default_values .= $defaults[$key] . ", ";
+                            $record_update[$key] = $defaults[$key];
+                        } else
+                            $missing .= $key . ", ";
+                    }
                     $recordstr .= "$key = $value; ";
                 }
+                $recordstr .= " <a class='eventitem' id='viewrecord_" . $table_name . "_" . $row[$ecrid_index] .
+                         "'>" . i("IqBXjy|view") . "</a>";
+                if (strlen($missing) > 0)
+                    $missing = substr($missing, 0, strlen($missing) - 2);
+                if (strlen($defaulting) > 0)
+                    $defaulting = substr($defaulting, 0, strlen($defaulting) - 2);
+                if (strlen($default_values) > 0)
+                    $default_values = substr($default_values, 0, strlen($default_values) - 2);
+                if (strlen($defaulting) > 0) {
+                    $audit_result .= "<li>" . i("n47bZV|The necessary informatio...", 
+                            $defaulting, $recordstr) . "</i></li>\n";
+                }
                 if (strlen($missing) > 0) {
-                    $audit_result .= "<li>die notwendigen Angaben " . $missing . " fehlen in Datensatz: " .
-                             $recordstr . "</li>\n";
+                    $audit_result .= "<li>" . i("VFh57f|The necessary informatio...", 
+                            $missing, $recordstr) . "</li>\n";
                 }
             }
             $audit_result .= "</ul>";
         }
+        $duration = time() - $last_step;
+        $last_step = time();
+        $audit_result .= "<li>" . i("zxvnvd|Duration: %1 seconds.", $duration) . "</li>";
         $audit_result .= "</ul>";
+        $audit_log .= date("Y-m-d H:i:s") . " +" . $duration . " " . i("II49o0|Missing fields checked.") . "\n";
+        
+        // continue with virtual fields check and correction
+        // =================================================
+        $audit_result .= "<li><b>" . i("IaiL4s|Virtual data fields") .
+                 "<sup class='eventitem' id='showhelptext_AuditVirtuelleDatenfelder'>&#9432;</sup>" .
+                 "</b></li>\n<ul>";
+        $list_definitions = new Tfyh_list("../config/lists/efaAuditVirtualFieldsFull", 0, "", $this->socket, 
+                $this->toolbox);
+        $list_definitions = $list_definitions->get_all_list_definitions();
+        include_once '../classes/efa_uuids.php';
+        $efa_uuids = new Efa_uuids($this->toolbox, $this->socket);
+        for ($list_index = 0; $list_index < count($list_definitions); $list_index ++) {
+            $list_id = intval($list_definitions[$list_index]["id"]);
+            $lists["virtual"][$list_id] = new Tfyh_list("../config/lists/efaAuditVirtualFieldsFull", $list_id, 
+                    "", $this->socket, $this->toolbox);
+            $table_name = $lists["virtual"][$list_id]->get_table_name();
+            $audit_result .= "<li>" . i("KKGLqS|audit") . " $table_name:";
+            $virtual_fields = Efa_tables::$virtual_fields[$table_name];
+            $ecrid_field_index = $lists["virtual"][$list_id]->get_field_index("ecrid");
+            $audit_result .= "<br>" . i("zkwDI7|lines") . ": " . count($lists["virtual"][$list_id]->get_rows());
+            $checked = 0;
+            $corrected = 0;
+            $failed = 0;
+            foreach ($lists["virtual"][$list_id]->get_rows() as $row) {
+                $matching_key = ["ecrid" => $row[$ecrid_field_index]
+                ];
+                $full_record = $this->socket->find_record_matched($table_name, $matching_key);
+                $record_with_correct_vf = Efa_tables::add_virtual_fields($full_record, $table_name, 
+                        $this->toolbox, $this->socket, $efa_uuids);
+                if ($record_with_correct_vf !== false) {
+                    $audit_result .= "<br>" . i("IfdaoB|Correct virtual fields f...", 
+                            $row[$ecrid_field_index]);
+                    $update_result = $this->socket->update_record_matched($audit_user_id, $table_name, 
+                            $matching_key, $record_with_correct_vf);
+                    if (strlen($update_result) == 0)
+                        $corrected ++;
+                    else
+                        $failed ++;
+                }
+            }
+            if (($corrected > 0) || ($failed > 0))
+                $audit_result .= " " .
+                         i("a5ador|checked: %1, corrected: ...", $checked, $corrected, $failed) .
+                         "</li>\n";
+            else
+                $audit_result .= " ok.</li>\n";
+        }
+        $duration = time() - $last_step;
+        $last_step = time();
+        $audit_result .= "<li>" . i("xnRS5I|Duration: %1 seconds.", $duration) . "</li>";
+        $audit_result .= "</ul>";
+        $audit_log .= date("Y-m-d H:i:s") . " +" . $duration . " " . i("R223pr|Virtual fields corrected...") . "\n";
         
         // complete with list of unused UUIDs
         // ==================================
@@ -463,566 +628,157 @@ class Efa_audit
             if ((! isset($uuid_refs[$uuid]) || (count($uuid_refs[$uuid]) == 0)) &&
                      (strpos($uuid_names[$uuid], Efa_archive::$archive_id_prefix) === false))
                 $unused_count ++;
-        $audit_result .= "<li><b>Die folgenden $unused_count der in Summe $all_ids_count UUIDs werden nicht (mehr) verwendet:</b></li>\n<ul>";
+        $audit_result .= "<li><b>" . i(
+                "kXZ9rj|The following %1 of the ...", $unused_count, 
+                $all_ids_count) . "</b></li>\n<ul>";
         foreach ($uuid_names as $uuid => $name) {
             if (! isset($uuid_refs[$uuid]) || (count($uuid_refs[$uuid]) == 0)) {
                 if (strpos($uuid_names[$uuid], Efa_archive::$archive_id_prefix) === false) {
                     $audit_result .= "<li>" . $uuid . " = " . htmlspecialchars($uuid_names[$uuid]);
                     $invalid32 = $uuid_invalids32[$uuid];
                     if ($invalid32 > 0)
-                        $audit_result .= "; " . $this->efa_tables->format_validity32($invalid32);
+                        $audit_result .= "; " . Efa_tables::format_validity32($invalid32);
                     $audit_result .= "</li>\n";
                 }
             }
         }
+        $duration = time() - $last_step;
+        $last_step = time();
+        $audit_result .= "<li>" . i("RGeCEH|Duration: %1 seconds.", $duration) . "</li>";
         $audit_result .= "</ul>";
+        $audit_log .= date("Y-m-d H:i:s") . " +" . $duration . " " . i("deuFgY|Completed.") . "\n";
+        file_put_contents("../log/app_db_audit.html", $audit_result);
         
-        return $audit_result;
-    }
-
-    /* --------------------------------------------------------------------------------------- */
-    /* --------------- PREMODIFICATION CHECKS AND CORRECTIONS -------------------------------- */
-    /* --------------------------------------------------------------------------------------- */
-    /**
-     * Clear all indices to trigger rebuild.
-     */
-    public function clear_indices (int $list_id)
-    {
-        $this->ids_for_names[$list_id] = [];
-        $this->invalidFroms_per_ids[$list_id] = [];
-        $this->ecrids_per_ids[$list_id] = [];
+        return ($html) ? $audit_result : $audit_log;
     }
 
     /**
-     * Initialize the arrays for checking in bulk operations.
-     * 
-     * @param int $list_id
-     *            the id of the list within the set "../config/lists/efaAuditUUIDnames" which shall be used to
-     *            identify the most recent record version.
-     * @param bool $force_refresh
-     *            set true to force a refeesh, even if the index was already build.
+     * Check all records of efa2logbook and efa2clubworkbook whether they comply with the respective book's
+     * period contstraints.
      */
-    private function build_indices (int $list_id, bool $force_refresh)
+    public function period_correctness_audit ()
     {
-        if (! $force_refresh && (count($this->ids_for_names[$list_id]) > 0))
-            return;
-        $this->clear_indices($list_id);
-        $uuid_names = new Tfyh_list("../config/lists/efaAuditUUIDnames", $list_id, "", $this->socket, 
-                $this->toolbox);
-        $this->table_names[$list_id] = $uuid_names->get_table_name();
-        $col_uuid = $uuid_names->get_field_index("Id");
-        $col_ecrid = $uuid_names->get_field_index("ecrid");
-        $col_invalidFrom = $uuid_names->get_field_index("InvalidFrom");
-        foreach ($uuid_names->get_rows() as $row) {
-            $uuid = $row[0];
-            // build name index
-            if ($list_id == Efa_audit::$uuid_list_id["efa2persons"]) // Special case persons' name
-                $name = $row[1] . " " . $row[2];
-            else
-                $name = $row[1]; // includes names_clubwork
-            $this->ids_for_names[$list_id][$name] = $uuid;
-            // build invalidFrom index with most recent validity timestamp per uuid.
-            $invalid32 = $this->efa_tables->value_validity32(strval($row[$col_invalidFrom]));
-            if (! isset($this->invalidFroms_per_ids[$list_id][$uuid]) ||
-                     ($this->invalidFroms_per_ids[$list_id][$uuid] < $invalid32)) {
-                $this->invalidFroms_per_ids[$list_id][$uuid] = $invalid32;
-                $this->ecrids_per_ids[$list_id][$uuid] = $row[$col_ecrid];
-            }
-        }
-    }
-
-    /**
-     * Check whether needed fields are all set, and return an error, if not.
-     * 
-     * @param array $record_to_check
-     *            the record which shall be checked, mapped and completed.
-     * @param String $tablename
-     *            the tables name to know which fields are system and bool fields.
-     * @param int $mode
-     *            Set to mode of operations: 1 = insert, 2 = update, 3 = delimit.
-     * @return string in case of errors a String with the error message, else an empty String
-     */
-    private function check_unique_and_not_empty (array $record_to_check, String $tablename, int $mode)
-    {
-        // check for insertion of a new or a copy of a record after delimitation, that no needed fields are
-        // empty.
-        if (($mode == 1) || ($mode == 1)) {
-            foreach (Efa_audit::$assert_not_empty[$tablename] as $not_empty_field) {
-                if (! isset($record_to_check[$not_empty_field]) || is_null($record_to_check[$not_empty_field]) ||
-                         (strlen($record_to_check[$not_empty_field]) == 0)) {
-                    return "Das erforderliche Feld '$not_empty_field' darf bei neuen Datensätzen nicht leer sein.";
+        global $dfmt_d, $dfmt_dt;
+        $audit_user = $_SESSION["User"];
+        $audit_user_id = $audit_user[$this->toolbox->users->user_id_field_name];
+        $user_is_admin = (strcasecmp($_SESSION["User"]["Rolle"], "admin") == 0);
+        
+        $audit_res = "<li><b>" . i("uMJF7t|Reference configuration") . "</b></li><ul>";
+        $reference_client = $this->toolbox->config->get_cfg()["reference_client"];
+        if (intval($reference_client) == 0)
+            $reference_client = "<b>" . i("dB1fLF|not defined") . "</b>. " .
+                     i("RYw5AW|Please set in menu °Set ...");
+        $audit_res .= "<li>" . $reference_client . "</li>";
+        $audit_res .= "</ul>";
+        
+        // parse configurations to ensure they are up to date before the audit starts.
+        include_once "../classes/efa_config.php";
+        $efa_config = new Efa_config($this->toolbox);
+        $efa_config->parse_client_configs();
+        // Show books summary
+        $audit_res .= "<li><b>" . i("HIkuMt|Overview of logbooks and...") . "</b></li><ul>";
+        $audit_res .= "<li>" . str_replace("\n", "</li><li>", trim($efa_config->summary_books)) . "</li>";
+        $audit_res .= "</ul>";
+        
+        // compile misfit periods logbooks.
+        $audit_res .= "<li><b>" . i("8QYlfo|Trips that do not match ...") . "</b></li><ul>";
+        include_once "../classes/tfyh_list.php";
+        $list = new Tfyh_list("../config/lists/efaAuditPeriods", 1, "", $this->socket, $this->toolbox);
+        $rows = $list->get_rows();
+        $index_logbookname = $list->get_field_index("Logbookname");
+        $index_entryid = $list->get_field_index("EntryId");
+        $index_date = $list->get_field_index("Date");
+        $index_end_date = $list->get_field_index("EndDate");
+        $index_ecrid = $list->get_field_index("ecrid");
+        $index_lastmodification = $list->get_field_index("LastModification");
+        
+        foreach ($rows as $row) {
+            $error_message = "";
+            $logbook_name = $row[$index_logbookname];
+            $entry_id = $row[$index_entryid];
+            $ecrid_id = $row[$ecrid_id];
+            $date = $row[$index_date];
+            $ecrid = $row[$index_ecrid];
+            $is_delete = (strcasecmp($row[$index_lastmodification], "delete") == 0);
+            if (! $is_delete) {
+                $logbook_period = $efa_config->get_book_period($logbook_name, true);
+                if ($logbook_period["book_matched"] === false)
+                    $audit_res .= "<li>" . i("hxETBN|The logbook %1 (trip num...", 
+                            $logbook_name, $entry_id) . "</li>";
+                else {
+                    $logbook_start = $logbook_period["start_time"];
+                    $logbook_end = $logbook_period["end_time"];
+                    $entry_start = strtotime($date);
+                    $entry_end = (isset($row[$index_end_date]) && (strlen($row[$index_end_date]) > 4)) ? strtotime(
+                            $row[$index_end_date]) : $entry_start;
+                    if (($entry_start < $logbook_start) || ($entry_start > $logbook_end) ||
+                             ($entry_end < $logbook_start) || ($entry_end > $logbook_end)) {
+                        $error_message = "<li>" . i(
+                                "mY35PB|The trip %1 with start %...", 
+                                $entry_id, date($dfmt_d, $entry_start), date($dfmt_d, $entry_end), 
+                                $logbook_name, date($dfmt_d, $logbook_start), date($dfmt_d, $logbook_end));
+                        $error_message .= " <a class='eventitem' id='viewrecord_" . $list->get_table_name() .
+                                 "_" . $row[$index_ecrid] . "'>" . i("B6wzYu|view") . "</a>";
+                        if ($user_is_admin)
+                            $error_message .= " <a target='_blank' href='../pages/view_record.php?table=efa2logbook&ecrid=" .
+                                     $row[$index_ecrid] . "'> - " . i("aIaf9l|Edit/delete in new tab") .
+                                     "</a>";
+                        $audit_res .= "</li>";
+                    }
+                    $audit_res .= $error_message;
                 }
             }
         }
-        // Check uniqueness of all relevant fields or field combinations for all cases.
-        // prepare list for cross check
-        $assert_unique_list_id = Efa_audit::$assert_unique_list_id[$tablename];
-        $assert_unique_list = new Tfyh_list("../config/lists/efaAuditDuplicates", $assert_unique_list_id, "", 
-                $this->socket, $this->toolbox);
-        // prepare lookup indices for list entries and previous record (for updates)
-        $assert_unique_fields = Efa_audit::$assert_unique[$tablename];
-        $col_ecrid = $assert_unique_list->get_field_index("ecrid");
-        $col_id = $assert_unique_list->get_field_index("Id");
-        $previous_record = ($mode == 2) ? $this->socket->find_record($tablename, "ecrid", 
-                $record_to_check["ecrid"]) : false;
-        // prepare references to check whether the duplicate is actually the very same.
-        $reference_ecrid = $record_to_check["ecrid"];
-        $reference_id = $record_to_check["Id"];
-        $is_versionized = $this->efa_tables->is_versionized[$tablename];
-        // screen through fields to be asserted as unique.
-        foreach ($assert_unique_fields as $assert_unique_field) {
-            // per field compile first the reference value, which shall be checked for duplicates
-            $parts = explode(".", $assert_unique_field);
-            $reference = "";
-            $cols = [];
-            foreach ($parts as $part) {
-                $cols[] = $assert_unique_list->get_field_index($part);
-                if (! isset($record_to_check[$part])) {
-                    // if the value is not set in the new record (e.g. for updates) use the previous one
-                    if ($previous_record !== false)
-                        $reference .= $previous_record[$part] . ".";
-                    else
-                        return "Dem Datensatz fehlt das auf Eindeutigkeit zu prüfende Feld '" .
-                                 $assert_unique_field . "'. ";
-                } else
-                    $reference .= $record_to_check[$part] . ".";
-            }
-            // search for this field in all records.
-            foreach ($assert_unique_list->get_rows() as $row) {
-                $compare = "";
-                foreach ($cols as $col)
-                    $compare .= $row[$col] . ".";
-                if (strcasecmp($reference, $compare) == 0) {
-                    // a match was found. Now verify, whether it is the record's self or a duplicate.
-                    if ((strcmp($row[$col_ecrid], $reference_ecrid) != 0) && ! $is_versionized)
-                        return "Das eindeutige Feld '" . $assert_unique_field .
-                                 "' ist nicht eindeutig. Weiteres Vorkommen im Datensatz mit ecrid '" .
-                                 $row[$col_ecrid] . "'";
-                    if ((strcmp($row[$col_id], $reference_id) != 0) && $is_versionized)
-                        return "Das eindeutige Feld '" . $assert_unique_field .
-                                 "' ist nicht eindeutig. Weiteres Vorkommen im Objekt mit Id '" . $row[$col_id] .
-                                 "'";
+        $audit_res .= "</ul>";
+        
+        // compile misfit periods clubworkbooks.
+        $audit_res .= "<li><b>" . i("bjIgH7|Club work that does not ...") .
+                 "</b></li><ul>";
+        $list = new Tfyh_list("../config/lists/efaAuditPeriods", 2, "", $this->socket, $this->toolbox);
+        $rows = $list->get_rows();
+        $index_clubworkbookname = $list->get_field_index("ClubworkbookName");
+        $index_id = $list->get_field_index("Id");
+        $index_date = $list->get_field_index("Date");
+        $index_description = $list->get_field_index("Description");
+        $index_ecrid = $list->get_field_index("ecrid");
+        $index_lastmodification = $list->get_field_index("LastModification");
+        
+        foreach ($rows as $row) {
+            $error_message = "";
+            $clubworkbook_name = $row[$index_clubworkbookname];
+            $id = $row[$index_id];
+            $date = $row[$index_date];
+            $description = $row[$index_description];
+            $clubworkbook_period = (isset($clubworkbook_name)) ? $efa_config->get_book_period(
+                    $clubworkbook_name, true) : false;
+            $is_delete = (strcasecmp($row[$index_lastmodification], "delete") == 0);
+            if (! $is_delete && ($clubworkbook_period !== false)) {
+                if ($clubworkbook_period["book_matched"] === false)
+                    $audit_res .= "<li>" .
+                             i("1VQeE3|The club workbook %1 is ...", $clubworkbook_name) . "</li>";
+                else {
+                    $workbook_start = $clubworkbook_period["start_time"];
+                    $workbook_end = $clubworkbook_period["end_time"];
+                    $work_date = strtotime($date);
+                    if (($work_date < $workbook_start) || ($work_date > $workbook_end)) {
+                        $error_message = "<li>" . i(
+                                "opBjzY|The club work °%1° on da...", 
+                                $description, date($dfmt_d, $entry_start), $clubworkbook_name, 
+                                date($dfmt_d, $workbook_start), date($dfmt_d, $workbook_end));
+                        $error_message .= " <a class='eventitem' id='viewrecord_" . $list->get_table_name() .
+                                 "_" . $row[$index_ecrid] . "'>" . i("4Gic54|view") . "</a>";
+                        if ($user_is_admin)
+                            $error_message .= " <a target='_blank' href='../pages/view_record.php?table=efa2clubworkbook&ecrid=" .
+                                     $row[$index_ecrid] . "'> - " . i("9aBBX0|Edit/delete in new tab") .
+                                     "</a>";
+                        $audit_res .= "</li>";
+                    }
+                    $audit_res .= $error_message;
                 }
             }
         }
-        return "";
-    }
-
-    /**
-     * Check whether system fields were set, and return an error, if not allowed for the $mode.
-     * 
-     * @param array $record_to_check
-     *            the record which shall be checked, mapped and completed.
-     * @param String $tablename
-     *            the tables name to know which fields are system and bool fields.
-     * @param int $mode
-     *            Set to mode of operations: 1 = insert, 2 = update, 3 = delimit.
-     * @return string in case of errors a String with the error message, else an empty String
-     */
-    private function check_must_not_set (array $record_to_check, String $tablename, int $mode)
-    {
-        // system fields must not be set except key fields for update
-        foreach (Efa_tables::$server_gen_fields[$tablename] as $system_field) {
-            if (isset($record_to_check[$system_field]) && (strlen($record_to_check[$system_field]) > 0)) {
-                $is_ecrid = (strcmp($system_field, "ecrid") == 0);
-                $is_uuid = (strcmp($system_field, "Id") == 0);
-                $is_key = in_array($system_field, Efa_tables::$key_fields[$tablename]);
-                // a system field is set.
-                if ($mode == 1)
-                    // for insertion this is never allowed.
-                    return "Das vom System zu definierende Feld '$system_field' darf bei neuen Datensätzen nicht gesetzt werden.";
-                if (($mode == 2) && ! $is_key && ! $is_ecrid)
-                    // for update this must be a key field
-                    return "Das vom System zu definierende Feld '$system_field' darf bei zu ändernden Datensätzen nicht gesetzt werden. " .
-                             "Nur Schlüsselfelder sind zulässig.";
-                if (($mode == 3) && ! $is_uuid)
-                    // for delimit this is only allowed for the Id field.
-                    return "Das vom System zu definierende Feld '$system_field' darf bei Abgrenzung nicht gesetzt werden. Zulässig ist nur 'Id'.";
-            }
-        }
-        return "";
-    }
-
-    /**
-     * Map boolean 'on' from forms to 'true' for efa.
-     * 
-     * @param array $record
-     *            the record which shall be checked and mapped.
-     * @param String $tablename
-     *            the tables name to know which fields are system and bool fields.
-     * @return string|array the mapped record or in case of errors a String with the error message
-     */
-    private function map_bool_fields (array $record, String $tablename)
-    {
-        // boolean fields check and mapping 'on' => 'true'
-        foreach (Efa_tables::$boolean_fields[$tablename] as $boolean_field) {
-            if (isset($record_to_map[$boolean_field]) && (strlen($record[$boolean_field]) > 0)) {
-                if (strcasecmp($record[$boolean_field], "on") == 0)
-                    $record[$boolean_field] = "true";
-                if ((strlen($boolean_field) > 0) && (strcasecmp($boolean_field, "true") !== 0) &&
-                         (strcasecmp($boolean_field, "false") !== 0))
-                    return "Das Datenfeld '$boolean_field' darf nur 'true', 'false' oder nichts enthalten.";
-            }
-        }
-        return $record;
-    }
-
-    /**
-     * Map names to Ids and extra fields ValidFromDate, InvalidFromDate to timestamps and StatusName to
-     * StatusId. Map boolean "on" values to "true".
-     * 
-     * @param array $record
-     *            the record which shall be checked and mapped.
-     * @param String $tablename
-     *            the tables name to know which fields are system and bool fields.
-     * @return string|array the mapped record or in case of errors a String with the error message
-     */
-    public function map_extra_fields (array $record, String $tablename)
-    {
-        // Map the extra date fields
-        if ((isset($record["ValidFromDate"])) && (strlen($record["ValidFromDate"]) > 0)) {
-            $record["ValidFrom"] = strtotime($this->toolbox->check_and_format_date($record["ValidFromDate"])) .
-                     "000";
-        }
-        if ((isset($record["InvalidFromDate"])) && (strlen($record["InvalidFromDate"]) > 0)) {
-            $record["InvalidFrom"] == strtotime(
-                    $this->toolbox->check_and_format_date($record["InvalidFromDate"])) . "000";
-        }
-        // Map the extra status name field
-        if (isset($record["StatusName"]) && (strlen($record["StatusName"]) > 0)) {
-            $this->build_indices(9, false); // 9 = list_id for efaAuditUUIDnames/name_status
-            if (! isset($this->ids_for_names[9][$record["StatusName"]]))
-                return "Für den Status '" . $record["StatusName"] . "' wurde keine Id gefunden.";
-            $statusId = $this->ids_for_names[9][$record["StatusName"]];
-            $record["StatusId"] = $statusId;
-        }
-        // unset all fields, even if they were empty
-        unset($record["ValidFromDate"]);
-        unset($record["InvalidFromDate"]);
-        unset($record["StatusName"]);
-        return $record;
-    }
-
-    /**
-     * Add all virtual fields which shall be system generated, like FirstLastName.
-     * 
-     * @param array $record_to_modify
-     *            the record which shall be modified in the data base and therefore get all missing system
-     *            fields.
-     * @param String $tablename
-     *            the table's name to know which fields are system fields.
-     * @return array the completed record
-     */
-    private function add_virtual_fields (array $record_to_modify, String $tablename)
-    {
-        if (strcasecmp($tablename, "efa2persons") == 0) {
-            $record_to_modify["FirstLastName"] = $record_to_modify["FirstName"] . " " .
-                     $record_to_modify["LastName"];
-        }
-        // TODO other tables.
-        return $record_to_modify;
-    }
-
-    /**
-     * Add all fields which shall be system generated, if not existing. See Efa_tables::$server_gen_fields for
-     * a list.
-     * 
-     * @param array $record_to_modify
-     *            the record which shall be modified in the data base and therefore get all missing system
-     *            fields.
-     * @param String $tablename
-     *            the table's name to know which fields are system fields.
-     * @param int $mode
-     *            Set to mode of operations: 1 = insert, 2 = update, 3 = delimit.
-     * @return string|array the mapped record or in case of errors a String with the error message
-     */
-    private function add_system_fields (array $record_to_modify, String $tablename, int $mode)
-    {
-        // add the system fields, if not existing
-        foreach (Efa_tables::$server_gen_fields[$tablename] as $sysfield) {
-            // increase the changecount, whether it is set or not.
-            if (strcasecmp($sysfield, "ChangeCount") == 0)
-                $record_to_modify[$sysfield] = (isset($record_to_modify[$sysfield])) ? intval(
-                        $record_to_modify[$sysfield]) + 1 : 1;
-            // add all other fields, if not set.
-            elseif (! isset($record_to_modify[$sysfield]) || (strlen($record_to_modify[$sysfield]) == 0)) {
-                // standard fields
-                if (strcasecmp($sysfield, "LastModified") == 0)
-                    $record_to_modify[$sysfield] = time() . "000";
-                elseif (strcasecmp($sysfield, "LastModification") == 0)
-                    $record_to_modify[$sysfield] = ($mode == 1) ? "insert" : "update";
-                // efacloud Record management fields
-                elseif (strcasecmp($sysfield, "ecrid") == 0)
-                    $record_to_modify[$sysfield] = $this->efa_tables->generate_ecrids(1)[0];
-                elseif (strcasecmp($sysfield, "ecrown") == 0)
-                    $record_to_modify[$sysfield] = $_SESSION["User"][$this->toolbox->users->user_id_field_name];
-                // UUID field
-                elseif (strcasecmp($sysfield, "Id") == 0)
-                    $record_to_modify[$sysfield] = $this->toolbox->create_GUIDv4();
-                // numeric autoincrement key fields
-                elseif (($mode == 1) && (strcasecmp($sysfield, $this->efa_tables->fixid_auto_field) == 0)) {
-                    $logbookname = (isset($record_to_modify["Logbooknme"])) ? $record_to_modify["Logbooknme"] : "";
-                    $record_to_modify[$sysfield] = $this->efa_tables->autoincrement_key_field($tablename, 
-                            $logbookname);
-                } elseif (strcasecmp($sysfield, "AllCrewIds") == 0)
-                    // AllCrewIds field in logbook
-                    $record_to_modify[$sysfield] = $this->efa_tables->create_AllCrewIds_field(
-                            $record_to_modify);
-                // a persons full name
-                elseif (strcasecmp($sysfield, "FirstLastName") == 0)
-                    $record_to_modify[$sysfield] = $record_to_modify["FirstName"] . " " .
-                             $record_to_modify["LastName"];
-            }
-        }
-        return $record_to_modify;
-    }
-
-    /**
-     * Validate a version of a versionized record and find any existing record matching.
-     * 
-     * @param int $list_id
-     *            the id of the list within the set "../config/lists/efaAuditUUIDnames" which shall be used to
-     *            identify the most recent record version.
-     * @param array $version_record
-     *            the record to insert as new, update as existing or insert as new version
-     * @param int $mode
-     *            Set 1 for insert, 2 for update, 3 for delimiting.
-     * @param bool $force_refresh
-     *            set true to force an index refresh, even if the index was already build.
-     * @return String an error message for user display on all errors, else an empty String.
-     */
-    private function select_existing_record (int $list_id, array $version_record, int $mode, 
-            bool $force_refresh)
-    {
-        // Check whether the object in question exists. Use the UUID, if given, or resolve the name else
-        // =============================================================================================
-        $this->build_indices($list_id, $force_refresh);
-        $tablename = $this->table_names[$list_id];
-        $use_uuid = ((isset($version_record["Id"])) && (strlen($version_record["Id"]) > 0));
-        if ($use_uuid) {
-            $existing_uuid = (isset($this->invalidFroms_per_ids[$list_id][$version_record["Id"]])) ? $version_record["Id"] : null;
-        } else {
-            $name = $this->efa_tables->get_name($tablename, $version_record);
-            $existing_uuid = $this->ids_for_names[$list_id][$name];
-        }
-        // for update and delimit now settle the record to use.
-        if (! is_null($existing_uuid) && (strlen($existing_uuid) > 5)) {
-            $version_record["ecrid"] = $this->ecrids_per_ids[$list_id][$existing_uuid];
-            // for updates add also the Id to avoid that it removed.
-            $version_record["Id"] = $existing_uuid;
-        }
+        $audit_res .= "</ul>";
         
-        // Check whether the record existance fits to the intended operation
-        // =================================================================
-        $error_rpefix = ($use_uuid) ? "Ein Objekt mit der Id '" . $version_record["Id"] .
-                 "' gibt es in $tablename" : "Ein Objekt mit dem Namen " . $name . " gibt es in $tablename";
-        if ($mode == 1) {
-            if (! is_null($existing_uuid))
-                return $error_rpefix .
-                         " bereits ($existing_uuid = $name). Es kann nicht erneut angelegt werden.";
-        } elseif ($mode == 2) {
-            if (is_null($existing_uuid) || (strlen($existing_uuid) < 5))
-                return $error_rpefix . " noch nicht. Es kann nicht aktualisiert werden.";
-            $invalidFrom = $this->invalidFroms_per_ids[$list_id][$existing_uuid];
-            if (time() > $invalidFrom)
-                return $error_rpefix .
-                         ", es hat aber keinen aktuell güligen Datensatz mehr. Es kann nicht aktualisiert werden.";
-        } elseif ($mode == 3) {
-            if (is_null($existing_uuid))
-                return $error_rpefix . " noch nicht. Es kann nicht abgegrenzt werden.";
-        }
-        return $version_record;
-    }
-
-    /**
-     * Validate a version of a versionized record and replace names by Ids. Ensure existance, uniqueness,
-     * look-up and syntactical validity. For update: Ensure uniqueness of first/last name, validity of status,
-     * gender, and email, if provided. StatusName will then be mapped to StatusId, ValidFromDate to ValidFrom
-     * and InvalidFromDate to InvalidFrom. StatusName, ValidFromDate and InvalidFromDate will be unset.
-     * 
-     * @param int $list_id
-     *            the id of the list within the set "../config/lists/efaAuditUUIDnames" which shall be used to
-     *            identify the most recent record version.
-     * @param array $version_record
-     *            the record to insert as new, update as existing or insert as new version
-     * @param int $mode
-     *            Set 1 for insert, 2 for update, 3 for delimiting.
-     * @param bool $force_refresh
-     *            set true to force an index refresh, even if the index was already build.
-     * @param bool $execute
-     *            set true to execute the modification in the data base, false to only check.
-     * @return String an error message for user display on all errors, else an empty String.
-     */
-    public function modify_version (int $list_id, array $version_record, int $mode, bool $force_refresh, 
-            bool $execute)
-    {
-        
-        // Check whether the object in question exists. Use the UUID, if given, or resolve the name else
-        // =============================================================================================
-        $version_record = $this->select_existing_record($list_id, $version_record, $mode, $force_refresh);
-        if (! is_array($version_record))
-            return $version_record;
-        $this->build_indices($list_id, false);
-        $tablename = $this->table_names[$list_id];
-        if ($mode == 3)
-            unset($version_record["ecrid"]);
-        
-        // Map boolean and extra fields
-        // ============================
-        $version_record = $this->map_bool_fields($version_record, $tablename);
-        if (! is_array($version_record))
-            return $version_record;
-        $version_record = $this->map_extra_fields($version_record, $tablename);
-        if (! is_array($version_record))
-            return $version_record;
-        
-        // Check version validity for versionized tables
-        // =============================================
-        if (isset($version_record["ValidFrom"]) && (strlen($version_record["ValidFrom"]) > 0)) {
-            if ($mode == 2)
-                return "Die Angabe eines Gültigkeitsstarts ist für Änderungen nicht zulässig.";
-        } else {
-            if ($mode == 3)
-                return "Für die Abgrenzung ist die Angabe des Gültigkeitsstarts nach Abgrenzung erforderlich.";
-        }
-        if (($mode == 1) || ($mode == 3)) {
-            if (isset($version_record["InvalidFrom"]) && (strlen($version_record["InvalidFrom"]) > 0) &&
-                     (strcmp($version_record["InvalidFrom"], $this->efa_tables->forever64) != 0))
-                return "Für neue Objekte darf die Gültigkeit nicht begrenzt werden. Dazu dient die Abgrenzung bei bestehenden Objekten.";
-            // add the ValidFrom and InvalidFrom timestamps.
-            if (! isset($version_record["ValidFrom"]) || (strlen($version_record["ValidFrom"]) == 0))
-                $version_record["ValidFrom"] = time() . "000";
-            $version_record["InvalidFrom"] = $this->efa_tables->forever64;
-        }
-        
-        // check data uniqueness and completeness
-        // ======================================
-        $data_completeness = $this->check_unique_and_not_empty($version_record, $tablename, $mode);
-        if (strlen($data_completeness) > 0)
-            return $data_completeness;
-        $must_not_be_set = $this->check_must_not_set($version_record, $tablename, $mode);
-        if (strlen($must_not_be_set) > 0)
-            return $must_not_be_set;
-        
-        // check data correctness
-        // ======================
-        if (isset($version_record["Gender"]) && (strcasecmp($version_record["Gender"], "MALE") != 0) &&
-                 (strcasecmp($version_record["Gender"], "FEMALE") != 0))
-            return "Das Geschlecht muss entweder 'MALE' oder 'FEMALE' sein.";
-        if (isset($version_record["Email"]) && (strlen($version_record["Email"]) > 0)) {
-            if (filter_var($version_record["Email"], FILTER_VALIDATE_EMAIL) === false)
-                return "Die Angabe " . $version_record["Email"] . " stellt keine gültige E-Mail-Adresse dar.";
-        }
-        
-        // all checks completed, add the system fields, including the UUID for insertion
-        // =============================================================================
-        $version_record = $this->add_virtual_fields($version_record, $tablename);
-        $version_record = $this->add_system_fields($version_record, $tablename, $mode);
-        if (! is_array($version_record))
-            return $version_record;
-        
-        if ($execute) {
-            $appUserID = $_SESSION["User"][$this->toolbox->users->user_id_field_name];
-            if (($mode == 1) || ($mode == 3)) {
-                $insert_result = $this->socket->insert_into($appUserID, $tablename, $version_record);
-                if (! is_numeric($insert_result))
-                    return "Datenbankfehler. Die Version des Objekts " . $version_record["Id"] .
-                             " konnte nicht hinzugefügt werden: " . $insert_result;
-            } elseif ($mode == 2) {
-                $update_result = $this->socket->update_record_matched($appUserID, $tablename, 
-                        ["ecrid" => $version_record["ecrid"]
-                        ], $version_record);
-                if (strlen($update_result) > 0)
-                    return "Datenbankfehler. Die Version des Objekts " . $version_record["Id"] .
-                             " konnte nicht aktualisiert werden: " . $update_result;
-            }
-        }
-        return "";
-    }
-
-    /**
-     * Set the InvalidFrom of the most recent version of a versionized object to the provided $validityLimit
-     * (the record in the data base is changed). Returns a copy of this most recent version record, in which
-     * the ValidFrom is set to $validityLimit and the InvalidFrom to "$efa_tables->forever64". This works for
-     * the most recent version, regardless on whether it is still valid or not. It may therefore reopen a
-     * previously invalidated most recent version.
-     * 
-     * @param int $list_id
-     *            the id of the list within the set "../config/lists/efaAuditUUIDnames" which shall be used to
-     *            identify the most recent record version.
-     * @param array $new_version_record
-     *            the new version of the versionized record to delimit. It must contain EITHER the
-     *            FirstLastName (person) / the Name (other) of the object OR the UUID to locate the most
-     *            recent record of the object. If both name and Id are provided, the Id is used and the name
-     *            ignored.
-     * @param String $validityLimit
-     *            the limit to use. If this is not larger than the most recent version's ValidFrom, an error
-     *            will be returned.
-     * @param bool $force_refresh
-     *            set true to force a refeesh, even if the index was already build.
-     * @param bool $execute
-     *            set true to execute the modification in the data base, false to only check.
-     * @return the full record without system fields, updated to reflect the new version (array) or an error
-     *         message for user display (String).
-     */
-    public function delimit_version (int $list_id, array $new_version_record, String $validityLimit, 
-            bool $force_refresh, bool $execute)
-    {
-        $mode = 3;
-        // Check whether the object in question exists. Use the UUID, if given, or resolve the name else
-        // =============================================================================================
-        $version_record = $this->select_existing_record($list_id, $new_version_record, $mode, $force_refresh);
-        if (! is_array($version_record))
-            return $version_record;
-        $this->build_indices($list_id, false);
-        $tablename = $this->table_names[$list_id];
-        $existing_uuid = $version_record["Id"];
-        $ecrid = $version_record["ecrid"];
-        
-        // Get the record
-        $name = $this->efa_tables->get_name($tablename, $version_record);
-        if (is_null($ecrid))
-            return "Zum Objekt mit dem Namen " . $name .
-                     " konnte die efacloud Record Id  in $tablename nicht gefunden werden (ecrid). Es kann daher nicht abgegrenzt werden.";
-        $record = $this->socket->find_record("efa2persons", "ecrid", $ecrid);
-        if ($record === false)
-            return "Zum Objekt mit dem Namen " . $name .
-                     " konnte der Datensatz mit der neuesten Version in $tablename nicht gefunden werden. Es kann daher nicht abgegrenzt werden.";
-        // check the validity limit.
-        $current_valid_from32 = (is_null($record["ValidFrom"])) ? 0 : $this->efa_tables->value_validity32(
-                $record["ValidFrom"]);
-        $new_invalid_from32 = $this->efa_tables->value_validity32($validityLimit);
-        if ($new_invalid_from32 <= $current_valid_from32)
-            return "Zum Objekt mit dem Namen " . $name .
-                     "in $tablename beginnt die Gültigkeit der neuesten Version (" . $current_valid_from32 .
-                     ") nach der geforderten Abgrenzung (" . $new_invalid_from32 .
-                     "). Es kann daher nicht abgegrenzt werden.";
-        
-        // Delimit the record
-        $record["InvalidFrom"] = $validityLimit;
-        $record["ChangeCount"] = intval($record["ChangeCount"]) + 1;
-        $record["LastModification"] = "update";
-        $record["LastModified"] = time() . "000";
-        $appUserID = $_SESSION["User"][$this->toolbox->users->user_id_field_name];
-        if ($execute) {
-            $delimit_success = $this->socket->update_record_matched($appUserID, $tablename, 
-                    ["ecrid" => $ecrid
-                    ], $record);
-            if (strlen($delimit_success) > 0)
-                return "Zum Objekt mit dem Namen " . $name .
-                         "in $tablename konnte in der Datenbank nicht abgegrenzt werden: " . $delimit_success;
-        }
-        
-        // adjust the validity
-        $record["ValidFrom"] = $validityLimit;
-        $record["InvalidFrom"] = $this->efa_tables->forever64;
-        // copy the changed values
-        foreach ($new_version_record as $key => $new_value)
-            $record[$key] = $new_value;
-        // remove all system generated fields, except the Id, because the record will be insterted as new.
-        foreach (Efa_tables::$server_gen_fields[$tablename] as $sysfield)
-            if (strcmp($sysfield, "Id") != 0)
-                unset($record[$sysfield]);
-        return $record;
+        return $audit_res;
     }
 }

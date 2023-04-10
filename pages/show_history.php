@@ -9,37 +9,54 @@
 $user_requested_file = __FILE__;
 include_once "../classes/init.php";
 
-$search_result_index = (isset($_SESSION["getps"][$fs_id]["searchresultindex"])) ? intval(
-        $_SESSION["getps"][$fs_id]["searchresultindex"]) : 0;
-if ($search_result_index == 0)
-    $toolbox->display_error("Nicht zulässig.", 
-            "Die Seite '" . $user_requested_file .
-                     "' muss als Folgeseite von Datensatz finden aufgerufen werden.", $user_requested_file);
-$tablename = (isset($_SESSION["efa2table"])) ? $_SESSION["efa2table"] : ((isset(
-        $_SESSION["search_result"]["tablename"])) ? $_SESSION["search_result"]["tablename"] : "");
-$search_result = $_SESSION["search_result"][$search_result_index];
+$ecrid = (isset($_GET["ecrid"])) ? $_GET["ecrid"] : false;
+$tablename = (isset($_GET["table"])) ? $_GET["table"] : false;
+$restore = (isset($_GET["restore_version"])) ? intval($_GET["restore_version"]) : 0;
+$record = $socket->find_record($tablename, "ecrid", $ecrid);
+$modify_result = "";
+
+// restore a version, if requested.
+if ($restore > 0) {
+    // cache the history
+    $history = $record["ecrhis"];
+    // clear the record and build anew
+    include_once "../classes/efa_record.php";
+    $record = Efa_record::clear_record_for_delete($tablename, $record);
+    // first restore the history
+    $record["ecrhis"] = $history;
+    // now rebuild the record
+    $versions = $socket->get_history_array($history);
+    $record_version = [];
+    foreach ($versions as $version)
+        if ($version["version"] <= $restore)
+            $record_version = array_merge($record_version, $version["record_version"]);
+    if (isset($record_version["ecrid"]) && (strcasecmp($record_version["ecrid"], $record["ecrid"]) == 0)) {
+        include_once "../classes/efa_tables.php";
+        $record_version = Efa_tables::register_modification($record_version, time(), 
+                $record_version["ChangeCount"], "update");
+        include_once "../classes/efa_record.php";
+        $efa_record = new Efa_record($toolbox, $socket);
+        $modify_result = $efa_record->modify_record($tablename, $record_version, 2, 
+                $_SESSION["User"][$toolbox->users->user_id_field_name], false);
+        $record = $socket->find_record($tablename, "ecrid", $ecrid);
+    }
+}
 
 // ===== start page output
 echo file_get_contents('../config/snippets/page_01_start');
 echo $menu->get_menu();
 echo file_get_contents('../config/snippets/page_02_nav_to_body');
 
-?>
-<!-- START OF content -->
-<div class="w3-container">
-	<h2>Versionsverlauf eines Datensatzes</h2>
-	<p>Die Versionen sind neueste zuerst aufgeführt, jeweils nur die in der
-		Version gegenüber der Vorversion veränderten Datenfelder. Verwendung
-		gestattet nur zum geregelten Zweck.</p>
-	<h4>Aus der Tabelle '<?php echo $tablename ?>'</h4>
-<?php
-if (isset($search_result["ecrhis"]))
-    echo $socket->get_history_html($search_result["ecrhis"]);
+echo i("Z7mnAX| ** Version history of a...", $tablename);
+if (strlen($modify_result) > 0)
+    echo "<h5>" . i("f8865P|Version V%1 of the recor...", $restore, $tablename, $ecrid) . " " . $modify_result .
+             "<h5>";
+if ($record === false)
+    echo i("GkURzg|The record in table °%1°...", $tablename, $ecrid);
+if (isset($record["ecrhis"]))
+    echo $socket->get_history_html($record["ecrhis"], 
+            "../pages/show_history.php?table=" . $tablename . "&ecrid=" . $ecrid);
 else
-    echo "Leider ist für diesen Datensatz keine Historie vorhanden.";
-?>
-	<!-- END OF Content -->
-</div>
-
-<?php
+    echo i("pH7Sis|Unfortunately, there is ...");
+echo i("Uo3OuT|<!-- END OF Content -->...");
 end_script();

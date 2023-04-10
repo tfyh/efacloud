@@ -1,7 +1,7 @@
 <?php
 /**
- * The form for upload and import of multiple data records as csv-tables. Based on the Tfyh_form class, please read
- * instructions their to better understand this PHP-code part.
+ * The form for upload and import of multiple data records as csv-tables. Based on the Tfyh_form class, please
+ * read instructions their to better understand this PHP-code part.
  * 
  * @author mgSoft
  */
@@ -10,6 +10,10 @@
 $idnames = ["efa2autoincrement" => "Sequence","efa2boatstatus" => "BoatId","efa2clubwork" => "Id",
         "efa2crews" => "Id","efa2fahrtenabzeichen" => "PersonId","efa2messages" => "MessageId",
         "efa2sessiongroups" => "Id","efa2statistics" => "Id","efa2status" => "Id","efa2waters" => "Id"
+];
+// compare "nutzer_aendern.php::$uniques"
+$uniques = ["efaCloudUsers" => ["efaCloudUserID","efaAdminName","EMail"
+]
 ];
 
 // ===== initialize toolbox and socket and start session.
@@ -42,19 +46,49 @@ if ($done > 0) {
             // Special case upload error. Userfile can not be checked after
             // being entered, must be checked
             // after upload was tried.
-            $form_errors .= "Keine Datei angegeben. bitte noch einmal versuchen.";
+            $form_errors .= i("mYd52x|No file specified. Pleas...");
         } else {
             $tmp_upload_file = file_get_contents($_FILES['userfile']["tmp_name"]);
             if (! $tmp_upload_file)
-                $form_errors .= "Unbekannter Fehler beim Hochladen. bitte noch einmal versuchen.";
+                $form_errors .= i("xJsUjf|Unknown error during upl...");
             else {
                 $_SESSION["io_file"] = $_FILES['userfile']["name"];
                 $_SESSION["io_table"] = $entered_data["Tabelle"];
-                file_put_contents("../log/io/" . $_SESSION["io_file"], $tmp_upload_file);
+                $tfilename = "../log/io/" . $_SESSION["io_file"];
+                file_put_contents($tfilename, $tmp_upload_file);
+                
+                // unique fields check
+                $tablename = $_SESSION["io_table"];
+                $import_result = "";
+                if (isset($uniques[$tablename]) && is_array($uniques[$tablename]) &&
+                         (count($uniques[$tablename]) > 0)) {
+                    $records = $toolbox->read_csv_array($tfilename);
+                    $r = 0;
+                    foreach ($records as $record) {
+                        $r ++;
+                        $id_this_record = (isset($record["ID"]) && (strlen($record["ID"]) > 0)) ? intval(
+                                $record["ID"]) : 0;
+                        foreach ($uniques[$tablename] as $unique_field) {
+                            $matching = (isset($record[$unique_field])) ? $socket->find_records_matched(
+                                    $tablename, 
+                                    [$unique_field => $record[$unique_field]
+                                    ], 2) : false;
+                            if ($matching !== false) {
+                                foreach ($matching as $mrecord) {
+                                    if (intval($mrecord["ID"]) != $id_this_record)
+                                        $import_result .= i("iU8UQg|#Line %1 The data field ...", $r, 
+                                                $unique_field, $mrecord["ID"]) . "<br>";
+                                }
+                            }
+                        }
+                    }
+                }
+                
                 // do import verification
-                $import_result = $socket->import_table_from_csv(
-                        $_SESSION["User"][$toolbox->users->user_id_field_name], $_SESSION["io_table"], 
-                        "../log/io/" . $_SESSION["io_file"], true, $idname);
+                if (strlen($import_result) == 0)
+                    $import_result .= $socket->import_table_from_csv(
+                            $_SESSION["User"][$toolbox->users->user_id_field_name], $tablename, $tfilename, 
+                            true, $idname);
                 // only move on, if import did not return an error.
                 if (strcmp(substr($import_result, 0, 1), "#") != 0)
                     $todo = $done + 1;
@@ -88,62 +122,23 @@ echo $menu->get_menu();
 echo file_get_contents('../config/snippets/page_02_nav_to_body');
 
 // page heading, identical for all workflow steps
-?>
-<!-- START OF content -->
-<div class="w3-container">
-	<h3>Tabelle importieren</h3>
-	<p>Hier kann eine Tabelle der Datenbank importiert werden.</p>
-<?php
+echo i("Yxab32| ** Import table ** Here...");
 if ($todo == 1) { // step 1. Texts for output
-    ?>
-	<p>Beim Import muss in jedem Datensatz die ID angegeben sein.
-		Datensätze, die eine bestehende ID haben, werden überschrieben. Alle
-		Felder der Tabelle, die einem Feld in der Datenbanktabelle
-		entsprechen, werden überschrieben, also auch ggf. gelöscht.
-		Datensätze, die eine neue ID haben, werden neu angelegt.</p>
-	<p>Zu importierenden Tabellen müssen in der ersten Zeile die Feldnamen
-		der Datenbanktabelle ausweisen, Groß-Klein-Schreibung ist relevant.
-		Werden ungültige Feldnamen verwendet, kann der Import nicht
-		stattfinden. Zu importierenden Tabellen, die aus genau einer Spalte
-		bestehen, in der die ID steht, führen zum Löschen der kompletten
-		Datensätze mit der jeweiligen ID.</p>
-	<p>Im ersten Schritt wird die Tabelle hochgeladen und geprüft. Im
-		zweiten Schritt findet der Import statt. Dieser muss explizit
-		bestätigt werden.</p>
-		<?php
+    echo i("Bi1XKi| ** When importing, the ...");
     echo $toolbox->form_errors_to_html($form_errors);
     echo $form_to_fill->get_html(true); // enable file upload
-    echo '<h5><br />Ausfüllhilfen</h5><ul>';
     echo $form_to_fill->get_help_html();
-    echo "</ul>";
 } elseif ($todo == 2) { // step 2. Texts for output
-    ?>
-	<p>Der Datei-Upload war erfolgreich. Im Folgenden ist dargestellt, was
-		importiert wird. Bitte achte auf den Hinweis auf Importfehler, denn
-		das ist in der Regel ein Zeichen dafür, dass mit der Upload-Datei
-		irgendetwas nicht stimmt.</p>
-	<p>Im nächsten Schritt wird die Tabelle hochgeladen und so, wie
-		dargestellt, importiert. Bitte bestätige, dass der Import durchgeführt
-		werden soll.</p>
-		<?php
+    echo i("MSsBTV| ** The file upload was ...");
     // no form errors possible at this step. just a button clicked.
     echo $import_result;
-    echo $form_to_fill->get_html(false);
-    echo '<h5><br />Ausfüllhilfen</h5><ul>';
+    echo $form_to_fill->get_html();
     echo $form_to_fill->get_help_html();
-    echo "</ul>";
 } elseif ($todo == 3) { // step 3. Texts for output
     echo $import_result;
-    ?>
-	<p>
-		Der Datei-Import wurde durchgeführt. <br /> <a
-			href="../pages/mein_profil.php">Hier</a> geht es zurück zur
-		persönlichen Startseite.
-	</p>
-<?php
+    echo i("jKbHGN| ** The file import was ...");
 }
 
 // Help texts and page footer for output.
-?>
-</div><?php
+echo "</div>";
 end_script();

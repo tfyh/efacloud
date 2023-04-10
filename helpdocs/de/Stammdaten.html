@@ -1,0 +1,27 @@
+<h3>Stammdaten von Verein und Projekt</h3>
+<p>Das PC-Programm efa hält in seiner Konfiguration die Stammdaten
+	des Vereins in seinem Projekt-Datensatz. Ab efa 2.3.2_01 werden diese
+	Daten auch durch efaCloud genutzt. Daneben gibt es noch Daten, die
+	spezifisch für efaCloud verwendet werden.</p>
+<h4>Referenz-Client</h4>
+<p>Auch wenn es in der Regel so ist, kann doch nicht sicher davon
+	ausgegangen werden, dass alle efa-PCs die an einen efaCloud Server
+	angebunden werden, dieselbe Konfiguration haben.</p>
+<p>Deswegen muss ein efa-PC angegeben werden, dessen Konfiguration
+	als Referenz für efaCloud dient. Dazu ist die efaCloudUserID dieses
+	efa-PCs in den Konfigurationsparametern von efaCloud. Die Daten werden
+	bei jedem efa-Neustart an den efaCloud Server übermittelt und dort im
+	Rahmen der täglichen Wartungsläufe ausgewertet. Eine Änderung kann also
+	zwei Tage brauchen, bis sie wirkt.</p>
+<p>Wenn kein Referenz-Client angegeben ist, wird der erste Client,
+	der sich verbindet, als Referenzclient verwendet.</p>
+<h4>Spezielle efaCloud Server Stammdaten</h4>
+<p>Der efaCloud Server versendet Mails, deswegen sind die Stammdaten
+	für diese Mails dort zu pflegen: die Unterschrift, eine zusätzliche
+	Fußzeile, der Absender und die Abkürzung, die in [] der Betreffzeile
+	vorweggesetzt wird.</p>
+<h4>Spezielle efaCloud Server Stammdaten bis 2.3.2_00</h4>
+<p>Bevor die Referenz-Client-Konfiguration verfürbar war, konnte das
+	aktuelle Fahrtenbuch, welches für den Versand des persönlichen
+	Fahrtenbuchs zu Grunde gelegt wird, und der Beginn des Sportjahres in
+	efaCloud festgelegt werden.</p>

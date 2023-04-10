@@ -1,0 +1,13 @@
+tags;required;name;value;label;type;class;size;maxlength
+<span id='vSpanSystemData'><div class='w3-row'><div class='w3-col l3'>;;Sequence;;HmXvbp|Counter for;text;display-bold;90%;20
+</div><div class='w3-col l3'>;;ecrid;;YWdMWp|unique record reference ...;text;display-bold;90%;20
+</div></div><div class='w3-row'><div class='w3-col l3'>;;LastModified;;yXxn29|last modified on;text;display-bold;90%;20
+</div><div class='w3-col l3'>;;ChangeCount;;YsPjcR|Version (change counter);text;display-bold;90%;20
+</div><div class='w3-col l3'>;;LastModification;;EgJpL1|Type of last change;text;display-bold;90%;20
+</div></div><div class='w3-row'><div class='w3-col l1'><hr>;;_no_input;;;;;
+</div></div></span><div class='w3-row'><div class='w3-col l2'>;;IntValue;;;text;;10;12
+</div><div class='w3-col l2'>;;LongValue;;;text;;18;30
+</div></div>;;_no_input;;;;;;
+<li><span class='helptext'>;;_help_text;;DVJZn1|System counters cannot b...;;;;
+</span></li><li><span class='helptext'>;;_help_text;;mSiGMf|For technical reasons, t...;;;;
+</span></li>;;_help_text;;;;;;

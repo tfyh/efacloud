@@ -10,41 +10,48 @@ $user_requested_file = __FILE__;
 include_once "../classes/init.php";
 
 // identify client for statistics to show
-$server_log = (isset($_GET["serverLog"])) ? intval($_GET["serverLog"]) : - 1;
+$type = (isset($_GET["type"])) ? intval($_GET["type"]) : 1;
 $client_id = (isset($_GET["clientID"])) ? intval($_GET["clientID"]) : - 1;
 if ($client_id >= 0)
     $client_record = $socket->find_record($toolbox->users->user_table_name, 
             $toolbox->users->user_id_field_name, $client_id);
 else
     $client_record = false;
-
-if ($server_log == 99)
-    $toolbox->return_file_to_user($toolbox->logger->zip_logs(), "application/zip");
+$files_to_show = [1 => "efacloud.log",2 => "synchErrors.log",3 => "auditinfo.txt"
+];
+$file_to_show = $files_to_show[$type];
 
 // ===== start page output
 echo file_get_contents('../config/snippets/page_01_start');
 echo $menu->get_menu();
 echo file_get_contents('../config/snippets/page_02_nav_to_body');
 
-?>
-<!-- START OF content -->
-<div class="w3-container">
-	<?php
+echo i("WlX6QJ|<!-- START OF content -..."); 
+
 if ($client_record !== false) {
-    $filename = "../uploads/" . $client_id . "/efacloud.log";
-    echo "<h3>Client #" . $client_id . " (" . $client_record["Vorname"] . " " . $client_record["Nachname"] .
-             ")</h3><p>";
-    echo "<h5>Ausgabe der zuletzt hochgeladenen Log-Datei 'efacloud.log'</h5>";
-    echo "<p>Hochgeladen: " . date("Y-m-d H:i:s", filectime($filename)) . "</p>";
-    echo "<code>" . str_replace("\n", "<br>", file_get_contents($filename)) . "</code>";
+    $filename = "../uploads/" . $client_id . "/$file_to_show";
+    echo "<h3>" . i("A8OMxk|Client") . " #" . $client_id . " (" . $client_record["Vorname"] . " " .
+             $client_record["Nachname"] . ")</h3><p>";
+    echo "<h5>" . i("MBZSgY|Output of the last uploa...") . "'$file_to_show'</h5>";
+    echo "<p>" . i("chH4U9|Uploaded:") . " " . date("Y-m-d H:i:s", filectime($filename)) . "</p>";
+    $contents = "";
+    if (file_exists($filename . ".previous"))
+        $contents .= file_get_contents($filename . ".previous");
+    $contents .= file_get_contents($filename);
+    $lines = explode("\n", trim($contents));
+    echo "<ul>";
+    if ($type == 3) {
+        for ($l = 0; $l < count($lines); $l ++)
+            echo "<li>" . $lines[$l] . "</li>";
+    } else {
+        for ($l = count($lines) - 1; $l >= 0; $l --)
+            if (strlen($lines[$l]) > 0)
+                echo "<li>" . $lines[$l] . "</li>";
+    }
+    echo "</ul>";
 } else {
-    echo "<h4>Diese Seite wurde ohne Angabe der Client-ID aufgerufen.</h4><p>";
+    echo "<h4>".i("fudXmI|This page was accessed w...")."</h4><p>";
 }
 echo "</p>";
-
-?>
-</div>
-<!-- END OF Content -->
-
-<?php
+echo i("ToJ4AJ|</div><!-- END OF Cont..."); 
 end_script();

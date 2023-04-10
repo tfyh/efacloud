@@ -1,0 +1,20 @@
+tags;required;name;value;label;type;class;size;maxlength
+<span id='vSpanSystemData'><div class='w3-row'><div class='w3-col l3'>;;Id;;hNFMUF|object Id;text;display-bold;90%;36
+</div><div class='w3-col l3'>;;ecrid;;Q24ykn|unique record reference ...;text;display-bold;90%;20
+</div></div><div class='w3-row'><div class='w3-col l3'>;;LastModified;;OEfcur|last modified on;text;display-bold;90%;20
+</div><div class='w3-col l3'>;;ChangeCount;;wBg0wK|Version (change counter);text;display-bold;90%;20
+</div><div class='w3-col l3'>;;LastModification;;ChM90G|Type of last change;text;display-bold;90%;20
+</div></div><div class='w3-row'><div class='w3-col l1'><hr>;;_no_input;;;;;
+</div></div></span><div class='w3-row'><div class='w3-col l2'>;;Logbook;;tAZZwi|Logbook;text;;20;50
+</div><div class='w3-col l2'>;;Name;;fRvtL4|Designation of the tour;text;;20;50
+</div></div><div class='w3-row'><div class='w3-col l2'>;;Route;;gtLFK0|Route;text;;20;50
+</div><div class='w3-col l2'>;;Organizer;;Zt0ZqG|Responsible (name);text;;20;50
+</div></div><div class='w3-row'><div class='w3-col l2'>;;StartDate;;dnQznW|Start on;date;;10;20
+</div><div class='w3-col l2'>;;EndDate;;uE7sbD|End on;date;;10;20
+</div></div><div class='w3-row'><div class='w3-col l2'>;;ActiveDays;;A3XyqV|Active days (number);text;;10;12
+</div></div><div class='w3-row'><div class='w3-col l1'> <br>;;submit;iBsIQ6|Modify now;;submit;formbutton;;
+</div></div>;;_no_input;;;;;;
+<li><span class='helptext'>;;_help_text;;wv7nF9|The data change takes ef...;;;;
+</span></li><li><span class='helptext'>;;_help_text;;73XuU8|For technical reasons, t...;;;;
+</span></li><li><span class='helptext'>;;_help_text;;YXLkt7|Data records with type o...;;;;
+</span></li>;;_help_text;;;;;;
