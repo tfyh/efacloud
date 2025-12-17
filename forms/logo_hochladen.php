@@ -85,5 +85,5 @@ if ($todo == 1) { // step 1. Texts for output
              "<br><a href='../forms/logo_hochladen.php'>" . i("PfOrhR|Change club logo") . "</a></p>";
 }
 // page footer for output.
-echo i("VLBFN0|</div>"); 
+echo "</div>"; 
 end_script();

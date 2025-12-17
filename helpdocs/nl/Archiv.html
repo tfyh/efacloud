@@ -1,0 +1,43 @@
+<h3>The efaCloud archive</h3>
+<p>EfaCloud archives data that exceeds a certain age. The archiving
+	serves as a preliminary stage to a deletion procedure in the sense of
+	the of the EU General Data Protection Regulation, whereby the data is
+	initially not deleted and not removed from the application. A real
+	deletion is not carried out.</p>
+<p>The deletion from the archive is planned in a second step, once
+	archiving has established itself as a procedure and runs reliably in
+	the software. in the software.</p>
+<h4>Archived data</h4>
+<p>Records are archived on the tables: Boat Damages
+	(efa2boatdamages), boat reservations (efa2boatreservations), clubwork
+	(efa2clubwork), logbook (efa2logbook), messages (efa2messages) and
+	persons (efa2persons). The remaining tables from efa do not contain any
+	personal data and therefore do not require therefore no deletion
+	procedure.</p>
+<p>Individual data records or, in the case of persons, all
+	associated versions or validity periods are archived. associated
+	versions or validity periods.</p>
+<p>For the boat damage and persons tables, the archive references
+	are references are permanently preserved, for the other tables they are
+	marked for deletion. In the archive reference of the boat damage table
+	the damage description is retained because it does not contain personal
+	data (as a rule), but is relevant for the boat's damage history of the
+	boat.
+<h4>Configuration</h4>
+<p>For each table it can be set from which age a data record or an
+	object (only for persons) should be archived. The cut-off date relevant
+	for the age is at:</p>
+<ul>
+	<li>Boat damage: Report date (ReportDate)</li>
+	<li>Boat reservations: Start Date (DateFrom)</li>
+	<li>Club work, logbook, messages: Event Date, Start (Date)</li>
+	<li>Persons: the date on which the most recent validity period
+		ends (InvalidFrom)</li>
+</ul>
+<h4>Recovery</h4>
+<p>Archive data can be restored per table, specifying the age of the
+	archive. specify the maximum age of the archive records to be restored.
+	are to be restored. Alternatively, all archive data of a table can be
+	restored.</p>
+<h4>Authorisation</h4>
+<p>Archive transactions are only possible in the admin role.</p>

@@ -1,5 +1,26 @@
 <?php
 /**
+ *
+ *       the tools-for-your-hobby framework
+ *       ----------------------------------
+ *       https://www.tfyh.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ */
+
+/**
  * The form for changing the application configuration parameter. Based on the Tfyh_form class, please read
  * instructions their to better understand this PHP-code part.
  * 
@@ -54,7 +75,11 @@ echo $menu->get_menu();
 echo file_get_contents('../config/snippets/page_02_nav_to_body');
 
 // page heading, identical for all workflow steps
-echo i("E4weTW| ** Change configuration...");
+echo "<!-- START OF content -->\n<div class='w3-container'>\n";
+echo "<h3>" . i("elJM8q|Change configuration par...") . "</h3>";
+echo "<p>" .
+         i("VL3y28|Change the application c...", 
+                "<b><i><a href='../forms/farben_aendern.php'>" . i("jNyppd|possible here") . "</a></i></b>") . "</p>";
 echo $toolbox->form_errors_to_html($form_errors);
 if ($todo == 1) {
     echo $form_to_fill->get_html();
@@ -65,5 +90,5 @@ if ($todo == 2) {
     echo "<p>" . i("AGFCdm|Note: language settings ...") . "</p>";
     echo "<p><a href='../pages/home.php' class='formbutton'>" . i("3oww70|continue") . "</a></p>";
 }
-echo i("LSoAtS|</div>");
+echo "</div>";
 end_script();

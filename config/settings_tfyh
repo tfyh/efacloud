@@ -46,9 +46,9 @@ default.PersonsAgeDays=1810
 default.PurgeDeletedAgeDays=365
 
 # module init.php
-init.max_inits_per_hour=3000
+init.max_inits_per_hour=5000
 init.max_errors_per_hour=100
-init.max_concurrent_sessions=25
+init.max_concurrent_sessions=50
 init.max_session_duration=86400
 init.max_session_keepalive=600
 

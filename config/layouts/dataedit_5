@@ -57,14 +57,14 @@ tags;required;name;value;label;type;class;size;maxlength
 </div></div><div class='w3-row'><div class='w3-col l2'>;;DefaultDestinationId;;ROnbpI|Standard destination;text;;90%;50
 </div></div><div class='w3-row'><div class='w3-col l1'>;;_no_input;;iAJ3Mj| ** Inventory data ** ;;;
 </div></div><div class='w3-row'><div class='w3-col l2'>;;Manufacturer;;ycf5ig|Manufacturer;text;;90%;50
-</div><div class='w3-col l2'>;;ManufactionDate;;UWZxe7|Date of manufacture;date;;10;20
+</div><div class='w3-col l2'>;;ManufactionDate;;UWZxe7|Date of manufacture;text;;90%;50
 </div></div><div class='w3-row'><div class='w3-col l2'>;;Model;;nYXAHD|Model;text;;90%;50
 </div><div class='w3-col l2'>;;SerialNo;;SvaKYg|Serial number;text;;90%;50
 </div></div><div class='w3-row'><div class='w3-col l2'>;;Owner;;QDV6IR|Owner;text;;90%;50
-</div></div><div class='w3-row'><div class='w3-col l2'>;;PurchaseDate;;HViZiY|Date of purchase;date;;10;20
+</div></div><div class='w3-row'><div class='w3-col l2'>;;PurchaseDate;;HViZiY|Date of purchase;text;;90%;50
 </div><div class='w3-col l4'>;;PurchasePrice;;CTGqm4|Purchase price;text;;85%;50
 </div><div class='w3-col l4'>;;PurchasePriceCurrency;;tOvSot|Currency Purchase price;text;;80%;50
-</div></div><div class='w3-row'><div class='w3-col l2'>;;SellingDate;;uQWc7Z|Date of sale;date;;10;20
+</div></div><div class='w3-row'><div class='w3-col l2'>;;SellingDate;;uQWc7Z|Date of sale;text;;90%;50
 </div><div class='w3-col l2'>;;SellingPrice;;aBry6x|Sales price;text;;90%;50
 </div><div class='w3-col l2'>;;InsuranceValue;;OkL5GN|Insurance value;text;;90%;50
 </div></div><div class='w3-row'><div class='w3-col l1'>;;_no_input;;kyJIX0| ** Other ** ;;;

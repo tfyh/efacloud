@@ -1,5 +1,27 @@
 <?php
 /**
+ *
+ *       efaCloud
+ *       --------
+ *       https://www.efacloud.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+/**
  * The form for user profile self service. Based on the Tfyh_form class, please read instructions their to
  * better understand this PHP-code part.
  * 
@@ -31,42 +53,53 @@ if ($done > 0) {
     if (strlen($form_errors) > 0) {
         // do nothing. This avoids any change, if form errors occured.
     } elseif ($done == 1) {
+        
         $is_all_texts = false;
-        $sql_cmd = "";
+        $max_rows = 100;
+        $matching = [];
+        $condition = "";
         if ($id > 0)
-            $sql_cmd .= "`ID` = '" . $id . "'";
+            $matching = ["ID" => $id
+            ];
         elseif (strlen($entered_data["Volltextsuche"]) > 0) {
             // search all entries and all text fields
-            $sql_cmd .= "1";
+            // "Volltextsuche" is a technical term, needs no i18n
             $is_all_texts = true;
+            $max_rows = 2000;
+            $condition = "1";
             $search_string_lc = strtolower($entered_data["Volltextsuche"]);
         } else {
             foreach ($entered_data as $key => $value) {
-                if (isset($value) && (strlen($value) > 0))
-                    $sql_cmd .= "`" . $key . "` LIKE '%" . $value . "%' OR ";
+                if (isset($value) && (strlen($value) > 0)) {
+                    $matching[$key] = "%" . $value . "%";
+                    $condition .= "LIKE,";
+                }
             }
-            $sql_cmd = mb_substr($sql_cmd, 0, mb_strlen($sql_cmd) - 4); // strip off last " OR "
         }
+        
         // only proceed if something was entered.
-        if (strlen($sql_cmd) > 0) {
+        if ($is_all_texts || (count($matching) > 0)) {
             // get all current users
-            $sql_cmd_pref = "SELECT * FROM `" . $toolbox->users->user_table_name . "` WHERE ";
-            $res = $socket->query($sql_cmd_pref . $sql_cmd, false);
+            $matched = $socket->find_records_sorted_matched($toolbox->users->user_table_name, $matching, 
+                    $max_rows, $condition, $toolbox->users->user_id_field_name, true);
             // put all values to the array, with numeric autoincrementing key.
             $nutzerliste = [];
-            $next_nutzer = $res->fetch_array();
-            while ($next_nutzer) {
+            foreach ($matched as $nutzer) {
                 $filtered_nutzer = [];
                 $text_found = false;
                 $key_matched = "";
-                foreach ($next_nutzer as $key => $value) {
+                foreach ($nutzer as $key => $value) {
                     if (! is_numeric($key)) {
                         // join all text fields of filtered user
                         $filtered_nutzer[$key] = $value;
-                        // if full text search, check field for sear string.
-                        if ($is_all_texts && (strpos(strtolower($value), $search_string_lc) !== false)) {
+                        $value_lc = strtolower($value);
+                        // if full text search, check field for search string.
+                        if ($is_all_texts && (strpos($value_lc, $search_string_lc) !== false) &&
+                                 ! (strcasecmp($key, 
+                                        $socket->history_field_name($toolbox->users->user_table_name)) == 0)) {
                             $text_found = true;
-                            $key_matched .= " in: " . $key . ";";
+                            $key_matched .= " in " . $key . ": '" . str_replace($search_string_lc, 
+                                    "<b>" . $search_string_lc . "</b>", $value_lc) . "'";
                         }
                     }
                 }
@@ -77,7 +110,6 @@ if ($done > 0) {
                     $filtered_nutzer["key_matched"] = $key_matched;
                 if (! $is_all_texts || $text_found)
                     $nutzerliste[] = $filtered_nutzer;
-                $next_nutzer = $res->fetch_array();
             }
             $todo = $done + 1;
         } else {
@@ -99,7 +131,8 @@ if ($done > 0) {
             $i ++;
         }
         if ($i === 0) {
-            $users_to_show_html = "<b>" . i("c02HGj|Hints:") . "</b><br>" . i("U24lUJ|No matching user found.");
+            $users_to_show_html = "<b>" . i("c02HGj|Hints:") . "</b><br>" . i(
+                    "U24lUJ|No matching user found.");
         }
     }
 }
@@ -129,7 +162,7 @@ else
     echo $users_to_show_html;
 echo $form_to_fill->get_help_html();
 
-echo i("01G01O|</div>");
+echo "</div>";
 end_script();
 
     

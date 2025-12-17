@@ -1,5 +1,26 @@
 <?php
 /**
+ *
+ *       efaCloud
+ *       --------
+ *       https://www.efacloud.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
  * A page providing information for direct client display (not via the api).
  * 
  * @author mgSoft
@@ -14,7 +35,7 @@ $info_mode = (isset($_GET["mode"])) ? intval($_GET["mode"]) : - 1; // identify t
 include_once "../classes/efa_info.php";
 $efa_info = new Efa_info($toolbox, $socket);
 
-if ($efa_info->is_allowed_info($_SESSION["User"], "public_" . $info_type)) {
+if ($efa_info->is_allowed_info($toolbox->users->session_user, "public_" . $info_type)) {
     if (strcasecmp("onthewater", $info_type) == 0)
         $info = $efa_info->get_on_the_water($info_mode);
     elseif (strcasecmp("notavailable", $info_type) == 0)

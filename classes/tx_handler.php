@@ -1,8 +1,26 @@
 <?php
 
 /**
- * class file for the client handler class. The only client so far is the efa-logbook.
+ *
+ *       efaCloud
+ *       --------
+ *       https://www.efacloud.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
+
 /**
  * class file for the client handler class.
  */
@@ -56,7 +74,7 @@ class Tx_handler
     /**
      * the transaction error log
      */
-    private static $api_error_log_path = "../log/api_errors.log";
+    public static $api_error_log_path = "../log/api_errors.log";
 
     /**
      * the transaction warnings log
@@ -97,6 +115,17 @@ class Tx_handler
         $this->debug_on = $toolbox->config->debug_level > 0;
         include_once '../classes/efa_api.php';
         $this->efa_api = new Efa_api($toolbox, $socket);
+    }
+
+    /**
+     * Set the session id, which is used by the Efa_api class within the NOP response.
+     * 
+     * @param String $api_session_id
+     *            the id of the API-session
+     */
+    public function set_session_id (String $api_session_id)
+    {
+        $this->efa_api->set_session_id($api_session_id);
     }
 
     /**
@@ -190,6 +219,8 @@ class Tx_handler
         $log_string .= "tablename:" . $tx_request["tablename"] . ", ";
         $log_string .= "result_code:" . $tx_request["result_code"] . ", ";
         if ($withMessageAndRecord) {
+            if (strlen($tx_request["record"]["contents"]) > 2000)
+                $tx_request["record"]["contents"] = substr($tx_request["record"]["contents"], 0, 2000) . " ...";
             $log_string .= "record:" . json_encode($tx_request["record"]) . " // ";
             $log_string .= "result_message:" . str_replace("\n", " // ", trim($tx_request["result_message"]));
         } else {
@@ -435,7 +466,7 @@ class Tx_handler
             $timestamp_txs = (strlen($timestamp_txs) == 0) ? "api/" .
                      strtolower($this->txc["requests"][$i]["type"]) : "api/multiple";
             
-            // the result message neither nees utf-8 encoding (the values are already encoded) nor
+            // the result message neither needs utf-8 encoding (the values are already encoded) nor
             // csv encoding (the values are as well already approporiately quotes).
             $resp .= $result_message . self::$ems;
         }
@@ -594,10 +625,19 @@ class Tx_handler
         $this->txc["requests"][$index]["result_code"] = $result_code;
         $this->txc["requests"][$index]["result_message"] = substr($tx_response, 4);
         
+        // log failures
+        if (intval($result_code) > 300)
+            file_put_contents(self::$api_error_log_path, 
+                    date("Y-m-d H:i:s") . ": tx" . $this->txc["requests"][$index]["ID"] . " - " .
+                             $this->txc["requests"][$index]["type"] . "@" .
+                             $this->txc["requests"][$index]["tablename"] . " " .
+                             $this->txc["requests"][$index]["result_code"] . ": " .
+                             $this->txc["requests"][$index]["result_message"] . "\n", FILE_APPEND);
+        
         // time stamp all requests for the fast synch option and last activity display
         if (intval($this->txc["requests"][$index]["result_code"]) < 400) {
             $wasWriteAccess = ((strcasecmp($txtype, "insert") == 0) || (strcasecmp($txtype, "update") == 0) ||
-                    (strcasecmp($txtype, "delete") == 0));
+                     (strcasecmp($txtype, "delete") == 0));
             if ($wasWriteAccess) {
                 if ($this->debug_on)
                     file_put_contents(self::$api_debug_log_path, 
@@ -641,23 +681,23 @@ class Tx_handler
         if (! $isBinary && ! $isText && ! $isZip)
             return "502;Only filetypes zip, binary and text allowed, used " . $filetype;
         if (! $record)
-            return "502;No upload data provided.";
+            return "300;Transcation successful, but no upload data provided.";
         if (! isset($record["filepath"]) || (strlen($record["filepath"]) == 0))
             return "502;No valid file path provided.";
         if (! isset($record["contents"]) || (strlen($record["contents"]) == 0))
-            return "502;No contents provided.";
+            return "300;Transcation successful, but no contents provided.";
         if (strlen($record["contents"]) > 500000)
-            return "502;Upload size limit exceeded.";
-        if (strpos($record["filepath"], "../") !== false)
-            return "502;String '../' is not allowed in aupload file path.";
+            return "300;Transcation successful, but upload size limit exceeded, contents will be dropped.";
+        if (strpos($record["filepath"], "/") !== false)
+            return "502;String '/' is not allowed in aupload file path.";
         $efaCloudUserID = $client_verified[$this->toolbox->users->user_id_field_name];
         $upload_dir_path = self::$upload_file_path . $efaCloudUserID;
         if (! file_exists($upload_dir_path))
             mkdir($upload_dir_path, true);
         $upload_file_path = $upload_dir_path . "/" . $record["filepath"];
-        $upload_dir_path = substr($upload_file_path, 0, strrpos($upload_file_path, "/"));
         chmod($upload_dir_path, 0755);
         file_put_contents($upload_dir_path . "/.htaccess", "deny for all");
+
         $contents_to_write = ($isBinary || $isZip) ? base64_decode($record["contents"]) : $record["contents"];
         if ($contents_to_write) {
             // write files

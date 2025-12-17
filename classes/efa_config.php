@@ -177,12 +177,11 @@ class Efa_config
                 $client_config_raw = json_decode($json_string, true);
                 $client_config = [];
                 foreach ($client_config_raw as $client_config_record)
-                    $client_config[$client_config_record["Name"]] = $client_config_record["Value"];
+                    $client_config[$client_config_record["Name"]] = (isset($client_config_record["Value"])) ? $client_config_record["Value"] : "";
                 foreach ($check_names as $check_name)
                     if (strcasecmp(strval($client_config[$check_name]), strval($this->config[$check_name])) !=
                              0)
-                        $issues .= i("iwE1Bg|For %1, the values in pa...", $client_dir, 
-                                $check_name) . "\n";
+                        $issues .= i("iwE1Bg|For %1, the values in pa...", $client_dir, $check_name) . "\n";
             }
         }
         return $issues;
@@ -203,8 +202,7 @@ class Efa_config
             $book_year = intval(substr($book_record["Name"], $pos_book_year));
         }
         if ($book_year < 2000)
-            return $summary_head . ": " .
-                     i("HFNMBp|The expected calendar ye...");
+            return $summary_head . ": " . i("HFNMBp|The expected calendar ye...");
         // TODO replace $this->datetotime by $this->toolbox->datetotime and remove private function herein
         // from 2.3.2_12 onwards.
         $start_time = $this->datetotime($book_record["StartDate"]);
@@ -316,35 +314,33 @@ class Efa_config
         $xml = new Tfyh_xml($this->toolbox);
         $from_to = ["efa2project" => "project","efa2types" => "types","efa2config" => "config"
         ];
+        
         foreach ($client_files as $client_file) {
             foreach ($from_to as $from => $to) {
                 if (strpos($client_file, "$from") !== false) {
                     $cfg_filename = "../uploads/" . $client_to_parse . "/" . $client_file;
                     $cfg_file = file_get_contents($cfg_filename);
-                    if ($cfg_file !== false) {
+                    if (($cfg_file !== false) && (strlen($cfg_file) > 10) &&
+                             (strpos($cfg_file, "<?xml") !== false)) {
                         $xml->read_xml($cfg_file, false);
-                        // TODO remove csv file export for PHP usage, since 2.3.2_07 / 2.12.2022 obsolete
-                        $config_csv = $xml->get_csv("data", "record");
-                        if ($use_reference_client)
-                            file_put_contents("../config/client_cfg/$to.csv", $config_csv);
-                        file_put_contents("../config/$client_to_parse/$to.csv", $config_csv);
-                        // firstly only Javascript usage
-                        $config_array = $xml->get_array("data", "record");
-                        if ($use_reference_client)
-                            file_put_contents("../config/client_cfg/$to.json", json_encode($config_array));
-                        file_put_contents("../uploads/$client_to_parse/$to.json", json_encode($config_array));
+                        if ($xml->xml_tree !== false) {
+                            $config_array = $xml->get_array("data", "record");
+                            if ($use_reference_client)
+                                file_put_contents("../config/client_cfg/$to.json", json_encode($config_array));
+                            file_put_contents("../uploads/$client_to_parse/$to.json", 
+                                    json_encode($config_array));
+                        }
                     } else {
-                        // TODO remove csv file delete for PHP usage, since 2.3.2_07 / 2.12.2022 obsolete
-                        unlink("../uploads/$client_to_parse/$to.csv");
                         unlink("../uploads/$client_to_parse/$to.json");
                     }
                 }
             }
         }
         
+        // compile all logbooks and clubworkbooks to a full list eve if this is not the reference client
+        $this->compile_books();
+        
         if ($use_reference_client) {
-            // compile all logbooks and clubworkbooks to a full list
-            $this->compile_books();
             // reload the configuration
             $this->load_efa_config();
             // some configuration must be transferred into the toolbox application configuration
@@ -389,9 +385,31 @@ class Efa_config
                 $this->project[$project_record["Type"] . "s"] = [];
             $this->project[$project_record["Type"] . "s"][] = $project_record;
         }
-        // load logbooks
+        // load logbooks (efa client configurations)
         $this->logbooks = $cfg_arrays["logbooks"];
         $this->clubworkbooks = $cfg_arrays["clubworkbooks"];
+        // load logbooks (efa client configurations)
+        $efacloud_cfg = $this->toolbox->config->get_cfg();
+        $this_year = date("Y");
+        $next_year = strval(intval($this_year) + 1);
+        $last_year = strval(intval($this_year) - 1);
+        $logbook_indices = ["","2","3","4"
+        ];
+        foreach ($logbook_indices as $logbook_index) {
+            $check_logbook = str_replace("JJJJ", $this_year, 
+                    $efacloud_cfg["current_logbook" . $logbook_index]);
+            if ((strlen($check_logbook) > 0) && ! array_key_exists($check_logbook, $this->logbooks)) {
+                $new_start_time = strtotime($this_year . "-" . $efacloud_cfg["sports_year_start"] . "-01");
+                // 23:59:59 the day before the next sports year start
+                $new_end_time = strtotime($next_year . "-" . $efacloud_cfg["sports_year_start"] . "-01") - 60;
+                $new_logbook = ["Type" => "Logbook","Name" => $check_logbook,
+                        "StartDate" => date("d.m.Y", $new_start_time),
+                        "EndDate" => date("d.m.Y", $new_end_time),"ChangeCount" => "1",
+                        "LastModified" => strval(time()) . "000"
+                ];
+                $this->logbooks[$check_logbook] = $new_logbook;
+            }
+        }
         
         // load the types json
         $this->types = [];
@@ -427,7 +445,6 @@ class Efa_config
         $logbook_period = $this->get_book_period($this->current_logbook, true);
         $this->logbook_start_time = (isset($logbook_period["start_time"])) ? $logbook_period["start_time"] : 0;
         $this->logbook_end_time = (isset($logbook_period["end_time"])) ? $logbook_period["end_time"] : 0;
-        $logbook_period["end_time"];
         $this->sports_year_start = (isset($logbook_period["sports_year_start"])) ? $logbook_period["sports_year_start"] : 1;
     }
 
@@ -572,7 +589,8 @@ class Efa_config
         $html .= $this->json_file_to_script("config.json", "efaConfig");
         $html .= "<script>\nvar efaCloudCfg = " . json_encode($this->toolbox->config->get_cfg()) . ";\n" .
                  "</script>\n";
-        $names_translated_file = file_get_contents("../config/db_layout/names_translated_" . $this->toolbox->config->language_code);
+        $names_translated_file = file_get_contents(
+                "../config/db_layout/names_translated_" . $this->toolbox->config->language_code);
         $html .= "<script>\nvar namesTranslated_php = `" . str_replace("`", "\`", $names_translated_file) .
                  "`;\n" . "</script>\n";
         return $html;
@@ -692,8 +710,8 @@ class Efa_config
                     if (file_exists("../uploads/$client_dir/project.json")) {
                         $client_project = json_decode(
                                 file_get_contents("../uploads/$client_dir/project.json"), true);
-                        $active_client_txt .= $this->booklist($client_project, i("UEM4kg|Logbooks"), "Logbook", 
-                                false);
+                        $active_client_txt .= $this->booklist($client_project, i("UEM4kg|Logbooks"), 
+                                "Logbook", false);
                         $active_client_txt .= $this->booklist($client_project, i("2jDemj|Clubwork books"), 
                                 "ClubworkBook", false);
                     }
@@ -701,21 +719,18 @@ class Efa_config
                             str_replace("<b>", "", str_replace("</b>", "", $active_client_txt))) . "\n";
                     $active_clients_html .= $active_client_txt;
                     $is_boathouse = (strcasecmp($client_record["Rolle"], "bths") == 0);
+                    if (strcasecmp($client_record["Rolle"], "bths") == 0)
+                        $content_size_tables .= $this->get_content_sizes($client_dir, 
+                                $client_names[$client_dir], 4) . "<br>";
                 } else {
-                    $active_clients_html .= i(
-                            "mwgz0K|For the still existing c...", 
-                            $client_dir);
+                    $active_clients_html .= i("mwgz0K|For the still existing c...", $client_dir);
                 }
                 $active_clients_html .= "</li>";
                 $active_clients_txt .= "\n";
-                if (strcasecmp($client_record["Rolle"], "bths") == 0)
-                    $content_size_tables .= $this->get_content_sizes($client_dir, $client_names[$client_dir], 
-                            4) . "<br>";
             }
         }
         if (strlen($content_size_tables) > 0)
-            $content_size_tables = "<h4>" .
-                     i("52B267|Traffic volume of the la...") . "</h4>" .
+            $content_size_tables = "<h4>" . i("52B267|Traffic volume of the la...") . "</h4>" .
                      $content_size_tables;
         return ($html) ? $active_clients_html . "</ul>" . $content_size_tables : $active_client_txt;
     }

@@ -1,5 +1,26 @@
 <?php
 /**
+ *
+ *       the tools-for-your-hobby framework
+ *       ----------------------------------
+ *       https://www.tfyh.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ */
+
+/**
  * The page to show the data model.
  */
 // ===== initialize toolbox and socket and start session.
@@ -13,7 +34,7 @@ if ($is_efa_cloud)
 
 // === APPLICATION LOGIC ==============================================================
 
-$structure_html = "<h4>".i("yxtlEE|data structure")."</h4>";
+$structure_html = "<h4>" . i("yxtlEE|data structure") . "</h4>";
 $total_table_count = 0;
 $total_record_count = 0;
 $table_names = $socket->get_table_names();
@@ -40,20 +61,28 @@ foreach ($table_names as $tn) {
             }
         $efa_keyfixing_field = ($is_efa_cloud && array_key_exists($tn, Efa_tables::$efa_autoincrement_fields)) ? Efa_tables::$efa_autoincrement_fields[$tn] : false;
         $efa_fix_comment = "";
-        $efa_key_comment = "";
-        $efa_UUIDcomment = "";
-        $efa_UUIDlistComment = "";
         $efa_fix_csv = "";
+        $efa_key_comment = "";
         $efa_key_csv = "";
+        $efa_UUIDcomment = "";
         $efa_UUIDcsv = "";
     } else {
         $data_key = $socket->get_indexes($tn, ! $is_efa_cloud);
+        $autoincrements = $socket->get_autoincrements($tn);
+        $not_nulls = $socket->get_not_null($tn);
     }
+    
     $total_record_count += $record_count;
     $total_table_count ++;
     $structure_html .= "<ul>";
     $all_columns = "";
     $c = 0;
+    $efa_fix_comment = "";
+    $efa_fix_csv = "";
+    $efa_key_comment = "";
+    $efa_key_csv = "";
+    $efa_UUIDcomment = "";
+    $efa_UUIDcsv = "";
     foreach ($column_names as $cn) {
         // efaCloud tables have a lot more structure meanings as legacy.
         if ($is_efa_cloud) {
@@ -68,10 +97,15 @@ foreach ($table_names as $tn) {
                     $cn, Efa_tables::$UUIDlist_field_names)) ? " " . i("m5fazU|[list of object IDs]") : "");
             $efa_UUIDcsv = (in_array($cn, Efa_tables::$UUID_field_names)) ? "1" : ((in_array($cn, 
                     Efa_tables::$UUIDlist_field_names)) ? "n;" : ";");
-        } else 
-            if (isset($data_key[$cn])) {
-                $efa_key_comment = $data_key[$cn];
-            }
+        } else {
+            $efa_key_comment = "";
+            if (isset($data_key[$cn]))
+                $efa_key_comment .= $data_key[$cn];
+            if (isset($not_nulls[$cn]))
+                $efa_key_comment .= " : NOT NULL";
+            if (isset($autoincrements[$cn]))
+                $efa_key_comment .= " : AUTO_INCREMENT";
+        }
         $cn_html = ((strlen($efa_fix_comment) > 0) || (strlen($efa_key_comment) > 0)) ? "<b>" . $cn . "</b>" : $cn;
         $structure_html .= "<li>" . $cn_html . " - " . $column_types[$c] . $efa_fix_comment . " " .
                  $efa_key_comment . $efa_UUIDcomment . "</li>";
@@ -89,6 +123,7 @@ foreach ($table_names as $tn) {
         $all_columns = substr($all_columns, 0, strlen($all_columns) - 1);
     $summary .= $total_table_count . ";permission;" . $tn . ";" . $all_columns . ";" . $tn . ";1;<br>";
 }
+
 $structure_html .= "<h5>" . i("Kzbcet|In total %1 tables with ...", $total_table_count, $total_record_count) .
          "</h5>";
 // $structure_html .= "<p>Für den Tabellenexport zusammengefasst:</p><p>" . $summary . "</p>";
@@ -106,8 +141,10 @@ echo $menu->get_menu();
 echo file_get_contents('../config/snippets/page_02_nav_to_body');
 
 // page heading, identical for all workflow steps
-echo i("QyymBR| ** Check the current da...");
-echo '<div class="w3-container">';
+echo "<!-- START OF content -->\n<div class='w3-container'>\n";
+echo "<h3>" . i("H3jSfa|The implemented data str...") . "</h3>";
+echo "<p>" . i("e2gF2y|This is the result of a ...") . "</p>";
+echo '</div><div class="w3-container">';
 echo $structure_html;
 echo '</div>';
 end_script();

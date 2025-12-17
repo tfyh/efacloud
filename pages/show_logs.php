@@ -1,5 +1,26 @@
 <?php
 /**
+ *
+ *       the tools-for-your-hobby framework
+ *       ----------------------------------
+ *       https://www.tfyh.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ */
+
+/**
  * Page display file. Shows all logs of the application.
  * 
  * @author mgSoft
@@ -26,8 +47,7 @@ $categories_to_show = ["api" => i("7DhJc1|Connection"),"app" => i("hOqvCZ|Server
 $types_to_show = ["info" => i("Y1BObA|Information"),"warnings" => i("sbWQdK|Warnings"),
         "errors" => i("qZ10EG|Errors"),"bulk_txs" => i("EJN8bL|Bulk transactions"),
         "api" => i("rH1lEJ|Connection"),"app" => i("hjdoBL|Server application"),
-        "cronjobs" => i("MzCIkc|Housekeeping tasks"),"db_audit" => i("c6Z279|Data base audit"),
-        "efa_tools" => i("zwn7oV|Data base audit")
+        "cronjobs" => i("MzCIkc|Housekeeping tasks"),"db_audit" => i("c6Z279|Data base audit")
 ];
 $configured_logs = [];
 foreach ($available_logs as $available_log) {
@@ -79,9 +99,15 @@ echo file_get_contents('../config/snippets/page_01_start');
 echo $menu->get_menu();
 echo file_get_contents('../config/snippets/page_02_nav_to_body');
 
-echo i("AAnHHF| ** Server messages ** I...");
+echo "<!-- START OF content -->\n<div class='w3-container'>\n";
+echo "<h3>" . i("rjunmx|Server logs") . "</h3>";
+echo "<p>" .
+         i(
+                "y6vpqj|Information, warnings an...") .
+         "</p>";
+echo "<div class='w3-row' style='padding: 10px;'>";
 echo $selection;
-echo i("lTMUZN|</div><div class=°w3-ro...");
+echo "</div>\n<div class='w3-row' style='padding: 10px;'>";
 echo $log;
-echo i("o5pCKD|</div><!-- END OF Conte...");
+echo "</div>\n<!-- END OF Content -->\n</div>";
 end_script();

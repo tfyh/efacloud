@@ -1,4 +1,25 @@
 <?php
+/**
+ *
+ *       the tools-for-your-hobby framework
+ *       ----------------------------------
+ *       https://www.tfyh.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ */
+
 
 /**
  * This class provides a gallery utility. <p>The gallery can upload images, manipulate them and show a
@@ -163,12 +184,12 @@ class Tfyh_gallery
         }
         $html = '<!DOCTYPE html><html lang="de-DE"><head>' . '<meta charset="UTF-8"><title>BRG - ' .
                  $this->gallery_definition["title"] . " - " . $this_preview_file .
-                 "</title><link rel='stylesheet' href='/css/style.css' type='text/css' media='screen'>" .
-                 "</head><body style='text-align:center;background-color: black;margin:0px;padding:0px;'>";
+                 "</title></head>" .
+                 "<body style='text-align:center;background-color:black;margin:0px;padding:0px;'>";
         $html .= "<div id=wrapper style='text-align:center;background-color: black;margin:0px;padding:0px;'>" .
                  "<div style='display:inline-block;'>" . "<img src='data:image/gif;base64," . base64_encode(
                         file_get_contents("../uploads/" . $this->key . "/previews/" . $this_preview_file)) .
-                 "'><br>" . "<span style='color:white;font-size:3em;line-height:1.5em;'><a href='?gallery=" .
+                 "'><br>" . "<span style='color:white;font-size:1.5rem;line-height:r1.5em;'><a href='?gallery=" .
                  $this->key . "&preview=" . $prev_preview_file .
                  "'>&#9664;</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='?gallery=" . $this->key . "&preview=" .
                  $next_preview_file . "'>&#9654;</a></span>" . "</div></div></body></html>";
@@ -293,7 +314,7 @@ class Tfyh_gallery
                  i('saSTkk|Select images to upload:') . " " .
                  '<input type="file" name="fileToUpload[]" multiple="multiple">' .
                  '<input type="submit" value="' . i('txXT1g|Upload') . '" name="upload"></form><br />' . '<b>' . i(
-                        '8MYKLF|After clicking on the °U...') . '</b>';
+                        "8MYKLF|After clicking on the °U...") . '</b>';
         
         // build table header
         $gallery_html .= '<p><b>ALBUM ' . $this->gallery_definition["title"] . "</b>";
@@ -444,7 +465,7 @@ class Tfyh_gallery
             header("Content-Disposition: attachment; filename=" . $zipname);
             readfile($zipname);
             unlink($zipname);
-            exit();
+            exit(); // really exit. No test case left over.
         } else {
             return i("SPDW0F|The zip file °%1° could ...", $zipname);
         }

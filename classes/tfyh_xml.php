@@ -1,4 +1,25 @@
 <?php
+/**
+ *
+ *       the tools-for-your-hobby framework
+ *       ----------------------------------
+ *       https://www.tfyh.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ */
+include_once "../classes/tfyh_xml_tag.php";
 
 /**
  * class file for simple XML reading without library support.
@@ -51,7 +72,6 @@ class Tfyh_xml
      */
     public function __construct (Tfyh_toolbox $toolbox = null)
     {
-        include_once "../classes/tfyh_xml_tag.php";
         $this->toolbox = $toolbox;
     }
 
@@ -181,6 +201,19 @@ class Tfyh_xml
     }
 
     /**
+     * Look for the first child with this name
+     * 
+     * @param Tfyh_xml_tag $branch_tag
+     *            the branhch tag to check
+     * @param String $tag_id_to_find
+     *            the ID to find
+     */
+    public function get_first_child (String $tag_id_to_find)
+    {
+        return $this->find_first_tag_in_branch($this->xml_tree, $tag_id_to_find);
+    }
+
+    /**
      * Look for all children of this $branch_tag
      * 
      * @param Tfyh_xml_tag $branch_tag
@@ -230,9 +263,36 @@ class Tfyh_xml
      * @return array The array will be [ "cols" => [ "col1name", "col2name" , ...], "rows" => [ [
      *         row1col1value, row1co21value, ... ], [ row2col1value, row2co21value, ... ] ] ].
      */
-    public function get_array (String $table_root_tag_id, String $table_records_tag_id)
+    public function get_array (String $table_root_tag_id, String $table_records_tag_id, 
+            Tfyh_xml_tag &$branch_root = null)
     {
-        return $this->get_csv_or_array($table_root_tag_id, $table_records_tag_id, true);
+        return $this->get_csv_or_array($table_root_tag_id, $table_records_tag_id, true, $branch_root);
+    }
+
+    /**
+     * Get the full xml tree as as stacked array.
+     * 
+     * @param Tfyh_xml_tag $branch_tag
+     *            the branch tag to start with
+     * @param array $array
+     *            an empty array to start with. Will be filled.
+     */
+    public function get_as_array (Tfyh_xml_tag $branch_tag, array &$array)
+    {
+        $array["id"] = $branch_tag->id;
+        $array["txt_o"] = $branch_tag->txt_o;
+        $array["txt_c"] = $branch_tag->txt_c;
+        if (count($branch_tag->children) > 0) {
+            if (! isset($array["children"])) {
+                $array["children"] = [];
+                $c = 0;
+            }
+            foreach ($branch_tag->children as $child) {
+                $array["children"][$c] = array();
+                $this->get_as_array($child, $array["children"][$c]);
+                $c ++;
+            }
+        }
     }
 
     /**
@@ -249,25 +309,30 @@ class Tfyh_xml
      *            "col1name", "col2name" , ...], "rows" => [ [ row1col1value, row1co21value, ... ], [
      *            row2col1value, row2co21value, ... ] ] ].
      */
-    private function get_csv_or_array (String $table_root_tag_id, String $table_records_tag_id, bool $as_array)
+    private function get_csv_or_array (String $table_root_tag_id, String $table_records_tag_id, bool $as_array, 
+            Tfyh_xml_tag $branch_root = null)
     {
+        // set root
+        if (is_null($branch_root))
+            $branch_root = $this->xml_tree;
         // parse table
-        $table_root = $this->find_first_tag_in_branch($this->xml_tree, $table_root_tag_id);
+        $table_root = $this->find_first_tag_in_branch($branch_root, $table_root_tag_id);
         $fieldnames = [];
         $records = [];
         $rows = [];
-        foreach ($table_root->children as $record_xml) {
-            $record_array = [];
-            $record_row = [];
-            foreach ($record_xml->children as $field) {
-                if (! isset($fieldnames[$field->id]))
-                    $fieldnames[$field->id] = true;
-                $record_array[$field->id] = $field->txt_o;
-                $record_row[] = $field->txt_o;
+        if (! is_null($table_root) && is_array($table_root->children))
+            foreach ($table_root->children as $record_xml) {
+                $record_array = [];
+                $record_row = [];
+                foreach ($record_xml->children as $field) {
+                    if (! isset($fieldnames[$field->id]))
+                        $fieldnames[$field->id] = true;
+                    $record_array[$field->id] = $field->txt_o;
+                    $record_row[] = $field->txt_o;
+                }
+                $records[] = $record_array;
+                $rows[] = $record_row;
             }
-            $records[] = $record_array;
-            $rows[] = $record_row;
-        }
         // output of csv header
         $csv = "";
         $head = [];

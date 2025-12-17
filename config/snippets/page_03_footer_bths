@@ -3,39 +3,40 @@
 </div>
 
     <!-- jQuery framework, smaller version for speed reasons -->
-    <script src="../js_13/jQuery_3.3.1.js"></script>
+    <script src="../js_23/jQuery_3.3.1.js"></script>
 
-    <!-- application script code, efa spcific parts -->
-    <script src="../js_13/efaConfig.js"></script>
-    <script src="../js_13/efaListDefs.js"></script>
-    <script src="../js_13/efaInputValidator.js"></script>
+    <!-- application script code, efa specific parts -->
+    <script src="../js_23/efaConfig.js"></script>
+    <script src="../js_23/efaListDefs.js"></script>
+    <script src="../js_23/efaInputValidator.js"></script>
 
     <!-- application script code, efa/dilo common -->
-    <script src="../js_13/cGlobals.js"></script>
-    <script src="../js_13/cToolbox.js"></script>
-    <script src="../js_13/cModal.js"></script>
-    <script src="../js_13/cLists.js"></script>
-    <script src="../js_13/cAutocomplete.js"></script>
-    <script src="../js_13/cMenu.js"></script>
-    <script src="../js_13/cForm.js"></script>
-    <script src="../js_13/cTxQueue.js"></script>
-    <script src="../js_13/cTxHandler.js"></script>
+    <script src="../js_23/cToolbox.js"></script>
+    <script src="../js_23/cGlobals.js"></script>
+    <script src="../js_23/cI18n.js"></script>
+    <script src="../js_23/cModal.js"></script>
+    <script src="../js_23/cLists.js"></script>
+    <script src="../js_23/cAutocomplete.js"></script>
+    <script src="../js_23/cMenu.js"></script>
+    <script src="../js_23/cForm.js"></script>
+    <script src="../js_23/cTxQueue.js"></script>
+    <script src="../js_23/cTxHandler.js"></script>
     <!-- application script code, efa/dilo common UNUSED -->
 
     <!-- application script code, efa object handling -->
-    <script src="../js_13/oSession.js"></script>
-    <script src="../js_13/oBoat.js"></script>
-    <script src="../js_13/oBoatstatus.js"></script>
-    <script src="../js_13/oReservation.js"></script>
-    <script src="../js_13/oDamage.js"></script>
-    <script src="../js_13/oPerson.js"></script>
+    <script src="../js_23/oSession.js"></script>
+    <script src="../js_23/oBoat.js"></script>
+    <script src="../js_23/oBoatstatus.js"></script>
+    <script src="../js_23/oReservation.js"></script>
+    <script src="../js_23/oDamage.js"></script>
+    <script src="../js_23/oPerson.js"></script>
 
     <!-- application script code, efaWeb scripts -->
-    <script src="../js_13/bConfig.js"></script>
-    <script src="../js_13/bFormHandler.js"></script>
-    <script src="../js_13/bPanel.js"></script>
-    <script src="../js_13/bStatistics.js"></script>
-    <script src="../js_13/bEvents.js"></script>
+    <script src="../js_23/bConfig.js"></script>
+    <script src="../js_23/bFormHandler.js"></script>
+    <script src="../js_23/bPanel.js"></script>
+    <script src="../js_23/bStatistics.js"></script>
+    <script src="../js_23/bEvents.js"></script>
 
 </body>
 </html>

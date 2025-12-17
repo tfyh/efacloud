@@ -1,0 +1,27 @@
+<h3>Données de base de l'association et du projet</h3> <p>Dans sa configuration, le programme PC efa contient les données de base de l'association.
+<p>Dans sa configuration, le programme PC efa conserve les données de base
+	de l'association dans son enregistrement de données de projet. À partir d'efa 2.3.2_01
+	ces données sont également utilisées par efaCloud. En outre, il existe des données
+	qui sont utilisées spécifiquement pour efaCloud.
+<h4>Client de référence</h4>
+</p> <p>Même si c'est généralement le cas, on ne peut pas supposer avec certitude
+	que tous les efa-PC connectés à un serveur efaCloud ont la même configuration.
+	configuration. ont la même configuration</p> <p>Par conséquent, un
+</p> <p>Il faut donc spécifier un efa-PC, dont la configuration de
+	qui sert de référence à efaCloud. À cette fin, l'identifiant
+	efaCloudUserID de cet efa-PC dans les paramètres de configuration de
+	efaCloud. Les données seront transmises au serveur efaCloud à chaque redémarrage de l'efa et y seront évaluées pendant toute la durée du projet.
+	Les données seront transmises au serveur efaCloud à chaque redémarrage de l'efa et y seront évaluées pendant les cycles de maintenance quotidiens.
+	les cycles de maintenance quotidiens. Une modification peut donc prendre deux jours
+	pour prendre effet.</p> <p>
+Si aucun client de référence n'est spécifié, le premier client qui se connecte est utilisé comme client de référence.
+	se connecte est utilisé comme client de référence.</p> 
+<h4>Données de base spéciales du serveur efaCloud</h4>
+<p>Le serveur efaCloud envoie des courriers, les données de base de ces courriers doivent donc être la signature, le nom de l'utilisateur et le nom de l'entreprise.
+	les données de base de ces courriers doivent être la signature, un pied de page supplémentaire, l'expéditeur et le destinataire.
+	l'expéditeur et le destinataire. pied de page, l'expéditeur et l'abréviation qui précède l'objet en [].
+	l'objet du message en []. devant l'objet du message.</p>
+<h4>Données de base spéciales du serveur efaCloud jusqu'à 2.3.2_00</h4>
+<p>Avant que la configuration du client de référence ne soit disponible, le
+	carnet de route actuel, qui sert de base à l'envoi du carnet de route personnel, et le début de l'année sportive ne pouvaient être communiqués qu'à la fin de l'année.
+	et le début de l'année sportive pouvaient être définis dans efaCloud. efaCloud.</p>

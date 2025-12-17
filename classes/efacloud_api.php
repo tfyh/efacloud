@@ -1,4 +1,24 @@
 <?php
+/**
+ *
+ *       efaCloud
+ *       --------
+ *       https://www.efacloud.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 /**
  * This class provides views for bookings.
@@ -7,20 +27,16 @@ class Efacloud_api
 {
 
     /**
-     * Explanation texts for server result codes. array key = code, value = explanation text. Shall be
-     * identical to the cGlobals.js $_resultMessages definition. No i18n translations, system messages.
+     * explanation texts for server result codes. array key = code, value = explanation text.
      */
-    public static $result_messages = [300 => "Transaction completed.",
-            301 => "Container parsed. User yet to be verified.",
-            302 => "API version of container not supported. Maximum API level exceeded.",
-            303 => "Transaction completed with key fixed.",304 => "Transaction forbidden.",
-            400 => "XHTTPrequest Error.",401 => "Syntax error.",402 => "Unknown client.",
-            403 => "Authentication failed.",404 => "Server side busy.",405 => "Wrong transaction ID.",
-            406 => "Overload detected.",407 => "No data base connection.",
-            500 => "Transaction container aborted.",501 => "Transaction invalid.",502 => "Transaction failed.",
+    public static $result_codes = [300 => "Transaction completed.",400 => "XHTTPrequest Error.",
+            401 => "Syntax error.",402 => "Unknown client.",403 => "Authentication failed.",
+            404 => "Server side busy.",405 => "Wrong transaction ID.",406 => "Overload detected.",
+            407 => "No data base connection.",500 => "Transaction container aborted.",
+            501 => "Transaction invalid.",502 => "Transaction failed.",
             503 => "Transaction missing in container.",504 => "Transaction container decoding failed.",
-            505 => "Server response empty.",506 => "Internet connection aborted.",
-            507 => "Could not decode server response."
+            505 => "Server response empty",506 => "Internet connection aborted",
+            507 => "Could not decode server response"
     ];
 
     /**
@@ -74,11 +90,11 @@ class Efacloud_api
     private $txc_header = [];
 
     /**
-     * Construct the instance. Pass the URL, client ID and client password
+     * Construct the instance. URL and credentials are hard coded.
      */
-    function __construct (String $server, int $clientID, String $password)
+    function __construct (String $server, String $clientID, String $password)
     {
-        $this->server = $server;
+        $this->server = (substr($server, strlen($server) - 1) == "/") ? $server . "api/posttx.php" : $server . "/api/posttx.php";
         $this->clientID = $clientID;
         $this->password = $password;
         $this->init_container();
@@ -117,10 +133,11 @@ class Efacloud_api
      */
     private function init_container ()
     {
-        $this->txc_header["version"] = 1;
+        $this->txc_header["version"] = 3; // as with efaWeb. Used to ensure checks are performed at
+                                          // efaCloud side.
         $this->txc_header["cID"] = 0;
         $this->txc_header["cresult_code"] = 502;
-        $this->txc_header["cresult_message"] = "[default on construction]"; // no i18n, system message
+        $this->txc_header["cresult_message"] = "[default on construction]";
         $this->txc_messages = [];
         $this->txc_open = true;
     }
@@ -192,7 +209,7 @@ class Efacloud_api
         $tx["tablename"] = $tablename;
         $tx["record"] = $record;
         $tx["result_code"] = 502;
-        $tx["result_message"] = i("Wixvhp|[default on construction...");
+        $tx["result_message"] = "[default on construction]";
         $this->txc_messages[$this->tx_id] = $tx;
         if (count($this->txc_messages) == 10)
             $this->txc_open = false;
@@ -206,8 +223,8 @@ class Efacloud_api
     {
         foreach ($this->txc_messages as $tx_id => $tx_message) {
             $this->txc_messages[$tx_id]["result_code"] = $this->txc_header["cresult_code"];
-            $this->txc_messages[$tx_id]["result_message"] = i("S0Lse6|transaction container er...")." " .
-                     $this->txc_header["cresult_message"] . " ". i("ipgDJE|Transaction ignored.");
+            $this->txc_messages[$tx_id]["result_message"] = "transaction container error: " .
+                     $this->txc_header["cresult_message"] . " Transaction ignored.";
         }
     }
 
@@ -222,9 +239,9 @@ class Efacloud_api
         $response_array = explode(";", $decoded_response, 5);
         $version = $response_array[0]; // version mismatch currently ignored
         $cID = $response_array[1]; // cID mismatch currently ignored
-        $cresult_code = intval($response_array[2]);
-        $cresult_message = $response_array[3];
-        if ($cresult_code >= 400)
+        $this->txc_header["cresult_code"] = intval($response_array[2]);
+        $this->txc_header["cresult_message"] = $response_array[3];
+        if ($this->txc_header["cresult_code"] >= 400)
             $this->add_container_error_to_messages();
         else {
             $tx_responses = explode(self::$transaction_separator, $response_array[4]);
@@ -251,7 +268,8 @@ class Efacloud_api
     {
         // close container. No more adding possible from now on.
         $this->txc_open = false;
-        $data = array('txc' => $this->encode_container($this->create_container())
+        $container = $this->create_container();
+        $data = array('txc' => $this->encode_container($container)
         );
         $options = array(
                 'http' => array('header' => "Content-type: application/x-www-form-urlencoded\r\n",
@@ -263,13 +281,12 @@ class Efacloud_api
         
         if ($response === false) {
             $this->txc_header["cresult_code"] = 400;
-            $this->txc_header["cresult_message"] = i("JMdyYP|Server access failed com..." ." " .
-                     i("WwI0Sx|Either your server URL i..."));
+            $this->txc_header["cresult_message"] = "Server access failed completely. " .
+                     "Either your server URL is wrong, or the server faces some internal server error.";
             $this->add_container_error_to_messages();
             return false;
         }
         $response_decoded = $this->decode_container($response);
-        
         $this->parse_response_container($response_decoded);
         return true;
     }
@@ -293,10 +310,10 @@ class Efacloud_api
     public function get_result (int $tx_id)
     {
         if ($this->txc_open)
-            return [502,i("bJGu9Q|The transaction has not ...")
+            return [502,"The transaction has not been send, or is still waiting for a response."
             ];
         if (! isset($this->txc_messages[$tx_id]))
-            return [502,i("BFNYBY|The requested transactio...")
+            return [502,"The requested transaction is not in the container."
             ];
         return [$this->txc_messages[$tx_id]["result_code"],$this->txc_messages[$tx_id]["result_message"]
         ];

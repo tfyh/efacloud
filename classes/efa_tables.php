@@ -1,9 +1,31 @@
 <?php
+/**
+ *
+ *       efaCloud
+ *       --------
+ *       https://www.efacloud.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-//TODO introduced to avoid a fata error when updating from < 2.3.2_13 to 2.3.2_13ff. in April 2023. Remove some day
+
+// TODO introduced to avoid a fata error when updating from < 2.3.2_13 to 2.3.2_13ff. in April 2023. Remove
+// some day
 if (! function_exists("i"))
     include_once "../classes/init_i18n.php";
-    
+
 /**
  * Fully static class file for the specific handling of eFa tables, e. g. GUID generation, autoincrementation
  * etc.
@@ -243,7 +265,7 @@ class Efa_tables
     ];
 
     /**
-     * All data fields which contain a date value. For formatting purposes.
+     * All data fields which contain a date value. For formatting purposes and empty-to-NULL-conversion.
      */
     public static $date_fields = ["efa2autoincrement" => [],
             "efa2boatdamages" => ["ReportDate","FixDate"
@@ -256,6 +278,28 @@ class Efa_tables
             ],"efa2persons" => [],"efa2sessiongroups" => ["StartDate","EndDate"
             ],"efa2statistics" => ["DateFrom","DateTo"
             ],"efa2status" => [],"efa2waters" => []
+    ];
+
+    /**
+     * All data fields which contain a time value. For formatting purposes.
+     */
+    public static $time_fields = ["efa2boatdamages" => ["ReportTime","FixTime"
+            ],"efa2boatreservations" => ["TimeFrom","TimeTo"
+            ],"efa2logbook" => ["StartTime","EndTime"
+            ],"efa2messages" => ["Time"]
+    ];
+    
+    /**
+     * All fields which contain a date value that indicates the period to which this record belongs, when
+     * doing a name lookup in versionized tables.
+     */
+    public static $period_indication_fields = ["efa2autoincrement" => false,
+            "efa2boatdamages" => "ReportDate","efa2boatreservations" => "DateFrom","efa2boats" => false,
+            "efa2boatstatus" => false,"efa2clubwork" => "Date","efa2crews" => false,
+            "efa2destinations" => false,"efa2fahrtenabzeichen" => false,"efa2groups" => false,
+            "efa2logbook" => "Date","efa2messages" => "Date","efa2persons" => false,
+            "efa2sessiongroups" => "StartDate","efa2statistics" => "DateFrom","efa2status" => false,
+            "efa2waters" => false
     ];
 
     /**
@@ -553,7 +597,8 @@ class Efa_tables
      * @param array $b
      *            second record
      * @param bool $echo_diff
-     *            set true to echo any detected difference. THis echoing will not be translated, always English.
+     *            set true to echo any detected difference. THis echoing will not be translated, always
+     *            English.
      * @return boolean true, if equal, else false.
      */
     public static function records_are_equal (array $a, array $b, bool $echo_diff)
@@ -720,7 +765,7 @@ class Efa_tables
      */
     public static function virtual_full_name (String $first = null, String $last = null, Tfyh_toolbox $toolbox)
     {
-        if ((strlen($first) == 0) && (strlen($last) == 0))
+        if ((!isset($first) || (strlen($first) == 0)) && (!isset($last) || (strlen($last) == 0)))
             return "-";
         if (strcasecmp($toolbox->config->get_cfg()["efa_NameFormat"], "FIRSTLAST") == 0)
             $full_name = $first . " " . $last;
@@ -755,8 +800,8 @@ class Efa_tables
         if (strcasecmp($tablename, "efa2boatreservations") == 0) {
             // VirtualBoat, VirtualPerson need lookup
             if (! is_null($efa_uuids)) {
-                $virtual_boat = $efa_uuids->resolve_UUID($record_to_modify["BoatId"])[1];
-                $virtual_fullname = $efa_uuids->resolve_UUID($record_to_modify["PersonId"])[1];
+                $virtual_boat = $efa_uuids->resolve_UUID($record_to_modify["BoatId"] ?? "")[1];
+                $virtual_fullname = $efa_uuids->resolve_UUID($record_to_modify["PersonId"] ?? "")[1];
             } else {
                 $boat_last_records = $socket->find_records_sorted_matched("efa2boats", 
                         ["Id" => $record_to_modify["BoatId"]
@@ -773,19 +818,19 @@ class Efa_tables
             if (strlen($virtual_fullname) == 1)
                 $virtual_fullname = "-";
             // VirtualReservationDate w/o lookup
-            $virtual_reservation_date = date($dfmt_d, strtotime($record_to_modify["DateFrom"])) . " " .
-                     substr($record_to_modify["TimeFrom"], 0, 5) . " - " .
-                     date($dfmt_d, strtotime($record_to_modify["DateTo"])) . " " .
-                     substr($record_to_modify["TimeTo"], 0, 5);
+            $virtual_reservation_date = date($dfmt_d, strtotime($record_to_modify["DateFrom"] ?? "")) . " " .
+                     substr($record_to_modify["TimeFrom"] ?? "", 0, 5) . " - " .
+                     date($dfmt_d, strtotime($record_to_modify["DateTo"] ?? "")) . " " .
+                     substr($record_to_modify["TimeTo" ?? ""], 0, 5);
             if (strcasecmp($record_to_modify["VirtualBoat"], $virtual_boat) != 0) {
                 $record_to_modify["VirtualBoat"] = $virtual_boat;
                 $changed = true;
             }
-            if (strcasecmp($record_to_modify["VirtualPerson"], $virtual_fullname) != 0) {
+            if (strcasecmp($record_to_modify["VirtualPerson"] ?? "", $virtual_fullname) != 0) {
                 $record_to_modify["VirtualPerson"] = $virtual_fullname;
                 $changed = true;
             }
-            if (strcasecmp($record_to_modify["VirtualReservationDate"], $virtual_reservation_date) != 0) {
+            if (strcasecmp($record_to_modify["VirtualReservationDate"] ?? "", $virtual_reservation_date) != 0) {
                 $record_to_modify["VirtualReservationDate"] = $virtual_reservation_date;
                 $changed = true;
             }
@@ -794,18 +839,9 @@ class Efa_tables
             $person_last_records = $socket->find_records_sorted_matched("efa2persons", 
                     ["Id" => $record_to_modify["PersonId"]
                     ], 1, "=", "InvalidFrom", false);
-            $virtual_fullname = self::virtual_full_name($person_last_records[0]["FirstName"], 
-                    $person_last_records[0]["LastName"], $toolbox);
-            // A field with a single blank will be returned as empty by the database.
-            // that will trigger a repetitive re-adding, if first and last name are empty
-            if (strlen($virtual_fullname) == 1)
-                $virtual_fullname = "-";
-            if (strcasecmp($record_to_modify["FirstLastName"], $virtual_fullname) != 0) {
-                $record_to_modify["VirtualPerson"] = $virtual_fullname;
-                $changed = true;
-            }
-            $virtual_name_affix = $person_last_records[0]["NameAffix"];
-            if (strcasecmp($record_to_modify["NameAffix"], $virtual_name_affix) != 0) {
+            $virtual_name_affix = $person_last_records[0]["NameAffix"] ?? "";
+            $record_name_affix = $record_to_modify["NameAffix"] ?? "";
+            if (strcasecmp($record_name_affix, $virtual_name_affix) != 0) {
                 $record_to_modify["NameAffix"] = $virtual_name_affix;
                 $changed = true;
             }
@@ -828,8 +864,8 @@ class Efa_tables
                 $changed = true;
             }
         } elseif (strcasecmp($tablename, "efa2persons") == 0) {
-            $virtual_fullname = self::virtual_full_name($record_to_modify["FirstName"], 
-                    $record_to_modify["LastName"], $toolbox);
+            $virtual_fullname = self::virtual_full_name($record_to_modify["FirstName"] ?? "", 
+                    $record_to_modify["LastName"] ?? "", $toolbox);
             if (strlen($virtual_fullname) == 1)
                 $virtual_fullname = "-";
             if (! isset($record_to_modify["FirstLastName"]) ||

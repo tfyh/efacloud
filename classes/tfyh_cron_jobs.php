@@ -1,4 +1,25 @@
 <?php
+/**
+ *
+ *       the tools-for-your-hobby framework
+ *       ----------------------------------
+ *       https://www.tfyh.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ */
+
 
 /**
  * static class container file for a daily jobs routine. It may be triggered by whatever, checks whther it was
@@ -38,7 +59,6 @@ class Tfyh_cron_jobs
         // remove obsolete files in log directory from previous program versions or debug runs
         $toolbox->logger->remove_obsolete();
         $toolbox->logger->rotate_logs();
-        Tfyh_logger::remove_obsolete_access_logs();
         $toolbox->logger->collect_and_cleanse_init_login_error_log();
         include_once "../classes/tfyh_list.php";
         Tfyh_list::clear_caches();
@@ -69,7 +89,7 @@ class Tfyh_cron_jobs
         // run a backup.
         if (isset($toolbox->config->settings_tfyh["config"]["backup"]) &&
                  (strcasecmp($toolbox->config->settings_tfyh["config"]["backup"], "on") == 0)) {
-            include_once ("../classes/tfyh_backup_handler.php");
+            include_once "../classes/tfyh_backup_handler.php";
             $backup_handler = new Tfyh_backup_handler("../log/", $toolbox, $socket);
             $backup_handler->backup();
             $toolbox->logger->log(0, $app_user_id, "Backup completed.");

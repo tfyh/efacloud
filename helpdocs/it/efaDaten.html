@@ -1,0 +1,153 @@
+<h3>efa data</h3>
+<p>The PC programme efa holds all data in 17 tables with a total of
+	491 data fields. total of 491 data fields.</p>
+<h4>Tables</h4>
+<p>Four tables in efa are "versioned", i.e. they contain objects
+	with several data records, each with a validity period. have a validity
+	period. In ten of the 17 tables, an object ID (UUID) serves as the key
+	to the data record or - for the versioned tables - to the object.</p>
+<p>Three tables are dependent on the boot table: Boot status - there
+	there is exactly one data set per boat, boat damage and reservations,
+	which, in addition to the counter, also have the object ID (UUID) of
+	the boat as key, so that a reservation number can occur more than once,
+	but this does not usually happen. usually does not happen.</p>
+<table>
+	<tr>
+		<th>Content</th>
+		<th>Table</th>
+		<th>Version</th>
+		<th>Object ID</th>
+		<th>Data fields</th>
+	</tr>
+	<tr>
+		<td>Technical counters</td>
+		<td>efa2autoincrement</td>
+		<td></td>
+		<td></td>
+		<td>8</td>
+	</tr>
+	<tr>
+		<td>Boat damage</td>
+		<td>efa2boatdamages</td>
+		<td></td>
+		<td></td>
+		<td>25</td>
+	</tr>
+	<tr>
+		<td>Reservations</td>
+		<td>efa2boatreservations</td>
+		<td></td>
+		<td></td>
+		<td>23</td>
+	</tr>
+	<tr>
+		<td>boats</td>
+		<td>efa2boats</td>
+		<td>X</td>
+		<td>X</td>
+		<td>46</td>
+	</tr>
+	<tr>
+		<td>boatstatus</td>
+		<td>efa2boatstatus</td>
+		<td></td>
+		<td></td>
+		<td>16</td>
+	</tr>
+	<tr>
+		<td>clubwork book</td>
+		<td>efa2clubwork</td>
+		<td></td>
+		<td>X</td>
+		<td>19</td>
+	</tr>
+	<tr>
+		<td>crews</td>
+		<td>efa2crews</td>
+		<td></td>
+		<td>X</td>
+		<td>34</td>
+	</tr>
+	<tr>
+		<td>destinations</td>
+		<td>efa2destinations</td>
+		<td>X</td>
+		<td>X</td>
+		<td>21</td>
+	</tr>
+	<tr>
+		<td>driving badge (DRV)</td>
+		<td>efa2fahrtenabzeichen</td>
+		<td></td>
+		<td></td>
+		<td>27</td>
+	</tr>
+	<tr>
+		<td>groups</td>
+		<td>efa2groups</td>
+		<td>X</td>
+		<td>X</td>
+		<td>14</td>
+	</tr>
+	<tr>
+		<td>logbook</td>
+		<td>efa2logbook</td>
+		<td></td>
+		<td></td>
+		<td>82</td>
+	</tr>
+	<tr>
+		<td>messages</td>
+		<td>efa2messages</td>
+		<td></td>
+		<td></td>
+		<td>17</td>
+	</tr>
+	<tr>
+		<td>persons</td>
+		<td>efa2persons</td>
+		<td>X</td>
+		<td>X</td>
+		<td>41</td>
+	</tr>
+	<tr>
+		<td>session groups</td>
+		<td>efa2sessiongroups</td>
+		<td></td>
+		<td>X</td>
+		<td>15</td>
+	</tr>
+	<tr>
+		<td>statistics templates</td>
+		<td>efa2statistics</td>
+		<td></td>
+		<td>X</td>
+		<td>80</td>
+	</tr>
+	<tr>
+		<td>membership status types</td>
+		<td>efa2status</td>
+		<td></td>
+		<td>X</td>
+		<td>13</td>
+	</tr>
+	<tr>
+		<td>waters</td>
+		<td>efa2waters</td>
+		<td></td>
+		<td>X</td>
+		<td>10</td>
+	</tr>
+</table>
+<h4>Validity rules</h4>
+<p>In addition to the uniqueness of the keys, there are other
+	Validity rules that are applied to records. If they are violated, efa
+	cannot save the record. Therefore these rules must also be checked in
+	efaCloud. If the check is not done in exactly the same way, the
+	situation can occur that records between efa-PC and efaCloud server do
+	not become synchronous.</p>
+<h4>Edit data</h4>
+<p>Editing data in efaCloud is possible but not yet recommended. not
+	yet recommended. The reason is the still incomplete implementation of
+	the implementation of the validity check in efaCloud - synchronisation
+	problems could synchronisation problems after editing.</p>

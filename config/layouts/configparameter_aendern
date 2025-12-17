@@ -16,8 +16,17 @@ tags;required;name;value;label;type;class;size;maxlength
 </div><div class='w3-col l2'><br>;;notify_damage_unusable_only;;sVUA3S|Send only in case of dam...;checkbox;;;
 </div></div><div class='w3-row'><div class='w3-col l2'>;;notify_admin_message_to;;IwDHk3|Mail address for new mes...;text;;92%;250
 </div><div class='w3-col l2'>;;notify_reservation_to;;bZPxRq|Mail address for notices...;text;;92%;250
+</div></div><div class='w3-row'><div class='w3-col l2'>;;notify_boatm_message_to;;rt5Zt3|Mail address for new mes...;text;;92%;250
 </div></div></span><div class='w3-row'><div class='w3-col l1'>;;_no_input;;qtWECm| ** Passing on informati...;;;;
 </div></div><span class='w3-hide configGroup' id='configGroup-Informationsweitergabe'><div class='w3-row'><div class='w3-col l1'>;;public_onthewater;;meZ7oy|Information about boats ...;checkbox;;2;2
+</div></div><div class='w3-row'><div class='w3-col l4'>;;public_tripdata_EntryId;;g7bm3l|trip no.;checkbox;;2;2
+</div><div class='w3-col l4'>;;public_tripdata_BoatName;;fYPl0H|boat name;checkbox;;2;2
+</div><div class='w3-col l4'>;;public_tripdata_BoatAffix;;oo2aIk|boat name affix;checkbox;;2;2
+</div><div class='w3-col l4'>;;public_tripdata_BoatType;;fiuCPT|boat type;checkbox;;2;2
+</div></div><div class='w3-row'><div class='w3-col l4'>;;public_tripdata_CrewGroups;;kHUZax|groups in boat;checkbox;;2;2
+</div><div class='w3-col l4'>;;public_tripdata_StartTime;;xOxZIm|start time;checkbox;;2;2
+</div><div class='w3-col l4'>;;public_tripdata_Destination;;mFYJcy|destination;checkbox;;2;2
+</div><div class='w3-col l4'>;;public_tripdata_Distance;;vOt1pZ|distance;checkbox;;2;2
 </div></div><div class='w3-row'><div class='w3-col l1'>;;public_notavailable;;HzhgbZ|Information about unavai...;checkbox;;2;2
 </div></div><div class='w3-row'><div class='w3-col l1'>;;public_notusable;;Mi3MiT|Information about boats ...;checkbox;;2;2
 </div></div><div class='w3-row'><div class='w3-col l1'>;;public_reserved;;Gcji2b|Information about boat r...;checkbox;;2;2
@@ -45,6 +54,7 @@ tags;required;name;value;label;type;class;size;maxlength
 </div></div><span class='w3-hide configGroup' id='configGroup-Synchronisation'><div class='w3-row'><div class='w3-col l2'>;;synch_period;;nlanLa|Time in seconds between ...;text;;12;20
 </div><div class='w3-col l2'>;;synch_check_period;;scNlB8|Time in seconds between ...;text;;12;20
 </div></div><div class='w3-row'><div class='w3-col l2'>;;PurgeDeletedAgeDays;;HWpoVD| ** How many days should...;text;;8;8
+</div></div><div class='w3-row'><div class='w3-col l2'>;;logs_to_return;;poVH9D| ** What log files ...;"select 2=all;1=errors;0=none";;8;8
 </div></div></span><div class='w3-row'><div class='w3-col l1'>;;_no_input;;SNIjYx| ** Debugging and backup...;;;;
 </div></div><span class='w3-hide configGroup' id='configGroup-DebuggingUndBackup'><div class='w3-row'><div class='w3-col l1'>;;debug_support;;FxOni8| ** For support purposes...;checkbox;;2;2
 </div></div><div class='w3-row'><div class='w3-col l1'>;;backup;;gyvihB| ** Not recommended, slo...;checkbox;;2;2

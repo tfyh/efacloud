@@ -1,5 +1,27 @@
 <?php
 /**
+ *
+ *       efaCloud
+ *       --------
+ *       https://www.efacloud.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+/**
  * The form for user workflow assignment. Based on the Tfyh_form class, please read instructions their to
  * better understand this PHP-code part.
  * 
@@ -96,7 +118,7 @@ if ($done > 0) {
         $record_for_update["ID"] = $user_to_update["ID"];
         $record_for_update["Workflows"] = $workflows_after;
         $record_for_update["Concessions"] = $concessions_after;
-        $res = $socket->update_record($_SESSION["User"][$toolbox->users->user_id_field_name], 
+        $res = $socket->update_record($toolbox->users->session_user["@id"], 
                 $toolbox->users->user_table_name, $record_for_update);
         if ($res === false)
             $form_errors .= i("b3cmve|Database statement faile...");
@@ -145,6 +167,6 @@ if ($todo == 1) { // step 1. No special texts for output
 
 echo '<div class="w3-container"><ul>';
 echo $form_to_fill->get_help_html();
-echo "</ul></div>";
-echo i("9TNFSL|</div>");
+echo "</ul></div>\n</div>";
+
 end_script();

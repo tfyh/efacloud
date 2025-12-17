@@ -1,4 +1,25 @@
 <?php
+/**
+ *
+ *       the tools-for-your-hobby framework
+ *       ----------------------------------
+ *       https://www.tfyh.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ */
+
 
 /**
  * A utility class to wrap the system mail function and store sent mails. Originally build for distribution
@@ -105,6 +126,14 @@ class Tfyh_mail_handler
         $this->mail_subscript = $cfg["mail_subscript"];
         $this->mail_footer = $cfg["mail_footer"];
     }
+    
+    /**
+     * 
+     * @return boolean true, if the mail is rather stored to the local host than sent.
+     */
+    public function store_to_localhost() {
+        return (strpos(strtolower($_SERVER["SERVER_NAME"]), "localhost") !== false);
+    }
 
     /**
      * encode a mail header line to quoted printable. Will check for real names in address fields "From:",
@@ -130,9 +159,9 @@ class Tfyh_mail_handler
             if (strpos($mhepparts[1], '[') !== false) {
                 // special support for trailing codes like "John Doe [yahoo-net]" or similar
                 $mheppparts = explode("[", $mhepparts[1], 2);
-                $mhlNew = trim($mhepparts[0]) . ": \"=?UTF-8?Q?" . str_replace(" ", "_", 
-                        quoted_printable_encode(trim($mheppparts[0]))) . "?= [" . trim($mheppparts[1]) . "\" <" .
-                         trim($mheparts[1]) . "\r\n";
+                $mhlNew = trim($mhepparts[0]) . ": \"=?UTF-8?Q?" .
+                         str_replace(" ", "_", quoted_printable_encode(trim($mheppparts[0]))) . "?= [" .
+                         trim($mheppparts[1]) . "\" <" . trim($mheparts[1]) . "\r\n";
             } else {
                 $mhlNew = trim($mhepparts[0]) . ": =?UTF-8?Q?" .
                          str_replace(" ", "_", quoted_printable_encode(trim($mhepparts[1]))) . "?= <" .
@@ -341,8 +370,9 @@ class Tfyh_mail_handler
         if (strpos($subject, ']') !== false) {
             // special support for preceding codes like "[yahoo-net] John Doe's alive" or similar
             $subjparts = explode("]", $subject, 2);
-            $qpSubject = trim($subjparts[0]) . "] =?UTF-8?Q?" .
-                     str_replace(" ", "_", quoted_printable_encode(trim($subjparts[1])));
+            $qpSubject = trim($subjparts[0]) . "] =?UTF-8?Q?" . str_replace(" ", "_", 
+                    str_replace("?", "=3F", // you need to encode '?'
+quoted_printable_encode(trim($subjparts[1]))));
         } else {
             // normal subject lines.
             $qpSubject = "=?UTF-8?Q?" . quoted_printable_encode($subject);
@@ -417,12 +447,11 @@ class Tfyh_mail_handler
         $body_mixed .= "--" . $separator . "--" . $eol;
         
         // Do not send mails, when running on "localhost":
-        if (strpos(strtolower($_SERVER["SERVER_NAME"]), "localhost") !== false) {
+        if ($this->store_to_localhost()) {
             $fname = date("Ymd_His") . "mail.txt";
             $mail_text = $mailto_encoded . "\n\n" . $mailheaders_encoded . "\n\n" . $qpSubject . "\n\n" .
                      $body_mixed . "\n\n";
-            file_put_contents("../all_mails_localhost/" . $fname, $mail_text) !== false;
-            $mailSent = false;
+            $mailSent = file_put_contents("../all_mails_localhost/" . $fname, $mail_text) !== false;
         } else {
             // Send action
             $mailSent = @mail($mailto_encoded, $qpSubject, $body_mixed, $mailheaders_encoded);

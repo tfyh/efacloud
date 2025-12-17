@@ -1,4 +1,35 @@
 <?php
+/**
+ *
+ *       the tools-for-your-hobby framework
+ *       ----------------------------------
+ *       https://www.tfyh.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ */
+
+// config must be first in this sequence
+include_once '../classes/tfyh_config.php';
+include_once '../classes/users.php';
+include_once '../classes/tfyh_logger.php';
+include_once '../classes/tfyh_app_sessions.php';
+
+define("base62chars", "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+define("base64charsplus", "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=");
+
+//
 
 /**
  * A utility class to read and provide the application settings, start a session, log or display an error,
@@ -18,20 +49,14 @@ class Tfyh_toolbox
     private $log_dir = "../log/";
 
     /**
-     * The set of characters to xor base64 strings = $base64chars plus the padding character '='. Used for
-     * "encryption". The padding character will not be xored.
+     * The list of valid characters for an internationalization token.
      */
-    private $base64charsPlus = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+    private $i18n_token_chars = "0123456789abcdefghijklmnopqrstuvwyxzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     /**
      * A random generated String obfuscating the user login token
      */
     private $obfuscator = "jtzOjk6IjEyNy4wLjAuMSI7czoxMToiZGJfYWNjb3VudHMiO2E6MTp7czo0OiJyb290IjtzOjg6IlNmeDFubHAuIjt9czo3OiJkYl9uYW1lIjtzOjU6ImZ2c3NiIjtzO";
-
-    /**
-     * The list of valid characters for an internationalization token.
-     */
-    private $i18n_token_chars = "0123456789abcdefghijklmnopqrstuvwyxzABCDEFGHIJKLMNOPQRSTUVWXYZ0";
 
     /**
      * Associative array providing the bit value associated to a base64 character. Used for "encryption".
@@ -66,12 +91,12 @@ class Tfyh_toolbox
     public $logger;
 
     /**
-     * the users class
+     * the users object
      */
     public $users;
 
     /**
-     * the users class
+     * the sessions manager
      */
     public $app_sessions;
 
@@ -82,20 +107,15 @@ class Tfyh_toolbox
     public function __construct ()
     {
         // config must be first in this sequence
-        include_once '../classes/tfyh_config.php';
         $this->config = new Tfyh_config($this);
         $init_settings = (isset($this->config->settings_tfyh["init"])) ? $this->config->settings_tfyh["init"] : array();
-        
         if (! file_exists("../classes/users.php")) {
             echo "File '../classes/users.php' not found. The tfyh framework can not be used without providing this class file.";
             // no i18n needed here.
-            exit();
+            exit(); // really exit. No test case left over.
         }
-        include_once '../classes/users.php';
         $this->users = new Users($this);
-        include_once '../classes/tfyh_logger.php';
         $this->logger = new Tfyh_logger($this);
-        include_once '../classes/tfyh_app_sessions.php'; //
         $this->app_sessions = new Tfyh_app_sessions($this);
     }
 
@@ -109,8 +129,8 @@ class Tfyh_toolbox
      *            lengh of the token in characters.
      * @param bool $case_sensitive
      *            Set true to generate case sensitive tokens with a selection of 62 characters. Else a 32
-     *            characters sequence is used without "B", "I", "O", "S" to not confound them with "8", "1",
-     *            "0", "5".
+     *            characters sequence is used without "B", "inputLabel", "O", "S" to not confound them with
+     *            "8", "1", "0", "5".
      * @return String token as generated.
      */
     public function generate_token (int $token_length, bool $case_sensitive)
@@ -125,7 +145,46 @@ class Tfyh_toolbox
     }
 
     /**
-     * create GUIDv4as non static function for compatibility reasons
+     * Get the time as float for now or a time in milliseconds.
+     * 
+     * @param String $millis
+     *            milliseconds since the epoch formatted as String. Leave out to get the current time as
+     *            float.
+     * @return float the current time or the time indicated by millis as float in seconds since the epoch
+     */
+    public static function timef (String $millis = null)
+    {
+        if (is_null($millis)) {
+            list ($usec, $sec) = explode(" ", microtime());
+            return (float) $usec + (float) $sec;
+        }
+        return floatval($millis) / 1000;
+    }
+
+    /**
+     * Get the DateTimeImmutable for a microtime in seconds as float.
+     * 
+     * @param float $microtime
+     *            seconds since the epoch formatted as float.
+     * @return DateTimeImmutable the DateTimeImmutable corresponding to the $microtime seconds. For $microtime
+     *         = null the null is returned
+     */
+    public static function datetimef (float $microtime = null)
+    {
+        if (is_null($microtime))
+            return null;
+        // convert microtime float to datetime
+        $dt0 = new DateTime("1970-01-01 00:00:00");
+        $seconds = sprintf("%u", $microtime); // %u => integer formatting, not 32 bit limited
+        if (strlen($seconds) > 10)
+            $seconds = "9999999999";
+        $dti = new DateInterval(sprintf("PT%uS", $seconds));
+        $dt = $dt0->add($dti);
+        return DateTimeImmutable::createFromMutable($dt);
+    }
+
+    /**
+     * DEPRECATED !!! create GUIDv4as non static function for compatibility reasons
      * 
      * @return string Unique identifier
      */
@@ -136,27 +195,37 @@ class Tfyh_toolbox
     }
 
     /**
-     * create GUIDv4, see https://www.php.net/manual/de/function.com-create-guid.php
+     * create GUIDv4, see https://www.php.net/manual/de/function.com-create-guid.php.
      * 
      * @return string Unique identifier
      */
     public static function static_create_GUIDv4 ()
     {
         // OSX/Linux. Windows environments, see link above
-        if (function_exists('openssl_random_pseudo_bytes') === true) {
-            $data = openssl_random_pseudo_bytes(16);
-            $data[6] = chr(ord($data[6]) & 0x0f | 0x40); // set version to 0100
-            $data[8] = chr(ord($data[8]) & 0x3f | 0x80); // set bits 6-7 to 10
-            return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
-        }
-        
-        // Fallback (PHP 4.2+)
-        mt_srand((double) microtime() * 10000);
-        $charid = strtolower(md5(uniqid(rand(), true)));
-        $hyphen = chr(45); // "-"
-        $guidv4 = substr($charid, 0, 8) . $hyphen . substr($charid, 8, 4) . $hyphen . substr($charid, 12, 4) .
-                 $hyphen . substr($charid, 16, 4) . $hyphen . substr($charid, 20, 12);
-        return $guidv4;
+        $data = openssl_random_pseudo_bytes(16);
+        $data[6] = chr(ord($data[6]) & 0x0f | 0x40); // set version to 0100
+        $data[8] = chr(ord($data[8]) & 0x3f | 0x80); // set bits 6-7 to 10
+        return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
+    }
+
+    /**
+     * Generate a data base unique Id. Use 9 bytes created by the standard “openssl_random_pseudo_bytes” PHP
+     * function and map three times three of them into a four character base64 type sequence, but without “/”
+     * and “*” (e.g. “Z6K3mpORQ5y6”).
+     * 
+     * @param int $bytes
+     *            the count of random bytes to be used. Shall be a multiple of 3. The uid will be 4/3 times
+     *            longer. Default is 9.
+     * @return String the created uid
+     */
+    public static function create_uid (int $bytes = 9)
+    {
+        $bytes = openssl_random_pseudo_bytes($bytes);
+        $base_64 = base64_encode($bytes);
+        $slash_rep = substr(base62chars, rand(0, 61), 1);
+        $plus_rep = substr(base62chars, rand(0, 61), 1);
+        $uid = str_replace("/", $slash_rep, str_replace("+", $plus_rep, $base_64));
+        return $uid;
     }
 
     /**
@@ -170,7 +239,7 @@ class Tfyh_toolbox
      */
     public static function array_to_html (array $a, String $indent = "")
     {
-        $html = (strlen($indent) == 0) ? "<span style=\"font-family: 'Courier New', monospace; font-size:0.9em;\">" : "";
+        $html = (strlen($indent) == 0) ? "<span style=\"font-family: 'Courier New', monospace; font-size:0.9rem;\">" : "";
         $n = 0;
         foreach ($a as $key => $value) {
             if (is_array($value)) {
@@ -178,8 +247,9 @@ class Tfyh_toolbox
                 $html .= self::array_to_html($value, $indent . "&nbsp;&nbsp;");
             } else {
                 $disp = (is_null($value)) ? "<span style=\"color:#008;\">NULL</span>" : ((is_bool($value)) ? ("<span style=\"color:#808;\">" .
-                         (($value) ? "true" : "false") . "</span>") : ((is_string($value)) ? "<span style=\"color:#088;\">\"" .
-                         $value . "\"</span>" : $value));
+                         (($value) ? "true" : "false") . "</span>") : ((is_string($value)) ? ("<span style=\"color:#088;\">\"" .
+                         htmlspecialchars($value) . "\"</span>") : ((is_object($value)) ? ("<span style=\"color:#088;\">\"object: " .
+                         get_class($value) . "\"</span>") : $value)));
                 $html .= "$indent$key: $disp<br>";
             }
             $n ++;
@@ -206,16 +276,18 @@ class Tfyh_toolbox
         // no endless error loop.
         if (strrpos($calling_page, "error.php") !== false)
             return;
-        $get_params = "";
+        $get_params = "-";
         if (count($_GET) > 0) {
             foreach ($_GET as $key => $value)
                 $get_params .= $key . "=" . $value . "&";
             $get_params = mb_substr($get_params, 0, mb_strlen($get_params) - 1);
         }
         file_put_contents("../log/lasterror.txt", 
-                $calling_page . ";" . $error_headline . ";" . $error_text . ";" . $get_params);
+                explode(";", $calling_page)[0] . ";" . $error_headline . ";" . $error_text . ";" . $get_params);
         header("Location: ../pages/error.php");
-        exit();
+        // if the header statemnt above fails, display plain error.
+        echo "<h1>Error:</h1><h2>" . $error_headline . "</h2><p>" . $error_text . "</p>";
+        exit(); // really exit. No test case left over.
     }
 
     /**
@@ -236,7 +308,7 @@ class Tfyh_toolbox
     public function create_login_token (String $user_mail, int $validity, String $deep_link)
     {
         $message = strval(time() + $validity * 24 * 3600) . "::" . $user_mail . "::" . $deep_link . "::" .
-                 substr(str_shuffle($this->base64charsPlus), 0, 16);
+                 substr(str_shuffle(base64charsplus), 0, 16);
         file_put_contents("../log/token_logins.log", 
                 "[" . date("Y-m-d H:i:s", time()) . "] " . i("Tix00e|created:") . " " . json_encode($message) .
                          "\n", FILE_APPEND);
@@ -344,11 +416,15 @@ class Tfyh_toolbox
      *            form errors String which shall be wrapped
      * @return String wrapped form errors String
      */
-    public function form_errors_to_html (String $form_errors)
+    public function form_errors_to_html (String $form_errors, int $mode = 1)
     {
         if (strlen($form_errors) > 0) {
-            return '<p><span style="color:#A22;"><b>' . i("NLNSFH|Error:") . " </b> " . $form_errors .
-                     "</span></p>";
+            if ($mode == 1)
+                return '<div class="w3-container"><p><span style="color:#A22;"><b>' . i("NLNSFH|Error:") .
+                         " </b> " . $form_errors . "</span></p></div>";
+            else
+                return '<p style="text-align:center"><span style="color:#A22;"><b>' . i("NLNSFH|Error:") .
+                         " </b> " . $form_errors . "</span></p>";
         }
         return "";
     }
@@ -473,13 +549,13 @@ class Tfyh_toolbox
      * Check whether the given String is a valid internationalization resource reference. String must be 7 to
      * 30 character long, with a 6 digit token sequence followed by a pipe character at start.
      * 
-     * @param String $i18n_resource_reference        the String to check     
+     * @param String $i18n_resource_reference
+     *            the String to check
      * @return boolean true, if the syntax matches a i18n resource reference
-     * 
      */
-    public function is_valid_i18n_reference (String $i18n_resource_reference)
+    public function is_valid_i18n_reference (String $i18n_resource_reference = null)
     {
-        if (strlen($i18n_resource_reference) < 7)
+        if (is_null($i18n_resource_reference) || (strlen($i18n_resource_reference) < 7))
             return false;
         if (strpos($i18n_resource_reference, "|") != 6)
             return false;
@@ -500,7 +576,9 @@ class Tfyh_toolbox
     {
         $errors = "";
         if ((strlen($pwd) < 8) || (strlen($pwd) > 32)) {
-            $errors .= i("aJ5Cy9|The password must be bet...") . " ";
+            $is_hash = ((strlen($pwd) == 60) && (strcmp(substr($pwd, 0, 2), "$2" == 0)));
+            if (! $is_hash)
+                $errors .= i("aJ5Cy9|The password must be bet...") . " ";
         }
         $numbers = (preg_match("#[0-9]+#", $pwd)) ? 1 : 0;
         $lowercase = (preg_match("#[a-z]+#", $pwd)) ? 1 : 0;
@@ -523,7 +601,7 @@ class Tfyh_toolbox
     {
         $P = "";
         for ($i = 0; $i < strlen($p); $i ++)
-            if ((ord($p[$i]) >= 97) && (ord($p[$i]) <= 122)) // a (97) ..z (122)
+            if ((ord($p[$i]) >= 97) && (ord($p[$i]) <= 122))
                 $P .= chr(219 - ord($p[$i]));
             else
                 $P .= $p[$i];
@@ -577,26 +655,70 @@ class Tfyh_toolbox
     }
 
     /**
+     * See
+     * https://stackoverflow.com/questions/3338123/how-do-i-recursively-delete-a-directory-and-its-entire-contents-files-sub-dir
+     * 
+     * @param String $dir
+     *            the directory path to be removed.
+     * @param bool $echo
+     *            set true to echo all activities
+     * @return boolean true on success, else false
+     */
+    public function rrmdir (String $dir, bool $echo = false)
+    {
+        if (is_dir($dir)) {
+            $objects = scandir($dir);
+            foreach ($objects as $object) {
+                if ($object != "." && $object != "..") {
+                    if (is_dir($dir . DIRECTORY_SEPARATOR . $object) && ! is_link($dir . "/" . $object)) {
+                        if ($echo)
+                            echo "drilldown into " . $dir . DIRECTORY_SEPARATOR . $object . "<br>";
+                        $success = $this->rrmdir($dir . DIRECTORY_SEPARATOR . $object);
+                    } else {
+                        if ($echo)
+                            echo "unlinking " . $dir . DIRECTORY_SEPARATOR . $object . "<br>";
+                        $success = unlink($dir . DIRECTORY_SEPARATOR . $object);
+                    }
+                    if (! $success && $echo)
+                        echo "failed.<br>";
+                }
+            }
+            $success = rmdir($dir);
+            if (! $success && $echo)
+                echo "failed to remove $dir.<br>";
+        }
+        return $success;
+    }
+
+    /**
      * Unzipper for backup import. See https://www.php.net/manual/de/ref.zip.php
      * 
      * @param String $zip_path
-     *            the path to the zip archive without ".zip" extension. The extension will be stripped off to
+     *            the path to the zip archive with ".zip" extension. The extension will be stripped off to
      *            create the unzip-directory location for unzipping the archive. This directory must not
      *            exist.
+     * @param bool $rmdir
+     *            remove the zip target directory instead of terminating, if it existst.
      * @return string|array array of filepaths (Strings, including the unzip-directory) of extracted files on
      *         success, else an error message String
      */
-    public function unzip (String $zip_path)
+    public function unzip (String $zip_path, bool $rmdir = false)
     {
         $dir_path = substr($zip_path, 0, strrpos($zip_path, "."));
         if (! file_exists($zip_path))
             return i("XFt9AM|#Error: Zip path °%1° do...", $zip_path);
-        if (file_exists($dir_path))
-            return i("5qjixH|#Error: Target directory...", $dir_path);
         
+        if (file_exists($dir_path)) {
+            if ($rmdir) {
+                $removed = $this->rrmdir($dir_path);
+                if (! $removed)
+                    return i("5qjixH|#Error: Target directory...", $dir_path);
+            } else
+                return i("5qjixH|#Error: Target directory...", $dir_path);
+        }
         mkdir($dir_path);
         $resource = zip_open($zip_path);
-        if (! $resource)
+        if (! $resource || is_numeric($resource))
             return i("6qoA8U|#Error while opening the...", $zip_path);
         $file_list = [];
         $zip_entry = zip_read($resource);
@@ -620,7 +742,9 @@ class Tfyh_toolbox
                 // write file to file system
                 $name = "$dir_path/$name";
                 $file_list[] = $name;
-                $w_bytes = file_put_contents($name, $data);
+                // put contents, if this is not a directory. You cannot use "is_dir()" in this ccontext.
+                if (mb_substr($name, mb_strlen($name) - 1) != DIRECTORY_SEPARATOR)
+                    $w_bytes = file_put_contents($name, $data);
                 zip_entry_close($zip_entry);
             }
             // no errors are issued, if a resource can not be opened within the archive.
@@ -678,28 +802,30 @@ class Tfyh_toolbox
     }
 
     /**
-     * Return a file to the user. The file will afterwards be deleted (unlinked). Uses the "header" function,
-     * i. e. must be called before any other output is generated by the calling page.
+     * Return a file to the user. Uses the "header" function, i. e. must be called before any other output is
+     * generated by the calling page. The file is kept, its content type iis decoded, on failure
+     * "application/x-binary" is used.
      * 
      * @param String $filepath
      *            path to file which shall be returned.
-     * @param String $contenttype
-     *            content type which shall be declared, e.g. application/zip.
      */
-    public function return_file_to_user (String $filepath, String $contenttype)
+    public function return_file_to_user (String $filepath)
     {
         // return file.
         $filename = (strpos($filepath, "/") !== false) ? substr($filepath, strrpos($filepath, "/") + 1) : $filepath;
+        $mime_content_type = mime_content_type($filepath);
+        if ($mime_content_type === false)
+            $mime_content_type = "application/x-binary";
         if (file_exists($filepath)) {
             header($_SERVER["SERVER_PROTOCOL"] . " 200 OK");
             header("Cache-Control: public"); // needed for internet explorer
-            header("Content-Type: " . $contenttype);
+            header("Content-Type: " . $mime_content_type);
             header("Content-Transfer-Encoding: Binary");
             header("Content-Length:" . filesize($filepath));
             header("Content-Disposition: attachment; filename=" . $filename);
             readfile($filepath);
-            // unlink($filepath); That results in an execution error. Clean up later.
-            exit();
+            // unlink($filepath); That results in an execution error. Remove the file in housekeeping.
+            end_script(false);
         } else {
             die(i("8XihSu|Error: File °%1° not fou...", $filepath));
         }
@@ -723,8 +849,8 @@ class Tfyh_toolbox
             header("Content-Length:" . filesize($filepath));
             header("Content-Disposition: attachment; filename=" . $filepath);
             readfile($filepath);
-            // unlink($filepath); That results in an execution error. Clean up later.
-            exit();
+            // unlink($filepath); That results in an execution error. Remove the file in housekeeping.
+            exit(); // really exit. No test case left over.
         } else {
             die(i("6HrzgB|Error: File °%1° not fou...", $filepath));
         }
@@ -838,9 +964,11 @@ class Tfyh_toolbox
      * 
      * @param String $csv
      *            A String with a csv table
+     * @param String $separator
+     *            the separator String, default is ";", must be a single ASCII character
      * @return array of "row" => the line which was read, plus a "remainder"s => remainder of the $csv String.
      */
-    public function read_csv_line (String $csv)
+    public function read_csv_line (String $csv, String $separator = ";")
     {
         $lines = Explode("\n", $csv);
         
@@ -854,12 +982,14 @@ class Tfyh_toolbox
                 $completed_line .= $line . "\n";
             else
                 $remainder .= $line . "\n";
-            /* a line is complete, if the count of quotes is even. Because a quote itself is replace by two
-             * quotes, and a quoted entry always has a quote on both ends. */
+            /*
+             * a line is complete, if the count of quotes is even. Because a quote itself is replace by two
+             * quotes, and a quoted entry always has a quote on both ends.
+             */
             $cnt_quotes = substr_count($completed_line, "\"");
             if (! $raw_row && ($cnt_quotes % 2 == 0)) {
                 // line is complete. Read it into indexed array
-                $raw_row = str_getcsv($completed_line, ";", "\"");
+                $raw_row = str_getcsv($completed_line, $separator, "\"");
             }
         }
         if (strlen($remainder) > 0)
@@ -869,8 +999,129 @@ class Tfyh_toolbox
     }
 
     /**
-     * Simple csv entry encoder as non static version. If the $entry contains one of ' \n', ';' '"' all
-     * "-quotes are duplicated and one '"' added at front and end.
+     * DEPRECATED !!! Only for compatibility reasons.
+     * 
+     * @param String $file_path            
+     * @return array
+     */
+    public function read_csv_array (String $file_path)
+    {
+        return self::static_read_csv_array($file_path);
+    }
+
+    /**
+     * Read a simplified csv-file into an array of rows, each row becoming a named array with the names being
+     * the first line entries. CSV-format must be with text delimiter = " and separator = ;. There must not be
+     * any space character left or right of the delimiter. First line entries must not contain line breaks.
+     * Lines ending with unquoted " \" will be joined with the following line. The file is preferrably encoded
+     * in UTF-8, but ISO-8859-1 should also work due to automatic encoding detection.
+     * 
+     * @param String $file_path
+     *            path to file with csv table
+     * @return array the table which was read. In case of errors, it will be an empty array [].
+     */
+    public static function static_read_csv_array (String $file_path)
+    {
+        // read csv file.
+        if (file_exists($file_path)) {
+            $content = file_get_contents($file_path);
+            return self::static_read_csv_string_array($content);
+        } else
+            return [];
+    }
+
+    /**
+     * DEPRECATED !!!! only for compatibility reasons.
+     * 
+     * @param String $csv_string            
+     */
+    public function read_csv_string_array (String $csv_string)
+    {
+        return self::static_read_csv_string_array($csv_string);
+    }
+
+    /**
+     * Read a simplified csv-String into an array of rows, each row becoming a named array with the names
+     * being the first line entries. CSV-format must be with text delimiter = " and separator = ;. There must
+     * not be any space character left or right of the delimiter. First line entries must not contain line
+     * breaks. Lines ending with unquoted " \" will be joined with the following line. The file is preferrably
+     * encoded in UTF-8, but ISO-8859-1 should also work due to automatic encoding detection.
+     * 
+     * @param String $csv_string
+     *            String with csv table
+     * @param bool $indexed
+     *            Set true to get an array of indexed rows rather than an associative array, the first being
+     *            the header row.
+     * @return array the table which was read. In case of errors, it will be an empty array [].
+     */
+    public static function static_read_csv_string_array (String $csv_string, bool $indexed = false)
+    {
+        $text = mb_convert_encoding($csv_string, 'UTF-8', 
+                mb_detect_encoding($csv_string, 'UTF-8, ISO-8859-1', true));
+        $lines = Explode("\n", $text);
+        $table = [];
+        
+        // convert lines
+        $header = null;
+        $completed_line = ""; // lines will not be complete, if an entry
+                              // contains a line break
+        $is_continued = false;
+        foreach ($lines as $line) {
+            if (strlen(trim($line)) > 0) {
+                // ignore empty lines and lines with only blanks
+                if (is_null($header)) {
+                    // first line is header
+                    $header = str_getcsv($line, ";");
+                    if ($indexed)
+                        $table[] = $header;
+                } else {
+                    if ($is_continued) {
+                        while ($line[0] == " ")
+                            $line = substr($line, 1);
+                    }
+                    // restore the line break removed by the explode() call
+                    $completed_line .= ((strlen($completed_line) == 0) || $is_continued) ? $line : "\n" . $line;
+                    $is_continued = false;
+                    /*
+                     * a line is complete, if the count of quotes is even. Because a quote itself is replace
+                     * by two quotes, and a quoted entry always has a quote on both ends.
+                     */
+                    $cnt_quotes = substr_count($completed_line, "\"");
+                    if ($cnt_quotes % 2 == 0) {
+                        // line is complete, except a special line end is found: ' \' denoting that
+                        // the line is continued.
+                        if (strcmp(mb_substr($completed_line, mb_strlen($completed_line) - 2), " \\") == 0) {
+                            $completed_line = substr($completed_line, 0, strlen($completed_line) - 2);
+                            $is_continued = true;
+                        } else {
+                            // line is complete. Read it into indexedarray
+                            $raw_row = str_getcsv($completed_line, ";", "\"");
+                            $completed_line = "";
+                            if ($indexed)
+                                $table[] = $raw_row;
+                            else {
+                                // now change it to an associative array
+                                $c = 0;
+                                foreach ($raw_row as $value) {
+                                    if (isset($header[$c]))
+                                        $row[$header[$c]] = $value;
+                                    $c ++;
+                                }
+                                // each named array is a table row.
+                                $table[] = $row;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return $table;
+    }
+
+    /* ======================= csv write support ============================== */
+    /**
+     * DEPRECATED !!! Simple csv entry encoder as non static version. If the $entry contains one of ' \n', ';'
+     * '"' all "-quotes are duplicated and one '"' added at front and end.
      * 
      * @param String $entry
      *            entry which shall be encoded
@@ -901,89 +1152,30 @@ class Tfyh_toolbox
     }
 
     /**
-     * Read a simplified csv-file into an array of rows, each row becoming a named array with the names being
-     * the first line entries. CSV-format must be with text delimiter = " and separator = ;. There must not be
-     * any space character left or right of the delimiter. First line entries must not contain line breaks.
-     * Lines ending with unquoted " \" will be joined with the following line. The file is preferrably encoded
-     * in UTF-8, but ISO-8859-1 should also work due to automatic encoding detection.
+     * Write a table, i. e. an array of rows, each row being an associative array, as csv table. The column
+     * names are the keys of the first record. THey will be reused for all records, regardless of what key
+     * they may have. Missing fields become an empty entry, extra fields are ignored.
      * 
-     * @param String $file_path
-     *            path to file with csv table
-     * @return array the table which was read. In case of errors, it will be an empty array [].
+     * @param array $table_as_records            
      */
-    public function read_csv_array (String $file_path)
+    public static function static_write_csv (array $table_as_records)
     {
-        // read csv file.
-        if (file_exists($file_path)) {
-            $content = file_get_contents($file_path);
-            return $this->read_csv_string_array($content);
-        } else
-            return [];
-    }
-
-    /**
-     * Read a simplified csv-String into an array of rows, each row becoming a named array with the names
-     * being the first line entries. CSV-format must be with text delimiter = " and separator = ;. There must
-     * not be any space character left or right of the delimiter. First line entries must not contain line
-     * breaks. Lines ending with unquoted " \" will be joined with the following line. The file is preferrably
-     * encoded in UTF-8, but ISO-8859-1 should also work due to automatic encoding detection.
-     * 
-     * @param String $csv_string
-     *            String with csv table
-     * @return array the table which was read. In case of errors, it will be an empty array [].
-     */
-    public function read_csv_string_array (String $csv_string)
-    {
-        $text = mb_convert_encoding($csv_string, 'UTF-8', 
-                mb_detect_encoding($csv_string, 'UTF-8, ISO-8859-1', true));
-        $lines = Explode("\n", $text);
-        $table = [];
-        
-        // convert lines
-        $header = null;
-        $completed_line = ""; // lines will not be complete, if an entry
-                              // contains a line break
-        $is_continued = false;
-        foreach ($lines as $line) {
-            if (strlen(trim($line)) > 0) { // ignore empty lines and lines with only blanks
-                                           // first line is header
-                if (is_null($header))
-                    $header = str_getcsv($line, ";");
-                else {
-                    if ($is_continued) {
-                        while ($line[0] == " ")
-                            $line = substr($line, 1);
-                    }
-                    $completed_line .= $line;
-                    $is_continued = false;
-                    /* a line is complete, if the count of quotes is even. Because a quote itself is replace
-                     * by two quotes, and a quoted entry always has a quote on both ends. */
-                    $cnt_quotes = substr_count($completed_line, "\"");
-                    if ($cnt_quotes % 2 == 0) {
-                        // line is complete, except a special line endis found: ' \' denoting that
-                        // the line is continued.
-                        if (strcmp(mb_substr($completed_line, mb_strlen($completed_line) - 2), " \\") == 0) {
-                            $completed_line = substr($completed_line, 0, strlen($completed_line) - 2);
-                            $is_continued = true;
-                        } else {
-                            // line is complete. Read it intoindexedarray
-                            $raw_row = str_getcsv($completed_line, ";", "\"");
-                            // now change it to an associative array
-                            $c = 0;
-                            foreach ($raw_row as $value) {
-                                if (isset($header[$c]))
-                                    $row[$header[$c]] = $value;
-                                $c ++;
-                            }
-                            $completed_line = "";
-                            // each named array is a table row.
-                            $table[] = $row;
-                        }
-                    }
-                }
-            }
+        if (! is_array($table_as_records) || ! is_array($table_as_records[0]))
+            return "";
+        $header = [];
+        $csv = "";
+        foreach ($table_as_records[0] as $key => $ignored) {
+            $header[] = $key;
+            $csv .= ";" . self::static_encode_entry_csv($key);
         }
-        return $table;
+        $csv = substr($csv, 1);
+        foreach ($table_as_records as $record) {
+            $row = "";
+            foreach ($header as $key)
+                $row .= ";" . ((isset($record[$key])) ? self::static_encode_entry_csv($record[$key]) : "");
+            $csv .= "\n" . substr($row, 1);
+        }
+        return $csv;
     }
 
     /* =========================== load throttling ==================================== */
@@ -1008,8 +1200,10 @@ class Tfyh_toolbox
      */
     public function load_throttle (String $directory, int $events_limit, String $source_file)
     {
-        /* method uses a ring buffer of time stamps. A pointer stored within the pointer file always indicates
-         * the eldest timestamp written. */
+        /*
+         * method uses a ring buffer of time stamps. A pointer stored within the pointer file always indicates
+         * the eldest timestamp written.
+         */
         // read the oldest timestamp
         $events_dir = $this->log_dir . $directory;
         if (! file_exists($events_dir))
@@ -1078,18 +1272,7 @@ class Tfyh_toolbox
         // List the sessions
         include_once "../classes/tfyh_app_sessions.php";
         $app_sessions = new Tfyh_app_sessions($this);
-        $log_text .= "-------------------- Sessions ------------------\n";
-        $log_text .= $app_sessions->list_sessions();
-        
-        // Log the session details, delete the session
-        session_start();
-        $session_data = "";
-        $log_text .= "-------------------- Server data ------------------\n";
-        foreach ($_SERVER as $parm => $value)
-            $log_text .= "$parm = '$value'\n";
-        $log_text .= "-------------------- \$_SESSION ------------------\n";
-        $log_text .= json_encode($_SESSION);
-        $log_text .= "\n-------------------- End ------------------";
+        $log_text .= $app_sessions->load_warning_info();
         
         if (! file_exists("../log/overload"))
             mkdir("../log/overload");
@@ -1127,21 +1310,186 @@ class Tfyh_toolbox
     }
 
     /**
+     * Convert a String to boolean.
+     * 
+     * @param String $bool_string            
+     * @return bool false, if $bool_string == null, empty or "false" (not case sensitive), else true
+     */
+    public static function bool_value (String $bool_string = null)
+    {
+        return (! is_null($bool_string) && (strlen($bool_string) > 0) &&
+                 (strcasecmp($bool_string, "false") != 0));
+    }
+
+    /**
+     * return an ISO formatted date, without using anyx timestamp conversion.
+     * 
+     * @param String $date
+     *            a date String either dd.mm.yyyy or yyyy-mm-dd. Will return yyy-mm-dd and reformat all
+     *            shorthands like mm-dd or dd.mm.yy.
+     */
+    public static function format_date (String $date)
+    {
+        if (strpos($date, ".") !== false) {
+            $parts = explode(".", $date);
+            $s = [2,1,0
+            ];
+        } else {
+            $parts = explode("-", $date);
+            $s = [0,1,2
+            ];
+        }
+        if (intval($parts[$s[0]]) < 100)
+            $parts[$s[0]] = strval(2000 + intval($parts[$s[0]]));
+        return trim(
+                ((count($parts) > 2) ? sprintf("%'.04d", intval($parts[$s[0]])) : date("Y")) . "-" .
+                         ((count($parts) > 1) ? sprintf("%'.02d", intval($parts[$s[1]])) : date("m")) . "-" .
+                         sprintf("%'.02d", intval($parts[$s[2]])));
+    }
+
+    /**
+     *
+     * @param String $datetime_a
+     *            a PHP readable datetime String.
+     * @param String $datetime_b
+     *            another PHP readable datetime String.
+     * @return boolean true, if the first datetime string represents a date later than the first.
+     */
+    public static function datetime_a_gt_b (String $datetime_a, String $datetime_b)
+    {
+        $dta = new DateTimeImmutable($dta);
+        $dtb = new DateTimeImmutable($dtb);
+        return $dta > $dtb;
+    }
+
+    /**
+     * Convert a timne string to a number of seconds
+     * 
+     * @param String $timestr
+     *            the string to parse
+     * @param bool $no_hours
+     *            set true to interpret xx:yy as mm:ss rather than hh:mm.
+     */
+    public static function timestr_to_seconds (String $timestr, bool $no_hours = false)
+    {
+        $sign = (strcmp(substr(trim($timestr), 0, 1), "-") == 0) ? - 1 : 1;
+        $hms = explode(":", $timestr);
+        if (count($hms) == 2) {
+            return ($no_hours) ? $sign * (abs(intval($hms[0])) * 60 + intval($hms[1])) : ($sign *
+                     (abs(intval($hms[0])) * 3600 + intval($hms[1]) * 60));
+        }
+        return $sign * (abs(intval($hms[0])) * 3600 + intval($hms[1]) * 60 + intval($hms[2]));
+    }
+
+    /**
+     *
+     * @param String $time_a
+     *            a PHP readable time String.
+     * @param String $time_b
+     *            another PHP readable time String.
+     * @return boolean true, if the first datetime string represents a date later than the first.
+     */
+    public static function time_a_gt_b (String $time_a, String $time_b)
+    {
+        return self::timestr_to_seconds($time_a) > self::timestr_to_seconds($time_b);
+    }
+
+    /**
      * Convert a date String to a time for DE and ISO format dates (23.07.2021 and 2021-07-23)
      * 
      * @param String $date_string            
+     * @return integer|bool timestamp, or false, if it is no valid date
      */
-    public function datetotime (String $date_string)
+    public static function datetotime_static (String $date_string)
     {
         if (strpos(($date_string), ".") !== false) {
             $dmy = explode(".", $date_string);
+            if (count($dmy) < 3)
+                return false;
             $date_string = $dmy[2] . "-" . $dmy[1] . "-" . $dmy[0];
         }
         return strtotime($date_string);
     }
 
     /**
-     * Get the encoded parameters of a request as plain associative array.
+     * !!!OBSOLETE!!! Convert a date String to a time for DE and ISO format dates (23.07.2021 and 2021-07-23).
+     * Non static version for legacy compatibility.
+     * 
+     * @param String $date_string            
+     */
+    public function datetotime (String $date_string)
+    {
+        return self::datetotime_static($date_string);
+    }
+
+    /**
+     * Convert a time String to HH:MM:SS format. Milliseconds are dropped. Caution: this is different from
+     * Tfyh_data::format_time()!
+     * 
+     * @param String $time_string
+     *            the String to be converted.
+     * @param bool $no_hours
+     *            set true to convert xx:xx is 00:MM:SS instead of HH:SS:00. xxx:xx is anyway converted to
+     *            HHH:MM:00
+     * @return String|bool the formatted tine, or false, if the provided String does not comply to
+     *         0-999:0-59[:0-61]
+     */
+    public static function format_time (String $time_string, bool $no_hours = false)
+    {
+        if (is_null($time_string) || (strlen($time_string) == 0) || (strlen($time_string) > 10) ||
+                 (strpos($time_string, ":") === false))
+            return false;
+        $parts = explode(":", $time_string);
+        if (count($parts) > 3)
+            return false;
+        $hms_formatted = [];
+        for ($i = 0; $i < count($parts); $i ++) {
+            if (($i > 0) && (intval($parts[$i]) > 61))
+                return false;
+            if (($i == 0) && $no_hours && (count($parts) == 2) && (intval($parts[$i]) > 59))
+                return false;
+            $formatted = strval(intval($parts[$i]));
+            if (strlen($formatted) == 1)
+                $formatted = "0" . $formatted;
+            $hms_formatted[] = $formatted;
+        }
+        if (count($hms_formatted) == 2) {
+            if ((strlen($hms_formatted[0]) == 2) && $no_hours)
+                return "00:" . $hms_formatted[0] . ":" . $hms_formatted[1];
+            else
+                return $hms_formatted[0] . ":" . $hms_formatted[1] . ":00";
+        } else
+            return $hms_formatted[0] . ":" . $hms_formatted[1] . ":" . $hms_formatted[2];
+    }
+
+    /**
+     * Convert a datetime String to YYYY-MM-DD HH:MM[:SS] format. Milliseconds are dropped.
+     * 
+     * @param String $datetime_string
+     *            the String to be converted.
+     * @return String|bool datetime String or false, if conversion failed.
+     */
+    public static function format_datetime (String $datetime_string)
+    {
+        $dt = explode(" ", trim($datetime_string));
+        if (count($dt) == 1) {
+            if (self::format_time($dt[0]) !== false)
+                return "01-01-1900 " . self::format_time($dt[0]);
+            elseif (self::datetotime_static($dt[0]) !== false)
+                return date("Y-m-d", self::datetotime_static($dt[0])) . " 00:00:00";
+            else
+                return false;
+        }
+        $date = self::datetotime_static($dt[0]);
+        $time = self::format_time($dt[1]);
+        if (($date === false) || ($time === false))
+            return false;
+        return date("Y-m-d", $date) . " " . $time;
+    }
+
+    // TODO: may be obsolete by now?
+    /**
+     * DEPRECATED Get the encoded parameters of a request as plain associative array.
      * 
      * @param String $msg
      *            encoded message of GET URL. is a set of "name;value" pairs, separated by ";;" and as full
@@ -1166,7 +1514,7 @@ class Tfyh_toolbox
     {
         if (count($this->bitsForChar64) < 64) {
             for ($b = 0; $b < 65; $b ++) {
-                $character = substr($this->base64charsPlus, $b, 1);
+                $character = substr(base64charsplus, $b, 1);
                 $this->charsForBits64[$b] = $character;
                 $this->bitsForChar64[$character] = $b;
             }

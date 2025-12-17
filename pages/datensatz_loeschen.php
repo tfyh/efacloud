@@ -1,10 +1,25 @@
 <?php
-
 /**
- * Title: efa - elektronisches Fahrtenbuch für Ruderer Copyright: Copyright (c) 2001-2022 by Nicolas Michael
- * Website: http://efa.nmichael.de/ License: GNU General Public License v2. Module efaCloud: Copyright (c)
- * 2020-2021 by Martin Glade Website: https://www.efacloud.org/ License: GNU General Public License v2
+ *
+ *       efaCloud
+ *       --------
+ *       https://www.efacloud.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
+
 
 // ===== initialize toolbox and socket and start session.
 $user_requested_file = __FILE__;
@@ -28,11 +43,12 @@ if ($record_to_delete !== false) {
         // efa records are propagated to clients, therefore need to keep a delete stub
         include_once "../classes/efa_record.php";
         $efa_record = new Efa_record($toolbox, $socket);
+        Efa_tables::register_modification($record_to_delete, time(), $record_to_delete["ChangeCount"], "delete");
         $delete_result = $efa_record->modify_record($_GET["table"], $record_to_delete, 3, 
-                $_SESSION["User"][$toolbox->users->user_id_field_name], false);
+                $toolbox->users->session_user["@id"], false);
     } else {
         // efacloud records are only stored at the server side and cabn be deleted right away.
-        $delete_result = $socket->delete_record($_SESSION["User"][$toolbox->users->user_id_field_name], 
+        $delete_result = $socket->delete_record($toolbox->users->session_user["@id"], 
                 $_GET["table"], $record_to_delete["ID"]);
         $delete_result = (strlen($delete_result) == 0) ? 0 : 2;
     }

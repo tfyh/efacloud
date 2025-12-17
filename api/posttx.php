@@ -6,12 +6,25 @@
  * 2020-2021 by Martin Glade Website: https://www.efacloud.org/ License: GNU General Public License v2
  */
 
+// ===== simulate a broken connection start
+if (false) { sleep(50); exit(); }
+// ===== simulate a broken connection end
+
 // ===== timestamps
 $php_script_started_at = microtime(true);
 $debug = true;
 
+// ===== redirect error repoting.
+$err_file = "../log/php_error.log";
+if (filesize($err_file) > 200000) {
+    copy($err_file, $err_file . ".previous");
+    file_put_contents($err_file, "");
+}
+error_reporting(E_ERROR);
+ini_set("error_log", $err_file);
+
 // ===== initialize toolbox & internationalization.
-include_once "../classes/init_i18n.php";  // usually this is included with init.php
+include_once "../classes/init_i18n.php"; // usually this is included with init.php
 include_once '../classes/tfyh_toolbox.php';
 $toolbox = new Tfyh_toolbox();
 load_i18n_resource($toolbox->config->language_code);
@@ -46,10 +59,25 @@ if (isset($_POST["lowa"])) {
         }
     }
     // if the request is issued from an unknown client, return a fake value.
-    // That is to not dosclose valid client IDs to the internet.
-    if ($valid_client)
-        file_put_contents("../log/lra/" . $requesting_client, date("Y-m-d H:i:s"));
-    else
+    // That is to not disclose valid client IDs to the internet.
+    if ($valid_client) {
+        // find the own session
+        $sessions = scandir("../log/sessions");
+        $own_session = false;
+        foreach ($sessions as $session) {
+            if (strpos($session, "~") === 0) {
+                $session_user_id = intval(explode(";", file_get_contents("../log/sessions/" . $session))[2]);
+                if ($session_user_id == $requesting_client)
+                    $own_session = $session;
+            }
+        }
+        if ($own_session !== false) {
+            // revalidate the api-session
+            $toolbox->app_sessions->session_verify_and_update($requesting_client, $own_session);
+            // store the own read access
+            file_put_contents("../log/lra/" . $requesting_client, date("Y-m-d H:i:s"));
+        }
+    } else
         $lowa = strval(time() - rand(123, 36000));
     
     // note: java timestamps are millis, PHP seconds.
@@ -69,6 +97,7 @@ include_once '../classes/tfyh_socket.php';
 $socket = new Tfyh_socket($toolbox);
 // ===== parse tx container and return, if the syntax is invalid
 include_once "../classes/tx_handler.php";
+
 $tx_handler = new Tx_handler($toolbox, $socket, $php_script_started_at);
 $txc = (isset($_POST["txc"])) ? trim($_POST["txc"]) : "";
 $tx_handler->parse_request_container(trim($txc));
@@ -107,38 +136,23 @@ if ($user_to_verify === false) {
     $tx_handler->send_response_and_exit();
 }
 
-// ===== Authenticate the user
-// try by app session: reading the user from an existing session will return false on failure
-$session_user_id = (mb_strlen($tx_handler->txc["password"]) > 20) &&
-         $toolbox->app_sessions->session_user_id($tx_handler->txc["password"]);
-
-$verified = (($session_user_id !== false) && ($session_user_id == $api_user_id));
-if ($verified) {
-    if ($debug)
-        file_put_contents($posttx_debuglog, 
-                date("Y-m-d H:i:s") . "\n  Existing session: verified '" .
-                         $user_to_verify[$toolbox->users->user_firstname_field_name] . " " .
-                         $user_to_verify[$toolbox->users->user_lastname_field_name] . "' against session ID '" .
-                         $tx_handler->txc["password"] . "'.\n", FILE_APPEND);
+// ===== Authenticate the user based on existing sessions
+$api_user_verified = false;
+$api_session_id = null;
+if ($debug)
+    file_put_contents($posttx_debuglog, 
+            date("Y-m-d H:i:s") . "\n  Verifying '" . $user_to_verify[$toolbox->users->user_id_field_name] .
+                     "' against " . mb_strlen($tx_handler->txc["password"]) . " characters password: ", 
+                    FILE_APPEND);
+$api_user_verified = ((mb_strlen($tx_handler->txc["password"]) > 20) && $toolbox->app_sessions->session_verify_and_update(
+        $api_user_id, $tx_handler->txc["password"])); // Session IDs usually have at least 20 characters
+if ($api_user_verified) {
     $api_session_id = $tx_handler->txc["password"];
-    $is_new_session = false;
-    $session_opened = $toolbox->app_sessions->session_open($api_user_id, $api_session_id);
-    
-    if (! $session_opened) {
-        $tx_handler->txc["cresult_code"] = 406;
-        $tx_handler->txc["cresult_message"] = "Failed to reuse your existing session, please try again later.";
-        $tx_handler->send_response_and_exit();
-    }
-    $tx_handler->txc["cresult_code"] = 300;
-    $tx_handler->txc["cresult_message"] = "Ok.";
-} // try by password
-else {
     if ($debug)
-        file_put_contents($posttx_debuglog, 
-                date("Y-m-d H:i:s") . "\n  New session: verifying '" .
-                         $user_to_verify[$toolbox->users->user_firstname_field_name] . " " .
-                         $user_to_verify[$toolbox->users->user_lastname_field_name] . "' against " .
-                         mb_strlen($tx_handler->txc["password"]) . " characters password.\n", FILE_APPEND);
+        file_put_contents($posttx_debuglog, "session ok.\n", FILE_APPEND);
+    
+    // ===== Authenticate the user based on user / pwd
+} else {
     // get password hash for user either from data base or from auth_provider
     $passwort_hash = $user_to_verify["Passwort_Hash"];
     // if no password hash is available, check with alternative authentication provider
@@ -150,61 +164,78 @@ else {
                     FILE_APPEND);
         include_once $auth_provider_class_file;
         $auth_provider = new Auth_provider();
-        $passwort_hash = $auth_provider->get_pwhash($user_to_verify[$toolbox->users->user_id_field_name]);
+        $passwort_hash = $auth_provider->get_pwhash($api_user_id);
     }
     // verify password.
-    $verified = (strlen($passwort_hash) > 10) && (strlen($tx_handler->txc["password"]) > 0) &&
+    $api_user_verified = (strlen($passwort_hash) > 10) && (strlen($tx_handler->txc["password"]) > 0) &&
              password_verify($tx_handler->txc["password"], $passwort_hash);
-    if ($verified) {
-        $api_session_id = $toolbox->app_sessions->create_app_session_id();
-        $is_new_session = true;
-        // ===== open an app session, if the first transaction of this container is a NOP request
-        if (isset($tx_handler->txc["requests"][0]) && isset($tx_handler->txc["requests"][0]["type"]) &&
-                 strcasecmp($tx_handler->txc["requests"][0]["type"], "NOP") == 0) {
-            $session_open = $verified && $toolbox->app_sessions->session_open($api_user_id, $api_session_id);
-            $session_opened = $toolbox->app_sessions->session_open($api_user_id, $api_session_id);
-            if (! $session_opened) {
-                $tx_handler->txc["cresult_code"] = 406;
-                $tx_handler->txc["cresult_message"] = "Too many sessions open, please try again later.";
-                $tx_handler->send_response_and_exit();
-            }
-            $tx_handler->txc["cresult_code"] = 300;
-            $tx_handler->txc["cresult_message"] = "Ok. New session opened.";
-        } else {
-            $tx_handler->txc["cresult_code"] = 300;
-            $tx_handler->txc["cresult_message"] = "Ok.";
-        }
-    } else {
-        $tx_handler->txc["cresult_code"] = 403;
-        $tx_handler->txc["cresult_message"] = "Authentication failed.";
-        $tx_handler->send_response_and_exit();
+    if ($api_user_verified) {
+        if ($debug)
+            file_put_contents($posttx_debuglog, "password ok.\n", FILE_APPEND);
+        // check, whether an API-session for this user exists
     }
 }
+// if also user/password did not provide authentication, return failure to client.
+if ($api_user_verified === false) {
+    if ($debug)
+        file_put_contents($posttx_debuglog, "FAILED.\n", FILE_APPEND);
+    $tx_handler->txc["cresult_code"] = 403;
+    $tx_handler->txc["cresult_message"] = "Authentication failed.";
+    // no further transaction processing on authentication errors
+    $tx_handler->send_response_and_exit();
+}
 
-// Set the $_SESSION["User"] for later use in the application.
-if (! isset($_SESSION["User"]))
-    $_SESSION["User"] = $user_to_verify;
-$_SESSION["User"]["appType"] = $tx_handler->txc["appType"];
+// ===== open an API-session, if the first transaction of this container is a NOP request
+$is_session_start = (isset($tx_handler->txc["requests"][0]) && isset($tx_handler->txc["requests"][0]["type"]) &&
+         (strcasecmp($tx_handler->txc["requests"][0]["type"], "NOP") == 0));
+if ($is_session_start) {
+    // open a new session
+    $api_session_id = $toolbox->app_sessions->api_session_start($api_user_id, $socket, "new");
+} else
+    // for user/password authentication, $api_session_id will be null
+    $api_session_id = $toolbox->app_sessions->api_session_start($api_user_id, $socket, $api_session_id);
+
+// session allocation failed. Return overload error
+if ($api_session_id === false) {
+    $tx_handler->txc["cresult_code"] = 406;
+    $tx_handler->txc["password"] = ""; // remove the password, no further use
+    $tx_handler->txc["cresult_message"] = "Too many sessions open, please try again later.";
+    // no further transaction processing on authentication errors
+    $tx_handler->send_response_and_exit();
+}
+
+// Authentication and session allocation successful
+$tx_handler->txc["cresult_code"] = 300;
+$tx_handler->txc["password"] = ""; // remove the password, no further use
+$tx_handler->txc["cresult_message"] = "Ok.";
+$tx_handler->set_session_id($api_session_id);
+if (! isset($toolbox->users->session_user))
+    $toolbox->users->set_session_user($user_to_verify);
+
+// ===== Handle the transactions
+// Set the $toolbox->users->session_user for later use in the application.
+$toolbox->users->session_user["appType"] = $tx_handler->txc["appType"];
 if ($debug)
     file_put_contents($posttx_debuglog, 
             date("Y-m-d H:i:s") . "\n  User after session check: appUserID " .
-                     $_SESSION["User"][$toolbox->users->user_id_field_name] . ", Rolle: " .
-                     $_SESSION["User"]["Rolle"] . ", Anwendungstyp = " . $_SESSION["User"]["appType"] . "\n", 
-                    FILE_APPEND);
+                     $toolbox->users->session_user["@id"] . ", Rolle: " .
+                     $toolbox->users->session_user["Rolle"] . ", Anwendungstyp = " .
+                     $toolbox->users->session_user["appType"] . "\n", FILE_APPEND);
 
 // ===== add listeners to the socket - removed 27.02.2022, V2.3.1_08 as last with the staement
 
 // ===== check for daily cron jobs run only at session opening actions.
-if ($is_new_session) {
+$first_tx_type = $tx_handler->txc["requests"][0]["type"];
+if ($is_session_start) {
     include_once ("../classes/cron_jobs.php");
-    Cron_jobs::run_daily_jobs($toolbox, $socket, $_SESSION["User"][$toolbox->users->user_id_field_name]);
+    Cron_jobs::run_daily_jobs($toolbox, $socket, $toolbox->users->session_user["@id"]);
 }
 
 include_once '../classes/tfyh_menu.php';
 $menu = new Tfyh_menu("../config/access/api", $toolbox);
 if ($debug)
     file_put_contents($posttx_debuglog, "  Request handling started at " . date("H:i:s") . ".\n", FILE_APPEND);
-$tx_handler->handle_request_container($_SESSION["User"], $menu);
+$tx_handler->handle_request_container($toolbox->users->session_user, $menu);
 if ($debug)
     file_put_contents($posttx_debuglog, "  Request handling completed at " . date("H:i:s") . ".\n", 
             FILE_APPEND);

@@ -1,0 +1,16 @@
+<h4>Virtual data fields</h4>
+<p>
+	Efa uses so-called "virtual" data fields to speed up displays. to speed
+	up displays, for example the data field "AllCrewNames" with all the
+	names of the crew, which would otherwise have to be determined by
+	looking up from the ids. These fields are set when the record is set.
+	If, for instance, names are changed or names become Ids because a new
+	member has been added in the meantime, errors can occur in the virtual
+	fields. Via a database audit (efa_daten &gt; audit database), these
+	errors can be errors are corrected. This is always done automatically
+	because they do not information.<br>Strictly speaking, for reasons
+	of data protection data protection reasons, it is even necessary after
+	archiving a data record to even necessary to correct the name to
+	archivID:xxx, because these virtual these virtual data fields may still
+	contain names that have already been archived. already archived names.
+</p>

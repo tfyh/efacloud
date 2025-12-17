@@ -1,16 +1,33 @@
 <?php
 /**
+ *
+ *       the tools-for-your-hobby framework
+ *       ----------------------------------
+ *       https://www.tfyh.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ */
+
+/**
  * The form for upload and import of multiple data records as csv-tables. Based on the Tfyh_form class, please
  * read instructions their to better understand this PHP-code part.
  * 
  * @author mgSoft
  */
+// TODO überarbeiten!!
 
-// ===== special efacloud field idname conventions
-$idnames = ["efa2autoincrement" => "Sequence","efa2boatstatus" => "BoatId","efa2clubwork" => "Id",
-        "efa2crews" => "Id","efa2fahrtenabzeichen" => "PersonId","efa2messages" => "MessageId",
-        "efa2sessiongroups" => "Id","efa2statistics" => "Id","efa2status" => "Id","efa2waters" => "Id"
-];
 // compare "nutzer_aendern.php::$uniques"
 $uniques = ["efaCloudUsers" => ["efaCloudUserID","efaAdminName","EMail"
 ]
@@ -35,8 +52,10 @@ if ($done > 0) {
     $form_filled->read_entered();
     $form_errors = $form_filled->check_validity();
     $entered_data = $form_filled->get_entered();
-    $idname = (isset($entered_data["Tabelle"]) && isset($idnames[$entered_data["Tabelle"]])) ? $idnames[$entered_data["Tabelle"]] : "ID";
-    
+    $table_name = $entered_data["Tabelle"];
+    $column_names = $socket->get_column_names($table_name);
+    // legacy id names are ID and uid. Try those first.
+    $idname = (in_array("uid", $column_names)) ? "uid" : ((in_array("ID", $column_names)) ? "ID" : "???");
     // application logic, step by step
     if (strlen($form_errors) > 0) {
         // do nothing. This avoids any change, if form errors occured.
@@ -86,9 +105,8 @@ if ($done > 0) {
                 
                 // do import verification
                 if (strlen($import_result) == 0)
-                    $import_result .= $socket->import_table_from_csv(
-                            $_SESSION["User"][$toolbox->users->user_id_field_name], $tablename, $tfilename, 
-                            true, $idname);
+                    $import_result .= $socket->import_table_from_csv($toolbox->users->session_user["@id"], 
+                            $tablename, $tfilename, true, $idname);
                 // only move on, if import did not return an error.
                 if (strcmp(substr($import_result, 0, 1), "#") != 0)
                     $todo = $done + 1;
@@ -98,9 +116,8 @@ if ($done > 0) {
         }
     } elseif ($done == 2) {
         // step 2 form was filled. Values were valid. Now execute import.
-        $import_result = $socket->import_table_from_csv(
-                $_SESSION["User"][$toolbox->users->user_id_field_name], $_SESSION["io_table"], 
-                "../log/io/" . $_SESSION["io_file"], false, $idname);
+        $import_result = $socket->import_table_from_csv($toolbox->users->session_user["@id"], 
+                $_SESSION["io_table"], "../log/io/" . $_SESSION["io_file"], false, $idname);
         $todo = $done + 1;
     }
 }
@@ -122,21 +139,26 @@ echo $menu->get_menu();
 echo file_get_contents('../config/snippets/page_02_nav_to_body');
 
 // page heading, identical for all workflow steps
-echo i("Yxab32| ** Import table ** Here...");
+echo "<h3>" . i("17392l|Import table") . "</h3>";
+echo "<p>" . i("p4vCuA|This form is import a ta...") . "</p>";
+
 if ($todo == 1) { // step 1. Texts for output
-    echo i("Bi1XKi| ** When importing, the ...");
+    echo "<p>" . i("UTmyA8|For importing an ID must...") . "</p>";
+    echo "<p>" . i("nBgz5e|Tables to be imported mu...") . "</p>";
+    echo "<p>" . i("A0zktK|Tables to be imported th...") . "</p>";
     echo $toolbox->form_errors_to_html($form_errors);
     echo $form_to_fill->get_html(true); // enable file upload
     echo $form_to_fill->get_help_html();
 } elseif ($todo == 2) { // step 2. Texts for output
-    echo i("MSsBTV| ** The file upload was ...");
+    echo "<p>" . i("Fg6pWu|The file upload was succ...") . "</p>";
+    echo "<p>" . i("FFjdFF|In the next step, the ta...") . "</p>";
     // no form errors possible at this step. just a button clicked.
     echo $import_result;
     echo $form_to_fill->get_html();
     echo $form_to_fill->get_help_html();
 } elseif ($todo == 3) { // step 3. Texts for output
     echo $import_result;
-    echo i("jKbHGN| ** The file import was ...");
+    echo "<p>" . i("KLYCCf|The file import was carr...") . "</p>";
 }
 
 // Help texts and page footer for output.

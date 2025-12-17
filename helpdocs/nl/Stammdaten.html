@@ -1,0 +1,27 @@
+<h3>Master data of association and project</h3>
+<p>In its configuration, the PC programme efa holds the master data
+	of the association in its project data record. From efa 2.3.2_01
+	onwards, this data is also used by efaCloud. In addition there is data
+	that is used specifically for efaCloud.</p>
+<h4>Reference client</h4>
+<p>Even though this is usually the case, it cannot be safely assumed
+	that all that all efa-PCs connected to an efaCloud server have the same
+	configuration. have the same configuration</p>
+<p>Therefore, an efa-PC must be specified, the configuration of
+	which serves as a reference for efaCloud. For this purpose, the
+	efaCloudUserID of this efa-PC in the configuration parameters of
+	efaCloud. The data will be transmitted to the efaCloud server at each
+	efa restart and evaluated there during the daily and analysed during
+	the daily maintenance runs. A change can therefore take take two days
+	to take effect.</p>
+<p>If no reference client is specified, the first client, that
+	connects is used as the reference client.</p>
+<h4>Special efaCloud server master data</h4>
+<p>The efaCloud server sends mails, so the master data for these
+	mails have to be the signature, an additional footer, the sender and
+	the recipient. footer, the sender and the abbreviation that precedes
+	the subject line in []. in front of the subject line.</p>
+<h4>Special efaCloud server master data up to 2.3.2_00</h4>
+<p>Before the reference client configuration was available, the the
+	current logbook, which is the basis for sending the personal logbook
+	and the start of the sport year could be defined in efaCloud. efaCloud.</p>

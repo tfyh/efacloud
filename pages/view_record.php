@@ -1,5 +1,26 @@
 <?php
 /**
+ *
+ *       efaCloud
+ *       --------
+ *       https://www.efacloud.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
  * Generic record display file.
  * 
  * @author mgSoft
@@ -21,6 +42,7 @@ $ecrid = (isset($_GET["ecrid"])) ? $_GET["ecrid"] : false;
 $tablename = (isset($_GET["table"])) ? $_GET["table"] : false;
 $missing_key_error = [i("mDzsS8|Key missing") => i("V8fLMV|Unfortunately, the recor...")
 ];
+$valid_at = 0;
 if ($def != false) {
     $defparts = explode(".", $def);
     $listset = (isset($defparts[0])) ? $defparts[0] : "unknownSet";
@@ -53,8 +75,11 @@ if ($def != false) {
     $search_result_index = 99; // This shall be more than the max-rows in "datensatz_finden.php"
     $_SESSION["efa2table"] = $list->get_table_name();
 } elseif ($ecrid && $tablename) {
+    // period matching only for ecrid-based record view. Because lists may do the lookup themselves.
     $tablerow = $socket->find_record_matched($tablename, ["ecrid" => $ecrid
     ]);
+    $valid_at = (! array_key_exists($tablename, Efa_tables::$period_indication_fields)) ? 0 : strtotime(
+            $tablerow[Efa_tables::$period_indication_fields[$tablename]]);
     if ($tablerow == false)
         $toDisplay = [$keyfield => $keyvalue,"???" => "not found."
         ];
@@ -94,7 +119,7 @@ foreach ($toDisplay as $key => $value) {
 }
 
 // special case: add record history, if existing
-if (! isset($toDisplay["ecrhis"]) && isset($tablerow["ecrhis"]))
+if ((! isset($toDisplay["ecrhis"]) || (strlen($toDisplay["ecrhis"]) < 3)) && isset($tablerow["ecrhis"]))
     $toDisplay["ecrhis"] = $tablerow["ecrhis"];
 
 // in order to be able to change the record or view the history, it has to be added to the "search_result"
@@ -111,35 +136,39 @@ $tablename_de = (isset(Efa_tables::locale_names()[$tablename])) ? Efa_tables::lo
 echo i("tSyQm8| ** Data record display...", $tablename_de);
 $null_values = "";
 
+if (! $ecrid && isset($toDisplay["ecrid"]) && (strlen($toDisplay["ecrid"]) > 0))
+    $ecrid = $toDisplay["ecrid"];
 include_once "../classes/efa_uuids.php";
 $efa_uuids = new Efa_uuids($toolbox, $socket);
 foreach ($toDisplay as $key => $value) {
-    if (strcasecmp($key, "ecrhis") !== 0) {
-        $key_de = (isset(Efa_tables::locale_names()[$key])) ? Efa_tables::locale_names()[$key] : $key;
-        if (strlen($value) == 0)
-            $null_values .= $key_de . ", ";
-        elseif (Efa_uuids::isUUID($value)) {
-            $resolved_UUID = $efa_uuids->resolve_UUID($value);
-            echo "<tr><td>" . $key_de . "</td><td>" . $value . "</td><td>" .
-                     $efa_uuids->resolve_UUID($value)[1] . "</td></tr>\n";
-        } elseif (in_array($key, Efa_tables::$timestamp_field_names)) {
-            $resolved_time = Efa_tables::get_readable_date_time($value);
-            echo "<tr><td>" . $key_de . "</td><td>" . $value . "</td><td>" . $resolved_time . "</td></tr>\n";
-        } elseif (in_array($key, Efa_tables::$date_fields[$tablename]))
-            echo "<tr><td>" . $key_de . "</td><td>" . date($dfmt_d, strtotime($value)) .
-                     "</td><td></td></tr>\n";
-        else
-            echo "<tr><td>" . $key_de . "</td><td>" . $value . "</td><td></td></tr>\n";
-    }
+    $key_de = (isset(Efa_tables::locale_names()[$key])) ? Efa_tables::locale_names()[$key] : $key;
+    if (strlen($value) == 0)
+        $null_values .= $key_de . ", ";
+    elseif (Efa_uuids::isUUID($value)) {
+        $resolved_UUID = $efa_uuids->resolve_UUID($value);
+        echo "<tr><td>" . $key_de . "</td><td>" . $value . "</td><td>" .
+                 $efa_uuids->resolve_UUID($value, $valid_at)[1] . "</td></tr>\n";
+    } elseif (in_array($key, Efa_tables::$timestamp_field_names)) {
+        $resolved_time = Efa_tables::get_readable_date_time($value);
+        echo "<tr><td>" . $key_de . "</td><td>" . $value . "</td><td>" . $resolved_time . "</td></tr>\n";
+    } elseif (in_array($key, Efa_tables::$date_fields[$tablename]))
+        echo "<tr><td>" . $key_de . "</td><td>" . date($dfmt_d, strtotime($value)) . "</td><td></td></tr>\n";
+    elseif ($ecrid && $tablename && (strcasecmp($key, "ecrhis") == 0))
+        echo "<tr><td>" . i("UhbQ08|record history") . "</td><td>" .
+                 "<a href='../pages/show_history.php?table=$tablename&ecrid=$ecrid'>" .
+                 i("UcNTLA|show versions") . "</a></td><td></td></tr>\n";
+    else
+        echo "<tr><td>" . $key_de . "</td><td>" . $value . "</td><td></td></tr>\n";
 }
 if (strlen($null_values) > 0)
     echo "<tr><td>" . i("eiCoTk|empty data fields") . "</td><td>" .
              mb_substr($null_values, 0, mb_strlen($null_values) - 2) . "</td><td></td></tr>\n";
-echo i("5O1GIg|</table></div><div cl...");
-if ($menu->is_allowed_menu_item("../forms/datensatz_aendern.php", $_SESSION["User"])) {
+
+echo "</table>\n</div>\n<div class='w3-container'>\n<div class='w3-row'>\n";
+if ($menu->is_allowed_menu_item("../forms/datensatz_aendern.php", $toolbox->users->session_user)) {
     $float_history = "right";
     echo i("gXEDSy|<div class=°w3-col l2°>...");
-    $is_admin = (strcmp($_SESSION["User"]["Rolle"], $toolbox->users->useradmin_role) == 0);
+    $is_admin = (strcmp($toolbox->users->session_user["Rolle"], $toolbox->users->useradmin_role) == 0);
     $is_deleted = (isset($tablerow["LastModification"]) &&
              (strcasecmp($tablerow["LastModification"], "delete") == 0));
     if ($is_admin) {
@@ -159,6 +188,5 @@ if ($menu->is_allowed_menu_item("../forms/datensatz_aendern.php", $_SESSION["Use
 
 if (isset($tablerow["ecrhis"]) && (strlen($tablerow["ecrhis"]) > 5)) {
     $link_parameters = "table=" . $tablename . "&ecrid=" . $tablerow["ecrid"];
-    echo i("08pBug|<div class=°w3-col l2°>...",  $link_parameters, $float_history);
 }
 end_script();

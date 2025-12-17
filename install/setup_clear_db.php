@@ -1,14 +1,35 @@
 <?php
 /**
+ *
+ *       efaCloud
+ *       --------
+ *       https://www.efacloud.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+/**
  * A data base bootstrap script to create the server side admin tables and the first admin user.
- * 
- * @author mgSoft
  */
 
 // ===== THIS SHALL ONLY BE USED during application configuration, then access rights shall
 // be changed to "no access" - even better: or the form deleted from the site.
 
 // ===== initialize toolbox
+include_once "../classes/init_i18n.php"; // not part of init for setup, api, logout and error
 include_once '../classes/tfyh_toolbox.php';
 $toolbox = new Tfyh_toolbox();
 // init parameters definition
@@ -113,13 +134,15 @@ if ((isset($_GET['done']) && intval($_GET["done"]) == 1)) {
     }
     
     // set session user to selected admin, in order to be able to manipulate the data base.
-    $_SESSION["User"]["Vorname"] = $cfg_db_to_use["ecadmin_vorname"];
-    $_SESSION["User"]["Nachname"] = $cfg_db_to_use["ecadmin_nachname"];
-    $_SESSION["User"]["EMail"] = $cfg_db_to_use["ecadmin_mail"];
-    $_SESSION["User"]["efaCloudUserID"] = $cfg_db_to_use["ecadmin_id"];
-    $_SESSION["User"]["efaAdminName"] = $cfg_db_to_use["ecadmin_Name"];
-    $_SESSION["User"]["Passwort_Hash"] = password_hash($cfg_db_to_use["ecadmin_password"], PASSWORD_DEFAULT);
-    $_SESSION["User"]["Rolle"] = "admin";
+    $session_user = [];
+    $session_user["Vorname"] = $cfg_db_to_use["ecadmin_vorname"];
+    $session_user["Nachname"] = $cfg_db_to_use["ecadmin_nachname"];
+    $session_user["EMail"] = $cfg_db_to_use["ecadmin_mail"];
+    $session_user["efaCloudUserID"] = $cfg_db_to_use["ecadmin_id"];
+    $session_user["efaAdminName"] = $cfg_db_to_use["ecadmin_Name"];
+    $session_user["Passwort_Hash"] = password_hash($cfg_db_to_use["ecadmin_password"], PASSWORD_DEFAULT);
+    $session_user["Rolle"] = "admin";
+    $toolbox->users->set_session_user($session_user);
     
     // ===== create data base
     include_once '../classes/efa_tools.php';

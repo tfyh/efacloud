@@ -1,5 +1,26 @@
 <?php
 /**
+ *
+ *       efaCloud
+ *       --------
+ *       https://www.efacloud.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
  * The specific efaCloud upgrade page. Different from standard, as is supports version selection.
  * 
  * @author mgSoft
@@ -187,17 +208,6 @@ if (! isset($_GET["upgrade"])) {
     if ($upgrade_success === false)
         echo "<b>Fehler</b><br>Das Tabellenlayout konnte nicht angepasst werden. Details siehe 'sys_db_audit.log'.<br>";
     
-    // TODO remove obsolete code some day completely
-    // Special case upgrade from 2.3.0_11 and lower: increase the group member size
-    // ==============================================================================================
-    // $update_groups = $socket->query("ALTER TABLE `efa2groups` CHANGE `MemberIdList` `MemberIdList`
-    // VARCHAR(9300) NULL DEFAULT NULL;");
-    // if ($update_groups == false)
-    // echo "<b>HINWEIS</b>: Konnte die Anzahl der Gruppenmitglieder in der Liste 'efa2groups' leider nicht
-    // erweitern. ";
-    // else
-    // echo "Anzahl der Gruppenmitglieder in der Liste 'efa2groups' auf maximal 250 erweitert. ";
-    
     // Set directories' access rights.
     // ==============================================================================================
     echo "Setze die Zugriffsberechtigung der angelegten Dateistruktur ...<br>";
@@ -219,7 +229,7 @@ if (! isset($_GET["upgrade"])) {
     echo '<h5>Überprüfe das Ergebnis</h5><p>Das Audit-Protokoll ist abgelegt unter "Überwachen &gt; Servermeldungen &gt; Systemmeldungen </p><p>';
     include "../classes/init_version.php";
 }
-?>
-<?= i("9J3v6X|<p>&nbsp;</p><p><small..."); ?>
-<?php
+
+echo "<p>&nbsp;</p>\n<p>\n<small>&copy; efacloud - nmichael.de</small></p>";
+
 end_script();

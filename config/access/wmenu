@@ -4,6 +4,7 @@ _notice_postDamage;bths,$256;1YO1yW|Report damage;event:getForm_postDamage
 _notice_postMessage;member,$128;cBjbuk|Write message;event:getForm_postMessage
 sessions;.bths,.$114752;Kracb7|Trips;
 _sessions_start;.bths,.$114752;Ef9qFy|Start trip;event:getForm_startSession
+_sessions_show;.bths,.$1024;KLjWQP|Show trip;event:getForm_showSession
 _sessions_end;.bths,.$114752;5cu4oU|End trip;event:getForm_endSession
 _sessions_update;.bths,.$114752;eG5Cqz|Update trip;event:getForm_updateSession
 _sessions_cancel;.bths,.$114752;yFzxZ7|Cancel trip;event:getForm_cancelSession

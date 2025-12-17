@@ -1,5 +1,26 @@
 <?php
 /**
+ *
+ *       efaCloud
+ *       --------
+ *       https://www.efacloud.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
  * A page to reset the complete data base.
  * 
  * @author mgSoft
@@ -25,8 +46,8 @@ echo file_get_contents('../config/snippets/page_02_nav_to_body');
 echo i("jmEZKD| ** Delete database %1 a...", $socket->get_db_name());
 
 if ($do_reset_full) {
-    echo "<p>" . i("PUAtWz|The database has been re...", $_SESSION["User"]["Vorname"], 
-            $_SESSION["User"]["Nachname"]) . " " . i("OI0hj9|Please log out and log i...") . "<br><br>" .
+    echo "<p>" . i("PUAtWz|The database has been re...", $toolbox->users->session_user["@firstname"], 
+            $toolbox->users->session_user["@lastname"]) . " " . i("OI0hj9|Please log out and log i...") . "<br><br>" .
              "<span class='formbutton'><a href='../pages/logout.php'>" . i("4RX8ec|Logout") .
              "</a></span><br></p>";
     echo "<p>" . i("WOnK0g|The following activity r...") . "<br>" . $result_bootstrap . "</p>";
@@ -36,7 +57,7 @@ if ($do_reset_full) {
              "</a></span><br></p>";
     echo "<p>" . i("U7JDda|The following activity r...") . "<br>" . $result_bootstrap . "</p>";
 } else {
-    echo i("odpdN0| ** In really rare case...", $_SESSION["User"]["Vorname"] . " " . $_SESSION["User"]["Nachname"]);
+    echo i("odpdN0| ** In really rare case...", $toolbox->users->session_user["@firstname"] . " " . $toolbox->users->session_user["@lastname"]);
     echo $socket->get_db_name() . " " . i("9hnY2G|at") . " " . $app_root;
     echo i("Edbkq1| ** --- ** will be dele...");
 }

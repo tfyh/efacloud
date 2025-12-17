@@ -1,5 +1,26 @@
 <?php
 /**
+ *
+ *       efaCloud
+ *       --------
+ *       https://www.efacloud.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
  * The page to sen a login-token to any user.
  * 
  * @author mgSoft
@@ -7,15 +28,26 @@
 // ===== initialize toolbox and socket and start session.
 $user_requested_file = __FILE__;
 include_once "../classes/init.php";
+include_once '../classes/efa_logbook.php';
+include_once '../classes/efa_tables.php';
 
 $tmp_attachement_file = "";
-$user_mailto = $_SESSION["User"];
-if (! isset($user_mailto["EMail"]))
+$user_mailto = $toolbox->users->session_user;
+$user_person_record = $socket->find_record_matched("efa2persons", 
+        ["Id" => $toolbox->users->session_user["PersonId"],"InvalidFrom" => Efa_tables::$forever64
+        ]);
+// Beware of the difference. The person record uses "Email", the efacloud user "EMail" (Capital 'M'). Only, if
+// the person record has an email address set, a logbook will be sebt.
+if ($user_person_record === false)
+    $toolbox->display_error(i("ZbjL4D|You do not have a relate..."), 
+            i(
+                    "OrsZ7Z|Because you are not a sp..."), 
+            $user_requested_file);
+if (! isset($user_person_record["Email"]))
     $toolbox->display_error(i("iZBM6s|No mail address."), i("gIhhVn|The user for the test di..."), 
             $user_requested_file);
 
 // create mails to user. Prepare logbook.
-include_once '../classes/efa_logbook.php';
 $efa_logbook = new Efa_logbook($toolbox, $socket);
 $mails_sent = $efa_logbook->send_logbooks(true);
 if ($mails_sent > 0)

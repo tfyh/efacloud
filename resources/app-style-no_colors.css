@@ -3,10 +3,14 @@
 /* =================================================== */
 
 html, body, input, textarea {
-	margin: 0;
 	font: ':font-main';
 	color: ':color-text-body';
 	background-color: ':color-background-body';
+	margin: 0;
+}
+
+body {
+	margin-top: 3vw;
 }
 
 h1, h2, h3 {
@@ -68,6 +72,20 @@ tr:hover {
 	background-color: ':color-background-table-row-hover';
 }
 
+.listitem:hover {
+	cursor: pointer;
+	background-color: ':color-background-table-even-rows';
+}
+
+.group-heading {
+	cursor: pointer;
+	text-align:center;
+	color: ':color-text-table-header';
+	background-color: ':color-background-table-header' !important;
+}
+
+
+
 
 /* --------- PAGE AND MENU STYLES ---------------------*/
 /* =================================================== */
@@ -116,6 +134,12 @@ tr:hover {
 	display: block;
 }
 
+.splashscreen {
+	margin: auto;
+	margin-top: 10%;
+    width: 60%;
+}
+
 /* --------- FORM ELEMENT STYLES --------------------- */
 /* =================================================== */
 
@@ -129,9 +153,9 @@ tr:hover {
 	border: 1px solid transparent;
 	border-radius: 0px;
 	text-transform: uppercase;
-	font-size: 0.9em;
-	padding: 8px 6px 8px 6px;
-	line-height: 120%;
+	font-size: 0.9rem;
+	padding: 4px 6px 4px 6px;
+	line-height: 1.2
 	box-shadow: 0 3px 2px 0 rgba(0, 0, 0, 0.2);
 }
 
@@ -144,12 +168,16 @@ tr:hover {
 .forminput, .formselector {
 	border: 2px solid transparent;
 	border-bottom: 2px solid ':color-border-form-input';
-	border-radius: 0px;
+	border-radius: 2px;
 	color: ':color-text-form-input';
 	background-color: ':color-background-form-input' !important;
-	font-size: 1.0em;
-	line-height: 1.5em;
+	font-size: 1.0rem;
+	line-height: 1.5;
+	min-height: 2.15rem;
 	padding: 2px 6px 2px 6px;
+	margin-left: auto;
+	margin-right: auto;
+	box-sizing: border-box;
 }
 
 .forminput:hover, .forminput:focus, .formselector:hover, .formselector:focus {
@@ -158,21 +186,60 @@ tr:hover {
 	background-color: ':color-background-form-input-hover' !important;
 }
 
-.helptext {
-	font-size: 90%
-}
-
 .formlink {
 	cursor: pointer;
 	border: 2px solid transparent;
-	border-radius: 0px;
+	border-radius: 2px;
 	color: ':color-text-link';
-	font-size: 1.0em;
 	padding: 2px 6px 2px 6px;
 }
 
 .formlink:hover {
 	color: ':color-text-link-hover-visited';
+}
+
+.helptext {
+	font-size: 0.9rem
+}
+
+.display-only {
+	border:1px solid transparent;
+	background-color:transparent;
+	margin-left: auto;
+	margin-right: auto;
+	box-sizing: border-box;
+}
+
+.display-bold {
+	font-weight:bold;
+	border:1px solid transparent;
+	background-color:transparent;
+	margin-left: auto;
+	margin-right: auto;
+	box-sizing: border-box;
+}
+
+.formtab {
+	border: 2px solid transparent;
+	border-bottom: 2px solid ':color-border-table';
+	border-radius: 2px;
+	color: ':color-text-form-input';
+	font-size: 1.0rem;
+	line-height: 1.5;
+	padding: 2px 6px 2px 6px;
+	margin-left: auto;
+	margin-right: auto;
+	box-sizing: border-box;
+}
+
+.formtab:hover, .formbutton:focus {
+	color: ':color-text-form-button-hover' !important;
+	background-color: ':color-background-form-button-hover' !important;
+	cursor: pointer
+}
+
+.formtab-active {
+	border-bottom: 2px solid ':color-background-form-button';
 }
 
 /* --------- CHECKBOX AND RADIO BUTTON STYLES ---------*/
@@ -315,8 +382,57 @@ option {
 	max-width: 960px; /* limit for large window sizes */
 	margin-left: auto; /* 5% from the top and centered */
 	margin-right: auto;
+	margin-bottom: 5%;
 	border: 1px solid transparent;
 	background-color: ':color-background-modal';
+	box-sizing: border-box;
+	padding: 3%;
+}
+
+/* The Close Button */
+.closeModal, .previousModal {
+	float: right;
+	padding: 0px;
+	padding-left: 5px;
+	padding-right: 5px;
+	font-size: 2rem;
+	line-height: 0.5;
+	font-weight: bold;
+}
+
+.closeModal:hover, .closeModal:focus, .previousModal:hover, .previousModal:focus {
+	color: ':color-text-form-button-hover' !important;
+	background-color: ':color-background-form-button-hover' !important;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+/* --------- TOP DIALOG STYLES ----------------------*/
+
+/* The Dialog (background) */
+.dialog {
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Sit on top */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0, 0, 0); /* Fallback color */
+	background-color: rgba(0, 0, 0, 0.2); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.dialog-content {
+	max-width: 800px; /* limit for large window sizes */
+	margin-left: auto; /* 5% from the top and centered */
+	margin-right: auto;
+    margin-bottom: 5%;
+	border: 1px solid transparent;
+	background-color: #f0eded;
+	box-sizing: border-box;
+	padding: 3%;
 }
 
 /* responsive layout definition. */
@@ -324,8 +440,10 @@ option {
 	.modal-content {
 		margin-top: 5%;
 		width: 75%;
-		margin-bottom: 5%;
-		padding: 20px;
+	}
+	.dialog-content {
+		margin-top: 8%;
+		width: 65%;
 	}
 }
 
@@ -334,8 +452,10 @@ option {
 	.modal-content {
 		margin-top: 3%;
 		width: 90%;
-		margin-bottom: 3%;
-		padding: 12px;
+	}
+	.dialog-content {
+		margin-top: 5%;
+		width: 75%;
 	}
 }
 
@@ -344,26 +464,11 @@ option {
 	.modal-content {
 		margin-top: 2%;
 		width: 96%;
-		margin-bottom: 0%;
-		padding: 4px;
 	}
-}
-
-/* The Close Button */
-.closeModal {
-	float: right;
-	padding: 0px;
-	padding-left: 5px;
-	padding-right: 5px;
-	font-size: 28px;
-	font-weight: bold;
-}
-
-.closeModal:hover, .closeModal:focus {
-	background-color: ':color-background-closemodal-hover';
-	color: ':color-text-closemodal-hover';
-	text-decoration: none;
-	cursor: pointer;
+	.dialog-content {
+		margin-top: 3%;
+		width: 90%;
+	}
 }
 
 /* --------- MENU BAR STYLES --------------------------*/
@@ -374,38 +479,7 @@ option {
 }
 
 .bar {
-	background-color: ':color-background-bar';
-}
-
-/* Loader to show spinning circle instead of logo for a busy application */
-.loader {
-	border-radius: 50%;
-	border-top: 10px solid ':color-border-load-spinner-1';
-	border-bottom: 10px solid ':color-border-load-spinner-1';
-	border-left: 10px solid ':color-border-load-spinner-2';
-	border-right: 10px solid ':color-border-load-spinner-2';
-	width: 40px;
-	height: 40px;
-	-webkit-animation: spin 2s linear infinite; /* Safari */
-	animation: spin 2s linear infinite;
-}
-
-/* Safari */
-@
--webkit-keyframes spin { 0% {
-	-webkit-transform: rotate(0deg);
-}
-100% {
--webkit-transform: rotate(360deg);
-     }
-}
-@
-keyframes spin { 0% {
-	transform: rotate(0deg);
-     }
-100% {
-	transform: rotate(360deg);
-     }
+	background-color: ':color-border-form-input';
 }
 
 /* --------- AUTOCOMPLETE ITEM STYLES -----------------*/
@@ -441,6 +515,7 @@ keyframes spin { 0% {
 }
 
 /* --------- FORM FIELD VALIDITY MARKER STYLES --------*/
+/* --------- kept for fskath & efaCloud ----------------*/
 .guid-valid {
 	border-right: 15px solid #090;       /* RAG - green, for all apps the same */
 }

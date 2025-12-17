@@ -1,0 +1,69 @@
+<h3>Audit de la base de données</h3>
+<p>EfaCloud utilise une base de données dans laquelle, en plus des données efa.
+	les données utilisateur efaCloud, le suivi des modifications et les archives. sont présentes. Les données efa
+	Les données efa sont synchronisées avec un ou plusieurs PC efa sur une base plus ou moins régulière.
+	Les données efa sont synchronisées avec un ou plusieurs PC efa plus ou moins régulièrement. Dans les PC, des validations
+	et des audits automatiques ont lieu dans les PC qui modifient les données. C'est ainsi que
+	C'est ainsi que les incohérences dans les données.
+>
+<p>L'audit sert à trouver ces incohérences, à les éliminer et à les rectifier.
+	et à les rectifier.</p> > L'audit sert à trouver ces incohérences, à les trier et à les rectifier.
+<h4>Audit de configuration</h4>
+.
+</p> <p>La mise en page des tableaux est vérifiée et comparée à la mise en page
+	prévue pour la version actuelle. Les écarts éventuels sont
+	indiqué.</p> <p>
+</p> <p>S'il y a des écarts, l'option de correction est proposée et
+	recommandée.</p> <p>
+<h4>Documents sans identification ecrid</h4>
+<p>À la fin de l'année 2021, efaCloud a introduit l'identifiant efaCloud Record Id =
+	ecrid qui rend les enregistrements identifiables avec exactement une clé. efa en tant que
+	PC utilise des clés combinées, telles que l'identifiant d'une personne et la période de validité.
+	l'identifiant d'une personne et la période de validité pour identifier un enregistrement. identifier un enregistrement.
+	enregistrement.</p>
+<p>Lors de la mise à jour de la version &lt ; 2.3.0_12, il se peut qu'il y ait encore des enregistrements sans ecrid.
+	enregistrements sans identification ecrid, ce qui doit être corrigé immédiatement.
+	immédiatement et peuvent prendre un certain temps pour être corrigés.</p> 
+<h4>Enregistrements corrompus, informations manquantes</h4>
+<p>Les enregistrements de données sont vérifiés pour s'assurer qu'ils sont complets. Si des valeurs manquent
+	dans les champs de données, les erreurs sont indiquées. Un enregistrement erroné est un enregistrement qui
+	qui manque d'informations techniquement pertinentes</p> <p>Les enregistrements de données sont vérifiés pour s'assurer qu'ils sont complets.
+</p> <p>Dans les versions précédentes, où des erreurs se produisaient dans la routine de
+	dans la routine de suppression, il existe des enregistrements de données vides dans lesquels l'entrée pour le type de la dernière modification était le type de la dernière modification.
+	de la dernière modification a également été supprimée, de sorte que le processus de suppression est interrompu.
+	le processus de suppression est arrêté. Ces enregistrements sont corrigés
+	peu-à-peu.</p>
+<p>Un enregistrement autrement corrompu doit être examiné et corrigé.
+	corrigé. S'il manque des informations pertinentes pour le contenu,
+	la synchronisation avec un PC efa est impossible, le problème sera indiqué sous la rubrique
+	Le problème sera indiqué sous la rubrique "informations manquantes". De tels enregistrements de données peuvent souvent encore être corrigés.
+	être corrigés.</p>
+<h4>Doublons</h4>
+<p>Dans l'efa, il existe des tables dans lesquelles les noms ou autres doivent être uniques en plus de l'enregistrement.
+	devraient être uniques en plus de la clé de l'enregistrement, mais cette unicité n'est pas respectée.
+	mais cette unicité n'est pas respectée. Par exemple, si pour un nom de personne ou une
+	destination, il existe plus d'un identifiant d'objet, parce que la personne ou la destination a été créée plus d'une fois.
+	destination a été créée plus d'une fois, cela s'affichera.
+	Cela peut fausser les évaluations. Le nettoyage des doublons n'est possible que
+	dans efa, pas dans efaCloud. La fonction "Merge" permet d'accomplir cette tâche.
+	Cette fonction permet d'accomplir cette tâche.</p>
+
+<h4>Champs de données virtuels</h4>
+<p>
+	Efa utilise des champs de données dits "virtuels" pour accélérer les affichages.
+	par exemple le champ de données "AllCrewNames" avec tous les noms d'équipe qui
+	de l'équipe, qui devraient autrement être déterminés en cherchant dans les
+	déterminer à partir des identifiants. Ces champs sont définis lorsque l'enregistrement
+	est créé. Si, par exemple, les noms sont modifiés ou si les noms deviennent des ID
+	parce qu'un nouveau membre a été ajouté entre-temps, des erreurs peuvent se produire dans les champs virtuels.
+	dans les champs virtuels. Un audit de la base de données (efa_daten &gt ; audit
+	database), ces erreurs peuvent être corrigées. Cela se fait toujours
+	Cela se fait toujours automatiquement parce qu'il n'y a pas d'information.<br>Strictement, pour des raisons de protection des données, les données ne peuvent pas être corrigées.
+	strictement parler, pour des raisons de protection des données, il est
+	même nécessaire après l'archivage d'un jeu de données de même nécessaire de corriger le nom en archivID:xxx
+	corriger le nom en archivID:xxx, parce que ces champs de données virtuels peuvent encore contenir des noms qui ont été modifiés par le passé.
+	virtuels peuvent encore contenir des noms qui ont déjà été archivés.
+	noms déjà archivés.
+</p>
+<h4>Autorisation</h4>
+<p>Les transactions d'audit ne sont possibles que dans le rôle d'administrateur.</p>

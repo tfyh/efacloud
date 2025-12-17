@@ -1,4 +1,25 @@
 <?php
+/**
+ *
+ *       the tools-for-your-hobby framework
+ *       ----------------------------------
+ *       https://www.tfyh.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ */
+
 
 /**
  * class file for the Menu class This class reads the menu and returns it, filtered to those entries which are
@@ -42,7 +63,7 @@ class Tfyh_menu
      * HTML snippet at end of menu
      */
     private $html_menu_end = '<footer class="w3-small w3-center" id="footer">' .
-             '<br><br>##user##<br>##version##<br>##copyright##<br>##applogo##<br>&nbsp;</footer></div>' . "\n" .
+             '<br><br>##user##<br>##version## (##language_code##)<br>##copyright##<br>##applogo##<br>&nbsp;</footer></div>' . "\n" .
              "<!--============================== menu - end ===========================-->" . "\n";
 
     /**
@@ -61,6 +82,11 @@ class Tfyh_menu
     private $is_not_public;
 
     /**
+     * the menu style configuration setting
+     */
+    private $style;
+
+    /**
      * Construct the menu from its template file. A template file is a flat file of menu items, starting with
      * a programmatic name, folloewd by name=value pairs preceded by ' .' Name value pairs define the menu
      * item. Menu items will be displayed in the sequence of the file. Level 2 item names must start with a
@@ -73,16 +99,22 @@ class Tfyh_menu
     {
         $this->toolbox = $toolbox;
         $this->is_not_public = (strcasecmp($menu_file_path, "../config/access/pmenu") != 0);
+        $this->style = 1;
         $raw_menu_def_array = $toolbox->read_csv_array($menu_file_path);
+        $raw_menu_def_lines = explode("\n", file_get_contents($menu_file_path));
         // reead the implicit menu information on parent, caret and click behaviour
         $last_parent = "";
+        $line_index = 1;
         foreach ($raw_menu_def_array as $raw_menu_def) {
             
             $menu_def = $raw_menu_def;
             // check whether i18n replacement is needed
-            if ($this->toolbox->is_valid_i18n_reference($menu_def["headline"])) 
+            if ($this->toolbox->is_valid_i18n_reference($menu_def["headline"]))
                 $menu_def["headline"] = i($menu_def["headline"]);
-                
+            
+            $menu_def["csv_line"] = $raw_menu_def_lines[$line_index];
+            $line_index ++;
+            
             $menu_def["caret"] = '';
             $menu_def["parent"] = "";
             // multiple option for the link: direct call to a javascript function, event definition or page
@@ -90,9 +122,13 @@ class Tfyh_menu
             $has_link = (isset($menu_def["link"]) && (strlen($menu_def["link"]) > 0));
             $is_event_call = $has_link && (strcasecmp(substr($menu_def["link"], 0, 6), "event:") == 0);
             $event_call = ($is_event_call) ? "do-" . substr($menu_def["link"], 6) : "";
+            
+            // TODO: looks like this here is obsolete.
             $is_script_call = $has_link && (strcasecmp(substr($menu_def["link"], 0, 8), "<script>") == 0);
             $script_call = ($is_script_call) ? str_replace("</script>", "", substr($menu_def["link"], 8)) : "";
             $menu_def["onclick"] = ($is_script_call) ? ' onclick="' . $script_call . ';"' : "";
+            // TODO: looks like this here is obsolete.
+            
             $menu_def["href"] = ($has_link && ! $is_script_call && ! $is_event_call) ? ' href="' .
                      $menu_def["link"] . '"' : "";
             $menu_def["hidden"] = ($this->toolbox->users->is_hidden_item($menu_def["permission"])) ? " style='display:none'" : "";
@@ -109,23 +145,34 @@ class Tfyh_menu
                 if (strlen($menu_def["link"]) == 0) {
                     // if the link is empty, open a sub menu at level 1
                     $menu_def["onclick"] = ' onclick="openSubMenu(\'' . $menu_def["id"] . '\')"';
-                    $menu_def["caret"] = ' <b>&#x25be</b>';
+                    $menu_def["caret"] = ' <b>&#x25be;</b>';
                 }
             }
             $this->menu_def_array[] = $menu_def;
         }
         // menu footer: user, version, copyright.
-        $username = (isset($_SESSION["User"]) &&
-                 isset($_SESSION["User"][$this->toolbox->users->user_lastname_field_name])) ? $_SESSION["User"][$this->toolbox->users->user_firstname_field_name] .
-                 " " . $_SESSION["User"][$this->toolbox->users->user_lastname_field_name] . " (" .
-                 $_SESSION["User"]["Rolle"] . ")" : "";
+        $username = (isset($this->toolbox->users->session_user) &&
+                 isset($this->toolbox->users->session_user["@lastname"])) ? $this->toolbox->users->session_user["@fullname"] .
+                 " (" . $this->toolbox->users->session_user["Rolle"] . ")" : "";
         $this->html_menu_end = str_replace("##user##", $username, $this->html_menu_end);
         $this->html_menu_end = str_replace("##version##", $toolbox->config->app_info["version_string"], 
-                $this->html_menu_end);
+                str_replace("##language_code##", $toolbox->config->language_code, 
+                $this->html_menu_end));
         $this->html_menu_end = str_replace("##copyright##", $toolbox->config->app_info["copyright"], 
                 $this->html_menu_end);
         $this->html_menu_end = str_replace("##applogo##", $toolbox->config->app_info["applogo"], 
                 $this->html_menu_end);
+    }
+
+    /**
+     * Simple setter
+     * 
+     * @param int $style
+     *            1 = classic, 2 = csv as javascript var, 3 no menu at all. Default at instantiation is 1.
+     */
+    public function set_style (int $style)
+    {
+        $this->style = $style;
     }
 
     /**
@@ -168,32 +215,38 @@ class Tfyh_menu
     }
 
     /**
-     * Check whether the $_SESSION["User"] shall get access to the given path. The file name and parent
-     * directory name must be the same as in the item definition. This will essentially link the file path to
-     * the item and then use the toolbox to check the items permission against the users permissions. Files
-     * may have multiple invocations within the menu. All will be checked until a permission is found.
+     * Check whether the $this->toolbox->users->session_user shall get access to the given path. The file name
+     * and parent directory name must be the same as in the item definition. This will essentially link the
+     * file path to the item and then use the toolbox to check the items permission against the users
+     * permissions. Files may have multiple invocations within the menu. All will be checked until a
+     * permission is found.
      * 
      * @param String $path
      *            the path of the page which shall be accessed. Only file name and parent directory are used,
      *            so the path can be provided as relative and as absolute path.
      * @param array $user
-     *            The user for which the check shall be performed. Default is the $_SESSION["User"], but for
-     *            API-Access such user is not set.
+     *            The user for which the check shall be performed. Default is the
+     *            $this->toolbox->users->session_user
      * @return true, if access shall be granted. If the path does not fit any of the menu items links, false
      *         is returned.
      */
     public function is_allowed_menu_item (String $path, array $user = null)
     {
         if (is_null($user))
-            $user = $_SESSION["User"];
+            $user = $this->toolbox->users->session_user;
         $path_elements = explode("/", $path);
         $cpe = count($path_elements);
         // now run specific checks
-        $name_to_check = substr($path, strrpos($path, "/") + 1);
+        $name_to_check = mb_substr($path, mb_strrpos($path, "/") + 1);
+        if (mb_strpos($name_to_check, "?") !== false)
+            $name_to_check = mb_substr($name_to_check, 0, mb_strpos($name_to_check, "?"));
         $is_allowed_item = false;
         foreach ($this->menu_def_array as $item) {
             if (strlen($item["link"]) > 0) {
-                $link_elements = explode("/", trim($item["link"]));
+                $link = trim($item["link"]);
+                if (mb_strpos($link, "?") !== false)
+                    $link = mb_substr($link, 0, strpos($link, "?"));
+                $link_elements = explode("/", $link);
                 $cle = count($link_elements);
                 // split off any paramters from path
                 if (strpos($link_elements[$cle - 1], "?") !== false)
@@ -249,15 +302,17 @@ class Tfyh_menu
     }
 
     /**
-     * Get the menu based on the role of $_SESSION["User"].
-     * 
-     * @param String $role
-     *            the role which requests access. The role will be expanded according to the hierarchy and all
-     *            included roles are as well checked. If $role is null, allowance is checked for role
-     *            $this->toolbox->users->anonymous_role.
+     * Get the menu based on the role of $this->toolbox->users->session_user. The role will be expanded according to the
+     * hierarchy and all included roles are as well checked. If $role is null, allowance is checked for role
+     * $this->toolbox->users->anonymous_role.
      */
     function get_menu ()
     {
+        if ($this->style == 2)
+            return $this->get_menu_as_script();
+        elseif ($this->style == 3)
+            return "";
+        
         $m_html = $this->html_menu_start;
         if ($this->toolbox->config->debug_level > 0)
             $m_html .= "<span style='color:#b00;background-color:#fff;text-align:center;' class='w3-bar-item'><b>" .
@@ -303,5 +358,17 @@ class Tfyh_menu
         }
         $m_html .= $this->html_menu_end;
         return $m_html;
+    }
+
+    /**
+     * Get the menu based on the role of $this->toolbox->users->session_user as csv String.
+     */
+    private function get_menu_as_script ()
+    {
+        $csv = "id;permission;headline;link";
+        foreach ($this->menu_def_array as $item)
+            if ($this->toolbox->users->is_allowed_item($item["permission"]))
+                $csv .= "\n" . $item["csv_line"];
+        return "<script>const php_menu_csv = `$csv`;</script>";
     }
 }

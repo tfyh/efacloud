@@ -1,0 +1,59 @@
+<h3>Routines d'entretien quotidien et processus automatiques</h3> <p>Un serveur web tel que le serveur efaCloud n'a généralement pas besoin d'être entretenu.
+
+<p>Un serveur web tel que le serveur efaCloud n'a généralement pas
+	pas la possibilité de lancer des activités de contrôle. Cependant, il existe des processus automatiques,
+	il existe des processus automatiques.</p>
+<h4>Déclencheurs</h4>
+<p>Mais comme on peut supposer que le serveur efaCloud est accessible
+	régulièrement le serveur efaCloud, le premier accès autorisé de la journée
+	peut être utilisé pour déclencher les activités de la règle.
+En fait, le déclencheur est un PC efa qui redémarre pendant la nuit et qui, par conséquent, se réautorise le jour même.
+	et se réautorise donc sur le serveur efaCloud.
+	Il peut également s'agir du premier utilisateur d'efaCloud à se connecter.
+</p> <p>En raison de l'acheminement de la maintenance, le serveur efaCloud n'est pas
+	disponible.
+Parce que les routines de maintenance prennent du temps, le premier accès d'une journée est significativement plus long que le premier accès d'une journée.
+	jour est considérablement retardé, en fonction de la taille de la base de données.
+	de la taille de la base de données. jusqu'à 30 secondes.
+<p>
+<h4>Routines de maintenance</h4>
+<p>Dans le cadre d'une routine de maintenance régulière, les données sont vérifiées quotidiennement pour la cohérence et corrigées si possible automatiquement.
+	cohérence et corrigées si possible automatiquement. Les fichiers journaux sont
+	sont nettoyés. L'archivage des données arrivées à échéance est effectué. Les statistiques d'accès sont évaluées et la taille de la base de données est ajustée.
+	statistiques Access sont évaluées et la taille de la base de données est
+	la taille de la base de données. Le résultat est enregistré sous audit.log et peut être envoyé avec les demandes d'assistance.
+	Le résultat est sauvegardé sous forme d'audit.log et peut être envoyé avec les demandes d'assistance.
+
+<h4>processus automatiques</h4>
+</p> <p>Il existe actuellement deux flux de travail qui peuvent être configurés de telle sorte que
+	que certains jours, ils soient déclenchés en même temps que les travaux de maintenance.
+	travaux de maintenance.</p>
+<ul>
+	<li>Envoyer le journal de bord personnel à chaque personne dans efa2persons, pour laquelle
+		une adresse mail est saisie et qui a un ou plusieurs carnets de bord en cours a un ou plusieurs trajets,</ul> <li>Envoyer le carnet de bord personnel à chaque personne
+		un ou plusieurs trajets,</li>
+	<li>Envoyer le rapport sur les règles de surveillance des applications à l'adresse
+		est saisie en tant que destinataire en copie des notifications de flux de travail.</li> <li>Envoyer le rapport de la règle de surveillance de l'application à l'adresse
+</ul>
+<h4>Paramétrage</h4>
+<p>Pour chaque flux de travail automatique, une ligne est saisie dans le champ texte.
+	Une ligne est saisie dans le champ de texte. La syntaxe est la suivante :</p> <p>
+<ol>
+	<li>Spécification du jour = D ou W ou M pour quotidien, hebdomadaire, mensuel et
+		un nombre. Exemples D1 = quotidien, W1 = lundi, M1 = premier du mois,
+		M31 = Dernier du mois.</li>
+	<li>Options de travail : 'persLogbook' = envoi du journal de bord personnel à
+		toutes les personnes qui ont déposé une adresse électronique dans efa2persons. email
+		dans efa2persons ou 'monitoring' = envoi du monitoring régulier à tous les utilisateurs d'efaCloudUp.
+		régulier à tous les efaCloudUser ayant le rôle "admin".</li>
+</ol>
+<p>dans job per flow, comme 'tag specification type' par exemple 'M31
+	persLogbook'.</p> <p>
+<h4>Test</h4>
+Les routines de maintenance peuvent également être lancées manuellement pour être testées.
+	Les routines de maintenance peuvent également être lancées manuellement à des fins de test. à des fins de test sous "Set efaCloud > Run maintenance routines".
+	Les routines automatiques ne seront pas exécutées de cette manière.</p> <p>Les routines d'entretien peuvent également être lancées manuellement pour des tests.
+Vous pouvez vous envoyer le journal de bord personnel sous "efa Settings
+	> Tester le journal de bord personnel'</p> <p>Vous pouvez vous envoyer le journal de bord personnel sous 'Paramètres efa'.
+</p> <p>Le journal de bord personnel peut vous être envoyé sous "Paramètres efaCloud
+	> Tester le journal de bord personnel.

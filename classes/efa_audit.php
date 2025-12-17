@@ -1,9 +1,10 @@
 <?php
 
-//TODO introduced to avoid a fata error when updating from < 2.3.2_13 to 2.3.2_13ff. in April 2023. Remove some day
+// TODO introduced to avoid a fata error when updating from < 2.3.2_13 to 2.3.2_13ff. in April 2023. Remove
+// some day
 if (! function_exists("i"))
     include_once "../classes/init_i18n.php";
-    
+
 /**
  * class file for the efaCloud data verification and modification. This class adds to the Efa_tables class
  * whih deifnes tables type semantics and contains static checker functions.
@@ -127,9 +128,9 @@ class Efa_audit
     public function data_integrity_audit (bool $html)
     {
         include_once "../classes/tfyh_list.php";
-        $audit_user = $_SESSION["User"];
+        $audit_user = $this->toolbox->users->session_user;
         $audit_user_id = $audit_user[$this->toolbox->users->user_id_field_name];
-        $user_is_admin = (strcasecmp($_SESSION["User"]["Rolle"], "admin") == 0);
+        $user_is_admin = (strcasecmp($this->toolbox->users->session_user["Rolle"], "admin") == 0);
         
         // update client configurations to ensure they are up to date before the audit starts.
         include_once "../classes/efa_config.php";
@@ -170,6 +171,7 @@ class Efa_audit
             $ids_count = 0;
             $col_invalidFrom = $lists["uuidnames"][$list_id]->get_field_index("InvalidFrom");
             $col_deleted = $lists["uuidnames"][$list_id]->get_field_index("Deleted");
+            $col_ecrid = $lists["uuidnames"][$list_id]->get_field_index("ecrid");
             foreach ($lists["uuidnames"][$list_id]->get_rows() as $row) {
                 // add to name index
                 $uuid = $row[0];
@@ -200,7 +202,8 @@ class Efa_audit
         $audit_result .= "<li>$all_ids_count " . i("OV7xZi|Object IDs in total.") . "</li>\n";
         $audit_result .= "<li>" . i("tZIRPY|Duration: %1 seconds.", $duration) . "</li>";
         $audit_result .= "</ul>";
-        $audit_log .= date("Y-m-d H:i:s") . " +" . $duration . " " . i("YQMCEW|Object IDs collected") . "\n";
+        $audit_log .= date("Y-m-d H:i:s") . " +" . $duration . " " . i("YQMCEW|Object IDs collected") . ": " .
+                 $all_ids_count . "\n";
         
         // continue with compilation of all UUID references
         // ================================================
@@ -242,11 +245,12 @@ class Efa_audit
                     if (in_array($c, $key_cols))
                         $row_key .= '.' . $row[$c];
                     if (in_array($c, $name_cols))
-                        $row_name .= ' ' . substr($row[$c], 0, 30);
+                        $row_name .= ' ' . substr(((isset($row[$c])) ? $row[$c] : ""), 0, 30);
                 }
                 // add all referenced UUIDs. col #0 is always the ecrid.
                 for ($c = 1; $c < count($row); $c ++) {
-                    if (! in_array($c, $key_cols) && ! in_array($c, $name_cols) && (strlen($row[$c]) > 0)) {
+                    if (! in_array($c, $key_cols) && ! in_array($c, $name_cols) && isset($row[$c]) &&
+                             (strlen($row[$c]) > 0)) {
                         if (strpos($row[$c], ";") !== false)
                             $uuids = explode(";", $row[$c]);
                         elseif (strpos($row[$c], ",") !== false)
@@ -274,19 +278,56 @@ class Efa_audit
          * { if ($c < 10) echo "&nbsp;&nbsp;&nbsp;" . $ref . "<br>"; $c++; } } echo "</code>"; exit(); */
         $duration = time() - $last_step;
         $last_step = time();
-        $audit_result .= "<li>" .
-                 i("XUdGql|In sum %1 references to ...", $all_id_refs_count) . "</li>\n";
+        $audit_result .= "<li>" . i("XUdGql|In sum %1 references to ...", $all_id_refs_count) . "</li>\n";
         $audit_result .= "<li>" . i("pp5hEg|Duration: %1 seconds.", $duration) . "</li>";
         $audit_result .= "</ul>";
         $audit_log .= date("Y-m-d H:i:s") . " +" . $duration . " " . i("lW1weM|References collected") . "\n";
         
+        // continue with duplicate ecrid check
+        // ===================================
+        $audit_result .= "<li><b>" . i("Duplicate ecrid check") . "</b></li>\n<ul>";
+        $ecrids = [];
+        $duplicate_found = false;
+        $list_definitions = new Tfyh_list("../config/lists/allEcrids", 0, "", $this->socket, $this->toolbox);
+        $list_definitions = $list_definitions->get_all_list_definitions();
+        for ($list_index = 0; $list_index < count($list_definitions); $list_index ++) {
+            $list_id = intval($list_definitions[$list_index]["id"]);
+            $ecrid_list = new Tfyh_list("../config/lists/allEcrids", $list_id, "", $this->socket, 
+                    $this->toolbox);
+            $table_name = $ecrid_list->get_table_name();
+            foreach ($ecrid_list->get_rows() as $row) {
+                $ecrid = $row[0];
+                if (isset($ecrids[$ecrid])) {
+                    $duplicate_found = true;
+                    $warning = "-- !!! WARNING !!! ---\nDUPLICATE ecrid '$ecrid' IN $table_name AND " .
+                             $ecrids[$ecrid] . "!! MUST NOT OCCUR. PLEASE CORRECT.\n-- !!! WARNING !!! ---";
+                    $audit_log .= $warning . "\n";
+                    $audit_result .= "<li><b>$warning.</b></li>\n";
+                } else
+                    $ecrids[$ecrid] = $table_name;
+            }
+        }
+        
+        /* for debugging: echo "<code>"; foreach ($uuid_refs as $uuid => $refs) { $name = $uuid_names[$uuid];
+         * $count = count($refs); echo "uuid: $uuid: $name Anzahl: $count<br>"; $c = 0; foreach($refs as $ref)
+         * { if ($c < 10) echo "&nbsp;&nbsp;&nbsp;" . $ref . "<br>"; $c++; } } echo "</code>"; exit(); */
+        $duration = time() - $last_step;
+        $last_step = time();
+        $audit_result .= "<li>" . i("pp5hEg|Duration: %1 seconds.", $duration) . "</li>";
+        if (! $duplicate_found) {
+            $audit_result .= "<li>" . count($ecrids) . " ecrids ok.</li>\n";
+            $audit_log .= date("Y-m-d H:i:s") . " +" . $duration . " " . count($ecrids) . " ecrids ok.\n";
+        } else {
+            $audit_result .= "<li>ECRIDS NOT OK. PLEASE CORRECT.</li>\n";
+            $audit_log .= date("Y-m-d H:i:s") . " +" . $duration . " ECRIDS NOT OK. PLEASE CORRECT.\n";
+        }
+        $audit_result .= "</ul>";
+        
         // continue with check for corrupt data
         // ====================================
         $audit_result .= "<li><b>" . i("tSRTJf|List of corrupt records") .
-                 "<sup class='eventitem' id='showhelptext_AuditKorrupteDatensaetze'>&#9432;</sup>" . "</b><br>" .
-                 i(
-                        "ZqPC6r|Data records for which t...") .
-                 "</li>\n<ul>";
+                 "<sup class='eventitem' id='showhelptext_AuditKorrupteDatensaetze'>&#9432;</sup>" . "</b><br>" . i(
+                        "ZqPC6r|Data records for which t...") . "</li>\n<ul>";
         $all_id_refs_count = 0;
         $list_definitions = new Tfyh_list("../config/lists/efaAuditCorruptData", 0, "", $this->socket, 
                 $this->toolbox);
@@ -339,7 +380,8 @@ class Efa_audit
                          $corrupt_records_list . "</ul>";
                 $corrupt_records_cnt_all += $corrupt_records_cnt;
             } else {
-                $corrupt_records_list_all .= "<li>" . i("LYwuMx|audit") . " $table_name: " . i("lKuUN0|ok.") . "</li>";
+                $corrupt_records_list_all .= "<li>" . i("LYwuMx|audit") . " $table_name: " . i("lKuUN0|ok.") .
+                         "</li>";
             }
         }
         $duration = time() - $last_step;
@@ -441,9 +483,8 @@ class Efa_audit
                                         $ids[$occurrence[$id_col]] += 1;
                                 }
                                 if (count($ids) > 1) {
-                                    $audit_result .= "<li>" . i(
-                                            "1iSIZo|°%1° with value °%2° has...", $fieldnames, 
-                                            $value);
+                                    $audit_result .= "<li>" . i("1iSIZo|°%1° with value °%2° has...", 
+                                            $fieldnames, $value);
                                     foreach ($ids as $id => $cnt) {
                                         $audit_result .= "<br>" . $id;
                                         $invalid32 = $uuid_invalids32[$id];
@@ -454,8 +495,8 @@ class Efa_audit
                                         if (isset($uuid_deleted[$id]) && $uuid_deleted[$id])
                                             $audit_result .= " " . i("yrvZC9|-DELETED-");
                                         if (isset($uuid_refs[$id]))
-                                            $audit_result .= " (" . count($uuid_refs[$id]) . " " . i("kbRZ71|times") .
-                                                     ")";
+                                            $audit_result .= " (" . count($uuid_refs[$id]) . " " .
+                                                     i("kbRZ71|times") . ")";
                                         $audit_result .= "; ";
                                     }
                                     $audit_result .= "</li>\n";
@@ -473,9 +514,8 @@ class Efa_audit
                 foreach ($assert_unique_vals as $fieldnames => $value_list) {
                     foreach ($value_list as $value => $occurrences) {
                         if (count($occurrences) > 1) {
-                            $audit_result .= i(
-                                    "stfYYi| ** °%1° with value °%2°...", 
-                                    $fieldnames, $value) . "<br>";
+                            $audit_result .= i("stfYYi| ** °%1° with value °%2°...", $fieldnames, $value) .
+                                     "<br>";
                             foreach ($occurrences as $occurrence) {
                                 $audit_result .= "        ";
                                 $named_row = $lists["duplicate"][$list_id]->get_named_row($occurrence);
@@ -552,12 +592,12 @@ class Efa_audit
                 if (strlen($default_values) > 0)
                     $default_values = substr($default_values, 0, strlen($default_values) - 2);
                 if (strlen($defaulting) > 0) {
-                    $audit_result .= "<li>" . i("n47bZV|The necessary informatio...", 
-                            $defaulting, $recordstr) . "</i></li>\n";
+                    $audit_result .= "<li>" . i("n47bZV|The necessary informatio...", $defaulting, $recordstr) .
+                             "</i></li>\n";
                 }
                 if (strlen($missing) > 0) {
-                    $audit_result .= "<li>" . i("VFh57f|The necessary informatio...", 
-                            $missing, $recordstr) . "</li>\n";
+                    $audit_result .= "<li>" . i("VFh57f|The necessary informatio...", $missing, $recordstr) .
+                             "</li>\n";
                 }
             }
             $audit_result .= "</ul>";
@@ -578,15 +618,20 @@ class Efa_audit
         $list_definitions = $list_definitions->get_all_list_definitions();
         include_once '../classes/efa_uuids.php';
         $efa_uuids = new Efa_uuids($this->toolbox, $this->socket);
+        $limit_age = strval(time() - (30 * 86400)) . "000";
+        $list_args = ["{LastModified}" => $limit_age
+        ];
+        $tables_log = "";
         for ($list_index = 0; $list_index < count($list_definitions); $list_index ++) {
             $list_id = intval($list_definitions[$list_index]["id"]);
             $lists["virtual"][$list_id] = new Tfyh_list("../config/lists/efaAuditVirtualFieldsFull", $list_id, 
-                    "", $this->socket, $this->toolbox);
+                    "", $this->socket, $this->toolbox, $list_args);
             $table_name = $lists["virtual"][$list_id]->get_table_name();
             $audit_result .= "<li>" . i("KKGLqS|audit") . " $table_name:";
             $virtual_fields = Efa_tables::$virtual_fields[$table_name];
             $ecrid_field_index = $lists["virtual"][$list_id]->get_field_index("ecrid");
-            $audit_result .= "<br>" . i("zkwDI7|lines") . ": " . count($lists["virtual"][$list_id]->get_rows());
+            $audit_result .= "<br>" . i("zkwDI7|lines") . ": " . count(
+                    $lists["virtual"][$list_id]->get_rows());
             $checked = 0;
             $corrected = 0;
             $failed = 0;
@@ -594,31 +639,35 @@ class Efa_audit
                 $matching_key = ["ecrid" => $row[$ecrid_field_index]
                 ];
                 $full_record = $this->socket->find_record_matched($table_name, $matching_key);
-                $record_with_correct_vf = Efa_tables::add_virtual_fields($full_record, $table_name, 
-                        $this->toolbox, $this->socket, $efa_uuids);
-                if ($record_with_correct_vf !== false) {
-                    $audit_result .= "<br>" . i("IfdaoB|Correct virtual fields f...", 
-                            $row[$ecrid_field_index]);
-                    $update_result = $this->socket->update_record_matched($audit_user_id, $table_name, 
-                            $matching_key, $record_with_correct_vf);
-                    if (strlen($update_result) == 0)
-                        $corrected ++;
-                    else
-                        $failed ++;
+                if ($full_record !== false) {
+                    $record_with_correct_vf = Efa_tables::add_virtual_fields($full_record, $table_name, 
+                            $this->toolbox, $this->socket, $efa_uuids);
+                    if ($record_with_correct_vf !== false) {
+                        $audit_result .= "<br>" . i("IfdaoB|Correct virtual fields f...", 
+                                $row[$ecrid_field_index]);
+                        $update_result = $this->socket->update_record_matched($audit_user_id, $table_name, 
+                                $matching_key, $record_with_correct_vf);
+                        if (strlen($update_result) == 0)
+                            $corrected ++;
+                        else
+                            $failed ++;
+                    }
+                    $checked ++;
                 }
             }
             if (($corrected > 0) || ($failed > 0))
-                $audit_result .= " " .
-                         i("a5ador|checked: %1, corrected: ...", $checked, $corrected, $failed) .
+                $audit_result .= " " . i("a5ador|checked: %1, corrected: ...", $checked, $corrected, $failed) .
                          "</li>\n";
             else
                 $audit_result .= " ok.</li>\n";
+            $tables_log .= " - " . $table_name . ":" . $checked;
         }
         $duration = time() - $last_step;
         $last_step = time();
         $audit_result .= "<li>" . i("xnRS5I|Duration: %1 seconds.", $duration) . "</li>";
         $audit_result .= "</ul>";
-        $audit_log .= date("Y-m-d H:i:s") . " +" . $duration . " " . i("R223pr|Virtual fields corrected...") . "\n";
+        $audit_log .= date("Y-m-d H:i:s") . " +" . $duration . " " . $tables_log . ": " .
+                 i("R223pr|Virtual fields corrected...") . "\n";
         
         // complete with list of unused UUIDs
         // ==================================
@@ -628,9 +677,8 @@ class Efa_audit
             if ((! isset($uuid_refs[$uuid]) || (count($uuid_refs[$uuid]) == 0)) &&
                      (strpos($uuid_names[$uuid], Efa_archive::$archive_id_prefix) === false))
                 $unused_count ++;
-        $audit_result .= "<li><b>" . i(
-                "kXZ9rj|The following %1 of the ...", $unused_count, 
-                $all_ids_count) . "</b></li>\n<ul>";
+        $audit_result .= "<li><b>" . i("kXZ9rj|The following %1 of the ...", $unused_count, $all_ids_count) .
+                 "</b></li>\n<ul>";
         foreach ($uuid_names as $uuid => $name) {
             if (! isset($uuid_refs[$uuid]) || (count($uuid_refs[$uuid]) == 0)) {
                 if (strpos($uuid_names[$uuid], Efa_archive::$archive_id_prefix) === false) {
@@ -642,6 +690,27 @@ class Efa_audit
                 }
             }
         }
+        
+        // finally remove obsolete configuration directories
+        // =================================================
+        $audit_result .= "<li><b>" . i("Removing obsolete client configurations") .
+        "</b></li>\n<ul>";
+        $client_dirs = scandir("../uploads");
+        $removed = 0;
+        foreach ($client_dirs as $client_dir) {
+            if (is_numeric($client_dir) && (intval($client_dir) > 0)) {
+                $user = $this->socket->find_record($this->toolbox->users->user_table_name,
+                        $this->toolbox->users->user_id_field_name, $client_dir);
+                if ($user === false) {
+                    // the user was removed. Delete its upload directory
+                    $this->toolbox->rrmdir("../uploads/" . $client_dir);
+                    $audit_result .= "<li>" . $client_dir . "</li>\n";
+                }
+            }
+        }
+        if ($removed == 0)
+            $audit_result .= "<li>---</li>\n";
+            
         $duration = time() - $last_step;
         $last_step = time();
         $audit_result .= "<li>" . i("RGeCEH|Duration: %1 seconds.", $duration) . "</li>";
@@ -653,15 +722,15 @@ class Efa_audit
     }
 
     /**
-     * Check all records of efa2logbook and efa2clubworkbook whether they comply with the respective book's
-     * period contstraints.
+     * Check all records of efa2logbook and efa2clubwork whether they comply with the respective book's period
+     * contstraints.
      */
     public function period_correctness_audit ()
     {
         global $dfmt_d, $dfmt_dt;
-        $audit_user = $_SESSION["User"];
+        $audit_user = $this->toolbox->users->session_user;
         $audit_user_id = $audit_user[$this->toolbox->users->user_id_field_name];
-        $user_is_admin = (strcasecmp($_SESSION["User"]["Rolle"], "admin") == 0);
+        $user_is_admin = (strcasecmp($this->toolbox->users->session_user["Rolle"], "admin") == 0);
         
         $audit_res = "<li><b>" . i("uMJF7t|Reference configuration") . "</b></li><ul>";
         $reference_client = $this->toolbox->config->get_cfg()["reference_client"];
@@ -696,15 +765,14 @@ class Efa_audit
             $error_message = "";
             $logbook_name = $row[$index_logbookname];
             $entry_id = $row[$index_entryid];
-            $ecrid_id = $row[$ecrid_id];
             $date = $row[$index_date];
             $ecrid = $row[$index_ecrid];
             $is_delete = (strcasecmp($row[$index_lastmodification], "delete") == 0);
             if (! $is_delete) {
                 $logbook_period = $efa_config->get_book_period($logbook_name, true);
                 if ($logbook_period["book_matched"] === false)
-                    $audit_res .= "<li>" . i("hxETBN|The logbook %1 (trip num...", 
-                            $logbook_name, $entry_id) . "</li>";
+                    $audit_res .= "<li>" . i("hxETBN|The logbook %1 (trip num...", $logbook_name, $entry_id) .
+                             "</li>";
                 else {
                     $logbook_start = $logbook_period["start_time"];
                     $logbook_end = $logbook_period["end_time"];
@@ -713,64 +781,14 @@ class Efa_audit
                             $row[$index_end_date]) : $entry_start;
                     if (($entry_start < $logbook_start) || ($entry_start > $logbook_end) ||
                              ($entry_end < $logbook_start) || ($entry_end > $logbook_end)) {
-                        $error_message = "<li>" . i(
-                                "mY35PB|The trip %1 with start %...", 
-                                $entry_id, date($dfmt_d, $entry_start), date($dfmt_d, $entry_end), 
-                                $logbook_name, date($dfmt_d, $logbook_start), date($dfmt_d, $logbook_end));
+                        $error_message = "<li>" . i("mY35PB|The trip %1 with start %...", $entry_id, 
+                                date($dfmt_d, $entry_start), date($dfmt_d, $entry_end), $logbook_name, 
+                                date($dfmt_d, $logbook_start), date($dfmt_d, $logbook_end));
                         $error_message .= " <a class='eventitem' id='viewrecord_" . $list->get_table_name() .
                                  "_" . $row[$index_ecrid] . "'>" . i("B6wzYu|view") . "</a>";
                         if ($user_is_admin)
                             $error_message .= " <a target='_blank' href='../pages/view_record.php?table=efa2logbook&ecrid=" .
-                                     $row[$index_ecrid] . "'> - " . i("aIaf9l|Edit/delete in new tab") .
-                                     "</a>";
-                        $audit_res .= "</li>";
-                    }
-                    $audit_res .= $error_message;
-                }
-            }
-        }
-        $audit_res .= "</ul>";
-        
-        // compile misfit periods clubworkbooks.
-        $audit_res .= "<li><b>" . i("bjIgH7|Club work that does not ...") .
-                 "</b></li><ul>";
-        $list = new Tfyh_list("../config/lists/efaAuditPeriods", 2, "", $this->socket, $this->toolbox);
-        $rows = $list->get_rows();
-        $index_clubworkbookname = $list->get_field_index("ClubworkbookName");
-        $index_id = $list->get_field_index("Id");
-        $index_date = $list->get_field_index("Date");
-        $index_description = $list->get_field_index("Description");
-        $index_ecrid = $list->get_field_index("ecrid");
-        $index_lastmodification = $list->get_field_index("LastModification");
-        
-        foreach ($rows as $row) {
-            $error_message = "";
-            $clubworkbook_name = $row[$index_clubworkbookname];
-            $id = $row[$index_id];
-            $date = $row[$index_date];
-            $description = $row[$index_description];
-            $clubworkbook_period = (isset($clubworkbook_name)) ? $efa_config->get_book_period(
-                    $clubworkbook_name, true) : false;
-            $is_delete = (strcasecmp($row[$index_lastmodification], "delete") == 0);
-            if (! $is_delete && ($clubworkbook_period !== false)) {
-                if ($clubworkbook_period["book_matched"] === false)
-                    $audit_res .= "<li>" .
-                             i("1VQeE3|The club workbook %1 is ...", $clubworkbook_name) . "</li>";
-                else {
-                    $workbook_start = $clubworkbook_period["start_time"];
-                    $workbook_end = $clubworkbook_period["end_time"];
-                    $work_date = strtotime($date);
-                    if (($work_date < $workbook_start) || ($work_date > $workbook_end)) {
-                        $error_message = "<li>" . i(
-                                "opBjzY|The club work °%1° on da...", 
-                                $description, date($dfmt_d, $entry_start), $clubworkbook_name, 
-                                date($dfmt_d, $workbook_start), date($dfmt_d, $workbook_end));
-                        $error_message .= " <a class='eventitem' id='viewrecord_" . $list->get_table_name() .
-                                 "_" . $row[$index_ecrid] . "'>" . i("4Gic54|view") . "</a>";
-                        if ($user_is_admin)
-                            $error_message .= " <a target='_blank' href='../pages/view_record.php?table=efa2clubworkbook&ecrid=" .
-                                     $row[$index_ecrid] . "'> - " . i("9aBBX0|Edit/delete in new tab") .
-                                     "</a>";
+                                     $row[$index_ecrid] . "'> - " . i("aIaf9l|Edit/delete in new tab") . "</a>";
                         $audit_res .= "</li>";
                     }
                     $audit_res .= $error_message;

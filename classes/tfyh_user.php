@@ -1,4 +1,25 @@
 <?php
+/**
+ *
+ *       the tools-for-your-hobby framework
+ *       ----------------------------------
+ *       https://www.tfyh.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ */
+
 
 /**
  * A utility class to hold the user profile management functions which do not depend on the application.
@@ -13,7 +34,7 @@ class Tfyh_user
 
     public $user_table_name;
 
-    // a numeric ID
+    // the numeric user ID - may be empty
     public $user_id_field_name;
 
     // an alphanumeric ID, but no valid e-mail address
@@ -43,6 +64,8 @@ class Tfyh_user
     public $self_registered_role;
 
     public $owner_id_fields;
+
+    public $session_user;
 
     /**
      * The common toolbox.
@@ -100,13 +123,16 @@ class Tfyh_user
                  ! isset($settings_tfyh["users"]["anonymous_role"]) ||
                  ! isset($settings_tfyh["users"]["use_subscriptions"]) ||
                  ! isset($settings_tfyh["users"]["use_workflows"]) ||
-                 ! isset($settings_tfyh["users"]["useradmin_workflows"]) ||
-                 ! isset($settings_tfyh["users"]["use_concessions"]) ||
-                 ! isset($settings_tfyh["users"]["ownerid_fields"])) {
+                 ! isset($settings_tfyh["users"]["use_concessions"]) || (! isset(
+                        $settings_tfyh["users"]["useradmin_workflows"]) &&
+                 ! is_null($settings_tfyh["users"]["useradmin_workflows"])) || (! isset(
+                        $settings_tfyh["users"]["ownerid_fields"]) &&
+                 ! is_null($settings_tfyh["users"]["ownerid_fields"]))) {
+            // no i18n required
             echo "Error in settings_tfyh: one of useradmin_role, useradmin_workflows, anonymous_role, self_registered_role, " .
-             "use_subscriptions, use_workflows, use_concessions, or ownerid_fields not defined."; // no i18n
-                                                                                                 // required
-            exit();
+             "use_subscriptions, use_workflows, use_concessions, or ownerid_fields not defined. settings_tfyh are:<br>" .
+             Tfyh_toolbox::array_to_html($settings_tfyh);
+            exit(); // really exit. No test case left over.
         }
         
         // Specifically authorized roles. Table field name: "Rolle" for the user role.
@@ -115,12 +141,12 @@ class Tfyh_user
         $this->anonymous_role = $settings_tfyh["users"]["anonymous_role"];
         // User preferences and permissions, table field names: Subskriptionen, Workflows,
         // Concessions
-        $this->use_subscriptions = $settings_tfyh["users"]["use_subscriptions"];
-        $this->use_workflows = $settings_tfyh["users"]["use_workflows"];
-        $this->useradmin_workflows = json_decode($settings_tfyh["users"]["useradmin_workflows"]);
-        $this->use_concessions = $settings_tfyh["users"]["use_concessions"];
+        $this->use_subscriptions = (isset($settings_tfyh["users"]["use_subscriptions"])) ? $settings_tfyh["users"]["use_subscriptions"] : false;
+        $this->use_workflows = (isset($settings_tfyh["users"]["use_workflows"])) ? $settings_tfyh["users"]["use_workflows"] : false;
+        $this->useradmin_workflows = (isset($settings_tfyh["users"]["useradmin_workflows"])) ? json_decode($settings_tfyh["users"]["useradmin_workflows"]) : "";
+        $this->use_concessions = (isset($settings_tfyh["users"]["use_concessions"])) ? $settings_tfyh["users"]["use_concessions"] : false;
         // Owner Id fields in different tables.
-        $owner_id_fields = explode(",", $settings_tfyh["users"]["ownerid_fields"]);
+        $owner_id_fields = (isset($settings_tfyh["users"]["ownerid_fields"])) ? explode(",", $settings_tfyh["users"]["ownerid_fields"]) : [];
         foreach ($owner_id_fields as $owner_id_field) {
             if (strlen(trim($owner_id_field)) > 0) {
                 $nvp = explode(".", trim($owner_id_field));
@@ -131,6 +157,30 @@ class Tfyh_user
     }
 
     /* ======================== Access Control ============================== */
+    /**
+     * Set the session user for cross application reference.
+     * 
+     * @param array $session_user
+     *            the session user. Use null to clear the session user.
+     */
+    public function set_session_user (array $session_user = null)
+    {
+        if (! isset($session_user))
+            return;
+        $this->session_user = $session_user;
+        if (! isset($session_user["preferences"]))
+            $session_user["preferences"] = "language=de";
+        $this->session_user["@firstname"] = (isset($session_user[$this->user_firstname_field_name])) ? $session_user[$this->user_firstname_field_name] : "";
+        $this->session_user["@lastname"] = (isset($session_user[$this->user_lastname_field_name])) ? $session_user[$this->user_lastname_field_name] : "";
+        $this->session_user["@fullname"] = $this->session_user["@firstname"] . " " .
+                 $this->session_user["@lastname"];
+        $this->session_user["@id"] = (isset($session_user[$this->user_id_field_name])) ? intval(
+                $session_user[$this->user_id_field_name]) : "";
+        $this->session_user["@account"] = (isset($session_user[$this->user_account_field_name])) ? $session_user[$this->user_account_field_name] : "";
+        $this->session_user["@mail"] = (isset($session_user[$this->user_mail_field_name])) ? $session_user[$this->user_mail_field_name] : "";
+        $this->toolbox->config->merge_session_user_preferences();
+    }
+
     /**
      * Check whether an item is hidden on the menu, i. e. it is not shown, but can be accessed. This is
      * declared by a preceding "." prior to the permission of the item.
@@ -152,8 +202,8 @@ class Tfyh_user
      * @param String $permission
      *            the permission String of the menu item or list which shall be accessed.
      * @param array $user
-     *            The user for which the check shall be performed. Default is the $_SESSION["User"], but for
-     *            API-Access such user is not set.
+     *            The user for which the check shall be performed. Default is the
+     *            $this->toolbox->users->session_user.
      * @return true, if access shall be granted
      */
     public function is_allowed_item (String $permission, array $user = null)
@@ -203,17 +253,20 @@ class Tfyh_user
      * @param String $permission
      *            the permission String of the menu item or list which shall be accessed.
      * @param array $user
-     *            The user for which the check shall be performed. Default is the $_SESSION["User"], but for
-     *            API-Access such user is not set.
+     *            The user for which the check shall be performed. Default is the
+     *            $this->toolbox->users->session_user.
      * @return int 0-3 reflecting two bits: for permitted AND with 0x1, for hidden AND with 0x2
      */
     private function is_allowed_or_hidden_item (String $permission, array $user = null)
     {
         if (is_null($user)) {
-            if (isset($_SESSION) & isset($_SESSION["User"]))
-                $user = $_SESSION["User"];
-            else // This happens on access errors
+            if (isset($this->toolbox->users->session_user))
+                $user = $this->toolbox->users->session_user;
+            else {
+                // This happens on access errors
+                $user[$this->toolbox->users->user_id_field_name] = - 1;
                 $user["Rolle"] = $this->anonymous_role;
+            }
         }
         $accessing_role = (isset($user) && isset($user["Rolle"])) ? $user["Rolle"] : $this->anonymous_role;
         $subscriptions = ($this->use_subscriptions && isset($user) && isset($user["Subskriptionen"])) ? $user["Subskriptionen"] : 0;
@@ -274,8 +327,9 @@ class Tfyh_user
                 $all_priviledged = $socket->find_records($this->user_table_name, "Rolle", $_role, 1000);
                 if ($all_priviledged != false)
                     foreach ($all_priviledged as $priviledged) {
-                        $html_str .= "&nbsp;&nbsp;#<a href='../forms/nutzer_aendern.php?id=" .
-                                 $priviledged["ID"] . "'>" . $priviledged[$this->user_id_field_name] . "</a>: " .
+                        $user_reference = (isset($priviledged["ID"])) ? "<a href='../forms/nutzer_aendern.php?id=" .
+                                 $priviledged["ID"] . "'>" . $priviledged[$this->user_id_field_name] . "</a>" : $priviledged[$this->user_id_field_name];
+                        $html_str .= "&nbsp;&nbsp;#" . $user_reference . ": " .
                                  ((isset($priviledged["Titel"])) ? $priviledged["Titel"] : "") . " " .
                                  $priviledged[$this->user_firstname_field_name] . " " .
                                  $priviledged[$this->user_lastname_field_name] . ".<br>";
@@ -353,7 +407,7 @@ class Tfyh_user
             if ($count_of_service_users == 0)
                 $no_users_at .= $titel . ", ";
             else {
-                $services_list .= "<h5>". $titel ."</h5><p>";
+                $services_list .= "<h5>" . $titel . "</h5><p>";
                 $services_list .= i("AkTh7r|In Total %1 users.", $count_of_service_users) . "<br>";
                 $audit_log .= $titel . " - " . $count_of_service_users . "; ";
                 if (! $count_only && is_array($service_users))
@@ -425,39 +479,32 @@ class Tfyh_user
     public function get_user_attributes (int $user_id, Tfyh_socket $socket, String $attribute, 
             String $period_definition, int $attr_at, int $start_at, int $end_at, bool $short = false)
     {
+        $list_args = ["{Mitgliedsnummer}" => $user_id
+        ];
+        include_once "../classes/tfyh_list.php";
+        $list_of_attributes = new Tfyh_list("../config/lists/queries", 0, $attribute, $socket, $this->toolbox, 
+                $list_args);
+        $rows = $list_of_attributes->get_rows();
+        if (! is_array($rows) || (count($rows) == 0))
+            return "";
         $html_str = "<tr><td><b>$attribute</b>&nbsp;&nbsp;&nbsp;</td><td>$period_definition:</td></tr>\n";
         $html_short = "<tr><td><b>$attribute</b></td><td>\n";
-        $sql_cmd = "SELECT * FROM `$attribute` WHERE `" . $this->user_id_field_name . "`='" . $user_id . "'";
-        $res = $socket->query($sql_cmd);
-        $r = 0;
-        if ($res !== false)
-            do {
-                $r ++;
-                $row = $res->fetch_row();
-                if (! is_null($row)) {
-                    $html_str .= "<tr><td>&nbsp;&nbsp;&nbsp;" . htmlspecialchars($row[$attr_at]) . "</td><td>" .
-                             $row[$start_at];
-                    $html_short .= "&nbsp;" . htmlspecialchars($row[$attr_at]);
-                    $end_string = (! is_null($row[$end_at]) && (strpos($row[$end_at], "0000-00-00") === false)) ? $row[$end_at] : i(
-                            "EBIhOz|today");
-                    if (strpos($period_definition, "-") != false) {
-                        $html_str .= " - " . $end_string;
-                        $html_short .= ":&nbsp;" . $row[$start_at] . " - " . $end_string;
-                    } else
-                        $html_short .= "&nbsp;$period_definition: " . $row[$start_at];
-                    
-                    $html_str .= "</td></tr>\n";
-                    $html_short .= " / ";
-                } elseif ($r === 1) {
-                    // now rows at all. Return empty String
-                    $html_str = "";
-                    $html_short = "";
-                }
-            } while ($row);
-        else {
-            // now rows at all. Return empty String
-            $html_str = "";
-            $html_short = "";
+        foreach ($rows as $row) {
+            if (! is_null($row)) {
+                $html_str .= "<tr><td>&nbsp;&nbsp;&nbsp;" . htmlspecialchars($row[$attr_at]) . "</td><td>" .
+                         $row[$start_at];
+                $html_short .= "&nbsp;" . htmlspecialchars($row[$attr_at]);
+                $end_string = (! is_null($row[$end_at]) && (strpos($row[$end_at], "0000-00-00") === false)) ? $row[$end_at] : i(
+                        "EBIhOz|today");
+                if (strpos($period_definition, "-") != false) {
+                    $html_str .= " - " . $end_string;
+                    $html_short .= ":&nbsp;" . $row[$start_at] . " - " . $end_string;
+                } else
+                    $html_short .= "&nbsp;$period_definition: " . $row[$start_at];
+                
+                $html_str .= "</td></tr>\n";
+                $html_short .= " / ";
+            }
         }
         if (strlen($html_short) > 2)
             $html_short = mb_substr($html_short, 0, mb_strlen($html_short) - 2);
@@ -518,9 +565,12 @@ class Tfyh_user
      * 
      * @param int $user_id
      *            the ID of the user for which the action shallt be taken
-     * @return an HTML formatted String with the links to the actions allowed
+     * @param String $uid
+     *            the unique id of the user record, if ID $user_id may not be unique (versionized records).
+     * @return an HTML formatted String with the links to the actions allowed. {#ID} will be replaced by
+     *         $user_id, {#uid} will be replaced by $uid
      */
-    public function get_action_links (int $user_id)
+    public function get_action_links (int $user_id, String $uid = null)
     {
         $action_links_html = "";
         $a = 0;
@@ -533,10 +583,13 @@ class Tfyh_user
                 if (($text_start !== false) && ($text_end !== false) && ($text_end > $text_start)) {
                     $text = substr($parts[1], $text_start, $text_end - $text_start);
                     $text_i18n = i($text);
-                    $parts[1] = substr($parts[1], 0, $text_start - 3) . $text_i18n . substr($parts[1], $text_end + 2);
+                    $parts[1] = substr($parts[1], 0, $text_start - 3) . $text_i18n .
+                             substr($parts[1], $text_end + 2);
                 }
-                $action_links_html .= str_replace("{#ID}", $user_id, $parts[1]);
-                
+                $action_link_html = str_replace("{#ID}", $user_id, $parts[1]);
+                if (! is_null($uid))
+                    $action_link_html = str_replace("{#uid}", $uid, $action_link_html);
+                $action_links_html .= $action_link_html;
             }
         }
         return $action_links_html;
@@ -558,5 +611,31 @@ class Tfyh_user
         if ($this->use_concessions)
             $user["Concessions"] = 0;
         return $user;
+    }
+
+    /**
+     * Get the user record for a user id. This takes into account versionized records and will only return
+     * valid user record, no invalid ones. It can be used to get the session user record.
+     * 
+     * @param int $user_id
+     *            the user id of the user to get
+     * @param Tfyh_socket $socket
+     *            the data base socket to retrieve the record(s)
+     * @return boolean|array the user record, if a valid user record exists. False else.
+     */
+    public function get_user_for_id (int $user_id, Tfyh_socket $socket)
+    {
+        $user_records = $socket->find_records_matched($this->user_table_name, 
+                [$this->user_id_field_name => $user_id
+                ], 10);
+        if (($user_records === false) || ! is_array($user_records))
+            return false;
+        if ((count($user_records) == 1) & (! array_key_exists("invalid_from", $user_records[0]) ||
+                 ($user_records[0]["invalid_from"] == 0)))
+            return $user_records[0];
+        for ($i = 0; $i < count($user_records); $i ++)
+            if (floatval($user_records[$i]["invalid_from"]) > Tfyh_toolbox::timef())
+                return $user_records[$i];
+        return false;
     }
 }

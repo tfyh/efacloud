@@ -1,0 +1,17 @@
+id;permission;name;select;from;where;options
+1;admin;Mhni4P|efa autoincrement;ecrid;efa2autoincrement;1;
+2;board;BxvIay|efa boatdamages;ecrid;efa2boatdamages;1;
+3;board;Og13VW|efa boatreservations;ecrid;efa2boatreservations;1;
+4;member;MzO39d|efa boats;ecrid;efa2boats;1;
+5;board;L9Ym7M|efa boatstatus;ecrid;efa2boatstatus;1;
+6;admin;Jmeusw|efa crews;ecrid;efa2crews;1;
+7;admin;PG51A2|efa destinations;ecrid;efa2destinations;1;
+8;admin;rqm7uR|efa fahrtenabzeichen;ecrid;efa2fahrtenabzeichen;1;
+9;board;zNN6AZ|efa groups;ecrid;efa2groups;1;
+10;board;HZyICm|efa logbook;ecrid;efa2logbook;1;
+11;member;3I0zNC|efa messages;ecrid;efa2messages;1;
+12;board;LdZU5S|efa persons;ecrid;efa2persons;1;
+13;board;ZtD0fF|efa sessiongroups;ecrid;efa2sessiongroups;1;
+14;board;nv2Oy2|efa statistics;ecrid;efa2statistics;1;
+15;board;VeRvIJ|efa status;ecrid;efa2status;1;
+16;board;2ZtK9d|efa waters;ecrid;efa2waters;1;

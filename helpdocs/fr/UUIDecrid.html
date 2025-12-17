@@ -1,0 +1,21 @@
+<h3>Ecrid et ID d'objet (UUID)</h3>
+L'Efa utilise ce que l'on appelle des "clés" pour trouver des enregistrements de manière unique. Deux clés
+	clés jouent un rôle particulier :</p> <p>
+<ul>
+	<li>UUID = Identificateur Universel Unique pour de nombreux objets, comme les
+		comme les bateaux ou les personnes, dans efa. Ces objets ont parfois
+		plusieurs versions avec des périodes de validité délimitées, auquel cas la période de validité doit également être précisée.
+		Dans ce cas, la période de validité doit également être spécifiée en plus de l'ID de l'objet.
+		Dans ce cas, la période de validité doit également être spécifiée en plus de l'ID de l'objet. Dans sa forme normale,
+		un UUID ressemble à ceci : '550e8400-e29b-11d4-a716-446655440000', They
+		sont générés aléatoirement sous la forme d'un nombre de 128 bits et sont donc uniques dans le monde entier.
+		unique dans le monde entier. unique. 4 bits sont encodés par ligne, les '-' n'ont aucune signification.
+		signification.</li>
+	<li>ecrid = ID d'enregistrement efacloud. Cette clé permet de référencer de manière unique
+		Cette clé référence de manière unique un enregistrement, par exemple, un enregistrement personnel dans une période de validité spécifique ou un voyage dans une période de validité spécifique.
+		période de validité spécifique ou un voyage dans un journal de bord spécifique.
+		spécifique. La clé est également générée de manière aléatoire sous la forme d'un nombre de 72 bits, de sorte que l'unicité globale peut également être garantie.
+		La clé est également générée de manière aléatoire sous la forme d'un nombre de 72 bits, de sorte que l'on peut également supposer une unicité globale pour la clé ecrid.
+		La clé est également générée de manière aléatoire sous la forme d'un nombre de 72 bits, de sorte que l'unicité globale peut également être supposée pour la clé ecrid. Voici un exemple
+		5wVSJezbhzro". 6 bits sont encodés par caractère.</li>
+</ul>

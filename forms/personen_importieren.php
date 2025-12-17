@@ -1,5 +1,27 @@
 <?php
 /**
+ *
+ *       efaCloud
+ *       --------
+ *       https://www.efacloud.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+/**
  * The form for upload and import of persons' records (not efaCloudUsers, but efa2persons).
  * 
  * @author mgSoft
@@ -32,7 +54,7 @@ if ($done > 0) {
     include_once '../classes/efa_record.php';
     $efa_record = new Efa_record($toolbox, $socket);
     $valid_records = array();
-    $user_id = $_SESSION["User"][$toolbox->users->user_id_field_name];
+    $user_id = $toolbox->users->session_user["@id"];
     
     // application logic, step by step
     if (strlen($form_errors) > 0) {
@@ -69,6 +91,7 @@ if ($done > 0) {
                             $record["FirstName"], $record["LastName"], $toolbox) : $record["Id"];
                     $import_check_prefix = i("cKcnOB|Check line") . " " . $r . ": " . $full_name;
                     // validate transaction for record
+                    $record = $efa_record->map_and_remove_extra_name_fields($record, "efa2persons");
                     $validation1_result = $efa_record->check_unique_and_not_empty($record, "efa2persons", 
                             $mode);
                     if (strlen($validation1_result) > 0)
@@ -79,9 +102,7 @@ if ($done > 0) {
                         if (is_array($validation2_result)) {
                             if ($validation2_result[1] && ! $validation2_result[2])
                                 $import_check_errors .= $import_check_prefix . " - " .
-                                         i(
-                                                "dN1n95|The transaction cannot b...") .
-                                         "<br>";
+                                         i("dN1n95|The transaction cannot b...") . "<br>";
                             else
                                 $import_check_info .= $import_check_prefix . " - ok.<br>";
                         } else
@@ -104,6 +125,9 @@ if ($done > 0) {
         $import_done_info = "";
         $r = 0;
         foreach ($records as $record) {
+            // For import of persons: add UUID field
+            if ((! isset($record["Id"]) || (strlen($record["Id"]) < 36)) && ($mode == 1))
+                $record["Id"] = Tfyh_toolbox::static_create_GUIDv4();
             // prepare information for record
             $r ++;
             $name_is_provided = (isset($record["LastName"]));
@@ -111,6 +135,7 @@ if ($done > 0) {
                     $record["LastName"], $toolbox) : $record["Id"];
             $import_done_prefix = i("RtlLSq|Execute line") . " " . $r . ": " . $full_name;
             // validate transaction for record, again. Things may have changed in the meanwhile.
+            $record = $efa_record->map_and_remove_extra_name_fields($record, "efa2persons");
             $validation1_result = $efa_record->check_unique_and_not_empty($record, "efa2persons", $mode);
             if (strlen($validation1_result) > 0)
                 $import_done_errors .= $import_done_prefix . " - " . $validation1_result . ".<br>";
@@ -119,10 +144,8 @@ if ($done > 0) {
                         $user_id);
                 if (is_array($validation2_result)) {
                     if ($validation2_result[1] && ! $validation2_result[2])
-                        $import_done_info .= $import_done_prefix . " - <b>" .
-                                 i(
-                                        "RqYBEi|The transaction cannot b...") .
-                                 "</b><br>";
+                        $import_done_info .= $import_done_prefix . " - <b>" . i(
+                                "RqYBEi|The transaction cannot b...") . "</b><br>";
                     else {
                         // now execute, all checks again performed successfully, use the result of the
                         // validation, because this has the ecrid resolved.
@@ -131,6 +154,11 @@ if ($done > 0) {
                             $existing_record = $socket->find_record_matched("efa2persons", 
                                     ["ecrid" => $validation2_result[0]["ecrid"]
                                     ]);
+                            // add Id, if missing, e.g. for name based import
+                            if (isset($existing_record["Id"]) && (strlen($existing_record["Id"]) > 0) &&
+                                     (! isset($validation2_result[0]["Id"]) ||
+                                     (strlen($validation2_result[0]["Id"]) == 0)))
+                                $validation2_result[0]["Id"] = $existing_record["Id"];
                             $change_count = $existing_record["ChangeCount"];
                             // If only the Id was provided, remove the autogenerated and now empty
                             // "FirstLastName" field
@@ -139,10 +167,14 @@ if ($done > 0) {
                         }
                         $record_modified = Efa_tables::register_modification($validation2_result[0], time(), 
                                 $change_count, Efa_record::$mode_name[$mode]);
+                        if (! isset($record_modified["InvalidFrom"]) ||
+                                 (strlen($record_modified["InvalidFrom"]) < 10))
+                            $record_modified["InvalidFrom"] = Efa_tables::$forever64;
                         $modification_result = $efa_record->modify_record("efa2persons", $record_modified, 
                                 $mode, $user_id, false);
                         if (strlen($modification_result) == 0)
-                            $import_done_info .= $import_done_prefix . " - " . i("O1BjoP|ok.") . "<br>";
+                            $import_done_info .= $import_done_prefix . " - " . i("O1BjoP|ok.") . " Id = " .
+                                     $record_modified["Id"] . "<br>";
                         else
                             $import_done_info .= $import_done_prefix . " - <b>" . $modification_result .
                                      "</b>.<br>";
@@ -161,10 +193,13 @@ if ($done > 0) {
 if (isset($form_filled) && ($todo == $form_filled->get_index())) {
     // redo the 'done' form, if the $todo == $done, i. e. the validation failed.
     $form_to_fill = $form_filled;
+    $form_to_fill->select_options = ["1=" . i("RUOkfa|create new"),"2=" . i("d7vLxb|modify")
+    ];
 } else {
     // if it is the start or all is fine, use a form for the coming step.
     $form_to_fill = new Tfyh_form($form_layout, $socket, $toolbox, $todo, $fs_id);
-    $form_to_fill->select_options = [ "1=" . i("RUOkfa|create new"), "2=" . i("d7vLxb|modify")];
+    $form_to_fill->select_options = ["1=" . i("RUOkfa|create new"),"2=" . i("d7vLxb|modify")
+    ];
 }
 
 // === PAGE OUTPUT ===================================================================
@@ -175,7 +210,7 @@ echo $menu->get_menu();
 echo file_get_contents('../config/snippets/page_02_nav_to_body');
 
 // page heading, identical for all workflow steps
-echo i("fU75vS| ** Import persons ** Da..."); 
+echo i("fU75vS| ** Import persons ** Da...");
 if ($todo == 1) { // step 1. Texts for output
     echo i("POzcZe| ** File format and fiel...");
     echo $toolbox->form_errors_to_html($form_errors);

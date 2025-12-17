@@ -1,5 +1,27 @@
 <?php
 /**
+ *
+ *       efaCloud
+ *       --------
+ *       https://www.efacloud.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+/**
  * The form for user profile self service. Based on the Tfyh_form class, please read instructions their to
  * better understand this PHP-code part.
  * 
@@ -35,7 +57,7 @@ elseif (isset($_SESSION["getps"][$fs_id]["newid"]) && (intval($_SESSION["getps"]
         $user_to_add["Nachname"] = "Doe";
         $user_to_add["EMail"] = $default_email;
         $user_to_add["Passwort_Hash"] = "-"; // use empty hash as default
-        $efaCloudUserID = $_SESSION["User"][$toolbox->users->user_id_field_name];
+        $efaCloudUserID = $toolbox->users->session_user["@id"];
         $user_to_add["LastModified"] = strval(time()) . "000";
         $id_to_update = $socket->insert_into($efaCloudUserID, $toolbox->users->user_table_name, $user_to_add);
         // set hash to identify user record later as new user record.
@@ -186,13 +208,13 @@ if ($done > 0) {
         
         if ($changed && ! $form_errors) {
             $record["LastModified"] = strval(time()) . "000";
-            $change_result = $socket->update_record($_SESSION["User"][$toolbox->users->user_id_field_name], 
+            $change_result = $socket->update_record($toolbox->users->session_user["@id"], 
                     $toolbox->users->user_table_name, $record, false);
             if (strlen($change_result) > 0) {
                 $form_errors .= "<br />" . i("5pH8pE|Database update command ...") . " " . $change_result;
             } else {
                 $toolbox->logger->log(0, intval($nutzer_to_update_after[$toolbox->users->user_id_field_name]), 
-                        "Nutzer von Verwalter(in) " . $_SESSION["User"][$toolbox->users->user_id_field_name] .
+                        "Nutzer von Verwalter(in) " . $toolbox->users->session_user["@id"] .
                                  " geändert.");
             }
         } elseif (! $form_errors) {
@@ -239,7 +261,8 @@ echo $menu->get_menu();
 echo file_get_contents('../config/snippets/page_02_nav_to_body');
 
 // page heading, identical for all workflow steps
-echo i("PMDKK5|<!-- START OF content -..."); 
+echo "<!-- START OF content -->\n<div class='w3-container'>";
+
 if ($is_new_user) {
     echo "<h3>" . i("ovmMoC|Create a new efaCloud us...") .
              "<sup class='eventitem' id='showhelptext_NutzerUndBerechtigungen'>&#9432;</sup> " .
@@ -256,7 +279,7 @@ echo $toolbox->form_errors_to_html($form_errors);
 echo $form_to_fill->get_html();
 
 if ($todo == 1) { // step 1. No special texts for output
-    if (strcmp($_SESSION["User"]["Rolle"], $toolbox->users->useradmin_role) == 0)
+    if (strcmp($toolbox->users->session_user["Rolle"], $toolbox->users->useradmin_role) == 0)
         echo "<br><a href='../pages/datensatz_loeschen.php?table=efaCloudUsers&ID=" . $user_to_update["ID"] .
                  "' style='float:left;'>" . i("O39Sks|FINALLY delete users") . "</a>";
     echo $form_to_fill->get_help_html();

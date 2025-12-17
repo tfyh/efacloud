@@ -87,15 +87,15 @@ QhtP9h|
 |</p>
 |</div>
 stfYYi|<li>'%1' con valore '%2' deve essere unico, ma si verifica nei record:
+HOPydU|<br>
+HjmWZW|<br>
+KbBLuc|<br>
+LzuvqD|<br>
+RIUYXm|<br>
+Untpor|<br>
 OoZfSs|Una password unica può essere richiesta di nuovo in qualsiasi momento.<br>Per farlo, basta accedere dall'inizio.
 mWiv2U|Una password unica viene inviata all'indirizzo e-mail.<br>Questa può essere utilizzata per cancellare la password.
 foQQVH|Sopra le immagini cliccare su "Sfoglia ...", selezionare le immagini, cliccare su "Carica" e<b>attendere</b>. 10-50 secondi per immagine. La pagina non si aggiornerà finché il caricamento non sarà completato. È preferibile non caricare più di 5 immagini (non più di 20 MByte) alla volta.
-UngRbx|
-|<!-- START OF content -->
-|<div class="w3-container">
-|<h3>Statistiche di accesso</h3>
-|<p>
-|<b>Tabella delle attività guidate dall'utente:</b>accessi (login), chiamate di pagina (init) ed errori (error). </p>
 jToBj0|
 |<div class="w3-container">
 |<h4>Statistiche di accesso per il client #%1</h4>
@@ -106,12 +106,6 @@ nO9bzi|
 |<p> Dopo aver cancellato la password permanente, è possibile accedere nuovamente con una<a
 |href="../forms/login.php">NUOVA</a> password unica<b>QUI.</b>Una nuova password permanente può quindi essere impostata in "Il mio profilo".</p>
 yRK4pZ|<br>Tutte le concessioni sono elencate qui.<br>
-JRi7Qo|
-|<!-- START OF content -->
-|<div class="w3-container">
-|<h3>Tutti i permessi</h3>
-|<h4>Una panoramica dei permessi attualmente assegnati.</h4>
-|<p></p>
 qnvYay|<br>Tutti i flussi di lavoro sono elencati qui.<br>
 uVS3Gb|
 |<ol>
@@ -128,10 +122,6 @@ uVS3Gb|
 |</div>
 |
 |<div class="w3-container">
-nLzqlz|<p>Un aggiornamento non può essere annullato. Si raccomanda pertanto di eseguire un backup del codice prima di procedere.</p> 
-|<form action='?upgrade=1' method='post'> <input type='submit' class='formbutton' value='Jetzt auf - %1 - aktualisieren' /> </form>
-|<p>Attenzione: il processo inizia con un clic sul pulsante
-|immediatamente e dura solo pochi secondi.</p>
 DR7W5h|
 |<!-- START OF content -->
 |<div class="w3-container">
@@ -202,45 +192,6 @@ V1VijQ|
 |</div>
 |
 |<div class="w3-container">
-NgPjw9|
-|<!-- START OF content -->
-|<div class="w3-container">
-|<h3>Modifica schema colori e font</h3>
-|<p>Qui è possibile modificare lo schema colori e il font dell'applicazione.</p>
-|<h1>Titolo di esempio 1</h1>
-|<h4>Titolo di esempio 4</h4>
-|<p>
-|<a href='#'>Link di esempio</a>
-|</p>
-|<label class="cb-container">Pulsante radio spuntato<input type="radio"
-|name="radioexample1" value="" checked /><span class="cb-radio"></span></label><br>
-|<label class="cb-container">Pulsante radio deselezionato<input type="radio"
-|name="radioexample2" value="" /><span class="cb-radio"></span></label><br>
-|<label class="cb-container">Casella di controllo spuntata<input type="checkbox"
-|name="checkboxexample1" value="" checked /><span class="cb-checkmark"></span></label><br>
-|<label class="cb-container">Casella di controllo deselezionata<input type="checkbox"
-|name="checkboxexample2" value="" /><span class="cb-checkmark"></span></label><br>
-|<select class="formselector" name="selectorexample" style="width: 15em">
-|<option value="option 1">Opzione1</option>
-|<option selected value="option 2">Opzioni a discesa</option>
-|<option value="option 3">Opzione3</option>
-|</select>
-|<p>&nbsp;</p>
-|<form method=POST action="?changecolors=1">
-|<table style='width: 70%'>
-|<thead>
-|<tr>
-|<th>Applicazione di colore</th>
-|<th>Valore del colore</th>
-|</tr>
-|</thead>
-|<tbody>
-E4weTW|
-|<!-- START OF content -->
-|<div class="w3-container">
-|<h3>Modifica dei parametri di configurazione</h3>
-|<p>Qui è possibile modificare la configurazione. L'impostazione superiore dei colori e del tipo di carattere è<b><i><a href='../forms/farben_aendern.php'>possibile qui</a></i></b>. I dati di accesso al database possono essere modificati solo durante l'installazione. 
-|</p>
 xnSRHk|
 |<!-- START OF content -->
 |<div class="w3-container">
@@ -256,26 +207,8 @@ hGHxvu|
 |</div>
 |
 |<div class="w3-container">
-qJk3Th|
-|<!-- START OF content -->
-|<div class="w3-container">
-|<h2>Modifiche ai dati</h2>
-|<h3>Ecco l'elenco delle modifiche ai dati nel database</h3>
-|<p>Ogni modifica ai dati viene registrata, gli ultimi 100 giorni sono mostrati qui. L'uso è consentito solo per gli scopi regolamentati.</p>
-QyymBR|
-|<!-- START OF content -->
-|<div class="w3-container">
-|<h3>Controllare la struttura dei dati corrente</h3>
-|<p>Qui è possibile trovare la struttura dei dati corrente del database del server.</p>
-|</div>
 p2mcau|
 |<h4>Cartelle di lavoro del club di tutti i clienti</h4>
-2ecyll|
-|<!-- START OF content -->
-|<div class="w3-container">
-|<h3><br><br><br><br>Sito in costruzione</h3>
-|<p>Il sito non è ancora disponibile, stiamo ancora costruendo.</p>
-|</div>
 gBlz7m|
 |<p>
 |<a href='../pages/show_logbooks.php'>Correggere ulteriori corse.</a>
@@ -303,6 +236,7 @@ uVNY6O|
 |<a class='formbutton' href="?create=2">Scarica html</a>&nbsp; &nbsp; 
 |<a class='formbutton' href="?create=3">Scarica PDF</a>
 |</p>
+dXUBZv|<br>
 1qHoyA|<span class='configHead' onclick="toggleConfigGroup('Datenschutzkonzept')"><b>Concetto di protezione dei dati<sup class='eventitem' id='showhelptext_Datenschutzkonzept'>&#9432;</sup> ▾</b></span>
 dQzRS3|
 |<!-- START OF content -->
@@ -330,13 +264,6 @@ jmEZKD|
 |<div class="w3-container">
 |<h3>Cancellare il database %1 e configurarlo di nuovo.</h3>
 BkDaPm|La cancellazione della password<br>può essere effettuata per ogni utente, lasciando invariate le password predefinite.
-HKR5lY|
-|<!-- START OF content -->
-|<div class="w3-container">
-|<h2>Cancella password</h2>
-|<h3>Cancella la password permanente per il Towendung.</h3>
-|</div>
-|<div class="w3-container">
 9Mf4oC|
 |<!-- START OF content -->
 |<div class="w3-container">
@@ -350,6 +277,9 @@ MPbwHx|<p>
 |<br />
 | <a href="../forms/nutzer_aendern.php?id= %1">Cambiare ulteriormente l'utente.</a>
 |</p>
+6E16M8|<h4>Visualizzazione di un record di dati dalla tabella %1</h4><p>Il record di dati viene visualizzato 
+|così come è memorizzato nel database.<br>Per ulteriori informazioni e per personalizzare il record:  
+|<b><a target='_blank' href='../pages/view_record.php?table=%2&ecrid=%3'>Visualizza il record in una nuova scheda</a></b></p>
 bCVSSd|
 |<h4>impostazioni del programma client efa</h4>
 mYjQxu|<span class='configHead' onclick="toggleConfigGroup('efaReferenzclient')"><b>client di riferimento efa<sup class='eventitem' id='showhelptext_Stammdaten'>&#9432;</sup> ▾</b></span>
@@ -385,11 +315,7 @@ U1NXw3|
 |</ul>
 |<p>Sono sempre felice di ricevere feedback a support(at)efacloud.org!</p>
 |</div>
-QsB6fc|
-|<!-- START OF content -->
-|<div class="w3-container">
-|<h2>Errore</h2>
-|<h3>Purtroppo non ha funzionato.</h3>
+ZknAAM|<h3><b>efaWeb</b>- DEMO SENZA GARANZIA.<br></h3>
 8c5ooi|<b>Errore</b><br>Non è stato possibile regolare il layout della tabella. Vedere 'sys_db_audit.log' per i dettagli.
 POzcZe|
 |<p>Formato del file e nomi dei campi</p>
@@ -453,11 +379,6 @@ JTl0ci|
 |<li>Caricare la tabella. Viene visualizzato se l'importazione è possibile e cosa accadrà.</li>
 |<li>Confermare l'importazione. I record di dati vengono importati.</li>
 |</ol>
-ZAjY7v|
-|<!-- START OF content -->
-|<div class="w3-container">
-|<h3>Memorizzazione dei file</h3>
-|<p>In alternativa, è possibile creare una directory.</p>
 TN8gcV|
 |<!-- START OF content -->
 |<div class="w3-container">
@@ -506,17 +427,14 @@ a8iDlL|
 |<p><a href='?cdir=%1'>Qui</a>passare al caricamento successivo. </p>
 Bkefzy|<span class='configHead' onclick="toggleConfigGroup('Alle')"><b>Nascondi tutto </b></span>
 HWpoVD|Per quanti giorni i clienti devono essere informati della cancellazione<sup class='eventitem' id='showhelptext_Loeschbenachrichtigung'>&#9432;</sup>di un record?
+poVH9D|Quali file di log<sup class='eventitem' id='showhelptext_UploadLogs'>&#9432;</sup> devono essere caricati sul server?
 yBbRP6|Identità della persona in efa. <i>(completato automaticamente se necessario)</i>
+ie07jE|<br>
 fU75vS|
 |<!-- START OF content -->
 |<div class="w3-container">
 |<h3>Importazione persone</h3>
 |<p>I dati della tabella efa Persone possono essere modificati qui come transazione di massa.</p>
-Yxab32|
-|<!-- START OF content -->
-|<div class="w3-container">
-|<h3>Importazione tabella</h3>
-|<p>Qui è possibile importare una tabella dal database.</p>
 atUZOz|
 |<!-- START OF content -->
 |<div class="w3-container">
@@ -528,14 +446,6 @@ atUZOz|
 |<p>Nel passo successivo, la tabella viene caricata e importata come mostrato. Confermare che l'importazione deve essere effettuata (non è possibile annullarla).</p>
 zmwOIb|
 |<p>Nel passo successivo, la tabella viene caricata e importata come mostrato. Confermare che l'importazione deve essere effettuata (non è possibile annullarla).</p>
-uDpZVK|
-|</div>
-|<div class="w3-container">
-|<h3>Informazioni sulla protezione dei dati</h3>
-|<ul class="listWithMarker">
-|<li>Queste informazioni sono fornite esclusivamente a scopo di controllo per i titolari di funzioni nell'amministrazione dell'autorizzazione. Non possono essere trasmesse.</li>
-|</ul>
-|</div>
 wLHGFz|
 |</div>
 |<div class="w3-container">
@@ -555,47 +465,13 @@ wLHGFz|
 |</ul>
 |</div>
 iAJ3Mj|<br><b>Dati dell'inventario</b>
+CJ5hTv|logbook<br>ad esempio 2021, o JJJJ per l'anno in qualsiasi stringa ad esempio 'JJJJ_Training'<br>può essere lasciato vuoto, allora si assume l'anno solare corrente.
 TLKuVl|<span class='configHead' onclick="toggleConfigGroup('Fahrtenbuecher')"><b>Libri di bordo<sup class='eventitem' id='showhelptext_Fahrtenbuecher'>&#9432;</sup> ▾</b></span>
 pHuTRf|
 |<h4>Diari di bordo di tutti i clienti</h4>
-FVAYy8|
-|
-|<!-- START OF content -->
-|<div class="w3-container">
-|<h3>
-|<br>
-|<br>
-|<br>
-|<br>Disconnesso
-|</h3>
-|<p>
-|Il logout è avvenuto con successo.<br>
-|<br>
-|<br>&nbsp;
-|</p>
-|</div>
 YxcJ4k|L'accesso al server efaCloud è possibile con l'ID utente efaCloud o in alternativa con il nome efadmin o l'indirizzo e-mail memorizzato e la password corrispondente.<br>Per impostare l'ID utente, l'amministratore del registro del club di solito aiuta.<br><br>
 zdAPKK|Errore di accesso.<br>Già %1 tentativi falliti. Riprovare, ma ogni tentativo richiede più tempo.
-VhzARg|
-|<!-- START OF content -->
-|<div class="w3-container">
-|<h3>Login per gli utenti registrati</h3>
-|</div>
-|
-|<div class="w3-container">
-Zb6TUk|
-|
-|<div class="w3-container">
-|<h3>
-|<br>
-|<br>
-|<br>
-|<br>
-|<br>Manutenzione
-|</h3>
-|<p>
-|L'applicazione è attualmente in manutenzione fino al previsto.<br>
-|<b>
+bBnlvR|Il login al logbook è possibile solo con l'efaCloudUserID dell'utente o del PC della rimessa e la relativa password.<br>Se non si conosce la password, contattare l'amministratore efa del club.<br><br>
 ffAkIP|<span class='configHead' onclick="toggleConfigGroup('Stammdaten')"><b>Associazione di dati anagrafici<sup class='eventitem' id='showhelptext_Stammdaten'>&#9432;</sup> ▾</b></span>
 C1HUuR|
 |</ul>
@@ -606,15 +482,10 @@ C1HUuR|
 |</div>
 PfLbaB|Nome</th><th>Viaggi</th><th>Viaggio più recente</th><th>Ultimo viaggio</th>
 gyvihB|<i>Sconsigliato, rallenta notevolmente il primo accesso della giornata:</i>Salva le tabelle durante la routine quotidiana
-s83mkb|
-|</p>
-|<p>
-|<b>Nota:</b>Di solito il browser mantiene le impostazioni dei colori nella
-|cache, quindi la modifica non ha un effetto visibile all'inizio. Con
-|F5 o &lt;Ctrl&gt;-F5 dopo l'aggiornamento, la cache può essere cancellata nella maggior parte dei
-|browser e solo allora verrà applicata la nuova impostazione del colore.</p>
-|</div>
 leDYGI|<span class='configHead' onclick="toggleConfigGroup('Benachrichtigungen')"><b>Notifiche<sup class='eventitem' id='showhelptext_Benachrichtigungen'>&#9432;</sup> ▾</b></span>
+5V5NzT|Oops, l'applicazione si è bloccata.<br>%1<br><br>
+|Se il problema si ripete, è possibile aiutare lo sviluppo indicando l'errore. 
+| <br><br><b>Cronologia chiamate</b><br>
 kyJIX0|<br><b>Altro</b>
 OEps5V|
 |<!-- START OF content -->
@@ -632,6 +503,10 @@ NeJqoO|eseguito.</b>
 CDDC8L|</li>
 |<li>Periodo: 
 m4Yd1V|<span class='configHead' onclick="toggleConfigGroup('PersoenlichesFahrtenbuch')"><b>Diario personale<sup class='eventitem' id='showhelptext_PersoenlichesFahrtenbuch'>&#9432;</sup> ▾</b></span>
+pjcJ07|<br>
+9Gd8YN|<br>Si prega di descrivere il danno: cosa e dove?
+0Jz4fV|Si prega di inserire un indirizzo e-mail valido a "%1"<br>
+G6wVsj|<br>Si prega di inserire il messaggio qui
 IGCugZ|Si prega di contribuire a migliorare il software trasmettendo queste informazioni al team di supporto.<br>Grazie!
 dH58zd|
 |<p>Per favore, fatemi sapere la vostra richiesta o un desiderio per le funzionalità di efaCloud. Cercherò di aiutarvi il prima possibile. Durante i periodi di vacanza ci possono essere dei ritardi, ma normalmente ci si può aspettare una risposta entro una settimana.</p>
@@ -656,23 +531,7 @@ MT1L4O|
 |<p>
 |efaCloud utilizza le impostazioni del client di riferimento se<b><a
 |href='../forms/configparameter_aendern.php'>è stato impostato nelle impostazioni</a></b>. Se non viene specificato alcun efaCloudUserID, vengono utilizzate le impostazioni del progetto del club demo RC Weiss-Blau. </p>
-47al0R|
-|<!-- START OF content -->
-|<div class="w3-container">
-|<h3>Leggi le mail</h3>
-|<h4>Qui si ha la possibilità di leggere le mail inviate alle liste di distribuzione.</h4>
 m2oeV3|<b>variante di secondo tipo</b><br>numero
-XlbAYa|
-|<!-- START OF content -->
-|<div class="w3-container">
-|<h3>Inviare messaggi di posta elettronica alla lista di distribuzione
-|</h3>
-|<p>Le e-mail sono inviate individualmente, sempre con un solo destinatario "A". A seconda della quantità, questo può richiedere molto tempo e portare alla classificazione di spam nella pagina del destinatario. Pertanto, si prega di usare
-|con parsimonia.</p>
-|<p>
-|<b>ATTENZIONE:</b>Dopo 10 minuti la sessione termina se non viene richiamata una nuova pagina. 
-|
-|<p>
 rpXiYW|
 |<!-- START OF content -->
 |<div class="w3-container">
@@ -682,15 +541,10 @@ y1NFtw|
 |
 |<div class="w3-container">
 |<h3>Invia richieste di supporto o feedback</h3>
-AAnHHF|
-|<!-- START OF content -->
-|<div class="w3-container">
-|<h3>Messaggi del server</h3>
-|<p>Informazioni, avvisi ed errori con l'ID dell'utente che li ha generati. Tutto ciò che viene registrato dall'applicazione. Le informazioni visualizzate possono contenere dati personali e possono essere utilizzate solo per scopi regolamentati.</p>
-|<div class='w3-row' style='padding: 10px;'>
 jYPnW7|<br>Impostazioni per efaWeb 
 Cvnhnq|</li>
 |<li>Inizio dell'anno sportivo: 
+sx82uN|<br>
 cJuiTT|<span class='configHead' onclick="toggleConfigGroup('Synchronisation')"><b>Sincronizzazione<sup class='eventitem' id='showhelptext_Synchronisation'>&#9432;</sup> ▾</b></span>
 VK7X6Z|
 |<!-- START OF content -->
@@ -706,9 +560,6 @@ dm895V|
 EADCwd|
 |    <p>
 |<b>La modifica dei dati è
-jKbHGN|
-|<p>L'importazione del file è stata effettuata. <br /> <a
-|href="../pages/mein_profil.php">Qui</a>si torna alla pagina iniziale personale. </p>
 02b3TQ|
 |<p>L'importazione del file è stata effettuata. <br />Il protocollo per questo è:
 |</p>
@@ -719,9 +570,6 @@ x1uDKx|
 |<p>Il caricamento dei file e il controllo dei dati sono andati a buon fine. Di seguito viene mostrato ciò che è stato importato.</p>
 7MLPuQ|
 |<p>Il caricamento dei file e il controllo dei dati sono andati a buon fine. Di seguito viene mostrato ciò che è stato importato.</p>
-MSsBTV|
-|<p>Il caricamento dei file è avvenuto con successo. Di seguito viene mostrato ciò che viene importato. Prestare attenzione alla nota sugli errori di importazione, perché di solito è un segno che c'è qualcosa di sbagliato nel file caricato.</p>
-|<p>Nel passo successivo, la tabella viene caricata e importata come mostrato. Confermare che l'importazione deve essere effettuata.</p>
 sIOQ62|
 |<h4>I seguenti viaggi sono stati cancellati definitivamente:</h4>
 v0PFwa|La password permanente può essere cancellata<a href='../forms/reset_password.php'>QUI.</a>
@@ -744,11 +592,6 @@ D6jbrA|Tipo di modifica<sup class='eventitem' id='showhelptext_VersionierteDaten
 NxSz36|Tipo di modifica<sup class='eventitem' id='showhelptext_VersionierteDatenAnpassen'>&#9432;</sup>
 ihbPIc|Tipo di modifica<sup class='eventitem' id='showhelptext_VersionierteDatenAnpassen'>&#9432;</sup>
 vE4oO4|Tipo di modifica<sup class='eventitem' id='showhelptext_VersionierteDatenAnpassen'>&#9432;</sup>
-HVtA0e|
-|
-|
-|<h3>Aggiornamento dell'applicazione %1</h3>
-|<p>L'aggiornamento scompatta il codice, sovrascrivendo i file di codice esistenti. Tutti i dati dell'inventario, come i registri, i caricamenti, i backup, ecc. vengono conservati. Il database non viene modificato.</p>
 fzBHFZ|
 |<h3>Aggiornamento dell'applicazione server efaCloud </h3>
 |<p>L'aggiornamento scompone il codice e sovrascrive i file di codice esistenti. Tutti i dati dell'inventario, come i registri, i caricamenti, i backup, ecc. sono conservati. Il database non viene modificato.</p>
@@ -807,28 +650,21 @@ R5S35O|
 |</div>
 |
 |<div class="w3-container">
-2jun3e|.</b><br>Ci scusiamo per i disagi che questo può causare.<br>
-|<br>
-|<br>
-|<br>&nbsp;
-|</p>
-|</div>
 UXT258|
 |
 |<!-- START OF content -->
 |<div class="w3-container">
 |<h3>Benvenuto, %1</h3>
 xUZZ3E|Qual è il numero massimo di giorni in cui l'archiviazione può tornare indietro? <br>(0 = ripristina tutti i dati dell'archivio):
-Bi1XKi|
-|<p>Quando si importa, l'ID deve essere specificato in ogni record. I record che hanno un ID esistente saranno sovrascritti. Tutti i campi della tabella che corrispondono a un campo della tabella del database saranno sovrascritti, cioè anche cancellati, se necessario.
-|I record che hanno un nuovo ID saranno creati ex novo.</p>
-|<p>Le tabelle da importare devono riportare i nomi dei campi della tabella del database nella prima riga, con l'indicazione delle maiuscole/minuscole.
-|Se si usano nomi di campo non validi, l'importazione non può avvenire. Le tabelle da importare che consistono esattamente in una colonna in cui si trova l'ID comporteranno l'eliminazione dei record completi con il rispettivo ID.</p>
-|<p>Nella prima fase, la tabella viene caricata e controllata. Nel
-|secondo passo avviene l'importazione. Questo deve essere esplicitamente confermato.</p>
 wir4uQ|
 |<p>Con la conferma, i viaggi selezionati sono ora definitivamente cancellati.</p>
+xmanWk|<br>
+MiKGnA| a 
+p2If4F| a 
 QRqTTI| parsing 
+E2CDwz|!
+bcRYbz|!
+kVI3tK|!
 Gg90pW|#Errore mkdir fallito nella directory '%1'.
 6qoA8U|#errore nell'apertura del file '%1'.
 Cd30Mz|#Errore: Decodifica del backup non mascherato '%1' fallita.
@@ -846,7 +682,6 @@ CGJnuw|%1 Archivio di backup con una dimensione totale di %2 MByte.
 Tu6j0f|Sono stati caricati %1 byte.
 HlAWGl|Non è stato possibile eliminare %1.
 RTVMQw|Non è stato possibile eliminare %1.
-lT47yu|Sono stati aggiunti %1 ecrids. (Il passaggio aggiorna un massimo di %2 record e potrebbe essere necessario ripeterlo).
 GsvRx8|%1 è stato modificato da '%2' a '%3'.
 J8QheD|%1 è stato modificato da '%2' a '%3'.
 ETWO97|%1 è stato eliminato.
@@ -863,6 +698,7 @@ WjRsQw|(vuoto)
 izUp6M|(vuoto)
 pMMn46|(vuoto)
 E0Klof|(per efa nella rimessa dalla versione 2.3.2)
+qZaY4N|(necessari %1 tentativi)
 gEQmZw|(numero: %1)
 9iFvXO|*Importa questo file XML o zip:
 7CXyyL|*Carica questo file:
@@ -874,12 +710,7 @@ KcQ7EG|File .htaccess aggiunti.
 89mWdC|File .htaccess in ordine.
 H2g0xi|File .htaccess rimossi.
 011tZB|efa2messages
-01G01O|</div>
 06ISXt|efaWeb_fahrtenabzeichen
-08pBug|
-|<div class='w3-col l2'>
-|<a
-|href='../pages/show_history.php?
 0Kn6bl|efa logbook (Mitglieder, aktuelles Jahr)
 0Wguyh|</div>
 28oiYL|uuid_crews
@@ -891,16 +722,10 @@ H2g0xi|File .htaccess rimossi.
 3hobFq|efa2clubwork
 4F2pUd|uuid_groups
 5DE143|uuid_persons
-5O1GIg|
-|</table>
-|</div>
-|<div class="w3-container">
-|<div class='w3-row'>
-5mFmma|    </tbody>   </table>   <p>    <input name='submit' value='Test' type='submit'     class='formbutton' />   </p>  </form>  <p>
 5snezC|efaWeb_own_sessions
 6AqUAc|audit_crews
+6OkOV2|efaWeb_fahrtenabzeichen
 77gvXM|</div>
-79Iex2|</div>
 7DoAKB|efa2waters
 7HQ9oh|archive_persons
 7IkKPl|uuid_boatdamages
@@ -909,31 +734,19 @@ H2g0xi|File .htaccess rimossi.
 85h9K3|restore_records
 8fKtJg|audit_statistics
 8qQEHT|noValues
-9J3v6X|<p>&nbsp;</p>
-|<p>
-|<small>&copy; efacloud - nmichael.de</small>
-|</p>
-9TNFSL|
-|
-|</div>
+lD9JeK|<h5>Per favore inserisci il rapporto sui danni per intero.</h5>
+SsHYiD|<h5>Inserire qui il messaggio.</h5>
+NK1dHk|<h5>Si prega di specificare l'imbarcazione per la quale si richiede il rapporto di avaria.</h5>
+RA89xO|<h5>Riserva un'imbarcazione una volta</h5>.
 EinecO|@titolo
-AVZqHm|
-|<!-- END OF form -->
-|</div>
 AecuMb|audit_groups
 BxvIay|efa boatdamages
-DiRyic|</div>
 Ec4cuQ|audit_destinations
 G8gfUr|audit_statistics
 HZyICm|efa logbook
-IDOKUa|
-|<!-- END OF Content -->
-|</div>
 IHM6iH|efa2boatdamages
 IrVjsR|audit_groups
 J7QkU7|leaving_members
-JZKR1D|
-|</div>
 Jmeusw|efa crews
 JwFqj0|
 |<!-- END OF Content -->
@@ -941,28 +754,14 @@ JwFqj0|
 K3jC4w|
 |<!-- END OF Content -->
 |</div>
-KmCBHj|
-|<!-- END OF Content -->
-|</div>
-L6DB6I|
-|<!-- END OF Content -->
-|</div>
 L9Ym7M|efa boatstatus
 LDkjpT|efa2status
 LLIH9L|efa2boats
-LSoAtS|</div>
 LdZU5S|efa persons
 Ln40nr|audit_boats
 M7KYYi|efaWeb_messages
-MCB3HR|
-|<!-- START OF content -->
-|<div class="w3-container">
-|<h2>
 Mhni4P|efa autoincrement
 MzO39d|efa boats
-NEBbkz|
-|<!-- END OF form -->
-|</div>
 NvgW7Z|</div>
 OYvYwM|efa2crews
 OdmufW|uuid_statistics
@@ -971,15 +770,7 @@ OkHOab|</div>
 P0YpJt|select config_error
 P1fAgB|audit_boatreservations
 PG51A2|efa destinations
-PMDKK5|
-|<!-- START OF content -->
-|<div class="w3-container">
 PTzhSt|audit_crews
-PZe0Fq|
-|<!-- END OF Content -->
-|</div>
-PhJ3L4|
-|</div>
 QkBmJq|efa2boatreservations
 RMcKPn|efaWeb_opentrips
 RTrgNa|Gelöschte Datensätze anzeigen
@@ -988,32 +779,15 @@ SdHxry|efaWeb_boatstatus
 SgVvTy|archive_messages
 TElAlA|audit_sessiongroups
 TTt5oN|known_members
-ToJ4AJ|
-|</div>
-|<!-- END OF Content -->
 TvpBpw|uuid_destinations
 U2fWGk|new_members
 U6s9jf|select 0=?;1=no options available
 UNxVUo|efaWeb_boatreservations
 UnpGlv|clientName
-Uo3OuT|
-|<!-- END OF Content -->
-|</div>
 VKTHVY|audit_boatdamages
-VLBFN0|
-|</div>
-VNaOll|
-|<!-- END OF form -->
-|
-|</div>
 Vcxli6|efaWeb_destinations
 VeRvIJ|efa status
 W1J7N5|efaWeb_persons
-WfIlRT|
-|</div>
-WlX6QJ|
-|<!-- START OF content -->
-|<div class="w3-container">
 X1Ie8W|audit_waters
 XkjFUN|uuid_logbooks
 Y6Vy5J|
@@ -1027,7 +801,6 @@ YzWJOY|
 Z5hMom|efaWeb_groups
 ZQt0Ty|efaWeb_boatdamages
 ZtD0fF|efa sessiongroups
-Wixvhp|[predefinito alla creazione]
 ZjgTv2|[efa] Nuova prenotazione per l'imbarcazione %1
 Q49rLD|[efa] Nuova prenotazione per l'imbarcazione.
 5KSMXt|[efa] Nuovo messaggio all'ADMIN da %1, oggetto:
@@ -1035,9 +808,10 @@ J33vQj|[campo con chiave dati].
 pUUKZR|[campo chiave con correzione centrale]
 m5fazU|[elenco degli ID degli oggetti]
 r6ReJu|[nessun client di riferimento definito, controllare le impostazioni].
-353Us1|[non disponibile]
 pRZsYG|[non disponibile]
 VpjI4B|[non definito]
+IaAJhC|[non trovato]
+yIasNs|[non trovato]
 75hzYb|[diverse possibilità]
 YXYsQR|[non definito]
 Ct5cWh|Un * davanti all'etichetta di un campo indica che è necessario un record.
@@ -1055,11 +829,13 @@ PXYG2n|non è stato possibile creare una nuova versione. Il database riporta:
 GzZrqa|è stata creata una nuova versione.
 B0quSZ|Un record con l'identificativo unico "%1" è stato creato in %2.
 uUKDIW|Un record con l'identificativo unico "%1" è stato creato in %2.
+OA3Igv|Un record con questa chiave esiste già.
 62cGIf|Abbreviazione
 uhcKky|Interrotto, vedere sys_db_audit.log.
 NHMrlY|Interrotto. Ecrid disponibile.
 ytlK51|Interrotto. Non consentito per %1.
 WcL0zL|Statistiche degli accessi
+l5E880|
 Apulhe|L'accesso a queste informazioni non è stato consentito.
 hNikUk|L'accesso a queste informazioni non è stato consentito.
 UU8ZrV|Accessi negli ultimi %1 giorni
@@ -1075,6 +851,9 @@ F7t6Jn|Azione
 Z4VNs0|Clienti attivi
 A3XyqV|Giorni attivi (numero)
 2IHJZD|attivo
+zus4hq|aggiungere gli ID
+vnRXNL|Aggiungi chilometri
+YQWXLB|aggiungere numeri di tesseramento
 H5p5xA|Incremento automatico della proprietà aggiunto a `%1`.`%2`.
 xw01aj|Aggiunta la colonna `%1`.`%2` con la definizione corrente.
 S1nQio|Aggiunta la proprietà unique a `%1`.`%2`.
@@ -1098,15 +877,20 @@ TCnjRe|Età in giorni:
 y10Kn9|Età in giorni:
 d3o4EA|Album non trovato. Annullamento.
 ceZwjN|Tutti i permessi
-O8zMCW|Tutti i viaggi effettuati.
 Q4c8jW|Tutti gli ID
 2kJu6N|Tutti i moduli dell'installazione di riferimento sono presenti.
 rARwTp|Tutti i nomi
-oR4Ytj|Tutti i viaggi di %1 nel registro '%2' fino ad ora:
+1GPSPQ|
+oR4Ytj|Tutti i viaggi di %1 fino ad ora:
 7TpRPM|Tutti gli utenti
 JS8Dme|Tutti gli utenti
+CiHNBM|Anche questo è fisso?
 2JgEKN|Si è verificato un errore durante il salvataggio del file '%1' nella posizione '%2'.
 usHKvV|È stato specificato un numero di sequenza del modulo o un token di sequenza del modulo non valido.
+bg8Rz4|Un oggetto %1 esiste già in %2.
+JJ0FEo|Un oggetto %1 non esiste ancora in %2.
+3Ju6sc|
+9dBgWW|
 CW7uhM|richiesta anonima per nessun modulo: %1/%2
 8FHeg0|anonimo
 gwpsJR|Statistiche degli accessi API
@@ -1118,10 +902,13 @@ rcxg1I|Sovraccarico dell'applicazione
 KWQvhQ|Applicazione
 CZ56mL|Non è stato possibile ripristinare il record di archivio #%1. Motivo: La decodifica del record non è riuscita.
 i0VBLI|archiviato
+ORKVw1|al (tempo)
 9hnY2G|a
+MZ2hdv|Al
 mlOh7N|Appendice 1:
 8dh5sK|Allegato 2:
 hv0TyN|Allegato:
+rHyH4e|
 0Q3eYq|Audit completato.
 yDwhyh|Controllo completato
 xeigZw|Verifica del database
@@ -1139,6 +926,7 @@ tuglOc|Contrassegnare automaticamente i messaggi all'amministratore come letti
 HLqSDT|Contrassegnare automaticamente come letti i messaggi al guardiano della barca
 QWR8R7|Contrassegnare automaticamente come letti i messaggi al guardiano della barca
 De1RPi|Disponibile per il download come csv.
+A5JJSu|disponibile
 xf8yxL|Media
 bNnasv|noValues
 yAZlsH|Avanti e indietro
@@ -1155,33 +943,59 @@ V4T3Wv|Backup
 202buq|DistintivoAB
 hCB0jI|Distintivo
 s0IJfr|Poiché questo messaggio non poteva essere inviato a nessuno, non è stato salvato tra i messaggi inviati.
+OrsZ7Z|Poiché l'utente non è uno sportivo o il link al suo record non è impostato, non viene inviato alcun registro.
 VyQSE6|Data di nascita o Anno
 2oRhAT|Barca (Id)
 RlaAwv|Danno all'imbarcazione, data di segnalazione
 98y3IF|Danni alle barche
 QxUXcf|Danni alle barche
+a7nGz6|Chilometri percorsi dalle imbarcazioni nell'anno in corso, ordinati per nome
+RzxkTt|Chilometri percorsi dalla barca nell'anno in corso, ordinati per distanza
 MPgCdU|Barca km per distanza
+oo2aIk|nome della barca affisso
+fYPl0H|nome della barca
 japu2o|Prenotazione barche, data di inizio
 61cAaQ|Tipo di barca
 IeBMNG|Tipo di barca
 ZJB7XX|Tipo di barca
+fiuCPT|Tipo di barca
 iPlaKi|Tipo di barca
+s6i5Ps|Tipo di barca
 tCnBmJ|Tipo di barca
 3lHvNg|Stivale,Stato attuale,Stato di base
 zkm1hq|Barca,DataDa,DataPer
 wOD59L|Stivale,Descrizione
 YgIziQ|Barche km per nome
 3BgOTw|Stivale
+98KJLf|Imbarcazione
+9SKlbu|Imbarcazione
+17gEGM|Barca:
 GEVnOt|Stivale
+JbuHVF|Imbarcazione
+R9ViN9|Imbarcazione
 U2OtU4|Stivale
+XmM2FP|Imbarcazione
+ZBJmMh|Imbarcazione
+a67Dyd|Imbarcazione
 bWQfY3|Stivale
+dPH3Mp|Imbarcazione
+hRKeQX|Imbarcazione
+mqExyG|Imbarcazione
+rYAeb3|Imbarcazione
+R827cX|barche non disponibili
+OgP0Hp|barche non utilizzabili
+BR9BZ3|barche prenotate
 GvnWap|Barche
 KMnmP4|persona che prenota
 HY5ek8|Transazioni di massa degli ultimi %1 giorni
 EJN8bL|Transazioni in blocco
 pvrbnx|per ora di inizio
 Re0a6b|per numero di viaggio
+ALdpUI|Annullamento del viaggio
+UgbntI|Annullamento del viaggio
 yFzxZ7|Annulla viaggio
+3wyma0|Non è possibile annullare il viaggio, dati incompleti.
+DuRfHc|Non è possibile completare il viaggio, dati incompleti.
 uZon0P|Il record non può essere cancellato. Nessun record trovato per la chiave [%1] in %2.
 ak6ZuS|Il record non può essere inserito, il provisioning ecrid è vietato per le versioni API inferiori a 3.
 Gc2E76|Il record non può essere inserito. Ha già più di 30 giorni (%1) e la chiave specificata [%2] è già in uso.
@@ -1189,15 +1003,20 @@ CRISZB|Il record non può essere inserito. La chiave specificata [%1] è utilizz
 tdVyu3|La sessione non può essere inserita: %1 (log %2). È troppo simile a quella esistente, quindi la chiave non deve essere corretta per evitare la duplicazione delle sessioni.
 x6zeNt|Il record non può essere modificato. Violazione del periodo in %1. Motivo: %2.
 bNidHS|Il record non può essere aggiornato. Nessun record trovato per la chiave [%1] in %2.
+8oVJix|Non è possibile aggiornare il viaggio, dati incompleti.
 ey9S8D|Elenco di liste
+vKw9sL|
 03zAeI|Presidente
 WpnNE8|Presidente
 QQRAVY|Informazioni sulle modifiche e sulle app|Avvisi|Voci del registro errori Pulizia completata
 YpUO6w|Messaggio di modifica controllato.
 PfOrhR|Cambia il logo del club
 RQpeAQ|Cambia schema di colori
+KDNuD3|
+elJM8q|
 i0SFzf|Contatore delle modifiche non valido
 FE4Of4|Contatore delle modifiche mancante
+pDysSn|Modifica dei dati per "%1
 QipHX2|Modificare i permessi di amministrazione Efa
 BmvSBP|modifica set di dati efa
 NL410D|cambiare i diritti efa
@@ -1214,7 +1033,10 @@ lvGRAt|Cambia profilo/password
 DAwDVx|Cambia profilo
 nc58pc|Modifica record
 xBbzbd|Modifica record
+VL3y28|
+c1Kttz|
 A3uBQ0|Cambia il profilo di %1
+SjX5zz|Cambia viaggio
 dD2G5j|Cambia utente
 G4gfja|Cambiare utente ora
 vskZuv|modifica/cancellazione
@@ -1222,12 +1044,15 @@ vskZuv|modifica/cancellazione
 sNh3bq|Colonna `%1`.`%2` modificata con la definizione corrente.
 gjYPBf|ID modificato:
 nxPrrc|Changelog (anche per Security-Concept)
+jkjFR8|
 84qqTb|Modifiche
 E6z7DI|Modifiche
 DkY0nv|caratteri.
 42jTgj|Controllare la riga
 cKcnOB|Controllare la riga
 XBFzrv|Selezionare la casella per le immagini e fare clic su "Download" sotto le immagini. Tutte le immagini sono fornite in un archivio zip che può essere scritto direttamente nella cartella "Download", a seconda delle impostazioni del browser.
+3MS3H9|
+nMSzXi|
 XIGJqp|Controllato/totale: %1/%2, nessuna correzione richiesta.
 mfU3JA|controllato: %1, corretto: %2, correzione fallita: %3, dublets in archivio: %4, nessun controllo o riferimento richiesto: $skipped.
 a5ador|controllato: %1, corretto: %2, fallito: %3.
@@ -1237,8 +1062,10 @@ p4z2js|Sessioni obsolete eliminate. Rimanenti:
 25nrUp|Attività dei clienti
 O00zsH|Configurazioni del client:
 CXR0Eq|Messaggi del cliente
+cbHhdY|Errore nella richiesta di post del cliente
 A8OMxk|Cliente
-59YAGh|Sessione PHP '%1' chiusa
+ofYJXP|chiuso: 
+lsbpkz|
 W353w8|Logo del club
 bjIgH7|Lavoro di associazione che non corrisponde al periodo della cartella di lavoro dell'associazione.
 r8hjy3|Libro di lavoro del club
@@ -1246,11 +1073,14 @@ rXpZ9D|Cartelle di lavoro del club
 2jDemj|Cartelle di lavoro dell'associazione
 R3tJPp|Lavoro di club, data di attuazione
 EoJitr|Colore (codice esadecimale RGB)
+CS3ieI|
+xmC7bW|
 2Tgeqq|Selezione e ordine delle colonne
 n0VQUK|Società che gestisce il sito (hoster)
 Ne1yvo|Confronta la versione
 iRfNHa|Completato per il cliente di riferimento %1
 6QCftb|Update_table_layout(%1) completato.
+HAqb4l|
 Sr2ozD|Completato. Altre chiavi da correggere:
 3Dhpv1|Completato. Non ci sono altre chiavi da correggere.
 deuFgY|Completato.
@@ -1265,6 +1095,7 @@ ww1i98|configurare l'efa
 BN4UxH|collegato come
 7DhJc1|Connessione
 rH1lEJ|Connessione
+hpz1IT|
 xZpcQw|Contatto
 3oww70|continuare
 S5pVS3|Continua
@@ -1281,15 +1112,28 @@ Z6itd3|Record di dati corretto
 IfdaoB|Correggere i campi virtuali per il record con ecrid '%1'.
 fTom5D|Corretti i record corrotti.
 mazy61|Non è stato possibile cancellarlo. Messaggio di errore:
+9e4GGB|Impossibile trovare il testo di aiuto per
 8N2N5h|Numero di accessi
 8fGF1t|Numero di ruoli non privilegiati:
 OPc8WE|Numero di ruoli privilegiati:
 MzZXhV|Numero di record
 HmXvbp|Contatore per
+0j7S8g|Cox
+7wmNgN|Cox
+8lIkQ4|Cox
+pLwP12|Cox:
+CFgig5|Cox
+Hy621r|Cox
+jCOfC8|Cox
+kHt6C4|Cox
 ovmMoC|Creare un nuovo utente efaCloud
+8ugV2E|Creare una nuova versione per '%1
 kl2r3O|Creare il backup
 wA7mOS|Creare il backup
+eV5HYx|Crea ora una nuova versione
+ntQ6xA|Crea ora una nuova versione
 RUOkfa|crea nuovo
+eazTTs|creare nuovo
 0dYrp9|Creare un record
 9opurV|Crea statistiche
 GLB0lW|Crea statistiche
@@ -1297,17 +1141,24 @@ wpf4AI|Crea la tabella `%1` con tutte le colonne secondo il layout attuale.
 sBbPVu|Creare un utente
 Tix00e|Creato:
 WRvThr|Crea nuova tabella vuota `%1`...
+K6OO1w|
 fukYdH|La creazione di file di report nelle statistiche pubbliche non è consentita.
 auPGvi|Non è stato possibile verificare le credenziali nel record della transazione VERIFY.
 rhWBec|Cronjobs avviato (ora dell'ultima esecuzione: %1)
+2M0mte|csv è con pipe (|) come separatore e senza virgolette
 tOvSot|Valuta Prezzo d'acquisto
 TeD6Nm|Prenotazioni attuali e future
 5zkQ5A|stato attuale
+Fkzrl9|
 ZC5KSz|Attualmente installato:
 VDv9EA|Attualmente è stato effettuato l'accesso come
 5DTJs0|attualmente nessuna voce.
 WfHwY7|Danni per barca
 MaWHhj|Rapporto danni n.
+ESu4U2|Rapporti sui danni per
+HmMA1O|Rapporti sui danni
+UgusMQ|Rapporti sui danni
+hTuxng|Danni
 c6Z279|Verifica del database
 zwn7oV|Verifica del database
 vCGSbJ|Errore di connessione al database:
@@ -1375,10 +1226,12 @@ MyjroH|Elimina la directory se è vuota
 MxrIKd|efa Cancellare il record
 c32XmM|Eliminare il file
 3nkQKY|eliminare da questo registro
+6Eagok|
 rVVVg2|Cancellare la password
 8Y01p6|Cancellare il set di dati
 MNpvhU|Cancellare il set di dati
 vdj8vx|Elimina i viaggi selezionati
+eaMVsh|
 sSO9vY|cancellare?
 161Fzy|Eliminato
 WqXFAz|Eliminato
@@ -1393,10 +1246,22 @@ oMccPH|Descrizione (non utilizzare ';')
 B9EOmx|Descrizione:
 OJFiWA|Descrizione
 PFX4fS|Descrizione
+Shxb5M|Descrizione
+o8Gra7|Descrizione
 W9iqqC|Denominazione dello stato
 fRvtL4|Designazione del percorso
+0Qq93T|Destinazione
+7eSHFJ|Destinazione
+9UjNdu|Destinazione
+JOGpo7|Destinazione
 QEQS9z|Destinazione
+c5gYBM|Destinazione
 hxPAgo|Destinazione
+jabwQd|Destinazione
+mFYJcy|destinazione
+nr240s|Destinazione
+uaNNl7|Destinazione
+k1aGJk|
 0ymNar|Dettagli
 BuukBt|Accesso diretto
 ZNvHsT|Accesso diretto
@@ -1406,16 +1271,29 @@ mvC38h|Spedizione riuscita per:
 Ladp2w|Spedizione all'indirizzo %1 riuscita.
 UrEE7g|Visualizzazione della struttura dei dati
 ht5yHC|Distanza (ad esempio 10 km)
+0YFLpN|Distanza (ad es. 12 km)
+2yMlSU|Distanza (ad es. 12 km)
+8x1P9Y|Distanza (ad es. 12 km)
+DFV5H3|Distanza (ad es. 12 km)
+Yrgfjt|Distanza (ad es. 12 km)
+7yTSSm|Distanza
+GwV0aU|Distanza
+JbTXKT|Distanza
 OoCAVz|Distanza
+vOt1pZ|distanza
 dlOC9f|audit_boatreservations
+SEZB6S|non mostrare
 miz0SV|Completato.
+u2Ih6w|Fatto:
 cmjKme|Scaricare il file
 2FZhhA|Download:
 YEcCUE|Scaricamento
+SXiDCM|scaricato
 TQrqJw|Eliminare la tabella "%1
 TuOggl|La colonna obsoleta `%1`.`%2` è stata eliminata.
 zQY162|L'indice obsoleto `%1`.`%2` è stato eliminato.
 2p7kEh|Cancellare la tabella `%1`...
+zjQaio|A causa di un sovraccarico di risposte da parte del server efaCloud, purtroppo ora c'è un'interruzione.
 XRCLkB|Controllo duplicati
 dyCw0A|Controllo dei duplicati.
 0zU8XJ|Durata: %1 secondi.
@@ -1426,6 +1304,7 @@ tZIRPY|Durata: %1 secondi.
 xnRS5I|Durata: %1 secondi.
 zxvnvd|Durata: %1 secondi.
 oK13vo|Email
+jvNIEJ|
 uxuAAD|Manca l'Ecrid. Non è possibile modificare o eliminare record senza ecrid in API V3 e successive.
 mhjGNl|Manca la specifica Ecrid
 VbeC4b|Modifica danni alle imbarcazioni
@@ -1464,7 +1343,10 @@ WpcBzB|efaAdminName deve avere una lunghezza compresa tra 4 e 10 caratteri.
 W2wpqV|Concetto di sicurezza efaCloud
 PlK3cE|Utente efaCloud
 zqMZlN|Agli utenti efaCloud può essere assegnato anche un privilegio di amministratore efa; i loro privilegi saranno quindi impostati nel server allo stesso modo che nell'efa-PC e avranno effetto su tutti gli efa-PC collegati al server. A questo scopo, all'utente efaCloud deve essere assegnato un nome di amministratore efa. Questo può essere utilizzato per il login di amministrazione nell'efa-PC collegato. Esempio 'alexa' per 'Alex Admin'. Opzione "Modifica dei permessi di amministrazione efa".
+zbSX9F|ID utente efaCloud
+6lYbjM|Password dell'utente efaCloud
 15iRSs|efaCloudUserID - oppure -
+PfwuLC|Attualmente efaWeb è solo una demo. L'ulteriore sviluppo dell'applicazione efaWeb dipende dal vostro feedback a "info@efacloud.org".
 5GosWb|efaWeb: Visualizzazione del diario di bordo
 fIyhiE|efaWeb: Visualizzazione del diario di bordo
 4JGwyS|efaWeb: inserire le corse nel diario di bordo della rimessa per barche n. 3
@@ -1487,29 +1369,40 @@ DCulJk|efaWeb: Prenotazione barche
 rq8s1c|efaWeb: Prenotazione barche
 CowNyK|efaWeb: Invio di segnalazioni di danni
 yyPnCq|efaWeb: Invio di segnalazioni di danni
-WwI0Sx|L'URL del server non è corretto o il server ha un errore interno.
 GTufO2|registro elettronico
 6cZFHd|EMail
 8wfvuE|EMail
 LMFCXE|EMail
 eiCoTk|campi di dati vuoti
 Oju3Ki|tabella vuota
+3skGH2|percorso
 InlfaA|Fine (ora)
 MFU1ZD|Fine (viaggio di più giorni)
+1TUhfr|Fine a
+4ReiZl|Fine a
+JH8SKy|Fine a
+JQVD9x|Fine a
+QCQnSa|Fine a
+gIkHBc|Fine a
+nJr5rv|Fine a
+yl6jQr|Fine a
 uE7sbD|Fine il
+4h7ttJ|Fine viaggio
 5cu4oU|Fine viaggio
+TUlSJq|Fine viaggio
 7YoQfb|Fine
 H6xh5s|inserire un valore.
 wwLnzB|Inserire il viaggio
+VVqvPA|inserito da
 pfu2ta|Inserimenti di altri anni
 M7SjbB|Iscrizioni di quest'anno
-fKG3hw|ID iscrizione,Barca,Ora di inizio,Destinazione
-BqM9Lt|ID iscrizione,Data,Imbarcazione,Cox,Equipaggio,Ora di inizio,Ora di fine,Destinazione,Distanza
+BqM9Lt|ID iscrizione,Data,Imbarcazione,Cox,Equipaggio,Ora di inizio,Ora di fine,Destinazione,Distanza,Acque
 BVliju|Errore 502: non è stato specificato un tipo di informazione valido.
 3vkMSJ|Errore nella verifica dei dati:
 edML3Q|Errore nell'esecuzione di un'istruzione SELECT del database.
 WWu9LQ|Errore nella sequenza dei moduli.
 EvZXbc|Errore nell'aggiornamento del record in %1. Impossibile trovare il record con la chiave:
+e5oX3g|Errore durante la richiesta di dati al server.
 2dhcic|Errore in
 6HrzgB|Errore: Il file '%1' non è stato trovato.
 8XihSu|Errore: Il file '%1' non è stato trovato.
@@ -1518,9 +1411,11 @@ sgBY7F|Errore: Nella query non è stato specificato alcun nome di tabella.
 jVHp9d|Errore: Il record nella tabella '%1' con ecrid '%2' non esiste.
 vB1jX7|Errore: L'utente non ha diritti sufficienti per inizializzare il database.
 NLNSFH|Errore:
+UCOyeY|
 qZ10EG|Errore
-RwHQSN|Superamento del tempo massimo di inattività di %1 minuti.
-1ZDOoa|Superamento della durata massima della sessione di &1 ore.
+iX6ImJ|
+DybBcu|
+HsHWSA|
 2srRi7|Escludere dalle competizioni
 ayX9bN|Escludere per il lavoro di club
 uMWKvT|Esclusione per le statistiche
@@ -1543,15 +1438,13 @@ WsILpP|Id di archiviazione fallito: %1 per %2. Nessun record corrispondente trov
 Ll1PcH|Non è stato possibile copiare l'ID: Copiare %1 per %2 nell'archivio. Motivo:
 3tX6IN|Non è stato possibile svuotare o cancellare il record dopo l'archiviazione: %1 per %2. motivo:
 3Srdaj|Impossibile leggere il file di sessione esistente:
-INS7kx|Non è stato possibile rimuovere il file di sessione "%1".
-Mi1B56|Impossibile scrivere un nuovo file di sessione:
-kGf6KR|Non è stato possibile scrivere il file della sessione aggiornata:
-nLVyxC|Non è stato possibile scrivere il file della sessione aggiornata:
 fposcc|Errore. Motivo:
+H4WzFD|
 avyj0D|Campo
 0SC9ay|Il file non esiste.
 5Crr2x|Autorizzazioni file per
 Vu1bh5|Autorizzazioni file per
+RdDQSD|
 JCP71T|File: Utente %1 dopo il controllo della sessione appUserID %2, ruolo: %3.
 wdLerX|File
 Rhz5mZ|Filtro nella colonna:
@@ -1561,12 +1454,14 @@ SxaQ2N|trovare il record efa
 AFfNO8|Trova gli utenti
 2MRXpo|Trova
 JLWDeX|Trova
+r9v9Cg|Trova
 xCemhH|Nome e cognome
 TY6MFV|nome - o -
 PU7fh8|Nome
 Y4qNDN|Nome
 zOaP8F|Nome
 8e7Bmw|Risolto in
+ZOkbht|Fissato
 zgUx5E|Risolto
 NARfje|Piè di pagina sotto le mail generate dal sistema
 gF0grL|Per %1 manca la categoria %2.
@@ -1575,6 +1470,7 @@ EwvOZD|Per %1, %2 : manca %3.
 5jgFwZ|Per %1, la categoria %2 è priva di contenuto.
 iwE1Bg|Per %1, i valori del parametro %2 non sono identici.
 8ZhsQk|Per efaWeb è possibile assegnare all'utente efaCloud anche permessi differenziati. Tuttavia, questo ha senso solo nel ruolo di "membro".
+UTmyA8|
 xjjbhP|Per le nuove segnalazioni di danni, utilizzare efaWeb.
 Cf48Vk|Per i nuovi messaggi utilizzare efaWeb.
 j2CGJe|Per i nuovi oggetti, la validità non deve essere limitata.
@@ -1601,8 +1497,8 @@ zZ6QxD|Per motivi tecnici, il modulo verrà completamente resettato se vengono i
 ffkuoc|Per la ricerca, almeno un campo deve contenere una voce.
 mwgz0K|Per la configurazione ancora esistente del client %1, non esiste più un utente efaCloud.
 JIIqc3|Le seguenti azioni sono disponibili per questo utente (cliccare sul link):
-jY9jZE|Per l'utente
 iti1xU|Per quale cliente?
+d8C17W|Per chi?
 0kFZ0X|Controllare l'accesso alle directory proibite ...
 obg4CF|La chiave dati del modulo '%1' non corrisponde a una chiave campo del modulo %2, passo %3.
 v9Y9Xk|Formato:
@@ -1613,31 +1509,33 @@ ODxMEM|Campo libero 2
 trUBiT|Campo libero 2
 gTYQjX|Campo libero 3
 nGKaUU|Campo libero 3
-1t2W9I|da sessione anonima.
+LVtdZf|Da (giorno)
+QAA0gV|Da (ora)
 KZunv7|Dalla data
 C3bKnx|da file
 1i1RBL|Da ora
 mymSDY|Da:
 yhYGfZ|Da:
+QRmJ0b|da
 c2yXTk|Da
 lJpyEt|Ricerca a testo pieno
 kgufgC|Funzione
 UGlDe1|Non è possibile aggiungere altri contatori di sistema.
 gFMPPA|uuid_boats
-gPmeyF|
-|             </p>
 gXEDSy|
 |<div class='w3-col l2'>
 gdHeK9|efa2clubwork
 9CKxCr|Genere
 OrvMhQ|Ottenere un file csv da scaricare:
+xbEOuX|ottieni registro
 oGFs8D|Buona fortuna!
 zPZZ34|Terreno
+kHUZax|gruppi in barca
+iTj3F5|gruppi in equipaggio
 hFXbhB|audit_boatstatus
-hPmRBV|
-|</div>
 hS2MVC|efa2boatstatus
 4Bzo0W|Errore di gestione. Non è stato possibile cancellare %1 da %1 perché l'utente non è autorizzato a cancellare il proprio utente.
+kfjKRc|Pesante
 dF0DWJ|Ciao %1 %2,
 yNm37C|Aiuto
 NAOKEm|Qui ci sono le ultime mail di %1 a %2.
@@ -1667,6 +1565,7 @@ fFviiD|Tuttavia, la password unica può essere utilizzata solo in combinazione c
 iL8k6A|efa2groups
 rBRXe8|Id non definito
 LOWEsI|ID
+kta1VG|Gli ID e i numeri di tesseramento vengono aggiunti alla fine come elenco separato da _
 gvdW5g|Se è stata definita una password permanente, non è possibile utilizzare una password unica.
 KiFMhh|Se viene inserito l'ID utente (campo superiore), il resto viene ignorato.
 14r3x2|Se non si è ottenuta una password unica, si può riprovare dall'inizio.
@@ -1675,15 +1574,24 @@ LNrNwl|Se la password permanente è stata cancellata, è possibile accedere con 
 LhyISC|Importazione del backup
 qUU4YM|Importazione del backup
 KJallV|Importazione di dati personali
+17392l|
 k0MUQb|Importazione di viaggi
 AC50KL|Importazione di utenti
 1P07E8|L'importazione dei membri è possibile in una voce di menu separata.
 taO63K|nel record di dati con l'ID
 XUdGql|In somma %1 riferimenti a ID di oggetti nel database.
 0nSbjg|In totale [%1] record in %2 tabelle.
+A6nZ8o|In barca:
+TUic0A|In barca:
+YKoKON|In barca:
+fkjeG8|In barca:
+hsozbd|In barca:
+q2flvV|In barca
 BtUecZ|nel database
 TOfV45|nel database
 o6WA71|Nel primo passo, selezionare la lista di distribuzione che deve ricevere le e-mail con questo destinatario.
+FFjdFF|
+2e6zhz|In questo diario di bordo non è stata consentita la visualizzazione pubblica di alcuna informazione.
 Kzbcet|Totale %1 tabelle con %2 record.
 5Bd5LG|Totale %1 utenti.
 AkTh7r|Totale %1 utenti.
@@ -1698,7 +1606,9 @@ Gcji2b|Informazioni sulle prenotazioni di barche visibili senza login
 meZ7oy|Informazioni sulle barche in acqua visibili senza login
 Mi3MiT|Informazioni su barche danneggiate visibili senza login
 HzhgbZ|Informazioni sulle barche non disponibili visibili senza login
+NWE4ur|
 mBOQpn|Mancano le informazioni sul tipo di ultima modifica (LastModification).
+y6vpqj|
 Y1BObA|Informazioni
 vkPG2M|Info
 1HO6kz|Raccolta delle statistiche di avvio, login ed errori (ultima fase).
@@ -1707,6 +1617,7 @@ RfjVOh|Statistiche di avvio, login ed errori raccolte.
 CWEDJn|Inserire:
 b5wSVV|Installato a:
 uz08Wi|Sono stati controllati i moduli PHP installati.
+BPMzAk|Richiesta di risarcimento da parte dell'assicurazione?
 Bc1JCp|Perdita assicurativa
 OkL5GN|Valore dell'assicurazione
 cq6KYu|Chiamata non valida
@@ -1716,9 +1627,11 @@ GUOWvb|ID campo non valido in settings_tfyh:
 hfr2Zo|Elenco di distribuzione della posta non valido
 X6z2gz|Nome set non valido nel record
 rLfaDg|Data di inizio non valida: %1. I viaggi possono essere inseriti con un massimo di 5 giorni di anticipo.
+x9Civl|Tipo non valido '%1' nella risposta del server.
 4OEKwB|Invisibile
 IPD1Fr|Invisibile
 VicTNV|Invisibile
+sOsPSN|è cambiato:
 ftBV4E|Non è possibile aggiornarla.
 43SSV8|Non importa se le lettere sono maiuscole o minuscole.
 OO3p6S|Si sconsiglia di modificare i record della tabella dei documenti di guida in efaCloud.
@@ -1736,10 +1649,13 @@ mDzsS8|Chiave mancante
 SXW6e1|La creazione di una password non è consentita per i set di dati con un ID set di dati efaCloud (ecrid).
 oBavoZ|ChilometroAB
 iJOhK4|Chilometro
+Dh0sXn|km
+xyou4Y|km
 l8nz8C|audit_boats
 lIzc0X|noListForThisRole
-lTMUZN|</div>
-|<div class='w3-row' style='padding: 10px;'>
+JDIy8G|etichetta
+xwnvtw|Ultimi 50 viaggi, per ora di inizio
+CvP0GD|Ultimi 50 viaggi, per numero di viaggio
 4fsAVc|ultima attività non nota
 z1kw92|ultima attività:
 p3eN5N|ultima modifica
@@ -1770,6 +1686,8 @@ oH9DoY|ultimi viaggi
 imsQg3|Manca l'informazione sull'ora dell'ultima modifica (LastModified)
 Nf88wl|Supplemento chilometrico
 z5D2q8|Ultimo salvataggio di %1.
+F7Ctd4|
+To1Ea4|
 zkwDI7|Linee
 ZmqZlm|Elenco chiuso dopo %1 record.
 CBjPta|Configurazione dell'elenco non trovata. Errore nella configurazione dell'applicazione.
@@ -1782,43 +1700,57 @@ jgDFp0|Elenco utenti
 ljq1Qx|uuid_clubwork
 R74F98|Carica protezione per
 YEU1wy|Carica riga
+Bwa5WS|
 KOipdt|Accesso 
+fbtgjS|Accesso al registro
 gsVOpm|Accesso 
 XCjlyh|Rotazione e analisi dei registri completata
+mk7MTm|Diario di bordo %1 ed eventualmente altri viaggi personali
 xhJ9cc|Diario di bordo %1, Viaggio #%2
 V0q9le|Diario di bordo Boathouse 1 (deve contenere YYYY)
 lFAuqp|Diario della rimessa 2 (deve contenere YYYY)
 S84YVk|Diario della rimessa 3 (deve contenere YYYY)
 FHeG0D|Diario della rimessa 4 (deve contenere YYYY)
+FgbY7p|Esportazione del registro
+JI3PO8|Esportazione del registro
 tNO7yZ|Testo del diario di bordo
 9gZllT|Diario di bordo
 A6NWPJ|Diario di bordo
+SdGfhU|Diario di bordo
+UHtvgt|Diario di bordo
+VaINZs|Diario di bordo
 cGZgv4|Diario di bordo
 kqKRmK|Diario di bordo
+kxrdSA|Diario di bordo
+pVuPbJ|Diario di bordo
+r0b4Hy|Diario di bordo
 4aLEcN|Diari di bordo
 R0W8GE|Diari di bordo
 UEM4kg|Diari di bordo
 tAZZwi|Diario di bordo
 u6KRSK|Diario di bordo
 vb5sne|Diario di bordo
+y2bjFM|Diario di bordo
+yFgddS|diario di bordo
+cxAly0|
 OzqrOs| efaCloudUserID
+XPLjLc|
 eAyB1z|Il token di accesso inviato all'utente: %1 (%2) non può essere inviato.
 o94iyq|Token di accesso inviato all'utente:
+zJ6HDF|
+bvy48a|
 4RX8ec|Disconnessione
 4viwOG|Disconnessione
 sOWvNq|Disconnessione
 tk0t49|Disconnessione
 O1N4lu|Cerca un membro
-mA4mRY|
-|</div>
-mCCQdU|
-|<!-- END OF Content -->
-|</div>
 UbM9MJ|Indirizzo di posta Copia del destinatario delle notifiche del flusso di lavoro.
+rt5Zt3|Indirizzo e-mail per i nuovi mes...
 IwDHk3|Indirizzo di posta per gli avvisi di un nuovo messaggio all'amministratore
 ciH3c2|Indirizzo di posta per gli avvisi di nuovi danni alle imbarcazioni
 bZPxRq|Indirizzo di posta per gli avvisi di prenotazione di nuove imbarcazioni
 QvmvUh|Le e-mail inviate alla mailing list selezionata non possono essere lette dall'utente attualmente registrato.
+u7mzai|
 8I1Ul0|File di sessione formattato in modo errato:
 08PLC8|Gestione degli amministratori
 bljsmA|Gestione degli amministratori
@@ -1839,6 +1771,7 @@ ct8Zr0|Elenco dei membri
 M9JjE6|Membro
 D1T6Ho|Numero di iscrizione
 8hLYiU|Membro
+Gjq53k|Il messaggio è per
 6OvfoX|Numero del messaggio
 OMRZJ7|Iscrizione:
 ZdR7Gs|Messaggi negli ultimi 50 giorni
@@ -1879,17 +1812,21 @@ Nza13s|Backup più recente di %1.
 Ksm76W|Il mio profilo
 n6ky2H|Byte.
 nRHHwb|audit_destinations
+XrnRSE|Nome della barca
+tusipi|Nome della barca
 9vGHkQ|Nome del club
 hJ7Bsi|Nome della persona responsabile dell'operazione
 dO0l4o|Suffisso del nome
 eZWzUq|Suffisso del nome
 9HtXZo|Nome dell'utente
 FZawRf|Nome dell'utente
+bDOscN|Nome dell'imbarcazione
 cTStCe|Nome dell'utente
 hvLW0s|Nome dell'utente
 vDf51g|Né efaAdminName né %1 sono specificati nel record della transazione VERIFICA. Verifica impossibile.
 0Bc3sn|Nuova voce
 cIKrjx|Nuova password
+uL8Ig1|
 ZH4LGD|nessuna barca specificata
 SMOZBB|Nessuna modifica registrata.
 5rekMK|Non sono state apportate modifiche.
@@ -1916,10 +1853,12 @@ U24lUJ|Non è stato trovato un utente corrispondente.
 Vpmha6|Non è stata trovata una versione corrispondente. Vedere i dettagli sotto e nel file
 I3zknU|Non sono stati trovati metadati.
 JjCWn9|Non sono stati inseriti dati modificati o ci sono errori. Pertanto non è stato modificato nulla.
+6gdISg|
 pXgPvV|Con il numero utente come informazione sull'account, non è possibile richiedere una password unica.
 0xh80B|Non è possibile richiedere una password unica con il numero utente come informazione di accesso.
 355gfL|Nessuno
 DEPfjp|Nessuno
+UGb3Ss|Nessuna richiesta aperta.
 5LFPnH|Non è stato trovato alcun identificatore di pagina durante l'inizializzazione della chiamata.
 7n26tL|Nessuna password o password troppo corta specificata nel record della transazione VERIFICA. Verifica impossibile.
 vI6UBA|Nessuna immagine disponibile in questo album.
@@ -1927,18 +1866,27 @@ KFwEDL|Nessun record trovato.
 nDkWmB|Nessun record trovato.
 bKEeu8|nessun record da archiviare.
 V7c5k8|Nessun client di riferimento identificato.
+3nigIB|Nessuna risposta del server nel contenitore di risposta della transazione restituita.
 BwU3GN|Nessuna versione del server trovata. Si tratta forse di localhost?
 M4AobL|Nessuna memoria, modalità test.
+AvRL61|nessun campo: %1
 VTLYoN|Nessuna tabella di questo tipo.
 0471BS|Nessun record cancellato da ripulire.
+v5F8j0|Nessun viaggio trovato nel registro %1.
 1gFUrv|Non sono stati selezionati viaggi e quindi non sono stati cancellati viaggi.
 4C9I5e|Nessun utente per
 wyHjxb|Nessun utente per
 nWooch|Nessun valore impostato per
 JTclLO|Non è disponibile la cronologia delle versioni.
 Xn806o|Non è disponibile la cronologia delle versioni.
+051mwt|N. %1 per l'avvio %2 da %3 a %4 a %5 a %6. motivo: %7
+JaxQHa|N. %1 per l'avvio %2. gravità %3. descrizione: %4
+TSjHTS|no.
+kt6n6T|no.
+tVC5cs|no.
 7TSRnp|nessuno.
 7mUP2w|No
+c5k6Ou|NOP-Risposta ricevuta: %1 La versione massima API del server è V%2
 5UcqeO|Non consentito.
 8ARdau|Non consentito.
 9R86C3|Non consentito.
@@ -1951,6 +1899,7 @@ aalScL|Non consentito.
 lTNFEv|Non consentito.
 uBlPNN|Non consentito.
 yMxAqF|Non consentito.
+zP6A0Y|non disponibile
 2t62D0|non definita
 dB1fLF|non definita
 FHyizx|Non trovata.
@@ -1958,17 +1907,20 @@ M19SkN|Non trovata.
 PBQQGF|Non trovata.
 VvUAbG|Non trovata.
 d5YI7D|Non trovata.
+aSbA0d|non caricata.
 1Pq6VT|NON OK.
 XJvUh4|NON OK.
-FEabHF|NON OK
 2hvcxV|ancora specificato.
 eGLG1w|Non impostata
 LlqlPF|Non utilizzato.
-l3xH18|Non ancora aggiornato, per l'utente
+b1g10I|non ancora 
+ncPBhO|non ancora 
 N2DEyA|NOTA: Gli allegati sono stati rimossi e devono essere reinseriti.
 AGFCdm|Nota: le impostazioni della lingua verranno applicate solo con il clic successivo.
+Z1rWgP|
 T8bnu4|Nota:
 p71s5H|Nota:
+WlrZp9|Note:
 fD6eVJ|Note
 rT8wtF|non
 46r1cW|Numero 1 - 12
@@ -1987,9 +1939,6 @@ zN9uFR|Numero di posti a sedere
 K1NJOq|Numero di varianti
 Jl8rPJ|Numero
 nv2Oy2|efa statistics
-o5pCKD|</div>
-|<!-- END OF Content -->
-|</div>
 3jcnUv|ID oggetto
 BrYHfg|ID oggetto
 QWboNj|ID oggetto
@@ -2005,7 +1954,6 @@ FjaAjn|ID oggetto in
 wJIXR7|ID oggetto
 WdYaFk|Oggetto valido fino a:
 kKEQHN|Ostruzione
-EAfgop|Ok. Tutti i record contengono le informazioni ecrid richieste.
 CfkyuH|Ok. Parametri di configurazione Layout Versione
 sk2yd0| versione %1.
 O1BjoP|Ok.
@@ -2022,20 +1970,29 @@ hiQjLL|Password unica inviata all'utente.
 gTp06U|Password unica
 OdAp4b|Aggiornamento online
 T06lHl|Aggiornamento online
+6vuCGA|Solo l'amministratore di un utente può cancellare i record dell'utente.
 nchfyO|solo per gruppo
 R0wh6L|solo nella rimessa con Id (numero)
 SKkVXe|solo in rimessa con numero
 cg2vkM|Solo le persone depositate nel registro possono prenotare un'imbarcazione.
 jnk5Ij|solo con timoniere
 Pj5VdW|Oops! Errore fatale.
+4vmcDx|Oops
 RMYTH2|Le richieste di risarcimento per imbarcazioni aperte possono essere elaborate solo in efaWeb o nel programma per PC.
 0Ne1yX|Danno da imbarcazione aperta
+Ze3H2S|Danno da barca aperta:
 Y0Nnwo|Danno da imbarcazione aperta
+j5yRXe|Danno da barca aperta
 Rqub4S|Segnalazioni di danni aperti
 aBfAtM|Aprire/chiudere liste di barche
 A0aN1k|Aprire
+Zuiu0O|Aperto
+5qx7Bd|
+Rqkqic|
+ZiS5as|
 ai7VD4|Oppure non ha più un record di dati attualmente valido. Il nome specificato può anche essere ambiguo. Non può essere aggiornato. Per farlo, occorre prima rendere nuovamente valida l'ultima versione esistente.
 Kxg8sl|Sequenza di nomi
+Hwcezs|originato su
 2iK73T|La nostra associazione utilizza efaCloud e può essere nominata come associazione utilizzatrice su efacloud.org.
 DJV8m7|Uscita tabella efa
 MBZSgY|Output dell'ultimo file di log caricato
@@ -2043,12 +2000,16 @@ MBZSgY|Output dell'ultimo file di log caricato
 cpLo7L|Dati diagnostici di sovraccarico. L'evento è stato attivato da '%1', per '%2'.
 HIkuMt|Panoramica dei registri e delle cartelle di lavoro del club
 FalTMo|Panoramica
+O1emyI|Proprie corse quest'anno
+VB2mdP|Proprie corse quest'anno
 QDV6IR|Proprietario
 zcNkU0|La pagina "%1" deve essere richiamata come pagina successiva con un'identificazione del record.
 6skWc5|La pagina '%1' deve essere richiamata come pagina successiva di Trova record.
 b1CfJu|La pagina '%1' deve essere richiamata come pagina successiva di Trova record.
 5bm14Z|La pagina '%1' deve essere richiamata con l'efaCloudUserID del client da segnalare.
 ov4KAp|La pagina '%1' deve essere richiamata con l'id o l'efaCloudUserID dell'utente da modificare.
+yTgnip|parametro_non_iniziato;
+iyQl8o|parametro_non_iniziato
 EomIlN|Serrature superate
 DMXYCB|Password dimenticata?
 SjwGi5|Password dimenticata?
@@ -2056,6 +2017,9 @@ aSg4LC|Password di accesso
 wfb4w9|Password di accesso
 QxUPtc|Prenotazioni passate per barca
 Ech3QZ|Prenotazioni passate per persona
+c7OduW|Coda in attesa
+rog2FV|Prenotazioni in sospeso
+2V7GRC|In attesa:
 bqGw5V|Eseguire le routine di manutenzione (pazienza)
 pYGgkq|Autorizzazione
 joG6ef|Autorizzazioni per efa Messages ed efaWeb
@@ -2068,27 +2032,40 @@ D9NwwV|Telefono
 RJ96L3|Inserire suffissi come "von" o simili nel cognome (ad esempio, "Eckhard" - "von Hirschhausen").
 dmdcpx|Inserire suffissi come "von" o simili nel cognome (ad esempio, "Eckhard" - "von Hirschhausen").
 AdwVBx|Si prega di consultare il sito "
+0zluAo|Scegliere le opzioni e ottenere l'esportazione in formato csv zippato.
 arUUZe|Inserire una data valida in "%2" (non "%2").
+rYOCmN|Inserire una data valida per "%1" (non "%2").
 6ytHoP|Inserire un indirizzo e-mail valido in "%1".
+ANAREj|Inserire un valore per "%1".
 CLnsaZ|Immettere la password una tantum appena inviata per e-mail per autorizzarsi.
 qxoh5L|Inserire la password una tantum appena ricevuta per cancellare la password permanente.
 2hxIEV|Si allega il backup dell'applicazione come configurato. Gestire questi dati come definito nelle regole di protezione dei dati. Di solito si tratta di cancellarli dopo un breve periodo di tempo.
 OI0hj9|Si prega di uscire ora e di accedere di nuovo, la password è sempre la stessa.
 s6B4AE|Si noti che questo modo funzionerà per un massimo di %1 giorni. Dopodiché verrà bloccato per motivi di sicurezza.
+d0xnMU|
 TxBnFe|NOTA BENE: utilizzare le informazioni fornite solo per lo scopo previsto. Non è consentito trasmettere gli elenchi esportati qui.
 Fiwrt1|Si prega di notare
 RuxnkA|Si prega di prestare attenzione alla sintassi richiesta, non ci saranno controlli tecnici.
+T3CqRg|Rispondere a (mail)
+sN71rx|
 2wp4Nk|Selezionare il registro.
+4yJ56h|Selezionare il giornale di bordo in cui si desidera inserire i dati.
+jMcbIg|selezionare
 IjHmYc|inviare per posta
 RYw5AW|Impostare nel menu "Imposta efaCloud / Imposta parametri".
+YYs5Cm|Selezionare "%1".
 1ci7d1|Utilizzare il filtro o scaricare l'elenco completo.
 CYEWjP|Utilizzare l'indirizzo e-mail come informazione sull'account.
 kL1ygA|Utilizzare l'indirizzo e-mail come informazione sull'account.
 fn5jng|Utilizzare l'indirizzo e-mail come informazione di accesso.
 liKdKf|Nota:
+jNyppd|qui possibile
+8ySDU0|Time out della richiesta di posta
+tCbfEH|anno precedente
 itE88b|Utenti privilegiati (anche per il concetto di sicurezza)
 cXYJJu|elaborato. Risultato:
 YonxH0|Elaborazione dei record a partire da #%1.
+3LxQTm|Elaborazione:
 a8gRBK|Profilo modificato.
 vOVG5E|Divieto di utilizzare le imbarcazioni
 Zknloz|I record del progetto non possono essere modificati in efaCloud. Si prega di utilizzare efa per questo.
@@ -2096,14 +2073,14 @@ ugf7Xy|Proprietà
 JX2kP6|Fornito al %1 dal %2 al %3. L'inoltro e la copia di questo elenco non sono consentiti.
 CMC17q|PS: È possibile memorizzare una password permanente nel profilo utente.
 O1HWlA|Controllare l'accesso alle directory accessibili pubblicamente ...
+EJRxHO|Contenuto del diario di bordo disponibile al pubblico
 CTGqm4|Prezzo di acquisto
 w7VUs5|Record rimanenti eliminati:
 qhU3kM|efa2statistics
 qraFMw|</div>
 r3NxLY|Richiesta informazioni
-r3pK7A|
-|  </p>
-|</div>
+rTgJH2|
+SYuuyO|
 BG4WZl|Leggere i record di dati
 VOmyV3|Leggere i record di dati
 VR0oRs|Leggere i record di dati
@@ -2111,40 +2088,47 @@ VR0oRs|Leggere i record di dati
 MITE9y|Leggere i messaggi all'amministratore
 G4T8O5|Leggi i messaggi al guardiano della barca
 GETdvw|Leggi i messaggi al guardiano della barca
+99XIGm|
 kJ6gZq|Leggere
 vp2UUx|Pronto.
+N6KBST|Motivo della prenotazione
 mINcAx|Stato di base
+xnmmBE|Motivo
 vQfgCq|Riavviare il database
 za2NmI|Destinatario del diario di bordo personale
 ZmVUvv|Destinatario:
 ZgWLaf|Record cancellato il
 MJ2srE|Set di dati non disponibile.
+UhbQ08|storia dei record
 S9MHHT|Il record da cancellare non è stato trovato.
 1NueuX|Versioni dei record
+U9eMQ0|
+CtV7qB|
 FmQZaR|record:
 C94hEq|Record di dati trovati.
 zYFpuX|Record di dati trovati.
-ShX0Ie|I record di un registro di riepilogo virtuale non possono essere modificati.
 ltxpNk|Record di dati per tabella:
-YOdyR9|Record di dati senza ecrid
 jnzy2g|Record
 xhYaXI|Record
 uMJF7t|Configurazione dei riferimenti
 lW1weM|Riferimenti raccolti
 vWuyPP|Riferimenti agli ID degli oggetti in
-twIq91|Sessione aggiornata:
-Hq7qsl|rinfrescato
-RhKowz|rinfrescato
-vOFqk1|Rifiutato di avviare una nuova sessione per: %1 poiché ci sono attualmente %2 sessioni aperte.
+WunktC|aggiornato
 PSgWyn|Rilevante per il recupero è la data di archiviazione, al contrario, rilevante per l'archiviazione è l'età del record. Entrambi i valori possono differire in modo significativo. Il motivo è che con i dati in versione l'età non è banale da determinare.
+0ZqZ7H|Osservazioni
+O6tNqN|Osservazioni
+THke0j|Osservazioni
+qfNiOq|Osservazioni
+rfBQGI|Osservazioni
 uDZ8bh|Osservazioni
 lrang0|Risolta da
 lKMzP1|Risolta il
 liztYS|Accesso remoto tramite efaRemote
 zE951V|Accesso remoto tramite efaRemote
-UDQgXV|File sessione app '%1' rimosso
 B9Tygk|Rimuove i file non più necessari.
 tpeQge|Rimuove i file.
+AsPYhV|
+legYF5|
 NfubnI|Rinominare i duplicati
 V5XtIe|Riaprire il record
 angZst|Costi di riparazione
@@ -2155,13 +2139,19 @@ fOZSP1|Rispondi a (mail)
 1YO1yW|Segnalare i danni
 CAX8fi|Segnala un errore
 pqL2ki|Segnalato a
+SWNkdA|segnalato da
 cuF2PJ|Segnalato da
 JwgzHG|Segnalato su
 1TZFAm|Prenotazione No.
 l3VrzO|Tipo di prenotazione
+3fUKdZ|Prenotazioni per
+QjeBHO|Prenotazioni
+dVZFby|Prenotazioni
 hhDEh2|Prenotazioni
 yxCXqW|Prenotazioni
 GFqP0A|Riserva Barca
+FqOHte|Riserva ora
+iQkZZG|riservato
 p3vqAi|Riserva
 Zt0ZqG|Responsabile (nome)
 FFLOHR|Il ripristino potrebbe richiedere del tempo, si prega di essere pazienti...
@@ -2174,6 +2164,8 @@ AmEL6s|Ripristina la configurazione esistente
 e5VOu1|Risultato del controllo del layout
 NrXqXo|Risultato del controllo della configurazione
 ArvB70|Risultato del controllo di conformità del periodo
+YcDS4y|risultato: 
+oaIKyl|La transazione restituita è #%1. Atteso questo #%2
 DwVsCD|Riggering
 lmwgwD|Riggering
 tVF58f|Riggering
@@ -2182,6 +2174,8 @@ z7eGHS|Ruolo non consentito
 P47vFY|Ruolo
 8RhH9W|Ruoli
 gtLFK0|Percorso
+wK7b6i|Chilometri percorsi nell'anno in corso, ordinati per distanza
+VF7QDt|Chilometri percorsi nell'anno in corso, ordinati per nome
 rqm7uR|efa fahrtenabzeichen
 sHl4hd|audit_logbooks
 aBry6x|Prezzo di vendita
@@ -2192,26 +2186,32 @@ M4P1uK|Concetto di sicurezza creato.
 saSTkk|Selezionare le immagini da caricare
 YhyKTz|Seleziona tabella
 epwaIX|select Errore di sintassi nella definizione del modulo.
+xbtBBx|select use errore di sintassi nella definizione del modulo.
 rOaloE|selezionare/aggiornare
 1vgJ3q|Tavolo selezionato:
 jIay6a|Invia token di accesso a efaCloud
 VkSSmT|Invio del token di accesso
+W5VoZs|
 sVUA3S|inviare solo per la classe di danno "inutilizzabile
 L9ZdPG|Inviare anche i log API e il log di audit (necessario per una richiesta di assistenza).
 3tUUPL|Invia il backup per posta.
 zmsFb6|Invio fallito per: '%1'.
+Z5LcTj|inviato: 
 1393xk|Inviato:
 akyasw|Inviato:
 SvaKYg|Numero di serie
-JMdyYP|Accesso al server completamente fallito.
 hOqvCZ|Applicazione del server
 hjdoBL|Applicazione del server
 qwMH39|Messaggi del server
+rjunmx|
+KM1cke|Rilevato sovraccarico del server, più azioni o errori di quelli consentiti nell'ultima ora. 
+EJM8uI|Il server ha restituito il codice di stato 500
 IEwtHj|Servizio / Feedback
-26flZh|Sessione controllata:
 RHGlRZ|Contesto della sessione: %1, corrente: %2
 7MQHkj|Gruppo di viaggio
-Ukfuhg|session_open - inizializza l'array di sessioni PHP.
+K7p76O|
+n6IV9Y|
+Wkz0N4|
 nWbfxq|Impostato automaticamente con l'età
 LjCmY9|Impostare il valore predefinito per `%1`.`%2` da NULL a %3.
 vHyDe6|Impostare i campi obbligatori mancanti come predefiniti
@@ -2219,11 +2219,10 @@ K1bZta|Impostazione della password per efaCloud
 iPXyEn|Impostare il segno di spunta.
 ydOyJW|Imposta efaCloud
 rObLc3|Impostato
-cmOGiF|Impostare i permessi di accesso alla struttura di file creata.
 CD3PrG|Impostazioni per efaCloud
+RKsX0G|gravità
 Z6AXS3|Mostra i dati dell'archivio
 Wzrjo6|Mostra record di archivio
-JUw3H1|Mostra il record attuale
 dnQoBs|Mostra i rapporti sui danni
 ZKVVWo|Mostra record eliminati
 sRQXxQ|Mostra dettagli
@@ -2239,8 +2238,10 @@ J6CBlP|Mostra record
 4l5FTD|Mostra cestino
 32t78v|Mostra prenotazioni
 KHeqx2|Mostra prenotazioni
+KLjWQP|Mostra viaggio
 htDoQ0|Mostra i viaggi
 Qgr3Gt|Mostra utenti
+UcNTLA|mostra le versioni
 uo2ViI|mostra
 u9WjgW|Spegnimento da %1. Script avviato a %2
 LQkc0F|Firma sotto le mail generate dal sistema
@@ -2249,28 +2250,44 @@ NKmdC2|Controllo della dimensione: Tabelle e set di dati
 MnUz4K|Dimensione Richieste
 bq7XVl|Dimensione delle risposte
 bciyl7|Salta %1 %2 mancante
+JmUvue|
+cuE4RE|Spiacenti, non siete autorizzati a chiudere un viaggio.
 nLel3k|Ordinamento con un clic sull'intestazione della colonna (solo parzialmente), passaggio da ascendente a discendente con un secondo clic.
 sp2W9z|efa2persons
 SomMhj|Operazione sportiva
 ROnbpI|Destinazione standard
 9reeG3|Squadra standard
 LB0r2L|Avvio (ora)
+9fffoj|Iniziare da
+C1Bsg1|Iniziare da
+bK30UC|Iniziare da
+kBTQNR|Iniziare da
+skkCdt|Iniziare da
 yQ1qgk|Avviare efaCloud
 9H3wls|Avviare efaWeb
 7QPJ0h|Avvio della rimessa
 d7WN8G|Inizio del periodo di monitoraggio:
+6Vh9NF|Iniziare il
+L6rvsh|Iniziare il
+Nfckze|Iniziare il
 dnQznW|Avvio a
+e6eYdw|Iniziare il
+kQc9LT|Iniziare il
+xOxZIm|ora di inizio
 Ef9qFy|Iniziare il viaggio
-gS4qXx|Avvio di una nuova sessione:
-Q843R8|Iniziato
-W81e1T|Iniziato
-mGzOgz|Iniziato
+fpTiN4|Avvia il viaggio
+Z64jAf|Avvio
+i2FITf|Avvio
 BbNX8o|Avvia api_select per il cliente %1 alla tabella %2 e alla versione api %3.
 h00O8b|Inizio del monitoraggio a:
 7tTMfJ|Inizio del backup dei dati.
 mrO2j6|Avvio degli ordini giornalieri.
 X2GfIo|Inizio del controllo di integrità del database.
+AGz4Iv|
 Yx56GO|Avvio di init_efa_data_base().
+bYhMEv|
+Z9Ncn1|
+a9ihqL|
 8hPspQ|Avvio di
 YPmPF9|Avvio di
 mrY3PQ|Avvio di
@@ -2288,9 +2305,12 @@ HCNOra|Oggetto:
 XMHPag|Oggetto:
 NeJuR0|Oggetto
 OymftT|inviare
+VIEH0Z|Invia
+qMKgTz|Invia
 wTnmiM|Abbonamenti, Maschera 
 id0bwJ|riuscito.
 vsbqU2|riuscito.
+8bTeiG|
 xeTyR1|Supporto / Aggiornamento
 iiTAZJ|Le richieste di assistenza non saranno elaborate senza fornire il nome e il club. Il tempo di risposta è solitamente inferiore a una settimana, a volte più lungo durante le vacanze.
 PAIiKT|sincronizzare con KanuEfb
@@ -2304,12 +2324,15 @@ uwYaTR|Controllo della configurazione della tabella ...
 bYc0uP|Tabella in cui i dati devono essere ripristinati:
 0i10mg|Nome tabella;Nome colonna;Tipo di dati;Lunghezza dati
 xRpQLT|Nome tabella;Tabella versionata;Nome colonna;Tipo dati;Lunghezza dati;ID oggetto;Chiave;Correzione chiave
+m5y8pv|
 AFDcif|Tabella:
 k55LAo|Tabella:
 TjrkjA|Tabella
 WWOePq|Tabella
 bJ44LM|Tabelle e record
 bxlpav|Tabelle e record
+nBgz5e|
+A0zktK|
 G5m6Ej|Riprendi ora
 HLbrnw|Riprendi ora
 aa9tiK|Riprendi ora
@@ -2319,7 +2342,10 @@ jPAGA4|Obiettivi
 pOzbf5|Tassatore su lista numero di posizione
 xJzfix|Tassatore su lista numero di posizione
 1yAYIE|Nome della squadra
+28WNdA|Squadra
 ClrV6N|Squadra
+E315aG|Squadra
+l5FrCm|Telefono per le domande
 DCYvxF|Interfaccia di prova
 P7qqn3|Prova il registro personale
 liBwB2|Testo per l'imbarcazione
@@ -2331,11 +2357,15 @@ BwRlFt|Testo da trovare
 pYJiV8|La pagina '%1' deve essere richiamata con l'id del record da visualizzare.
 hYvVME|L'abbreviazione da utilizzare per il proprio club
 J54Euo|Le quantità e i tempi della transazione come tabella pivot
+O31g1E|
 VG4gUV|Non è stato possibile recuperare il record di archivio #%1. Motivo:
 o1UBxC|Non è stato possibile recuperare il record di archivio #%1. Motivo:
 0mLtWK|Il club in cui viene utilizzato efaCloud
 KAPg7y|Il campo autoincrementato "%1" non deve essere impostato in un record con API V3.
+er1dlc|L'imbarcazione non è disponibile.
+EAWdTO|L'imbarcazione non può essere utilizzata.
 AebG0R|L'imbarcazione è occupata con la prenotazione: %1 da %2 %3 a %4 %5.
+4GOL90|L'imbarcazione è in acqua.
 0CIAFU|L'imbarcazione è
 N2MgjZ|La modifica viene immediatamente trasferita al database e contemporaneamente registrata nel registro.
 YWg7T3|La modifica viene immediatamente trasferita al database e contemporaneamente registrata nel registro.
@@ -2384,7 +2414,9 @@ HFNMBp|Non è stato possibile determinare l'anno di calendario previsto in base 
 Q77SFy|Il campo "ActiveDays" ha un valore non valido.
 ZjU51G|Il file '%1' è stato caricato.
 fUMqe5|Non è stato possibile caricare il file. Descrizione dell'errore: '%1'.
+KLYCCf|
 AE2Uq5|Il caricamento del file è riuscito. Controllare a sinistra se la visualizzazione è corretta.
+Fg6pWu|
 kXZ9rj|Il seguente %1 degli ID oggetto in totale %2 non è (non è più) utilizzato:
 U7JDda|È stato registrato il seguente risultato di attività:
 WOnK0g|È stato registrato il seguente risultato di attività:
@@ -2392,10 +2424,12 @@ WOnK0g|È stato registrato il seguente risultato di attività:
 8gVWmU|Le seguenti modifiche sono state apportate durante l'importazione:
 9mww2x|Sono state apportate le seguenti modifiche:
 cFEi41|Sono state apportate le seguenti modifiche:
+o7TETm|Il seguente campo dati è duplicato: 
 qn2cjQ|I seguenti campi dati non sono presenti nella tabella dei registri: %1.
 4SVUF8|Rispetto all'installazione di riferimento, sul server mancano i seguenti moduli:
 GCD6OA|La ricerca full text cerca il testo specificato in tutte le voci di un record degli utenti.
 9jRxQE|Il sesso deve essere "MASCHIO" o "FEMMINA".
+H3jSfa|
 x76oqA|La lingua
 slCqRl|L'elenco "%1" non deve essere emesso per il ruolo "%2" o per le sottoscrizioni o i flussi di lavoro consentiti per l'utente corrente (%3 %4).
 hFKtKU|L'elenco è ordinato per nome e viene visualizzata l'ultima versione valida dell'oggetto.
@@ -2406,8 +2440,10 @@ QZLbIG|Il file di log
 hxETBN|Il giornale di bordo %1 (numero di viaggio: '%2') non è noto.
 dIcKzE|Il giornale di bordo %1 non è noto.
 wOmMPf|Il diario di bordo
+OSpHxl|
 RxkkKI|Il messaggio è stato inviato a %1 membri e salvato nel database con il risultato:
 iSCF3X|La ragione più probabile è che non ci sono viaggi nel registro, in alternativa potrebbe essere che l'indirizzo e-mail come efaCloudUser non corrisponde all'indirizzo e-mail memorizzato in efa.
+yJhC53|Il nome '%1' non è stato trovato nell'elenco '%2', ma deve esserci.
 VFh57f|L'informazione necessaria "%1" manca nel set di dati: %2.
 n47bZV|L'informazione necessaria "%1" manca nel set di dati: "%2".
 LdOZnH|La nuova versione non si connette (scarto > 2 minuti).
@@ -2429,33 +2465,40 @@ yR7zed|La password può essere impostata solo per i nuovi utenti e per gli utent
 655rFb|La password è stata modificata.
 b25fYT|La password è stata modificata.
 W37MTN|La password non è abbastanza sicura in '%1'. %2
+johtdS|La password non è abbastanza sicura in '%1' %2
+PJE9Iu|La password deve essere lunga almeno 8 caratteri. 
 6617qN|La password deve essere lunga almeno 8 caratteri. La password deve contenere caratteri appartenenti a tre gruppi dei quattro seguenti: Numeri, lettere minuscole, lettere maiuscole, caratteri speciali. I caratteri speciali consentiti sono !&quot;#$%&'*+,-./:;<=>?@[\]^_`{|}~
 9p9GjU|La password deve avere una lunghezza compresa tra 8 e 32 caratteri e contenere almeno tre dei gruppi di caratteri "minuscolo", "maiuscolo", "numeri" e "caratteri speciali".
 aJ5Cy9|La password deve avere una lunghezza compresa tra 8 e 32 caratteri.
+38RQi1|La password deve contenere caratteri appartenenti a tre gruppi dei quattro seguenti: cifre, lettere minuscole, lettere maiuscole, caratteri speciali. I caratteri speciali consentiti sono !"#$%&'*+,-./:;<=>?@[]^_`{|}~
 iJUmCH|La password deve contenere caratteri appartenenti a tre dei quattro gruppi seguenti: Numeri, lettere minuscole, lettere maiuscole, caratteri speciali. I caratteri speciali ammessi sono !"#$%&'*+,-./:;<=>?@[]^_`{|}~.
 scIPSc|Le password devono corrispondere. La password non è stata modificata.
 xVSLCZ|Le password devono corrispondere. La password non è stata modificata.
 ZgYTwD|Il periodo di è inferiore a un anno.
 HEhURD|I permessi vengono comunicati a tutti i client efa connessi al momento dell'accesso dell'amministratore, quindi non è necessario impostarli nel client più....
 hL4rxQ|Le autorizzazioni non hanno effetto sui client efa collegati o sull'applicazione server efaCloud.
+UvnyFU|La persona '%1' è già inclusa nel gruppo.
 4hdqAF|Il processo è ora completo.
 GkURzg|Non è stato possibile trovare il record nella tabella '%1' con l'ID del record '%2'.
 hWh4Y3|Al record manca il campo '%1' da controllare per l'unicità.
 xh2TM5|Il record da modificare con l'ecrid '%1' non è stato trovato nella tabella %2.
-oSuy4P|Il record non è stato creato. Il modulo è stato resettato.
-sYfgN8|Il record non è stato creato. Il modulo è stato resettato.
+oSuy4P|Il record non è stato creato.
+sYfgN8|Il record non è stato creato.
 xq5ret|Non è stato possibile eliminare il record con %1 '%2' dalla tabella %3. Il database segnala:
 AUhcRm|Il record con %1 '%2' della tabella %3 è già stato cancellato.
 uf5AMD|Il record con %1 '%2' dalla tabella %3 è stato cancellato.
 cAP24j|Il record
 fZg2zo|La registrazione deve ancora essere completata dall'amministratore. Solo allora potrà essere inviata una password unica.
-BFNYBY|La transazione richiesta non è presente nel contenitore.
 NeU2jA|Il campo obbligatorio "%1" non deve essere vuoto per i nuovi record.
 bZbb82|Il ripristino dei record di %1 archiviati meno di %2 giorni fa ha purtroppo generato il seguente errore:
 D7SPTM|Il ruolo '%1' non ha i permessi per l'azione '%2'. Non è stato possibile trovare un'autorizzazione adeguata né nelle sottodescrizioni né nei flussi di lavoro.
 xS4f0M|La mailing list selezionata non è stata trovata.
+7N0gUC|Il server ha risposto con il codice di errore '%1'.
+XFpiuh|Il server restituisce un codice di errore generale (500).
 9mmdUG|La sessione è ancora attiva, continuare con qualsiasi azione dal menu.
+EGWtVL|
 5dqGwa|La sessione è stata aggiornata.
+tndDZK|
 QVV55u|La dimensione dell'archivio del codice sorgente è troppo piccola. Qualcosa è andato storto durante il download. Pertanto il processo si interrompe qui.
 uuZ8U8|La dimensione dell'archivio del codice sorgente è troppo piccola. Qualcosa è andato storto durante il download. Pertanto il processo si interrompe qui.
 mo19gA|La specifica "%1" non rappresenta un indirizzo e-mail valido.
@@ -2469,7 +2512,6 @@ xo9xjE|La tabella mostra tutti gli elenchi disponibili nel ruolo %1 con l'autori
 qJ3tRL|Il testo viene sempre cercato come parte del contenuto del campo dati, ad esempio Se i registri di viaggio con la voce '123' del numero di viaggio contengono anche i viaggi 1230, 1231, 1232, 2123, 3123, ... .
 RqYBEi|La transazione non può essere eseguita, la chiave è già in uso.
 dN1n95|La transazione non può essere eseguita, la chiave è già in uso.
-bJGu9Q|La transazione non è ancora stata inviata o è ancora in attesa di una risposta.
 mY35PB|Il viaggio %1 con inizio %2 e fine %3 non rientra nel periodo valido per il registro %4 (%5 - %6).
 Aujsqx|Il viaggio esiste già, non può essere creato.
 ZF44WW|Il viaggio esiste già, non può essere creato.
@@ -2477,12 +2519,14 @@ thc1PS|Il viaggio è stato aggiunto.
 KwSMMI|Il viaggio è stato aggiornato.
 rmbd4P|Il viaggio è stato aggiunto.
 6tD5vO|Il viaggio non rientra nel periodo valido per il gruppo di viaggi "%1".
+m0ItOz|Il viaggio è aperto e quindi non deve essere modificato.
 AyanBa|Il viaggio viene aggiornato.
 h2NkfK|Il viaggio con inizio %1 e fine %2 non rientra nel periodo valido per il gruppo di viaggi '%3' (%4 - %5).
 Uqbi57|Non è stato possibile caricare la definizione del tipo per %1.
 hBPwLR|La definizione del tipo per %1 non è disponibile.
 R1C9sE|Il campo univoco '%1' non è univoco. Altra occorrenza nell'oggetto con id '%2'.
 kiqQLC|Il campo unico "%1" non è unico. Altra occorrenza nel record con ecrid '%2'.
+YYlWr8|
 jdB8fj|L'immagine caricata #%1 proviene da:
 ZQSvHw|Non è stato possibile identificare l'utente.
 c1Gjma|Non è stato possibile identificare l'utente.
@@ -2495,11 +2539,15 @@ GJLu3j|Non è stato possibile trovare il record dell'utente per l'ID '%1'.
 pbDY3P|La validità della vecchia versione è stata limitata.
 Yhu6l5|La data di inizio validità non è stata registrata correttamente, riprovare.
 21KOoL|La versione dell'oggetto "%1
+rGyRdy|L'ultimo utente non deve essere cancellato dalla tabella degli utenti.
 SPDW0F|Non è stato possibile creare il file zip '%1'.
 ATSnFO|Ci sono troppi utenti connessi al momento. Si prega di riprovare più tardi. Chiediamo la vostra comprensione.
 2AaqLH|Non esiste ancora un modulo di modifica per la tabella Cartella di lavoro dell'associazione.
 R2ORRQ|Non esiste un modulo di modifica per la tabella delle configurazioni delle statistiche. Le configurazioni di statistica non sono utilizzate in efaCloud, si prega di modificarle nel client PC.
 r4yqil|Queste impostazioni non influiscono sull'utilizzo di efaCloud o efaWeb.
+p4vCuA|
+u34D4y|
+e2gF2y|
 fudXmI|Si è acceduto a questa pagina senza specificare l'ID del cliente.
 AicQjQ|Questo record è stato cancellato. Solo il resto dell'eliminazione è ancora disponibile.
 scNlB8|Tempo in secondi tra due controlli automatici delle modifiche. L'impostazione predefinita è 60, da disattivare con 0.
@@ -2507,9 +2555,11 @@ nlanLa|Tempo in secondi tra due sincronizzazioni automatiche di download. L'impo
 rFKAAZ|Ora:
 R9sv8M|Ora:
 ACEfVr|Tempo
+jcQMrv|Ora
 x8hxVv|Timeout per inattività.
 kbRZ71|volte
 TMSdWl|Timestamp lì:
+0uPvqR|Titolo
 NLPzjP|Titolo
 0K9Ayf|Per aggiungere i badge di corsa, efa deve essere utilizzato come programma per PC.
 P4Mt4D|Per aggiungere statistiche, efa deve essere utilizzato come programma per PC.
@@ -2534,8 +2584,7 @@ nDBbCc|Totale
 wNrHCN|Totale
 tpwI4a|archive_damages
 52B267|Volumi di traffico degli ultimi giorni per gli utenti con il ruolo 'bths' (rimessa).
-S0Lse6|Errore nel contenitore delle transazioni:
-ipgDJE|Transazione ignorata.
+7dNVv9|Il contenitore di risposta della transazione non è riuscito.
 JkJqGq|Transazione: %1 record lato server non corrispondenti.
 ebzhv5|Transazione: non è stato possibile trovare una chiave libera da utilizzare sul lato client per la correzione della chiave. Correzione chiave interrotta.
 dTHKvl|Transazione: il valore della chiave '%1' è stato rilevato come libero sul client.
@@ -2544,16 +2593,32 @@ nrTQdY| %1
 w6LYgh|Il trasferimento al server efaCloud non è riuscito.
 qECzxn|Avvia il backup
 KbKtBC|Attivare Cronjob
+BHIE6r|Viaggio #%1 non trovato.
 BJR12l|Viaggio nel diario di bordo, data di inizio
+g7bm3l|gita n.
+pZJGGP|Il numero di viaggio %1 non è stato trovato.
+sgXmXy|Il numero di viaggio %1 non è stato trovato.
+xr32Rc|Il numero di viaggio %1 non è stato trovato.
+8NzTOB|Numero di viaggio
+TOtJ3P|Numero di viaggio
 dGLZjB|Numero di viaggio
 exItow|Numero di viaggio
+h6WIfD|Numero di viaggio
+mvC9cO|Numero di viaggio
+o3t6qP|Numero di viaggio
 8zAeYI|Viaggio
+KHQUlC|Viaggio
+UGK5ph|Viaggio
+riKHM5|Viaggio
 dfJUi2|Viaggi da %1 solo come
 QufYal|Viaggi da %1
+HwkHkB|Viaggi degli ultimi 30 giorni in barche sconosciute
 8CQaLz|Viaggi degli ultimi 30 giorni
+HX2QQd|viaggi in acqua
 8QYlfo|Viaggi che non corrispondono al periodo del giornale di bordo.
 Kracb7|Viaggi
 rckzWH|Viaggi
+yFN5nV|Viaggio
 4cenTr|Tipo di ultima modifica
 5sDUxa|Tipo di ultima modifica
 8L1JOu|Tipo di ultima modifica
@@ -2573,17 +2638,20 @@ o7RIYt|Tipo di ultima modifica
 uiPb75|Tipo di ultima modifica
 TNUH68|Tipo di stato
 Il6Xae|Tipo di viaggio
+TBQosa|Tipo di viaggio
+ZBqWHN|Tipo di viaggio
+bBjPpk|Tipo di viaggio
+lDZYQi|Tipo di viaggio
+ul1Rji|Tipo di viaggio
 5yN29k|Tipo
 uD4TTa|audit_persons
-uPD1Dz|
-|</table>
-|</div>
-YRkM5b|La sessione di applicazione inattiva '%1' non può essere rimossa.
 CVStxl|Errore non definito
 phvRfA|non definito
+BPGG04|In corso verso %1 da %2 a %3 con %4 come viaggio n. %5 nel diario di bordo %6.
 KARSRU|errore non definito, controllare il record.
 0xNazF|Purtroppo non è stato possibile creare un record di spazzatura.
 yf8erz|Purtroppo l'elaborazione del modulo non può continuare perché la pagina del modulo non è stata salvata per troppo tempo.
+0krLhr|Purtroppo non è stato possibile trovare il testo di aiuto per l'argomento "%2" in "%2".
 V8fLMV|Il record non può essere visualizzato perché manca almeno un campo chiave.
 pH7Sis|Purtroppo non esiste una cronologia delle modifiche per questo record.
 BnxvUl|Purtroppo non ha funzionato. Il token di accesso specificato non è o non è più valido.
@@ -2605,6 +2673,7 @@ e68r97|Riferimento univoco al record (ecrid)
 eIq8Xc|Riferimento univoco al record (ecrid)
 eaRT3T|Riferimento univoco al record (ecrid)
 ltX3IU|Riferimento univoco al record (ecrid)
+jWjTrj|Imbarcazione sconosciuta
 NwyE88|avvio sconosciuto
 7qmVxb|Errore sconosciuto durante il caricamento. riprovare.
 R64uhq|Errore sconosciuto durante il caricamento. riprovare.
@@ -2615,19 +2684,27 @@ Yel8jV|Errore sconosciuto durante la creazione della directory: '%1'.
 w2qoFy|Errore sconosciuto durante il caricamento in '%1'.
 IzCLZv|ID sconosciuto
 VCdF1p|sconosciuto
+G3eyoN|illimitato
 AvnsF9|Sbloccare efa
 k8VdhO|Sbloccare efa
 GuEiQo|Disimballare e copiare l'archivio del codice sorgente
 v32JTG|Messaggi non letti
+pAkBVq|Fino a (giorno)
+CD7KnS|Fino a (ora)
 PXDvBO|fino alla data
 Eqz3VC|Fino all'ora
+YcDgVT|Fino a
 aGIzxm|a
 UU1TV0|Aggiornare %1 con: %2
 iCqOma|Aggiornamento dopo il caricamento
 Y9hsnl|Aggiorna record
+M4MjRw|
 eG5Cqz|Aggiornare il viaggio
-tzrcLT|Aggiornamento:
+fNfZHA|Aggiorna viaggio
+s0hHTA|
 hB8ltL|AGGIORNAMENTO
+w2PJel|
+pfTPrH|
 234kPR|Carica ora e controlla
 31anwS|Carica ora e controlla
 75KimF|Carica ora e controlla
@@ -2636,7 +2713,10 @@ XtuNgZ|Carica ora
 KLgQSh|Carica:
 chH4U9|Caricato:
 txXT1g|Caricare
+1XEmuB|Utilizzabile:
 XPbBHm|Parametro utilizzato dell'elenco:
+AxGDip|
+t4W3bN|
 eI2ua5|Utente dopo il controllo del DB: appUserID: %1, ruolo: 
 PI741T|L'utente non ha impostato una password hash nel proprio profilo.
 a9d5U7|L'utente non è un amministratore e quindi non può modificare nulla. Interrompere.
@@ -2654,13 +2734,18 @@ e8yebR|Utente
 eTvuhh|Verifica utente e diritti di accesso
 8E9X2M|Utenti con diritti efa-Admin (anche per Security-Concept)
 awmNYz|variante abituale
+xACtaq|V%1 contenitore costruito: %2 transazioni in %3 caratteri base64
 v9YvYn|archive_clubwork
+SI9WWD|Valido per la modifica '%1
+CYJVN3|Valido dalla data
+rjnGAp|Valido da ora
 Zjd3XU|valido da
 gFHiKG|valido da
 qlbSpW|valido da
 vGrXlG|valido da
 7998Uw|valido
 afDbIr| (jolly *):
+TcVep5|valore
 W1p3g6|Valore
 ulIoAv|Verifica fallita. Colonna %1.%2 extra.
 rxMN98|Verifica fallita. Colonna %1.%2 mancante.
@@ -2714,11 +2799,18 @@ R223pr|Campi virtuali corretti.
 vxUq2O|efaWeb_status
 wUV9W1|efaWeb
 wXtjdR|efa2fahrtenabzeichen
+ui3jKY|ATTENZIONE: Versione API del contenitore: %1 non supportata. Livello API massimo: %2
 uvau7j|AVVERTENZA: Lo script non ha raggiunto il piè di pagina.
 ZS7PdQ|AVVERTENZA: è stata attivata la difesa del carico dell'applicazione %1. Dettagli: 
 sbWQdK|Avvertenze
 Xi3PrW|Elenco dei corpi idrici
+V1zYIE|Acque
+WPx45J|Acque
+dza8cR|Acque
+eVc6qC|Acque
 jNHmSX|Acque
+qApQ6x|Acque
+FwRbeh|
 nBd1Oa|Giorno della settimana (solo per prenotazioni settimanali)
 ZfnDtn|Quando inizia l'anno del diario di bordo?
 G3BLoW|con %1 record
@@ -2730,6 +2822,8 @@ Ei35rV|con l'ID del record
 IVseh0|Flussi di lavoro, maschera 
 wpvByz|efa2destinations
 cBjbuk|Scrivi messaggio
+Wv9xkv|
+Uor5pE|Nome del registro sbagliato? Se si dispone dell'autorizzazione appropriata, è possibile selezionare un altro diario di bordo nel menu Diario di bordo a sinistra.
 KY7F6q|Password errata al momento dell'accesso.
 sZKXYK|Password errata al momento dell'accesso.
 xknZlx|audit_sessiongroups
@@ -2738,6 +2832,8 @@ yGorGi|noListForThisRole
 ylwGEq|archive_reservations
 3oq4XF|È possibile scegliere tra tutti i client per i quali sono disponibili le statistiche.  Se ne manca uno, il server non ha ricevuto statistiche da questo client.
 iydGls|È possibile scegliere tra tutti i client per i quali sono disponibili le statistiche.  Se ne manca uno, il server non ha ricevuto statistiche da questo client.
+83vPn1|È possibile inserire il numero di viaggio nella descrizione.
+ZbjL4D|Non esiste un record di persona efa correlato.
 eNwq9h|Il vostro indirizzo e-mail per contattare il team di assistenza
 G4czbF|Il vostro nome
 T1m6yT|Il vostro cognome

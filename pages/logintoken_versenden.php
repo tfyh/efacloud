@@ -1,5 +1,26 @@
 <?php
 /**
+ *
+ *       efaCloud
+ *       --------
+ *       https://www.efacloud.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
  * The page to sen a login-token to any user.
  * 
  * @author mgSoft
@@ -47,11 +68,11 @@ $mail_was_sent = $mail_handler->send_mail($mailfrom, $mailfrom, $this_mailto, ""
         $mail_handler->mail_subject_acronym . i("K1bZta|Set password for efaClou..."), $message, "", "");
 if ($mail_was_sent) {
     $info = "<p>" . i("mvC38h|Dispatch successful for:") . " '" . $this_mailto . "'.</p>";
-    $toolbox->logger->log(0, $_SESSION["User"]["efaCloudUserID"], 
+    $toolbox->logger->log(0, $toolbox->users->session_user["@id"], 
             i("o94iyq|Login token sent to user...") . " " . $user_name . "(" . $id . ").");
 } else {
     $info = "<p><b>" . i("Wk99iY| ** Dispatch failed ** f...") . " '" . $this_mailto . "'.</p>";
-    $toolbox->logger->log(2, $_SESSION["User"]["efaCloudUserID"], i("eAyB1z|Login token sent to user..."), 
+    $toolbox->logger->log(2, $toolbox->users->session_user["@id"], i("eAyB1z|Login token sent to user..."), 
             $user_name, $id);
 }
 
@@ -65,6 +86,6 @@ echo file_get_contents('../config/snippets/page_02_nav_to_body');
 // page heading, identical for all workflow steps
 echo i("rpXiYW| ** Send mails to users ...");
 echo $info;
-echo i("mCCQdU|<!-- END OF Content -->...");
+echo "</div>\n<!-- END OF Content -->";
 end_script();
 

@@ -37,7 +37,7 @@ if ($restore > 0) {
         include_once "../classes/efa_record.php";
         $efa_record = new Efa_record($toolbox, $socket);
         $modify_result = $efa_record->modify_record($tablename, $record_version, 2, 
-                $_SESSION["User"][$toolbox->users->user_id_field_name], false);
+                $toolbox->users->session_user["@id"], false);
         $record = $socket->find_record($tablename, "ecrid", $ecrid);
     }
 }
@@ -58,5 +58,6 @@ if (isset($record["ecrhis"]))
             "../pages/show_history.php?table=" . $tablename . "&ecrid=" . $ecrid);
 else
     echo i("pH7Sis|Unfortunately, there is ...");
-echo i("Uo3OuT|<!-- END OF Content -->...");
+echo "</div>\n<!-- END OF Content -->";
+
 end_script();

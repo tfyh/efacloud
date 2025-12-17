@@ -1,4 +1,24 @@
 <?php
+/**
+ *
+ *       efaCloud
+ *       --------
+ *       https://www.efacloud.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 include_once "../classes/efa_tables.php";
 include_once '../classes/tfyh_list.php';
 
@@ -90,6 +110,12 @@ class Efa_record
      * For a bulk operation collect first all names and their ids to speed up uniqueness and references checks
      */
     private $ids_for_names = array();
+
+    /**
+     * For a bulk operation with versionized data, make sure only the most recent names are used. This is done
+     * during index creation.
+     */
+    private $invalidform_for_names = array();
 
     /**
      * collect the ecrids latest valid record per UUID for bulk updates.
@@ -184,7 +210,17 @@ class Efa_record
                 $name = $row[1] . " " . $row[2];
             else
                 $name = $row[1]; // includes names_clubwork
-            $this->ids_for_names[$list_id][$name] = $uuid;
+            if ($col_invalidFrom === false)
+                $this->ids_for_names[$list_id][$name] = $uuid;
+            else {
+                // in case of duplicate names (in versionized tables) use the most recent one
+                $invalid_from = Efa_tables::value_validity32($row[$col_invalidFrom]);
+                if (! isset($this->invalidform_for_names[$list_id][$name]) ||
+                         ($invalid_from > $this->invalidform_for_names[$list_id][$name])) {
+                    $this->ids_for_names[$list_id][$name] = $uuid;
+                    $this->invalidform_for_names[$list_id][$name] = $invalid_from;
+                }
+            }
         }
     }
 
@@ -211,8 +247,7 @@ class Efa_record
                          (strlen($record_to_check[$not_empty_field]) == 0)) {
                     // field not set. Maybe it will be generated later.
                     if (! in_array($not_empty_field, Efa_tables::$server_gen_fields[$tablename]))
-                        return i("NeU2jA|The required field °%1° ...", 
-                                $not_empty_field);
+                        return i("NeU2jA|The required field °%1° ...", $not_empty_field);
                 }
             }
         }
@@ -245,9 +280,9 @@ class Efa_record
                         if ($previous_record !== false)
                             $reference .= $previous_record[$part] . ".";
                         else
-                            return i("hWh4Y3|The record is missing th...", 
-                                    $assert_unique_field) . " <a class='eventitem' id='viewrecord_" . $tablename .
-                                     "_" . $record_to_check["ecrid"] . "'>" . i("ZTCxkg|view") . "</a>";
+                            return i("hWh4Y3|The record is missing th...", $assert_unique_field) .
+                                     " <a class='eventitem' id='viewrecord_" . $tablename . "_" .
+                                     $record_to_check["ecrid"] . "'>" . i("ZTCxkg|view") . "</a>";
                     } else
                         $reference .= $record_to_check[$part] . ".";
                 }
@@ -259,16 +294,12 @@ class Efa_record
                     if (strcasecmp($reference, $compare) == 0) {
                         // a match was found. Now verify, whether it is the record's self or a duplicate.
                         if ((strcmp($row[$col_ecrid], $reference_ecrid) != 0) && ! $is_versionized_table)
-                            return i(
-                                    "kiqQLC|The unique field °%1° is...", 
-                                    $assert_unique_field, $row[$col_ecrid]) .
-                                     " <a class='eventitem' id='viewrecord_" . $tablename . "_" .
-                                     $row[$col_ecrid] . "'>" . i("L6AeK2|view") . "</a>";
+                            return i("kiqQLC|The unique field °%1° is...", $assert_unique_field, 
+                                    $row[$col_ecrid]) . " <a class='eventitem' id='viewrecord_" . $tablename .
+                                     "_" . $row[$col_ecrid] . "'>" . i("L6AeK2|view") . "</a>";
                         if ((strcmp($row[$col_id], $reference_id) != 0) && $is_versionized_table)
-                            return i(
-                                    "R1C9sE|The unique field °%1° is...", 
-                                    $assert_unique_field, $row[$col_id]) .
-                                     " <a class='eventitem' id='viewrecord_" . $tablename . "_" .
+                            return i("R1C9sE|The unique field °%1° is...", $assert_unique_field, 
+                                    $row[$col_id]) . " <a class='eventitem' id='viewrecord_" . $tablename . "_" .
                                      $row[$col_ecrid] . "'>" . i("AByOf6|view") . "</a>";
                     }
                 }
@@ -298,9 +329,8 @@ class Efa_record
                     $is_true_or_false = (strcasecmp($record[$boolean_field], "true") == 0) ||
                              (strcasecmp($record[$boolean_field], "false") == 0);
                     if ((strlen($record[$boolean_field]) > 0) && ! $is_true_or_false) {
-                        $res = i(
-                                "0Uumzu|The data field °%1° may ...", 
-                                $boolean_field, $record[$boolean_field]);
+                        $res = i("0Uumzu|The data field °%1° may ...", $boolean_field, 
+                                $record[$boolean_field]);
                         return $res;
                     }
                 }
@@ -322,8 +352,11 @@ class Efa_record
         // integer fields check, if they meet the format.
         foreach (Efa_tables::$int_fields[$tablename] as $int_field) {
             if (isset($record[$int_field]) && ! is_numeric($record[$int_field])) {
-                return i("2uwpcG|The data field °%1° must...", 
-                        $int_field, $record[$int_field]);
+                if (strlen($record[$int_field]) == 0)
+                    // ignore empty integer fields
+                    unset($record[$int_field]);
+                else
+                    return i("2uwpcG|The data field °%1° must...", $int_field, $record[$int_field]);
             }
         }
         return $record;
@@ -339,7 +372,7 @@ class Efa_record
      *            the tables name to know which fields are system and bool fields.
      * @return array the mapped record
      */
-    private function map_and_remove_extra_name_fields (array $record, String $tablename)
+    public function map_and_remove_extra_name_fields (array $record, String $tablename)
     {
         // Map the extra date fields
         if ((isset($record["ValidFromDate"])) && (strlen($record["ValidFromDate"]) > 0)) {
@@ -419,7 +452,8 @@ class Efa_record
      * question exists. Try ecrid or UUID, if given, or resolve the name as last resort. b. Check whether the
      * record existance fits to the intended operation. Refuse if: b1) if the object exists and mode is
      * 'insert', b2) the object does not exist and the mode is 'update', b3) the object exists, but has no
-     * valid record and the mode is 'update' and there are changes beyond the 'InvalidFrom' field.
+     * valid record and the mode is 'update' and there are changes beyond the 'InvalidFrom' field. If a record
+     * exists, ecrid and change count are set and the record returned.
      * 
      * @param int $list_id
      *            the id of the list within the set "../config/lists/efaAuditUUIDnames" which shall be used to
@@ -437,13 +471,12 @@ class Efa_record
     private function check_against_existing (int $list_id, array $version_record, int $mode, 
             bool $force_refresh)
     {
-        
         // a. Check whether the object in question exists. Try ecrid or UUID, if given, or resolve the name
         // else
         $this->build_indices($list_id, $force_refresh);
         $tablename = $this->table_names[$list_id];
+        $is_versionized = in_array($tablename, Efa_tables::$versionized_table_names);
         $checked_for = "";
-        
         // get the existing record first
         $existing_record = false;
         if ((isset($version_record["ecrid"])) && (strlen($version_record["ecrid"]) > 0)) {
@@ -472,47 +505,52 @@ class Efa_record
         }
         
         // b. Check whether the record existance fits to the intended operation
-        $error_prefix = i(
-                (($mode == 1) ? "Ein Objekt %1 gibt es in %2 schon." : "Ein Objekt %1 gibt es in %2 noch nicht."), 
-                $checked_for, $tablename) . " ";
+        $error_prefix = ($mode == 1) ? i("bg8Rz4|An object %1 is already ...", $checked_for, $tablename) . " " : i(
+                "JJ0FEo|An object %1 is not yet ...", $checked_for, $tablename) . " ";
         if ($mode == 1) {
             if ($existing_record !== false) {
-                // version periods must be one after the other without gap or overlap.
-                $existing_invalid_from32 = (isset($existing_record["InvalidFrom"])) ? Efa_tables::value_validity32(
-                        $existing_record["InvalidFrom"]) : 0;
-                $version_record_valid_from32 = (isset($version_record["ValidFrom"])) ? Efa_tables::value_validity32(
-                        $version_record["ValidFrom"]) : 0;
-                if (($version_record_valid_from32 - $existing_invalid_from32) > 120)
-                    return $error_prefix . " " .
-                             i("LdOZnH|The new version does not...");
-                if (($version_record_valid_from32 - $existing_invalid_from32) < - 120)
-                    return $error_prefix . " " .
-                             i("2SudTe|The new version overlaps...");
+                // versionized table may have an existing record with the given UUID. Insertion is possible,
+                // if the new one is consecutive.
+                if ($is_versionized) {
+                    // version periods must be one after the other without gap or overlap.
+                    $existing_invalid_from32 = (isset($existing_record["InvalidFrom"])) ? Efa_tables::value_validity32(
+                            $existing_record["InvalidFrom"]) : 0;
+                    $version_record_valid_from32 = (isset($version_record["ValidFrom"])) ? Efa_tables::value_validity32(
+                            $version_record["ValidFrom"]) : 0;
+                    if (($version_record_valid_from32 - $existing_invalid_from32) > 120)
+                        return $error_prefix . " " . i("LdOZnH|The new version does not...");
+                    if (($version_record_valid_from32 - $existing_invalid_from32) < - 120)
+                        return $error_prefix . " " . i("2SudTe|The new version overlaps...");
+                } else {
+                    $existing_is_deleted = isset($existing_record["LastModification"]) &&
+                             (strcasecmp($existing_record["LastModification"], "delete") == 0);
+                    if (! $existing_is_deleted)
+                        return $error_prefix . " " . i("OA3Igv|A record with this key a...");
+                }
             }
-        } else {
+        } else { // update or delete. Add ecrid as key and change count.
             if ($existing_record === false)
                 return $error_prefix . " " . i("ftBV4E|It cannot be updated.");
-            elseif (! isset($version_record["ecrid"]) || (strlen($version_record["ecrid"]) == 0))
-                $version_record["ecrid"] = $existing_record["ecrid"];
-            $invalidFrom = Efa_tables::value_validity32($existing_record["InvalidFrom"]);
-            if (time() > $invalidFrom) {
+            if ($is_versionized) {
                 // for invalid versions only the InvalidFrom may be changed. Check, whether this is the case
-                $has_changes = false;
-                foreach ($version_record as $key => $value) {
-                    if ((strcmp($value, strval($existing_record[$key])) !== 0) &&
-                             (strcmp($key, "InvalidFrom") !== 0) && (strcmp($key, "ChangeCount") !== 0) &&
-                             (strcmp($key, "LastModified") !== 0) && (strcmp($key, "LastModification") !== 0)) {
-                        $has_changes = true;
+                $invalidFrom = Efa_tables::value_validity32($existing_record["InvalidFrom"]);
+                if (time() > $invalidFrom) {
+                    $has_changes = false;
+                    foreach ($version_record as $key => $value) {
+                        if ((strcmp($value, strval($existing_record[$key])) !== 0) &&
+                                 (strcmp($key, "InvalidFrom") !== 0) && (strcmp($key, "ChangeCount") !== 0) &&
+                                 (strcmp($key, "LastModified") !== 0) &&
+                                 (strcmp($key, "LastModification") !== 0)) {
+                            $has_changes = true;
+                        }
                     }
-                }
-                if ($has_changes) {
-                    return $error_prefix . " " .
-                             i(
-                                    "ai7VD4|Or it no longer has a cu...");
+                    if ($has_changes) {
+                        return $error_prefix . " " . i("ai7VD4|Or it no longer has a cu...");
+                    }
                 }
             }
         }
-        return $version_record;
+        return $existing_record;
     }
 
     /**
@@ -552,22 +590,18 @@ class Efa_record
             $entry_start = strtotime($record["Date"]);
             $entry_end = (isset($record["EndDate"]) && (strlen($record["EndDate"]) > 4)) ? strtotime(
                     $record["EndDate"]) : $entry_start;
-            $error_message = i(
-                    "h2NkfK|The trip with start %1 a...", 
-                    date($dfmt_d, $entry_start), date($dfmt_d, $entry_end), $logbook_name, 
-                    date($dfmt_d, $logbook_start), date($dfmt_d, $logbook_end));
+            $error_message = i("h2NkfK|The trip with start %1 a...", date($dfmt_d, $entry_start), 
+                    date($dfmt_d, $entry_end), $logbook_name, date($dfmt_d, $logbook_start), 
+                    date($dfmt_d, $logbook_end));
             if (($entry_start < $logbook_start) || ($entry_start > $logbook_end) ||
                      ($entry_end < $logbook_start) || ($entry_end > $logbook_end))
                 return $error_message;
             // entries maximum 5 days in advance. (efaCloud Check only.)
             if ($entry_start > (time() + 5 * 86400))
-                return i(
-                        "rLfaDg|Invalid start date: %1. ...", 
-                        $record["Date"]);
+                return i("rLfaDg|Invalid start date: %1. ...", $record["Date"]);
             // make sure enddate is after startdate
             if ($entry_end < $entry_start)
-                return i("bBTcin|The end date °%1° is bef...", $record["EndDate"], 
-                        $record["Date"]);
+                return i("bBTcin|The end date °%1° is bef...", $record["EndDate"], $record["Date"]);
             // the following checks are only needed for API level 3 and higher
             if ($api_version >= 3) {
                 // make sure that the entry's date fits into the selected session group
@@ -581,12 +615,11 @@ class Efa_record
                         $session_group_name = $session_group["Name"];
                         if (($entry_start < $session_group_start) || ($entry_start > $session_group_end) ||
                                  ($entry_end < $session_group_start) || ($entry_end > $session_group_end))
-                            return i("6tD5vO|The trip is not within t...", 
-                                    $session_group_name);
+                            return i("6tD5vO|The trip is not within t...", $session_group_name);
                     }
                 }
                 // select boat variant, if empty
-                if (! isset($record["BoatVariant"])) {
+                if (isset($record["BoatId"]) && ! isset($record["BoatVariant"])) {
                     $boat_records = $this->socket->find_records_sorted_matched("efa2boats", 
                             ["Id" => $record["BoatId"]
                             ], 1, "=", "InvalidFrom", false);
@@ -595,27 +628,25 @@ class Efa_record
                 }
                 // only accept changes for closed sessions, open // close to be done in efaWeb
                 if (($mode > 1) &&
-                         (! isset($_SESSION["User"]["appType"]) || ($_SESSION["User"]["appType"] != 1)) &&
-                         isset($record["Open"]) && ((strcasecmp($record["Open"], "on") == 0) ||
-                         (strcasecmp($record["Open"], "true") == 0)))
+                         (! isset($this->toolbox->users->session_user["appType"]) ||
+                         ($this->toolbox->users->session_user["appType"] != 1)) && isset($record["Open"]) && ((strcasecmp(
+                                $record["Open"], "on") == 0) || (strcasecmp($record["Open"], "true") == 0)))
                     return i("RMYTH2|Open boat claims may onl...");
             }
-        } elseif (strcasecmp($tablename, "efa2clubworkbook") == 0) {
+        } elseif (strcasecmp($tablename, "efa2clubwork") == 0) {
             // Step 1: make sure both start and end date are within logbook range
             include_once "../classes/efa_config.php";
             $efa_config = new Efa_config($this->toolbox);
             $efa_config->load_efa_config();
-            $clubworkbook_name = $record["Clubworkbookname"];
+            $clubworkbook_name = $record["ClubworkbookName"];
             $clubworkbook_period = $efa_config->get_book_period($clubworkbook_name, false);
             if ($clubworkbook_period["book_matched"] === false)
                 return "Das Vereinsarbeitsbuch $clubworkbook_name ist nicht bekannt.";
             $clubworkbook_start = $clubworkbook_period["start_time"];
             $clubworkbook_end = $clubworkbook_period["end_time"];
             $work_date = strtotime($record["Date"]);
-            $error_message = i(
-                    "eRiGtK|The club work °%1° on da...", 
-                    date($dfmt_d, $work_date), $clubworkbook_name, date($dfmt_d, $clubworkbook_start), 
-                    date($dfmt_d, $clubworkbook_end));
+            $error_message = i("eRiGtK|The club work °%1° on da...", date($dfmt_d, $work_date), 
+                    $clubworkbook_name, date($dfmt_d, $clubworkbook_start), date($dfmt_d, $clubworkbook_end));
             if (($work_date < $clubworkbook_start) || ($work_date > $clubworkbook_end))
                 return $error_message;
         } elseif ($api_version >= 3) {
@@ -624,10 +655,12 @@ class Efa_record
                 $has_overlap_reservation = $this->has_overlap_reservation($record);
                 if ($has_overlap_reservation)
                     return $has_overlap_reservation;
-                if (strtotime($record["DateFrom"]) < time())
-                    return i("QgsW8r|The start date must be i...");
-                if (strtotime($record["DateFrom"]) > strtotime($record["DateTo"]))
-                    return i("slqdAt|The start date must be b...");
+                if (strlen($record["DateTo"] ?? "") > 0) {
+                    if (strtotime($record["DateTo"] . " " . $record["TimeTo"]) < time())
+                        return i("QgsW8r|The start date must be i...");
+                    if (strtotime($record["DateFrom"]) > strtotime($record["DateTo"]))
+                        return i("slqdAt|The start date must be b...");
+                }
                 if (! isset($record["PersonId"]))
                     return i("cg2vkM|Only persons deposited i...");
                 if (is_numeric($record["TimeFrom"]))
@@ -640,8 +673,7 @@ class Efa_record
                     $record["TimeTo"] = "23:59";
             } elseif (strcasecmp($tablename, "efa2project") == 0) {
                 // Projects shall not be edited in efaCloud
-                return i(
-                        "Zknloz|Project records may not ...");
+                return i("Zknloz|Project records may not ...");
             } elseif (strcasecmp($tablename, "efa2sessiongroups") == 0) {
                 $session_start = strtotime($record["StartDate"]);
                 $session_end = strtotime($record["EndDate"]);
@@ -656,20 +688,18 @@ class Efa_record
                 foreach ($session_logbook_records as $session_logbook_record) {
                     $entry_start = strtotime($session_logbook_record["Date"]);
                     if (($entry_start < $session_start) || ($entry_start > $session_end))
-                        return i(
-                                "pm2wvp|The date of the logbook ...", 
-                                $session_logbook_record["EntryId"], $session_name);
+                        return i("pm2wvp|The date of the logbook ...", $session_logbook_record["EntryId"], 
+                                $session_name);
                     if (isset($record["EndDate"]) && (strlen($record["EndDate"]) > 0)) {
                         $entry_end = strtotime($session_logbook_record["EndDate"]);
                         if (($entry_end < $session_start) || ($entry_end > $session_end))
-                            return i(
-                                    "rwl5Jj|The end date of the logb...", 
-                                    $session_logbook_record["EntryId"], $session_name);
+                            return i("rwl5Jj|The end date of the logb...", $session_logbook_record["EntryId"], 
+                                    $session_name);
                     }
                 }
             } elseif (strcasecmp($tablename, "efa2statistics") == 0) {
                 // check whether "Meldedaten" have become public.
-                if ((strlen($record["PubliclyAvailable"]) > 0) &&
+                if (isset($record["PubliclyAvailable"]) && (strlen($record["PubliclyAvailable"]) > 0) &&
                          (strcasecmp($record["OutputType"], "EfaWett") == 0))
                     return i("fukYdH|Creating reporting files...");
             } elseif (strcasecmp($tablename, "efa2status") == 0) {
@@ -699,13 +729,23 @@ class Efa_record
         // create a copy and delete all information which can be deleted
         $record_emptied = $record;
         $changes_needed = false;
+        $is_boat_damage = (strcasecmp($tablename, "efa2boatdamages") == 0);
         
         foreach ($record as $key => $value) {
             if (in_array($key, Efa_tables::$efa_data_key_fields[$tablename]) ||
                      (strcasecmp($key, "ecrid") == 0) || (strcasecmp($key, "InvalidFrom") == 0) ||
                      in_array($key, self::$assert_not_empty_fields[$tablename]) ||
                      (strcasecmp($key, "ChangeCount") == 0) || (strcasecmp($key, "LastModified") == 0)) {
-                // do nothing, keep relevant data key fields
+                if ($is_boat_damage && (strcasecmp($key, "Severity") == 0)) {
+                    // special case: damages. Set Fixed to "true" and severety to "FULLYUSEABLE" to avoid
+                    // that damages reoccur in efa during dletion/synch process (hack)
+                    // TODO: find the real error, why these records come up in efa as new damages.
+                    if (strcasecmp($record[$key], "FULLYUSEABLE") != 0) {
+                        $record_emptied[$key] = "FULLYUSEABLE";
+                        $changes_needed = true;
+                    }
+                }
+                // else: do nothing, keep relevant data key fields
             } elseif ((strcasecmp($key, "LastModification") == 0) && (strcasecmp($value, "delete") != 0)) {
                 // change modification to delete and register needed change.
                 $record_emptied[$key] = "delete";
@@ -719,20 +759,40 @@ class Efa_record
                 if (in_array($key, Efa_tables::$int_fields[$tablename])) {
                     $record_emptied[$key] = 0; // integer values must not be ""
                     $changes_needed = $changes_needed || (intval($record[$key]) != 0);
-                } elseif (strlen($value) > 0) {
-                    $record_emptied[$key] = "";
-                    $changes_needed = true;
+                } elseif (isset(Efa_tables::$date_fields[$tablename]) &&
+                         in_array($key, Efa_tables::$date_fields[$tablename]))
+                    $record_emptied[$key] = "1970-01-01"; // date values must not be ""
+                elseif (isset(Efa_tables::$time_fields[$tablename]) &&
+                         in_array($key, Efa_tables::$time_fields[$tablename]))
+                    $record_emptied[$key] = "00:00:00"; // time values must not be ""
+                else {
+                    if ($is_boat_damage) {
+                        // special case: damages. Set Fixed to "true" and severety to "FULLYUSEABLE" to avoid
+                        // that damages reoccur in efa during dletion/synch process (hack)
+                        // TODO: find the real error, why these records come up in efa as new damages.
+                        if ((strcasecmp($key, "Fixed") == 0) && isset($record[$key]) &&
+                                 (strcmp($record[$key], "true") != 0)) {
+                            $record_emptied[$key] = "true";
+                            $changes_needed = true;
+                        } elseif (isset($value) && (strlen($value) > 0)) {
+                            $record_emptied[$key] = "";
+                            $changes_needed = true;
+                        }
+                    } elseif (isset($value) && (strlen($value) > 0)) {
+                        // all other tables: empty values.
+                        $record_emptied[$key] = "";
+                        $changes_needed = true;
+                    }
                 }
             }
         }
-        
         if (! $changes_needed)
             return false;
         return $record_emptied;
     }
 
     /**
-     * Compare two session records wheter they are more or less equal.
+     * Compare two session records whether they are more or less equal to avoid duplication.
      * 
      * @param array $new
      *            efa2logbook record for a new session. Only fields that exist in the new record will be
@@ -743,11 +803,7 @@ class Efa_record
      */
     private function probably_same_session (array $new, array $existing)
     {
-        $fields = ["EntryId","Date","EndDate","BoatId","BoatVariant","BoatName","CoxId","CoxName",
-                "Crew1Id","Crew1Name","Crew2Id","Crew2Name","Crew3Id","Crew3Name","Crew4Id","Crew4Name",
-                "Crew5Id","Crew5Name","Crew6Id","Crew6Name","Crew7Id","Crew7Name","Crew8Id","Crew8Name",
-                "StartTime","DestinationId","DestinationName","WatersIdList","WatersNameList","Distance",
-                "Logbookname"
+        $fields = ["Logbookname","EntryId","Date","BoatId","StartTime","EndTime","Distance"
         ];
         foreach ($fields as $f) {
             if (isset($new[$f]) && (strcasecmp(strval($new[$f]), strval($existing[$f])) != 0))
@@ -776,6 +832,7 @@ class Efa_record
     public function validate_record_APIv1v2 (String $tablename, array $record, int $mode, int $efaCloudUserID)
     {
         global $dfmt_d, $dfmt_dt;
+        
         // API < version 3: There must not be an ecrid value
         $record_key = Efa_tables::get_record_key($tablename, $record);
         if (isset($record_key["ecrid"]))
@@ -790,9 +847,10 @@ class Efa_record
         } else {
             $uuid_list_id = self::$uuid_list_id[$tablename];
             $record_matched = $this->check_against_existing($uuid_list_id, $record, $mode, false);
-            if (! is_array($record_matched))
-                $record_matched = false;
+            if (($record_matched != false) && ! is_array($record_matched))
+                return $record_matched;
         }
+        
         $key_was_modified = false;
         $update_delete_stub = false;
         if ($mode == 1) { // insert
@@ -809,9 +867,7 @@ class Efa_record
                 } else {
                     // 1. reject insertion, if no key fixing is allowed
                     if (! array_key_exists($tablename, Efa_tables::$efa_autoincrement_fields))
-                        return i(
-                                "CRISZB|Cannot insert record. Pr...", 
-                                json_encode($efa_data_key));
+                        return i("CRISZB|Cannot insert record. Pr...", json_encode($efa_data_key));
                     // 2. reject insertion on age, even if key fixing would be allowed.
                     $last_modified_secs = intval(
                             mb_substr($record_matched["LastModified"], 0, 
@@ -820,15 +876,13 @@ class Efa_record
                         // If the record was not touched for more than 30 days, reject any insertion with an
                         // already used key. Only updates are possible. (see also java constant
                         // de.nmichael.efa.data.efacloud.SynchControl.synch_upload_look_back_ms in efa.)
-                        return i(
-                                "Gc2E76|Cannot insert record. Is...", 
-                                date($dfmt_d, $last_modified_secs), json_encode($efa_data_key));
+                        return i("Gc2E76|Cannot insert record. Is...", date($dfmt_d, $last_modified_secs), 
+                                json_encode($efa_data_key));
                     // 3. reject key fixing, if session is too similar to the existing one
                     if (strcasecmp($tablename, "efa2logbook") == 0) {
                         if ($this->probably_same_session($record, $record_matched))
-                            return i(
-                                    "tdVyu3|Cannot insert session: %...", 
-                                    $record["EntryId"], $record["Logbookname"]);
+                            return i("tdVyu3|Cannot insert session: %...", $record["EntryId"], 
+                                    $record["Logbookname"]);
                     }
                     // 4. Prepare key fixing. Copy the client side key to the ClientSideKey field using the
                     // provided $efa_data_key. From 2.3.2_09 onwards this is no more done for messages
@@ -849,12 +903,15 @@ class Efa_record
                     $key_was_modified = true;
                 }
             } else {
-                // no record with the given data key exists, it can be safely inserted.
+                // no record with the given data key exists, it can be safely inserted, except it has no
+                // ValidFrom (efa pecularity for new Record creation)
+                if (in_array($tablename, Efa_tables::$versionized_table_names) &&
+                         (strlen($record["ValidFrom"] ?? "") < 3))
+                    return i("Versionized records must have a ValidFrom time stamp.");
             }
         } elseif ($mode == 2) { // update
             if ($record_matched === false) {
-                return i("bNidHS|Cannot update record. No...", 
-                        json_encode($efa_data_key), $tablename);
+                return i("bNidHS|Cannot update record. No...", json_encode($efa_data_key), $tablename);
             } else {
                 $record["ecrid"] = $record_matched["ecrid"];
                 // used by "personendaten importieren"
@@ -862,8 +919,7 @@ class Efa_record
             }
         } elseif ($mode == 3) { // delete: only add ecrid for subsequent record identification and return
             if ($record_matched === false) {
-                return i("uZon0P|Cannot delete record. No...", 
-                        json_encode($efa_data_key), $tablename);
+                return i("uZon0P|Cannot delete record. No...", json_encode($efa_data_key), $tablename);
             } else {
                 $record["ecrid"] = $record_matched["ecrid"];
                 return [$record,false
@@ -875,14 +931,12 @@ class Efa_record
             if (! is_array($record))
                 return i("x6zeNt|Cannot modify record. Pe...", $tablename, $record);
         }
-        
         // Add efaCloud specific system generated fields.
         $record = Efa_tables::add_system_fields_APIv1v2($record, $tablename, $mode, $efaCloudUserID);
         // Add or update virtual fields
         $record_plus_vf = Efa_tables::add_virtual_fields($record, $tablename, $this->toolbox, $this->socket);
         if ($record_plus_vf !== false)
             $record = $record_plus_vf;
-        
         return [$record,$key_was_modified,$update_delete_stub
         ];
     }
@@ -914,9 +968,19 @@ class Efa_record
         // TODO ADD REFERENCE INTEGRITY CHECKS
         if ($mode == 3)
             return $record;
+        else {
+            // existance check for insert & update.
+            $existing_record = (isset($record["ecrid"]) && (strlen($record["ecrid"]) > 0)) ? $this->socket->find_record(
+                    $tablename, "ecrid", $record["ecrid"]) : false;
+            if (($mode == 1) && ($existing_record !== false))
+                return i("U9eMQ0|Record with ecrid alread...");
+            if (($mode == 2) && ($existing_record === false))
+                return i("CtV7qB|Record with ecrid does n...") . "ecrid = '" . $record["ecrid"] . "'";
+            if ($mode == 2)
+                $record["ChangeCount"] = $existing_record["ChangeCount"];
+        }
         
         // Map extra fields and map and check boolean and integer syntax
-        $record = $this->map_and_remove_extra_name_fields($record, $tablename);
         $record = $this->map_and_check_bool_fields($record, $tablename);
         if (! is_array($record))
             return $record;
@@ -929,8 +993,7 @@ class Efa_record
         $is_set_autoincrement_value = $is_autoincrement &&
                  isset($record[Efa_tables::$efa_autoincrement_fields[$tablename]]);
         if (($mode == 1) && $is_autoincrement && $is_set_autoincrement_value)
-            return i("KAPg7y|The autoincremented fiel...", 
-                    Efa_tables::$efa_autoincrement_fields[$tablename]);
+            return i("KAPg7y|The autoincremented fiel...", Efa_tables::$efa_autoincrement_fields[$tablename]);
         
         // add all system generated fields. Statistic IDs such as UUID and ecrid may be
         // provided by the API client and will not be overwritten.
@@ -966,7 +1029,7 @@ class Efa_record
      * @param array $version_record
      *            the record to insert as new, update as existing or insert as new version
      * @param int $mode
-     *            Set 1 for insert, 2 for update.
+     *            Set 1 for insert, 2 for update, 3 for delete.
      * @param int $efaCloudUserID
      *            The user ID which is put to the ecrown field in insert mode.
      * @param bool $force_refresh
@@ -981,9 +1044,17 @@ class Efa_record
         $this->build_indices($list_id, false);
         
         // Check whether the object in question exists. Try ecrid and UUID, if given, or resolve the name else
-        $version_record = $this->check_against_existing($list_id, $version_record, $mode, $force_refresh);
-        if (! is_array($version_record))
-            return $version_record;
+        $existing_record = $this->check_against_existing($list_id, $version_record, $mode, $force_refresh);
+        if (($mode > 1) && ! is_array($existing_record)) {
+            // no record with the given data key exists, it can be safely inserted, except it has no
+            // ValidFrom (efa pecularity for new Record creation)
+            if (strlen($record["ValidFrom"] ?? "") < 3)
+                return i("Versionized records must have a ValidFrom time stamp.");
+            return $existing_record;
+        }
+        
+        if (! isset($version_record["ecrid"]) || (strlen($version_record["ecrid"]) < 10))
+            $version_record["ecrid"] = $existing_record["ecrid"];
         // no more checks for deletion yet
         // TODO ADD REFERENCE INTEGRITY CHECKS
         if ($mode == 3)
@@ -999,17 +1070,19 @@ class Efa_record
             return $version_record;
         
         // Check version validity
-        if (($mode == 2) && isset($version_record["ValidFrom"]) && (strlen($version_record["ValidFrom"]) > 0)) {
-            return i("QQKP9h|The specification of a v...");
+        if ($mode == 2) {
+            $isset_validFrom = isset($version_record["ValidFrom"]) &&
+                     (strlen($version_record["ValidFrom"]) > 0);
+            if ($isset_validFrom && isset($existing_record["ValidFrom"]) &&
+                     (strcmp($version_record["ValidFrom"], $existing_record["ValidFrom"]) > 0))
+                return i("QQKP9h|The specification of a v...");
         }
         if ($mode == 1) {
-            if (isset($version_record["InvalidFrom"]) && (strlen($version_record["InvalidFrom"]) > 0) &&
-                     (strcmp($version_record["InvalidFrom"], Efa_tables::$forever64) != 0))
-                return i("j2CGJe|For new objects, the val...");
             // add the ValidFrom and InvalidFrom timestamps.
+            if (! isset($version_record["InvalidFrom"]))
+                $version_record["InvalidFrom"] = Efa_tables::$forever64;
             if (! isset($version_record["ValidFrom"]) || (strlen($version_record["ValidFrom"]) == 0))
                 $version_record["ValidFrom"] = time() . "000";
-            $version_record["InvalidFrom"] = Efa_tables::$forever64;
         }
         
         // add all system generated fields. Statistic IDs such as UUID and ecrid may be
@@ -1055,7 +1128,7 @@ class Efa_record
      * @param array $record
      *            the record to insert as new or update as existing
      * @param int $mode
-     *            Set 1 for insert, 2 for update
+     *            Set 1 for insert, 2 for update, 3 for delete
      * @param int $efaCloudUserID
      *            The user ID which is put to the ecrown field in insert mode.
      * @param bool $force_refresh
@@ -1104,7 +1177,9 @@ class Efa_record
 
     /**
      * Get all reservations for the boat with the $reservation_record["BoatId"] value and check whether any
-     * overlap.
+     * overlap exists. Will only be applied to ONETIME reservations, because these are the only ones which can
+     * be entered via efaWeb. And: will only check against ONETIME reservations, i.e. ONETIME reservations
+     * will get priority over weekly and "weekly-limited".
      * 
      * @param array $reservation_record
      *            the reservation record to check
@@ -1112,53 +1187,35 @@ class Efa_record
      */
     private function has_overlap_reservation (array $reservation_record)
     {
+        $is_onetime_record = (strcasecmp($reservation_record["Type"], "ONETIME") == 0);
+        if (! $is_onetime_record)
+            return false;
+        
         $all_reservations = $this->socket->find_records_sorted_matched("efa2boatreservations", 
                 ["BoatId" => $reservation_record["BoatId"]
                 ], 1000, "=", "DateFrom", false);
         if ($all_reservations === false)
             return false;
-        if (strcasecmp($reservation_record["Type"], "WEEKLY") == 0) {
-            $time_from_a = strtotime($reservation_record["DateTo"]);
-            $time_to_a = strtotime($reservation_record["TimeTo"]);
-        } else {
-            $time_from_a = strtotime($reservation_record["DateFrom"] . " " . $reservation_record["TimeFrom"]);
-            $time_to_a = strtotime($reservation_record["DateTo"] . " " . $reservation_record["TimeTo"]);
-        }
-        $is_weekly_record = (strcasecmp($reservation_record["Type"], "WEEKLY") == 0);
+        $time_from_a = strtotime($reservation_record["DateFrom"] . " " . $reservation_record["TimeFrom"]);
+        $time_to_a = strtotime($reservation_record["DateFrom"] . " " . $reservation_record["TimeTo"]);
         foreach ($all_reservations as $reservation_to_check) {
             $is_this_reservation = (strcmp($reservation_to_check["ecrid"], $reservation_record["ecrid"]) == 0);
-            $is_weekly_check = (strcasecmp($reservation_to_check["Type"], "WEEKLY") == 0);
+            $is_onetime_check = (strcasecmp($reservation_to_check["Type"], "ONETIME") == 0);
             // must be different from the one provided, but must be of same type (see efa code for reference
             // of condiition
-            if (! $is_this_reservation) {
-                if ($is_weekly_record == $is_weekly_check) {
-                    if ($is_weekly_record) {
-                        if (strcasecmp($reservation_to_check["DayOfWeek"], $reservation_record["DayOfWeek"]) ==
-                                 0) {
-                            // compare weekly reservations, use time only
-                            $time_from_b = strtotime($reservation_to_check["TimeFrom"]);
-                            $time_to_b = strtotime($reservation_to_check["TimeTo"]);
-                        } else {
-                            // different days of the week, invalidate time for further check
-                            $time_from_b = - 1;
-                            $time_to_b = - 1;
-                        }
-                    } else {
-                        // compare one-time reservations
-                        $time_from_b = strtotime(
-                                $reservation_to_check["DateFrom"] . " " . $reservation_to_check["TimeFrom"]);
-                        $time_to_b = strtotime(
-                                $reservation_to_check["DateTo"] . " " . $reservation_to_check["TimeTo"]);
-                    }
-                    $a_starts_within_b = ($time_from_a > $time_from_b) && ($time_from_a < $time_to_b);
-                    $a_ends_within_b = ($time_to_a > $time_from_b) && ($time_to_a < $time_to_b);
-                    $a_includes_b = ($time_from_a <= $time_from_b) && ($time_to_a >= $time_to_b);
-                    if ($a_starts_within_b || $a_includes_b || $a_ends_within_b)
-                        return i("AebG0R|The boat is occupied wit...", 
-                                $reservation_to_check["Reason"], $reservation_to_check["DateFrom"], 
-                                $reservation_to_check["TimeFrom"], $reservation_to_check["DateTo"], 
-                                $reservation_to_check["TimeTo"]);
-                }
+            if (! $is_this_reservation && $is_onetime_check) {
+                // compare one-time reservations
+                $time_from_b = strtotime(
+                        $reservation_to_check["DateFrom"] . " " . $reservation_to_check["TimeFrom"]);
+                $time_to_b = strtotime(
+                        $reservation_to_check["DateTo"] . " " . $reservation_to_check["TimeTo"]);
+                $a_starts_within_b = ($time_from_a > $time_from_b) && ($time_from_a < $time_to_b);
+                $a_ends_within_b = ($time_to_a > $time_from_b) && ($time_to_a < $time_to_b);
+                $a_includes_b = ($time_from_a <= $time_from_b) && ($time_to_a >= $time_to_b);
+                if ($a_starts_within_b || $a_includes_b || $a_ends_within_b)
+                    return i("AebG0R|The boat is occupied wit...", $reservation_to_check["Reason"], 
+                            $reservation_to_check["DateFrom"], $reservation_to_check["TimeFrom"], 
+                            $reservation_to_check["DateTo"], $reservation_to_check["TimeTo"]);
             }
         }
         return false;
@@ -1189,7 +1246,7 @@ class Efa_record
                 $autoincrement_record["LongValue"] = $numeric_id;
             else
                 $autoincrement_record["IntValue"] = $numeric_id;
-            Efa_tables::register_modification($autoincrement_record, time(), 
+            $autoincrement_record = Efa_tables::register_modification($autoincrement_record, time(), 
                     $autoincrement_record["ChangeCount"], "update");
             $this->socket->update_record_matched($efaCloudUserID, "efa2autoincrement", $matching_key, 
                     $autoincrement_record);
@@ -1222,13 +1279,13 @@ class Efa_record
     {
         $is_object = in_array($tablename, Efa_tables::$versionized_table_names);
         $object_id = (isset($record["Id"]) ? $record["Id"] : i("rBRXe8|Id not defined"));
-        $error_text = ($is_object) ? i("21KOoL|The version of the objec...", $object_id) : i("cAP24j|The record");
+        $error_text = ($is_object) ? i("21KOoL|The version of the objec...", $object_id) : i(
+                "cAP24j|The record");
         if ($mode == 1) {
             // insert record
             $insert_result = $this->socket->insert_into($efaCloudUserID, $tablename, $record);
             if (! is_numeric($insert_result))
-                return i("kyaQS2|Database error. %1 could...", $error_text, 
-                        $tablename) . " " . $insert_result;
+                return i("kyaQS2|Database error. %1 could...", $error_text, $tablename) . " " . $insert_result;
             return "";
         } elseif ($mode == 2) {
             // update record
@@ -1237,26 +1294,22 @@ class Efa_record
             $update_result = $this->socket->update_record_matched($efaCloudUserID, $tablename, $matching_key, 
                     $record);
             if (strlen($update_result) > 0)
-                return i("UCqEEe|Database error. %1 could...", $error_text, 
-                        $tablename) . " " . $update_result;
+                return i("UCqEEe|Database error. %1 could...", $error_text, $tablename) . " " . $update_result;
             return "";
         } elseif ($mode == 3) {
             // delete record and create a trash entry
             if (in_array($tablename, self::$allow_web_delete) || $always_allow_delete) {
                 // special case efaCloudUsers: you must not delete your own user record.
                 if (strcasecmp($tablename, "efaCloudUsers") == 0) {
-                    if (intval($record["ID"]) == intval($_SESSION["User"]["ID"]))
-                        return i(
-                                "4Bzo0W|Handling error. %1 could...", 
-                                $error_text, $tablename);
+                    if (intval($record["ID"]) == intval($this->toolbox->users->session_user["ID"]))
+                        return i("4Bzo0W|Handling error. %1 could...", $error_text, $tablename);
                 }
                 $record_key = (isset($record["ecrid"])) ? ["ecrid" => $record["ecrid"]
                 ] : ["ID" => $record["ID"]
                 ]; // at the efaCloud server all records have an ecrid, regardless of the API-level used.
                 $record_to_delete = $this->socket->find_record_matched($tablename, $record_key);
                 if ($record_to_delete === false)
-                    return i("c4rD0F|Database error. %1 could...", 
-                            $error_text, $tablename);
+                    return i("c4rD0F|Database error. %1 could...", $error_text, $tablename);
                 // Empty the record rather than delete it. This is to ensure that the deletion can be
                 // propagated to other clients.
                 $record_emptied = self::clear_record_for_delete($tablename, $record_to_delete);
@@ -1268,8 +1321,8 @@ class Efa_record
                     $update_result = $this->socket->update_record_matched($efaCloudUserID, $tablename, 
                             $record_key, $record_emptied);
                     if (strlen($update_result) > 0)
-                        return i("XuZqEh|Database error. The cont...", 
-                                $error_text, $tablename) . " " . $update_result;
+                        return i("XuZqEh|Database error. The cont...", $error_text, $tablename) . " " .
+                                 $update_result;
                     else {
                         $trashed_record = json_encode($record_to_delete);
                         // limit size to 64k

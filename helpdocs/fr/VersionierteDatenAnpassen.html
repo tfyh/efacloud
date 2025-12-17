@@ -1,0 +1,21 @@
+<h3>Modifier des données versionnées</h3>
+<p>Efa utilise des tables dont les entrées comportent plusieurs versions avec
+	avec des validités successives. Ces tables sont les suivantes : Groupes, Eaux, Personnes et
+	Cibles.</p>
+<p>Dans ces tables, seule la dernière version peut être modifiée.
+	modifiée. Il existe trois modes de modification :</p> <p>Les tableaux sont les suivants : Groupes, Eaux, Personnes et Cibles.
+<ol>
+	<li>Modifier le contenu:<br>La période de validité reste la même,
+		Le contenu de l'enregistrement de données est modifié (par exemple, nouvelle adresse électronique.).
+	</li>
+	<li>Modifier la date de fin de validité:<br>La fin de la période de validité est
+		modifiée. Aucun contenu n'est modifié, les modifications saisies sont ignorées.
+		Les modifications sont ignorées. Pour obtenir une validité illimitée, la date de validité
+		doit être vide.
+	</li>
+	<li>Créer une nouvelle version : la valeur "Valable jusqu'au" de l'enregistrement est définie comme spécifié, une nouvelle version est créée.
+		Si la valeur "Valide jusqu'au" de l'enregistrement est définie comme spécifié, une nouvelle version est créée, qui est valide directement après et indéfiniment après la fin de la période de validité.
+		est valable immédiatement après et ensuite indéfiniment en tant que copie de la
+		version actuelle. Aucun contenu n'est modifié, les modifications saisies sont ignorées.
+		ignorées. les modifications saisies sont ignorées.</li>
+</ol>

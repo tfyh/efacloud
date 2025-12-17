@@ -1,10 +1,32 @@
 <?php
 /**
+ *
+ *       the tools-for-your-hobby framework
+ *       ----------------------------------
+ *       https://www.tfyh.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ */
+
+/**
  * The form for user mailing self service. Based on the Tfyh_form class, please read instructions their to
  * better understand this PHP-code part.
  * 
  * @author mgSoft
  */
+
 // ===== initialize toolbox and socket and start session.
 $user_requested_file = __FILE__;
 include_once "../classes/init.php";
@@ -18,7 +40,7 @@ $listparameter = [];
 $list_indication = "";
 if (isset($_SESSION["getps"][$fs_id]["listparameter"])) {
     $listparameter["{listparameter}"] = $_SESSION["getps"][$fs_id]["listparameter"];
-    $list_indication = i("XPbBHm|Used Paramter of list:") . " {listparameter} = " .
+    $list_indication = i("XPbBHm|Used Parameter of list:") . " {listparameter} = " .
              $listparameter["{listparameter}"] . "\n.";
 }
 
@@ -50,8 +72,8 @@ if ($done > 0) {
     } elseif (($done == 1) && ! $isTempSave) {
         // get mailto list
         include_once "../classes/tfyh_list.php";
-        $list = new Tfyh_list("../config/lists/mailverteiler", 0, $entered_data["To"], $socket, $toolbox, 
-                $listparameter);
+        $list = new Tfyh_list("../config/lists/mailverteiler", intval($entered_data["To"]), "", $socket, 
+                $toolbox, $listparameter);
         $rows = $list->get_rows();
         $mailto_list = [];
         foreach ($rows as $row)
@@ -60,10 +82,7 @@ if ($done > 0) {
         $_SESSION["mailto_list"] = $mailto_list;
         $_SESSION["Subject"] = $entered_data["Subject"];
         $_SESSION["Message"] = $entered_data["Message"];
-        $_SESSION["Message_htmle"] = htmlentities(utf8_decode($entered_data["Message"]));
-        if (strlen($_SESSION["Message_htmle"]) == 0)
-            // hit an invalid character, try without utf_8 decode.
-            $_SESSION["Message_htmle"] = htmlentities($entered_data["Message"]);
+        $_SESSION["Message_htmle"] = htmlentities($entered_data["Message"]);
         if (strlen($_SESSION["Message_htmle"]) == 0)
             // still hit an invalid character, use plain
             $_SESSION["Message_htmle"] = $_SESSION["Message"];
@@ -78,7 +97,7 @@ if ($done > 0) {
             copy($_FILES['userfile2']["tmp_name"], "../attachements/" . $_SESSION["Attachment2"]);
         } else
             $_SESSION["Attachment2"] = "";
-        $form_info = "<p><b>" . i("ZmVUvv|Recipient:") . " </b>" . $_SESSION["To"] . " " .
+        $form_info = "<p><b>" . i("ZmVUvv|Recipient:") . " </b>" . $list->get_list_name() . " " .
                  i("gEQmZw|(Number: %1)", count($_SESSION["mailto_list"])) . "</p><p><b>" .
                  i("2yWFRU|Subject:") . "</b> " . $entered_data["Subject"] . "</p><p><b>" .
                  i("OMRZJ7|Message:") . "</b><br />" . str_replace("\n", "<br />", $_SESSION["Message_htmle"]) .
@@ -92,7 +111,7 @@ if ($done > 0) {
         $isTest = ($entered_data["Testversand"]);
         if ($isTest) {
             $_SESSION["mailto_list"] = [];
-            $_SESSION["mailto_list"][] = $_SESSION["User"][$toolbox->users->user_id_field_name];
+            $_SESSION["mailto_list"][] = $toolbox->users->session_user["@id"];
         }
         
         // check for continued edit mode after test. If this is a continuation of editing,
@@ -106,10 +125,10 @@ if ($done > 0) {
         $mail_handler = new Tfyh_mail_handler($toolbox->config->get_cfg());
         $successes = 0;
         $i = 0;
-        $user_name = $_SESSION["User"]["Vorname"] . " " . $_SESSION["User"]["Nachname"];
+        $user_name = $toolbox->users->session_user["@fullname"];
         $mailfrom = "" . $user_name . " " . $mail_handler->mail_subject_acronym . " <" .
                  $mail_handler->mail_mailer . ">";
-        $mailreplyto = " " . $_SESSION["User"]["EMail"];
+        $mailreplyto = " " . $toolbox->users->session_user["@mail"];
         
         // create mails one by one. Note: for ($isContinueEdit || $isTempSave) the
         // $_SESSION["mailto_list"] is empty, for $isTest it contains the user himself only.
@@ -161,7 +180,7 @@ if ($done > 0) {
         }
         
         // create reciept to sender and remove attachment
-        if (! $isContinueEdit && ! $isTempSave && ($successes > 0)) {
+        if (! $isContinueEdit && ! $isTempSave) {
             $mail_db_insert_result = i("M4AobL|No storage, test mode.");
             if (! $isTest) {
                 // move attachement into sent-directory.
@@ -171,25 +190,25 @@ if ($done > 0) {
                 rename("../attachements/" . $_SESSION["Attachment2"], 
                         "../attachements/sent/" . $_SESSION["Attachment2"]);
                 // store mail to database for logging purposes
-                $record[$toolbox->users->user_id_field_name] = $_SESSION["User"][$toolbox->users->user_id_field_name];
+                $record[$toolbox->users->user_id_field_name] = $toolbox->users->session_user["@id"];
                 $record["versendetAm"] = date("Y-m-d H:i:s");
                 $record["Verteiler"] = $_SESSION["To"];
-                $record["Number"] = $successes;
-                $record["Subject"] = $_SESSION["Subject"];
-                $record["Message"] = $_SESSION["Message"];
-                $record["Attachment1"] = $_SESSION["Attachment1"];
-                $record["Attachment2"] = $_SESSION["Attachment2"];
-                $mail_db_insert_result = $socket->insert_into(
-                        $_SESSION["User"][$toolbox->users->user_id_field_name], "Mails", $record);
+                $record["Anzahl"] = $successes;
+                $record["Betreff"] = $_SESSION["Subject"];
+                $record["Nachricht"] = $_SESSION["Message"];
+                $record["Anlage1"] = $_SESSION["Attachment1"];
+                $record["Anlage2"] = $_SESSION["Attachment2"];
+                $mail_db_insert_result = $socket->insert_into($toolbox->users->session_user["@id"], "Mails", 
+                        $record);
                 
                 // trigger showing of result without the send form.
                 $todo = 3;
             }
-            $form_info .= i("RxkkKI|The message was sent to ...") . " " . $mail_db_insert_result;
+            $form_info .= i("RxkkKI|The message was sent to ...", $successes) . " " . $mail_db_insert_result;
             $_SESSION["result"] = $form_info;
-            $mail_was_sent = $mail_handler->send_mail($mailfrom, $mailreplyto, $_SESSION["User"]["EMail"], "", 
-                    "", $mail_handler->mail_subject_acronym . $_SESSION["Subject"], 
-                    $form_info . $list_indication);
+            $mail_was_sent = $mail_handler->send_mail($mailfrom, $mailreplyto, 
+                    $toolbox->users->session_user["@mail"], "", "", 
+                    $mail_handler->mail_subject_acronym . $_SESSION["Subject"], $form_info . $list_indication);
         } else { // When testing show form again to be able to do adjustments.
             if ($isTest || $isContinueEdit || $isTempSave) {
                 if ($isTest)
@@ -235,11 +254,19 @@ echo $menu->get_menu();
 echo file_get_contents('../config/snippets/page_02_nav_to_body');
 
 // page heading, identical for all workflow steps
-echo i("XlbAYa| ** Send mails to distri...");
+echo "<!-- START OF content -->\n<div class='w3-container'>\n";
+echo "<h3>" . i("W5VoZs|Send mails to a distribu...") . "</h3>";
+echo "<p>" .
+         i(
+                "OSpHxl|The mails are sent indiv...") .
+         "</p>";
+echo "<p>" . i("rHyH4e|ATTENTION: After 10 minu...") . "</p>";
 echo $toolbox->form_errors_to_html($form_errors);
 echo $form_info;
 if ($todo < 3)
     echo $form_to_fill->get_html(true); // enable file upload
-echo i("VNaOll|<!-- END OF form --><...");
+if ($todo == 2)
+    echo "<p><a href='?fseq=" . $fs_id . "2&edit=1'>" . i("c1Kttz|Change the message.") . "</a></p>";
+echo "<!-- END OF form -->\n</div>";
 end_script();
 

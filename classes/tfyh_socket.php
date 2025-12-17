@@ -1,19 +1,82 @@
 <?php
 
-interface Tfyh_socket_listener
+/**
+ *
+ *       the tools-for-your-hobby framework
+ *       ----------------------------------
+ *       https://www.tfyh.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ */
+interface Tfyh_socket_trigger
 {
 
     /**
-     * This function is called after each data base transaction, to all listeners for write transaction only.
+     * This function is called before each data base write transaction, to all registered triggers for write
+     * transaction only. It must to return a result as String, being empty for "ok" and containing all error
+     * messages for user display.
      * 
-     * @param String $tx_type
-     *            the type of the transaction, e.g. "delete", "update", "insert".
-     * @param String $tx_tablename
+     * @param int $user_id
+     *            the user of the transaction. Will be added as owner field.
+     * @param int $mode
+     *            the mode of the transaction, being either of 1 for insert, 2 for update or 3 for delete.
+     * @param String $tablename
      *            The name of the affected table
-     * @param array $tx_record
+     * @param array $record
+     *            the record used for the transaction.
+     * @return mixed It must return either a) true, if the trigger did neither modify the record, nor fail b)
+     *         a String with an error message on failure c) the modified $record, if adjustments were
+     *         executed.
+     */
+    public function pre_write_transaction (int $user_id, int $mode, String $tablename, array $record);
+}
+
+interface Tfyh_socket_write_listener
+{
+
+    /**
+     * This function is called after each data base write transaction, to all listeners. You may use it for
+     * data replication purposes. No value must be returned.
+     * 
+     * @param int $mode
+     *            the mode of the transaction, being either of 1 for insert, 2 for update or 3 for delete.
+     * @param String $tablename
+     *            The name of the affected table
+     * @param array $record
      *            the record used for the transaction.
      */
-    public function on_socket_transaction (String $tx_type, String $tx_tablename, array $tx_record);
+    public function post_write_transaction (int $mode, String $tablename, array $record);
+}
+
+interface Tfyh_socket_read_listener
+{
+
+    /**
+     * This function is called after each data read transaction, to all listeners. You may use it for data
+     * access permissions filtering purposes. Read listeners post_write_transaction will not be called, if no
+     * record, i.e. false or an error message is returned by the find call.
+     * 
+     * @param String $tablename
+     *            The name of the affected table
+     * @param array $records
+     *            the records which were found by the find call.
+     * @return mixed either a) true, if the listener did not modify any record. b) the set of records, if
+     *         filters on records or fields applied and at least one record is left. c) false, if after
+     *         application of filters no record is left.
+     */
+    public function post_read_transaction (String $tablename, array $records);
 }
 
 /**
@@ -26,7 +89,7 @@ class Tfyh_socket
     /**
      * data base connection object
      */
-    private $mysqli;
+    public $mysqli;
 
     /**
      * data base name
@@ -39,9 +102,19 @@ class Tfyh_socket
     private $toolbox;
 
     /**
-     * an array of all socket listeners
+     * an array of all socket read listeners
      */
-    private $listeners = [];
+    private $read_listeners = [];
+
+    /**
+     * an array of all socket write listeners
+     */
+    private $write_listeners = [];
+
+    /**
+     * an array of all socket pre-modification checkers
+     */
+    private $triggers = [];
 
     /**
      * debug file name for sql-queries
@@ -64,6 +137,17 @@ class Tfyh_socket
     public $last_sql_executed = "";
 
     /**
+     * The column names of the change log table, default. Set config.changelog_columns to use different names
+     * (the values are fix).
+     */
+    private $change_log_columns = "`Author`, `Time`, `ChangedTable`, `ChangedID`, `Modification`";
+
+    /**
+     * Use the current microtime as float instead of the TIMESTAMP for the changelog.
+     */
+    private $change_log_timestamp_timef = false;
+
+    /**
      * Construct the socket. This initializes the data base connection. $cfg must contain the appropriate
      * values for: $cfg["db_host"], $cfg["db_accounts"], $cfg["db_name"] to get it going.
      * 
@@ -77,6 +161,11 @@ class Tfyh_socket
         $this->mysqli = null;
         $this->toolbox = $toolbox;
         $this->debug_on = $toolbox->config->debug_level > 0;
+        if (isset($toolbox->config->settings_tfyh["config"]["changelog_columns"]) &&
+                 (strlen(isset($toolbox->config->settings_tfyh["config"]["changelog_columns"])) > 0))
+            $this->change_log_columns = $toolbox->config->settings_tfyh["config"]["changelog_columns"];
+        if (! $toolbox->config->mode_classic)
+            $this->change_log_timestamp_timef = true;
     }
 
     /**
@@ -112,7 +201,7 @@ class Tfyh_socket
     }
 
     /**
-     * ******************** CONNECTION FUNCTONS AND RAW QUERY *****************************
+     * ******************** CONNECTION FUNCTONS, TRIGGERS AND RAW QUERY **************************
      */
     
     /**
@@ -144,13 +233,78 @@ class Tfyh_socket
     }
 
     /**
-     * Add a write transaction listener to the socket.
+     * Add a post-read-transaction listener to the socket. If a trigger of that name already exists, it is
+     * replaced.
      * 
-     * @param Tfyh_socket_listener $socket_listener            
+     * @param String $name
+     *            the listener name to reference it for removal or replacement.
+     * @param Tfyh_socket_read_listener $listener
+     *            the post-modification listener to add
      */
-    public function add_listener (Tfyh_socket_listener $socket_listener)
+    public function add_read_listener (String $name, Tfyh_socket_read_listener $listener)
     {
-        $this->listeners[] = $socket_listener;
+        $this->read_listeners[$name] = $listener;
+    }
+
+    /**
+     * Add a post-write-transaction listener to the socket. If a trigger of that name already exists, it is
+     * replaced.
+     * 
+     * @param String $name
+     *            the trigger name to reference it for removal or replacement.
+     * @param Tfyh_socket_write_listener $listener
+     *            the post-modification listener to add
+     */
+    public function add_write_listener (String $name, Tfyh_socket_write_listener $listener)
+    {
+        $this->write_listeners[$name] = $listener;
+    }
+
+    /**
+     * Remove a post-write/post-read-transaction listeners from the socket. If no listener of that name
+     * exists, nothing happens. If no name is given, all listeners are removed.
+     * 
+     * @param String $name
+     *            the listener name to remove. Set null to remove all read and write listeners at once.
+     */
+    public function remove_listeners (String $name = null)
+    {
+        if (is_null($name)) {
+            $this->read_listeners = [];
+            $this->write_listeners = [];
+        } else {
+            if (isset($this->read_listeners[$name]))
+                unset($this->read_listeners[$name]);
+            if (isset($this->write_listeners[$name]))
+                unset($this->write_listeners[$name]);
+        }
+    }
+
+    /**
+     * Add a pre-write-transaction trigger to the socket.
+     * 
+     * @param Tfyh_socket_trigger $trigger
+     *            pre-transaction trigger to add.
+     */
+    public function add_trigger (String $name, Tfyh_socket_trigger $trigger)
+    {
+        $this->triggers[$name] = $trigger;
+    }
+
+    /**
+     * Remove a pre-write-transaction triggers from the socket. If no trigger of that name exists, nothing
+     * happens. If no name is given, all triggers are removed.
+     * 
+     * @param String $name
+     *            the trigger name to remove. Set null to remove all.
+     */
+    public function remove_triggers (String $name = null)
+    {
+        if (is_null($name))
+            $this->triggers = [];
+        else 
+            if (isset($this->triggers[$name]))
+                unset($this->triggers[$name]);
     }
 
     /**
@@ -175,14 +329,20 @@ class Tfyh_socket
     }
 
     /**
-     * Raw data base query. Will open the connection, if not yet done. The SQL-command is logged and the plain
-     * result returned. Values will still be UTF-8 encoded, as the data base shall be.
+     * DO NOT USE - THIS WILL NOT DO ANY SECURITY CHECKS - FOR TFYH FRAMEWORK USE ONLY - If the caller class
+     * name does not start with "Tfyh" or equals "Efa_tools" the function will return without doing anything.
      * 
      * @param String $sql_cmd            
      * @return mixed msqli-query result or false in case of data base connection failure.
      */
-    public function query (String $sql_cmd)
+    public function query (String $sql_cmd, $caller)
     {
+        if (! is_object($caller))
+            return false;
+        if ((strpos(substr(get_class($caller), 0, 4), "Tfyh") !== 0) &&
+                 (strcmp(get_class($caller), "Efa_tools") != 0) &&
+                 (strcmp(get_class($caller), "Bulk_transaction") != 0))
+            return false;
         return $this->mysqli_query($sql_cmd, "custom query");
     }
 
@@ -242,11 +402,15 @@ class Tfyh_socket
 
     /**
      * Get all entries from the change log, html formatted. This will not cleanse the log.
+     * 
+     * @param String $id
+     *            the field name for the chage log sequence ID, default is "ID" (upper case)
+     * @return string the change log for html display, last entries first.
      */
-    public function get_change_log ()
+    public function get_change_log (String $id = "ID")
     {
-        $sql_cmd = "SELECT `Author`, `Time`, `ChangedTable`, `ChangedID`, `Modification` FROM `" .
-                 $this->toolbox->config->changelog_name . "` WHERE 1 ORDER BY `ID` DESC LIMIT 200";
+        $sql_cmd = "SELECT " . $this->change_log_columns . " FROM `" . $this->toolbox->config->changelog_name .
+                 "` WHERE 1 ORDER BY `ID` DESC LIMIT 200";
         $res = $this->mysqli_query($sql_cmd, "get_change_log");
         if ($res === false)
             return "<h3>" . i("84qqTb|Changes") . "</h3><br>" . i("edML3Q|Error executing database...");
@@ -256,6 +420,11 @@ class Tfyh_socket
             return i("SMOZBB|No changes logged.");
         $ret = "";
         while ($row) {
+            if ($this->change_log_timestamp_timef) {
+                $timestamp_object = Tfyh_toolbox::datetimef(floatval($row[1]));
+                $row[1] = Tfyh_data::format($timestamp_object, "datetime", 
+                        $this->toolbox->config->language_code);
+            }
             $ret .= "<p><b>" . i("WP2gSG|Author:") . "</b> " . $row[0] . "<br><b>" . i("R9sv8M|Time:") .
                      "</b> " . $row[1] . "<br><b>" . i("k55LAo|Table:") . "</b> " . $row[2] . "<br><b>" .
                      i("gjYPBf|Changed ID:") . "</b> " . $row[3] . "<br><b>" . i("B9EOmx|Description:") .
@@ -305,8 +474,8 @@ class Tfyh_socket
             if ($this->debug_on)
                 file_put_contents($this->sql_debug_file, "failed: " . $this->mysqli->error . "\n", 
                         FILE_APPEND);
-            $ret .= i("4YsmYP|Data base statement °%1 ...", 
-                    htmlspecialchars(substr($sql_cmd, 0, 5000), $this->mysqli->error));
+            $ret .= i("4YsmYP|Data base statement °%1 ...", htmlspecialchars(mb_substr($sql_cmd, 0, 5000)), 
+                    $this->mysqli->error);
         } else {
             if ($this->debug_on)
                 file_put_contents($this->sql_debug_file, i("vsbqU2|successful.") . "\n", FILE_APPEND);
@@ -317,12 +486,14 @@ class Tfyh_socket
             if (strlen($changed_id) == 0)
                 $changed_id = $this->mysqli->insert_id;
             // write change log entry
-            $sql_cmd = "INSERT INTO `" . $this->toolbox->config->changelog_name .
-                     "` (`Author`, `Time`, `ChangedTable`, `ChangedID`, `Modification`) VALUES ('" . $appUserID .
-                     "', CURRENT_TIMESTAMP, '" . $table_name . "', '" . $changed_id . "', '" .
-                     str_replace("'", "\'", $change_entry) . "');";
+            $timestamp = ($this->change_log_timestamp_timef) ? "'" . strval(Tfyh_toolbox::timef()) . "'" : "CURRENT_TIMESTAMP";
+            $sql_cmd = "INSERT INTO `" . $this->toolbox->config->changelog_name . "` (" .
+                     $this->change_log_columns . ") VALUES ('" . $appUserID . "', " . $timestamp . ", '" .
+                     $table_name . "', '" . $changed_id . "', '" . str_replace("'", "\'", str_replace("\\", "\\\\", $change_entry)) .
+                     "');";
             $tmpr = $this->mysqli_query($sql_cmd, "[change-log entry]");
         }
+        
         return $ret;
     }
 
@@ -361,15 +532,18 @@ class Tfyh_socket
             // user has user administration priviledge: ok.
             return $record;
         
-        if (($user === false) && ! isset($record["ID"]) && (! isset($record["Rolle"]) ||
+        // allow insertion of anonymous users
+        if (($user === false) && (strcmp($this->toolbox->users->self_registered_role, "forbidden") != 0) &&
+                 ! isset($record["ID"]) && (! isset($record["Rolle"]) ||
                  (strcasecmp($record["Rolle"], $this->toolbox->users->anonymous_role) == 0)) &&
                  (intval($record["Workflows"]) == 0) && (intval($record["Concessions"]) == 0)) {
-            // if the $record["ID"] is not set, this is a registration. Allow it for no user rights.
+            // if the $record["ID"] is not set, this is a registration. Allow it for the anonymous role,
+            // except it is explicitly forbidden.
             $record["Rolle"] = $this->toolbox->users->anonymous_role;
             return $record;
         }
         
-        if (isset($record["ID"]) && intval($record["ID"]) != intval($user["ID"])) {
+        if (isset($record["ID"]) && (intval($record["ID"]) != intval($user["ID"]))) {
             // role is no user admin, but workflows may allow to change other users data fields
             $is_allowed_workflow = false;
             foreach ($this->toolbox->users->useradmin_workflows as $allowed_workflow => $allowed_fields) {
@@ -387,27 +561,76 @@ class Tfyh_socket
         }
         
         // check change of role, workflows, concessions, userID or account name
-        if (isset($record["Rolle"]) && (strcasecmp($record["Rolle"], $user["Rolle"]) != 0) &&
-                 (strcasecmp($record["Rolle"], $this->toolbox->users->self_registered_role) != 0))
-            return i("gI7hvr|User tried to modify own...");
-        if (isset($record["Workflows"]) && (intval($record["Workflows"]) != intval($user["Workflows"])))
-            return i("4RIp1F|User tried to modify own...");
-        if (isset($record["Concessions"]) && (intval($record["Concessions"]) != intval($user["Concessions"])))
-            return i("T5N6rh|User tried to modify own...");
-        if (isset($record[$this->toolbox->users->user_id_field_name]) && (intval(
-                $record[$this->toolbox->users->user_id_field_name]) != intval(
-                $user[$this->toolbox->users->user_id_field_name])))
-            return i("A2Zw3z|User tried to modify own...", $user[$this->toolbox->users->user_id_field_name], 
-                    $record[$this->toolbox->users->user_id_field_name]);
-        if (isset($record[$this->toolbox->users->user_account_field_name]) && (strcasecmp(
-                $record[$this->toolbox->users->user_account_field_name], 
-                $user[$this->toolbox->users->user_account_field_name]) != 0))
-            return i("m6BPH3|User tried to modify own...", 
-                    $user[$this->toolbox->users->user_account_field_name], 
-                    $record[$this->toolbox->users->user_account_field_name]);
+        if ($user === false) {
+            // refuse insertion of a user without a role definition or with a role definition other than the
+            // 'self_registered_role'
+            if (! isset($record["Rolle"]) ||
+                     (strcasecmp($record["Rolle"], $this->toolbox->users->self_registered_role) != 0))
+                return i("lDSTHw|Someone tried to create ...", $this->toolbox->users->self_registered_role);
+        } else {
+            if ((isset($user["Rolle"]) && isset($record["Rolle"]) &&
+                     (strcasecmp($record["Rolle"], $user["Rolle"]) != 0)) || (! isset($user["Rolle"]) &&
+                     (strcasecmp($record["Rolle"], $this->toolbox->users->self_registered_role) != 0)))
+                return i("gI7hvr|User tried to modify own...");
+            if (isset($record["Workflows"]) && (intval($record["Workflows"]) != intval($user["Workflows"])))
+                return i("4RIp1F|User tried to modify own...");
+            if (isset($record["Concessions"]) &&
+                     (intval($record["Concessions"]) != intval($user["Concessions"])))
+                return i("T5N6rh|User tried to modify own...");
+            if (isset($record[$this->toolbox->users->user_id_field_name]) && (intval(
+                    $record[$this->toolbox->users->user_id_field_name]) != intval(
+                    $user[$this->toolbox->users->user_id_field_name])))
+                return i("A2Zw3z|User tried to modify own...", 
+                        $user[$this->toolbox->users->user_id_field_name], 
+                        $record[$this->toolbox->users->user_id_field_name]);
+            if (isset($record[$this->toolbox->users->user_account_field_name]) && (strcasecmp(
+                    $record[$this->toolbox->users->user_account_field_name], 
+                    $user[$this->toolbox->users->user_account_field_name]) != 0))
+                return i("m6BPH3|User tried to modify own...", 
+                        $user[$this->toolbox->users->user_account_field_name], 
+                        $record[$this->toolbox->users->user_account_field_name]);
+        }
         
         // All checks passed: ok.
         return $record;
+    }
+
+    /**
+     *
+     * @return mixed the name of the history field of the table, if it exists, else an empty String.
+     */
+    public function history_field_name (String $table_name)
+    {
+        if (isset($this->toolbox->config->settings_tfyh["history"][$table_name]))
+            return $this->toolbox->config->settings_tfyh["history"][$table_name];
+        else
+            return false;
+    }
+
+    /**
+     *
+     * @return mixed the String containing the fields to exclude from the history ('.' separated list), if a
+     *         history for that table exists, else an empty String.
+     */
+    private function history_exclude_fields (String $table_name)
+    {
+        if (isset($this->toolbox->config->settings_tfyh["historyExclude"][$table_name]))
+            return $this->toolbox->config->settings_tfyh["historyExclude"][$table_name];
+        else
+            return "";
+    }
+
+    /**
+     *
+     * @return int the count of versions to be used at maximum for the history field, if a history for that
+     *         table exists, else 0.
+     */
+    private function history_max_versions (String $table_name)
+    {
+        if (isset($this->toolbox->config->settings_tfyh["maxversions"][$table_name]))
+            return intval($this->toolbox->config->settings_tfyh["maxversions"][$table_name]);
+        else
+            return 0;
     }
 
     /**
@@ -427,21 +650,32 @@ class Tfyh_socket
      */
     public function insert_into (String $appUserID, String $table_name, array $record)
     {
+        // trigger pre-write-modification checks
+        foreach ($this->triggers as $name => $trigger) {
+            if ($this->debug_on)
+                file_put_contents($this->sql_debug_file, 
+                        date("Y-m-d H:i:s") . ":  [tfyh_socket->insert_into] triggering $name\n", FILE_APPEND);
+            $trigger_result = $trigger->pre_write_transaction($appUserID, 1, $table_name, $record);
+            if (is_array($trigger_result))
+                $record = $trigger_result;
+            elseif ($trigger_result !== true)
+                return $trigger_result;
+        }
+        
+        // protect user records from being changed by anyone except the user itself or user admin
         $record = $this->protect_user_rights($appUserID, $table_name, $record);
         if (! is_array($record))
             return $record;
         
-        // initialize history data field
-        $historyField = (isset($this->toolbox->config->settings_tfyh["history"][$table_name])) ? $this->toolbox->config->settings_tfyh["history"][$table_name] : false;
-        if ($historyField) {
-            $excludeFields = (isset($this->toolbox->config->settings_tfyh["historyExclude"][$table_name])) ? $this->toolbox->config->settings_tfyh["historyExclude"][$table_name] : "";
-            $record[$historyField] = $this->update_record_history(null, $record, $historyField, 
-                    $excludeFields, $appUserID, 
-                    $this->toolbox->config->settings_tfyh["maxversions"][$table_name]);
-        }
+        // initialize history data field, if applicable
+        $history_field_name = $this->history_field_name($table_name);
+        if (strlen($history_field_name) > 0)
+            $record[$history_field_name] = $this->update_record_history($appUserID, $table_name, $record, 
+                    null);
+        
         // create the sql command and the change log entry
         $sql_cmd = "INSERT INTO `" . $table_name . "` (`";
-        $change_entry = "";
+        $change_entry = "inserted: "; // Technical term, no i18n
         foreach ($record as $key => $value) {
             $sql_cmd .= $key . "`, `";
             // no change logging for the record history. That would only create a lot of redundant
@@ -454,7 +688,6 @@ class Tfyh_socket
         }
         // cut off last ", `";
         $sql_cmd = mb_substr($sql_cmd, 0, mb_strlen($sql_cmd) - 3);
-        
         $change_entry = mb_substr($change_entry, 0, mb_strlen($change_entry) - 2);
         $sql_cmd .= ") VALUES ('";
         foreach ($record as $key => $value) {
@@ -466,19 +699,39 @@ class Tfyh_socket
         // cut off last ", '";
         $sql_cmd = mb_substr($sql_cmd, 0, mb_strlen($sql_cmd) - 3);
         $sql_cmd .= ")";
-        // set last write access timestamp, if used.
-        if (file_exists("../log/lwa"))
-            file_put_contents("../log/lwa/" . $appUserID, strval(time()));
         
         // execute sql command and log execution.
-        $res = $this->execute_and_log($appUserID, $table_name, $sql_cmd, "", $change_entry, true, 
+        $changed_id = (isset($record["uid"])) ? $record["uid"] : "";
+        $res = $this->execute_and_log($appUserID, $table_name, $sql_cmd, $changed_id, $change_entry, true, 
                 "insert_into");
+        
         // trigger listeners
-        if (count($this->listeners) > 0) {
-            foreach ($this->listeners as $listener)
-                $listener->on_socket_transaction("insert", $table_name, $record);
+        if ((strlen($res) == 0) || is_numeric($res)) {
+            $this->timestamp_write_access($appUserID);
+            foreach ($this->write_listeners as $name => $listener) {
+                $listener->post_write_transaction(1, $table_name, $record);
+                if ($this->debug_on) {
+                    file_put_contents($this->sql_debug_file,
+                            date("Y-m-d H:i:s") .
+                            ":  [tfyh_socket->insert_record_matched] informed listener $name\n",
+                            FILE_APPEND);
+                }
+            }
         }
         return $res;
+    }
+
+    /**
+     * log a write action time stamp, one per user and one for any, in ../log/lwa
+     * 
+     * @param String $appUserID
+     *            the user executing the write access
+     */
+    private function timestamp_write_access (String $appUserID)
+    {
+        $timef = Tfyh_toolbox::timef();
+        file_put_contents("../log/lwa/" . $appUserID, $timef);
+        file_put_contents("../log/lwa/any", $timef);
     }
 
     /**
@@ -486,41 +739,45 @@ class Tfyh_socket
      * the table structure before calling. Special function: The history field is emptied, if the history
      * field value in the new record is set to "REMOVE!" (without quotation, 7 characters String).
      * 
+     * @param int $appUserID
+     *            the user id for logging purposes
+     * @param String $table_name
+     *            the name of the table to which the record belongs. If this table has no history field, an
+     *            empty String will be returned.
+     * @param array $new_record
+     *            the new data record. May be incomplete. If it contains the data field
+     *            $record[$history_field_name] that field will be ignored.
      * @param array $current_record
      *            the current data record. Set to null for the insert into operation. If not null it must
      *            include the data field $current_record[$history_field_name]. If it does not, an empty String
      *            is returned.
-     * @param array $new_record
-     *            the new data record. May be incomplete. If it contains the data field
-     *            $record[$history_field_name] that field will be ignored.
-     * @param String $history_field_name
-     *            the name of the data field which contains the record history.
-     * @param String $history_field_name
-     *            the name of the data field which contains the lists of fields to exclude from the record
-     *            history.
-     * @return the new JSON encoded String for the history field
+     * @return the new JSON encoded String for the history field, or an empty String if 1. the records history
+     *         field contains the String "REMOVE!" or 2. the table has no history field
      */
-    private function update_record_history (array $current_record = null, array $new_record, 
-            String $history_field_name, String $history_field_exclude, int $appUserID, int $max_versions)
+    private function update_record_history (int $appUserID, String $table_name, array $new_record, 
+            array $current_record = null)
     {
+        $history_field_name = $this->history_field_name($table_name);
+        if (strlen($history_field_name) == 0)
+            return "";
         if (isset($new_record[$history_field_name]) &&
                  (strcmp($new_record[$history_field_name], "REMOVE!") == 0))
             return "";
+        $history_field_exclude = $this->history_exclude_fields($table_name);
         // There is a current record, but without a history entry
         if (! is_null($current_record) && (! isset($current_record[$history_field_name]) ||
                  (strlen($current_record[$history_field_name]) < 5))) {
             // start history, first entry at all. Because the history may not have been initialized
-            // from the
-            // very beginning, this will also be used for updates.
+            // from the very beginning, this will also be used for updates.
             $history = "1;" . $appUserID . ";" . time() . ";";
             foreach ($current_record as $fieldname => $value) {
                 $is_history_field = ($fieldname == $history_field_name);
                 $is_exclude_field = (strpos($history_field_exclude, "." . $fieldname . ".") !== false);
                 if (! $is_history_field && ! $is_exclude_field) {
-                    $new_value = strval($value);
-                    if (strlen($new_value) > 1024)
-                        $new_value = substr($new_record[$fieldname], 0, 1020) . "...";
-                    $history .= $this->toolbox->encode_entry_csv($fieldname . ":" . $new_value) . ";";
+                    $first_value = strval($value);
+                    if (strlen($first_value) > 1024)
+                        $first_value = mb_substr($new_record[$fieldname], 0, 1020) . "...";
+                    $history .= $this->toolbox->encode_entry_csv($fieldname . ":" . $first_value) . ";";
                 }
             }
             $current_record[$history_field_name] = $history;
@@ -542,10 +799,11 @@ class Tfyh_socket
         }
         
         // remove versions which are beyond the $max_versions count
+        $max_versions = $this->history_max_versions($table_name);
         if (count($record_versions) >= $max_versions)
             $record_versions = array_splice($record_versions, 1 - $max_versions);
         
-        // conversion of obsolete pre-2021 history field text encoding.
+        // legacy conversion of obsolete pre-2021 history field text encoding.
         $last_version_number = 0;
         for ($i = 0; $i < count($record_versions); $i ++) {
             $record_version = $record_versions[$i];
@@ -570,17 +828,25 @@ class Tfyh_socket
         // create a new version record with the delta between current and new record.
         $new_version = $new_version_number . ";" . $appUserID . ";" . time() . ";";
         $any_changes = false;
+        $isnull_current_record = is_null($current_record);
         foreach ($new_record as $fieldname => $value) {
             $is_history_field = ($fieldname == $history_field_name);
             $is_exclude_field = (strpos($history_field_exclude, "." . $fieldname . ".") !== false);
             if (! $is_history_field && ! $is_exclude_field) {
-                $is_changed = ! isset($current_record[$fieldname]) || ($value !== $current_record[$fieldname]);
+                $no_record_to_value = ($isnull_current_record && isset($value) && (strlen($value) > 0));
+                $null_to_value = ($isnull_current_record || ! isset($current_record[$fieldname])) &&
+                         isset($value) && (strlen($value) > 0);
+                $value_to_null = isset($current_record[$fieldname]) &&
+                         (strlen($current_record[$fieldname]) > 0) &&
+                         (! isset($value) || (strlen($value) == 0));
+                $is_changed = $no_record_to_value || $null_to_value || $value_to_null ||
+                         (isset($current_record[$fieldname]) && ($value !== $current_record[$fieldname]));
                 if ($is_changed) {
                     $any_changes = true;
-                    $new_value = strval($value);
-                    if (strlen($new_value) > 1024)
-                        $new_value = substr($new_record[$fieldname], 0, 1020) . "...";
-                    $new_version .= $this->toolbox->encode_entry_csv($fieldname . ":" . $new_value) . ";";
+                    $first_value = strval($value);
+                    if (strlen($first_value) > 1024)
+                        $first_value = mb_substr($new_record[$fieldname], 0, 1020) . "...";
+                    $new_version .= $this->toolbox->encode_entry_csv($fieldname . ":" . $first_value) . ";";
                 }
             }
         }
@@ -650,16 +916,14 @@ class Tfyh_socket
     {
         $matched_record = "";
         foreach ($matching as $key => $value) {
-            // singular numbers are not quoted (legacy reasons)
-            if ((count($matching) == 1) && is_numeric($value))
-                $matched_record = $value;
+            if (count($matching) == 1)
+                return $value;
             else
                 $matched_record .= $key . "=\'" . strval($value) . "\', ";
         }
         if (strlen($matched_record) == 0)
             return i("VpjI4B|[not defined]");
-        if (strrpos($matched_record, ", ") !== false)
-            $matched_record = mb_substr($matched_record, 0, mb_strlen($matched_record) - 2);
+        $matched_record = mb_substr($matched_record, 0, mb_strlen($matched_record) - 2);
         return $matched_record;
     }
 
@@ -684,17 +948,29 @@ class Tfyh_socket
      *            the name of the table to be used.
      * @param array $matching_keys
      *            the keys to be matched. It may containe one or more field names as indexed array. Values are
-     *            part of the record provided. Values must be UTF-8 encoded Strings.
+     *            part of the record provided.
      * @param array $record
-     *            a named array with key = column name and value = values to be used for update. Must contain
-     *            an "ID" field to identify the record to update. Values must be PHP native encoded. Enclosed
-     *            quotes "'" will be appropriately escaped for the SQL command. record fields will be UTF-8
-     *            decoded.
+     *            a named array with key = column name and value = values to be used for update. Enclosed
+     *            quotes "'" will be appropriately escaped for the SQL command.
      * @return an error statement in case of failure, else "".
      */
     public function update_record_matched (String $appUserID, String $table_name, array $matching_keys, 
             array $record)
     {
+        // trigger pre-write-modification checks
+        foreach ($this->triggers as $name => $trigger) {
+            if ($this->debug_on)
+                file_put_contents($this->sql_debug_file, 
+                        date("Y-m-d H:i:s") . ":  [tfyh_socket->update_record_matched] triggering $name\n", 
+                        FILE_APPEND);
+            $trigger_result = $trigger->pre_write_transaction($appUserID, 2, $table_name, $record);
+            if (is_array($trigger_result))
+                $record = $trigger_result;
+            elseif ($trigger_result !== true)
+                return $trigger_result;
+        }
+        
+        // protect user records from being changed by anyone except the user itself or user admin
         $record = $this->protect_user_rights($appUserID, $table_name, $record);
         if (! is_array($record))
             return $record;
@@ -703,16 +979,13 @@ class Tfyh_socket
         $prev_rec = $this->find_record_matched($table_name, $matching_keys);
         if ($prev_rec === false)
             return i("EvZXbc|Error updating record in...", $table_name) . " " . json_encode($matching_keys);
-        $historyField = (isset($this->toolbox->config->settings_tfyh["history"][$table_name])) ? $this->toolbox->config->settings_tfyh["history"][$table_name] : false;
-        if ($historyField) {
-            $excludeFields = (isset($this->toolbox->config->settings_tfyh["historyExclude"][$table_name])) ? $this->toolbox->config->settings_tfyh["historyExclude"][$table_name] : "";
-            $record[$historyField] = $this->update_record_history($prev_rec, $record, $historyField, 
-                    $excludeFields, $appUserID, 
-                    $this->toolbox->config->settings_tfyh["maxversions"][$table_name]);
-        }
-        $change_entry = i("tzrcLT|update:") . " ";
+        $history_field_name = $this->history_field_name($table_name);
+        if (strlen($history_field_name) > 0)
+            $record[$history_field_name] = $this->update_record_history($appUserID, $table_name, $record, 
+                    $prev_rec);
         
-        // create SQL command and change log entry.
+        $change_entry = "updated: "; // Technical term, no i18n
+                                     // create SQL command and change log entry.
         $sql_cmd = "UPDATE `" . $table_name . "` SET ";
         foreach ($record as $key => $value) {
             // check empty values. 1a. If previous and current are empty, skip the field.
@@ -734,7 +1007,7 @@ class Tfyh_socket
                     if (is_null($value))
                         $sql_cmd .= "`" . $key . "` = NULL,";
                     else
-                        $sql_cmd .= "`" . $key . "` = '" . str_replace("'", "\'", $value) . "',";
+                        $sql_cmd .= "`" . $key . "` = '" . str_replace("'", "\'", str_replace("\\", "\\\\", $value)) . "',";
                 }
             }
             // the change entry shall neither contain the keys, nor the record history to
@@ -751,17 +1024,22 @@ class Tfyh_socket
         $change_entry = mb_substr($change_entry, 0, mb_strlen($change_entry) - 2);
         $sql_cmd .= " " . $this->clause_for_wherekeyis($table_name, $matching_keys, "=");
         
-        // set last write access timestamp, if used.
-        if (file_exists("../log/lwa"))
-            file_put_contents("../log/lwa/" . $appUserID, strval(time()));
-        
         // execute sql command and log execution.
         $result = $this->execute_and_log($appUserID, $table_name, $sql_cmd, 
                 $this->matched_record($matching_keys), $change_entry, false, "update_record");
+
         // trigger listeners
-        if (count($this->listeners) > 0) {
-            foreach ($this->listeners as $listener)
-                $listener->on_socket_transaction("update", $table_name, $record);
+        if (strlen($result) == 0) {
+            $this->timestamp_write_access($appUserID);
+            foreach ($this->write_listeners as $name => $listener) {
+                $listener->post_write_transaction(2, $table_name, $record);
+                if ($this->debug_on) {
+                    file_put_contents($this->sql_debug_file,
+                            date("Y-m-d H:i:s") .
+                            ":  [tfyh_socket->update_record_matched] informed listener $name\n",
+                            FILE_APPEND);
+                }
+            }
         }
         return $result;
     }
@@ -793,15 +1071,39 @@ class Tfyh_socket
      */
     public function delete_record_matched (String $appUserID, String $table_name, array $matching)
     {
-        // get previous recors to log change
+        // trigger pre-write-modification checks
+        foreach ($this->triggers as $name => $trigger) {
+            if ($this->debug_on)
+                file_put_contents($this->sql_debug_file, 
+                        date("Y-m-d H:i:s") . ":  [tfyh_socket->delete_record_matched] triggering $name\n", 
+                        FILE_APPEND);
+            $trigger_result = $trigger->pre_write_transaction($appUserID, 3, $table_name, $matching);
+            if (is_array($trigger_result))
+                $record = $trigger_result;
+            elseif ($trigger_result !== true)
+                return $trigger_result;
+        }
+        
+        // protect user records from being deleted by anyone except the user admin
+        if (strcasecmp($table_name, $this->toolbox->users->user_table_name) == 0) {
+            $session_user = $this->find_record($table_name, $this->toolbox->users->user_id_field_name, 
+                    $this->toolbox->users->session_user["@id"]);
+            if (($session_user === false) ||
+                     (strcasecmp($session_user["Rolle"], $this->toolbox->users->useradmin_role) != 0))
+                return i("6vuCGA|Only a user admin is all...");
+            if ($this->count_records($this->toolbox->users->user_table_name) == 1)
+                return i("rGyRdy|The very last user must ...");
+        }
+        
+        // get previous record to log change
         $prev_rec = $this->find_record_matched($table_name, $matching);
         if ($prev_rec === false)
             return i("S9MHHT|Record to delete was not...");
+        
+        // create change log entry and SQL command.
+        // No quote escaping in the change log entry. This will be handled in
+        // execute_and_log().
         $change_entry = "deleted: "; // technical term, no i18n
-                                     
-        // create SQL command and change log entry.
-                                     // No quote escaping in the change log entry. This will be handled in
-                                     // execute_and_log().
         foreach ($prev_rec as $key => $value) {
             $change_entry .= $key . "='" . $prev_rec[$key] . "', ";
         }
@@ -812,17 +1114,21 @@ class Tfyh_socket
         $sql_cmd .= "DELETE FROM `" . $table_name . "` " .
                  $this->clause_for_wherekeyis($table_name, $matching, "=");
         
-        // set last write access timestamp, if used.
-        if (file_exists("../log/lwa"))
-            file_put_contents("../log/lwa/" . $appUserID, strval(time()));
-        
         // execute sql command and log execution.
         $result = $this->execute_and_log($appUserID, $table_name, $sql_cmd, $this->matched_record($matching), 
                 $change_entry, false, "delete_record");
+        
         // trigger listeners
-        if (count($this->listeners) > 0) {
-            foreach ($this->listeners as $listener)
-                $listener->on_socket_transaction("delete", $table_name, $prev_rec);
+        if (strlen($result) == 0) {
+            $this->timestamp_write_access($appUserID);
+            foreach ($this->write_listeners as $name => $listener) {
+                $listener->post_write_transaction(3, $table_name, $prev_rec);
+                if ($this->debug_on)
+                    file_put_contents($this->sql_debug_file, 
+                            date("Y-m-d H:i:s") .
+                                     ":  [tfyh_socket->delete_record_matched] informed listener $name\n", 
+                                    FILE_APPEND);
+            }
         }
         return $result;
     }
@@ -992,6 +1298,7 @@ class Tfyh_socket
             }
         } else
             return false;
+        
         // add column names to build an associative array
         $column_names = $this->get_column_names($table_name);
         $i = 0;
@@ -1000,6 +1307,21 @@ class Tfyh_socket
                 $sets[$r][$column_name] = $rows[$r][$i];
             $i ++;
         }
+        
+        // trigger listeners
+        foreach ($this->read_listeners as $name => $listener) {
+            if (is_array($sets)) {
+                $listener_result = $listener->post_read_transaction($table_name, $sets);
+                if ($this->debug_on)
+                    file_put_contents($this->sql_debug_file, 
+                            date("Y-m-d H:i:s") .
+                                     ":  [tfyh_socket->find_records_sorted_matched] notified read listener $name\n", 
+                                    FILE_APPEND);
+                if ($listener_result !== true)
+                    $sets = $listener_result;
+            }
+        }
+        
         // return result
         return $sets;
     }
@@ -1064,7 +1386,7 @@ class Tfyh_socket
     }
 
     /**
-     * ***************************** GET AND IMPORT FsULL TABLES ******************************
+     * ***************************** GET AND IMPORT FULL TABLES ******************************
      */
     
     /**
@@ -1120,7 +1442,7 @@ class Tfyh_socket
      *            the name of the table to be used.
      * @param String $filter_and_order
      *            a String which will be added to the SQL statement containing the WHERE and ORDER BY clauses,
-     *            e.g. "WHERE 1 ORDER BY `Functionen`.`efaCloudUserID` DESC".
+     *            e.g. "WHERE 1 ORDER BY `persons`.`user_id` DESC".
      * @return the full table as array of rows, each row being an array of $entries as $key => $value with
      *         $key being the respective column name.
      */
@@ -1197,6 +1519,9 @@ class Tfyh_socket
         $columns_not_matched = "";
         $column_ID_exists = in_array($idname, $column_names);
         $column_LastModified_exists = in_array("LastModified", $column_names);
+        $column_modified_exists = in_array("modified", $column_names);
+        $column_created_by_exists = in_array("created_by", $column_names);
+        $column_created_on_exists = in_array("created_on", $column_names);
         foreach ($table_read[0] as $column => $entry)
             if (! in_array($column, $column_names))
                 $columns_not_matched .= $column . ", ";
@@ -1228,9 +1553,12 @@ class Tfyh_socket
                         // $this->update_record expects utf-8 encoded Strings
                         $record[$key] = $entry;
                     }
-                    // Add timestamp for Last modification (efacloud)
+                    // Add timestamp for Last modification (efacloud legacy)
                     if ($column_LastModified_exists)
                         $record["LastModified"] = time() . "000";
+                    // Add timestamp for Last modification (dilbo & following)
+                    if ($column_modified_exists)
+                        $record["modified"] = Tfyh_toolbox::timef();
                     $result .= "<br />";
                     if (! $verify_only)
                         $result .= $this->update_record_matched($appUserID, $table_name, 
@@ -1263,14 +1591,31 @@ class Tfyh_socket
                     }
                     $result .= "<br />";
                     if (! $verify_only) {
+                        // create a missing uid
+                        if ((strcmp($idname, "uid") == 0) &&
+                                 (! isset($record["uid"]) || (strlen($record["uid"]) < 4)))
+                            $record[$idname] = Tfyh_toolbox::create_uid(6);
                         // remove the empty "ID" String to ensure it is
                         // autoincremented
-                        unset($record[$idname]);
-                        // Add timestamp for Last modification (efacloud)
+                        else 
+                            if ((strcmp($idname, "ID") == 0) &&
+                                     (! isset($record["ID"]) && (strlen($record["ID"]) > 0)))
+                                unset($record[$idname]);
+                        // Add timestamp for Last modification (efacloud legacy)
                         if ($column_LastModified_exists)
                             $record["LastModified"] = time() . "000";
+                        // Add timestamp for creation (dilbo & following)
+                        if ($column_created_on_exists)
+                            $record["created_on"] = Tfyh_toolbox::timef();
+                        if ($column_modified_exists)
+                            $record["modified"] = Tfyh_toolbox::timef();
+                        if ($column_created_by_exists)
+                            $record["created_by"] = $appUserID;
+                        if ($column_modified_exists)
+                            $record["modified"] = Tfyh_toolbox::timef();
                         $insert_into_res = $this->insert_into($appUserID, $table_name, $record);
-                        // in case of success $insert_into_res will be the id of the inserted record.
+                        // in case of success $insert_into_res will be the id of the inserted
+                        // record.
                         if (! is_numeric($insert_into_res))
                             $result .= $insert_into_res;
                     }
@@ -1307,6 +1652,34 @@ class Tfyh_socket
     {
         return "Client info = " . $this->mysqli->client_info . ", Server info = " . $this->mysqli->server_info .
                  ", Server version = " . $this->mysqli->server_version;
+    }
+
+    /**
+     * Get all nullable properties.
+     * 
+     * @param String $table_name
+     *            the name of the table to be used.
+     * @return array of true/false or false, if data base connection fails.
+     */
+    public function get_column_nullables (String $table_name)
+    {
+        // Retrieve all column names
+        $sql_cmd = "SELECT `IS_NULLABLE` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA`='" .
+                 $this->db_name . "' AND `TABLE_NAME`='" . $table_name . "' ORDER BY ORDINAL_POSITION";
+        
+        $result = $this->mysqli_query($sql_cmd, "get_column_names");
+        $ret = [];
+        if (! is_array($result) && ! is_object($result))
+            return $ret;
+        // put all values to the array, with numeric autoincrementing key.
+        $nullables = $result->fetch_array();
+        while ($nullables) {
+            // the fetch_array function is an iterator, returning an array with
+            // the nullable property always being at pos 0
+            $ret[] = (strcasecmp($nullables[0], "YES") == 0);
+            $nullables = $result->fetch_array();
+        }
+        return $ret;
     }
 
     /**
@@ -1377,10 +1750,15 @@ class Tfyh_socket
      */
     public function get_indexes (String $table_name, bool $include_description)
     {
-        $index_response_columns = explode(",", 
-                "Table,Non_unique,Key_name,Seq_in_index,Column_name,Collation,Cardinality," .
-                         "Sub_part,Packed,Null,Index_type,Comment,Index_comment,Visible,Expression");
-        $sql_cmd = "SHOW KEYS FROM " . $table_name;
+        $index_response_columns = ["Table","Non_unique","Key_name","Seq_in_index","Column_name",
+                "Collation","Cardinality","Sub_part","Packed","Null","Index_type","Comment","Index_comment",
+                "Visible","Expression"
+        ];
+        
+        // Unique and nullable property
+        $index_relevant_columns = ["Non_unique","Key_name","Column_name","Null"
+        ];
+        $sql_cmd = "SHOW KEYS FROM `" . $table_name . "`";
         $indexes = [];
         $res = $this->mysqli_query($sql_cmd, "get_indexes");
         if (! is_array($res) && ! is_object($res))
@@ -1390,16 +1768,13 @@ class Tfyh_socket
             while ($row) {
                 $c = 0;
                 foreach ($index_response_columns as $index_response_column) {
-                    if (strpos(",Non_unique,Key_name,Column_name,Null", $index_response_column . ",") !== false) {
+                    if (in_array($index_response_column, $index_relevant_columns))
                         $index[$index_response_column] = $row[$c];
-                    }
                     $c ++;
                 }
-                $index_description = "@" . $index["Column_name"] . " ";
-                if (isset($index["Non_unique"]) && (intval($index["Non_unique"]) == 0))
-                    $index_description .= "UNIQUE ";
-                if (isset($index["Null"]) && (strcasecmp($index["Null"], "YES") == 0))
-                    $index_description .= "NULLABLE ";
+                $index_description = " ";
+                if (isset($index["Non_unique"]) && (intval($index["Non_unique"]) === 0))
+                    $index_description .= " : UNIQUE ";
                 if (isset($index["Key_name"]) && $include_description)
                     $indexes[$index["Key_name"]] = $index_description;
                 else
@@ -1407,19 +1782,44 @@ class Tfyh_socket
                 $row = $res->fetch_row();
             }
         }
+        
         return $indexes;
     }
 
     /**
-     * Get all indexes as array with $array[column_name] = index description.
+     * Get all not null columns as array with $array[column_name] = description.
+     * 
+     * @param String $table_name
+     *            the name of the table to be used.
+     */
+    public function get_not_null (String $table_name)
+    {
+        
+        // NOT NULL property
+        $sql_cmd = "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $table_name .
+                 "' AND IS_NULLABLE = 'NO'";
+        $not_nulls = [];
+        $res = $this->mysqli_query($sql_cmd, "get_not_null");
+        if (! is_array($res) && ! is_object($res))
+            return $not_nulls;
+        if ($res->num_rows > 0) {
+            $row = $res->fetch_row();
+            while ($row) {
+                $not_nulls[$row[3]] = $row[15] . ", " . $row[16] . ", " . $row[18];
+                $row = $res->fetch_row();
+            }
+        }
+        return $not_nulls;
+    }
+
+    /**
+     * Get all autoincrements as array with $array[column_name] = description.
      * 
      * @param String $table_name
      *            the name of the table to be used.
      */
     public function get_autoincrements (String $table_name)
     {
-        // SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'efaCloudUsers' AND EXTRA
-        // LIKE '%auto_increment%'
         $sql_cmd = "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" . $table_name .
                  "' AND EXTRA LIKE '%auto_increment%'";
         $autoincrements = [];
@@ -1500,6 +1900,16 @@ class Tfyh_socket
     }
 
     /**
+     * Get the last access error.
+     * 
+     * @return String the error.
+     */
+    public function get_error ()
+    {
+        return $this->mysqli->error;
+    }
+
+    /**
      * Get all versions of a history entry by splitting it into lines and combining those lines, which end
      * within a quoted entry.
      * 
@@ -1568,13 +1978,14 @@ class Tfyh_socket
                 $version_html .= "</p>";
                 $version_html .= "<table><tr><th>" . i("avyj0D|Field") . "</th><th>" . i("W1p3g6|Value") .
                          "</th></tr>\n";
-                $fields = $this->toolbox->read_csv_line($parts[3])["row"];
+                $fields = (isset($parts[3])) ? $this->toolbox->read_csv_line($parts[3])["row"] : [];
                 $record_version = [];
                 foreach ($fields as $field) {
                     $key_n_value = explode(":", $field, 2);
                     $record_version[$key_n_value[0]] = $key_n_value[1];
+                    
                     $last_value = (isset($last_record_version[$key_n_value[0]])) ? $last_record_version[$key_n_value[0]] : false;
-                    if (strlen($key_n_value[1]) > 0) {
+                    if ((strlen($key_n_value[1]) > 0) || ($last_value !== false)) {
                         if (($last_value == false) || (strcmp($key_n_value[1], $last_value) != 0)) {
                             $lmod_string = (strcasecmp("LastModified", $key_n_value[0]) == 0) ? " [" .
                                      date($dfmt_dt, intval(substr($key_n_value[1], 0, 10))) . "]" : "";

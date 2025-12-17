@@ -1,4 +1,25 @@
 <?php
+/**
+ *
+ *       the tools-for-your-hobby framework
+ *       ----------------------------------
+ *       https://www.tfyh.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ */
+
 
 /**
  * Container to hold the audit class. Shall be run by the cron jobs.
@@ -60,7 +81,7 @@ class Tfyh_statistics
         $html .= "<h4>" . i("UU8ZrV|Accesses last %1 days", strval($days_to_log)) . "</h4>\n";
         include_once '../classes/tfyh_statistics.php';
         $tfyh_statistics = new Tfyh_statistics();
-        file_put_contents("../log/efacloud_server_statistics.csv", 
+        file_put_contents("../log/server_statistics.csv", 
                 $tfyh_statistics->pivot_timestamps(86400, $days_to_log));
         $html .= "<table><tr><th>" . i("zOZlkQ|User number") . "</th><th>" . i("aCa6RR|User name") .
                  "</th><th>" . i("8N2N5h|Count of accesses") . "</th></tr>\n";

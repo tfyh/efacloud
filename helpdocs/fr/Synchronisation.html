@@ -1,0 +1,40 @@
+<h3>Synchronisation</h3>
+<p>Il y a un échange régulier de données entre les PC efa et le serveur efaCloud.
+	efaCloud. l'échange a lieu régulièrement pour maintenir la cohérence des données.
+	cohérentes. cohérentes. En effet, chaque PC efa conserve une copie des
+	données, de sorte qu'il peut continuer à fonctionner même si l'internet tombe en panne.
+	s'arrête.</p> <p>
+</p> <p>Il y a deux directions : upload = envoi des données du PC au serveur efaCloud et upload = envoi des données du PC au serveur efaCloud.
+	vers le serveur efaCloud et téléchargement = récupération des données sur le serveur efaCloud.
+	par le PC efa. Le PC efa est toujours actif, le serveur efaCloud ne réagit qu'en cas de besoin.
+	Le PC efa est toujours actif, le serveur efaCloud ne fait que réagir.
+<h4>Synchronisation au début du programme sur le PC efa</h4>
+</p> <p>Si efa est démarré sur un PC efa et qu'efaCloud est activé en tant que
+	projet, une synchronisation des téléchargements a lieu immédiatement.
+	immédiatement. la synchronisation des téléchargements a lieu immédiatement.</p> <p>La synchronisation des téléchargements a lieu immédiatement.
+<h4>Synchronisation automatique des téléchargements</h4>
+</p> <p>Parce que plusieurs PC peuvent être connectés à un serveur efaCloud, les données
+	sur le serveur peuvent changer sans qu'aucun PC efa n'en soit conscient.
+	en soit conscient. efa-PC en est conscient. C'est pourquoi les nouvelles données
+	sont téléchargées régulièrement. L'intervalle entre deux synchronisations automatiques
+	est d'une heure par défaut.
+<h4>Vérification automatique des modifications</h4>
+La plupart du temps, rien ne change dans les données. C'est pourquoi il est possible de demander
+	C'est pourquoi il est possible de demander quand a eu lieu la dernière activité d'écriture des données dans la base de données d'efaCloud.
+	données efaCloud dans le serveur efaCloud. Cette vérification des modifications est une requête très simple et ne nécessite aucune autorisation.
+	Cette vérification des modifications est une requête très simple et ne nécessite aucune autorisation, car elle permet uniquement de savoir si quelqu'un a modifié des données dans le serveur efaCloud.
+	fournit des informations sur la question de savoir si quelqu'un a modifié des données.
+	données. L'intervalle entre deux vérifications automatiques des modifications est d'une minute par défaut.
+	d'une minute par défaut. Si une modification est signalée, elle déclenche une synchronisation dans
+	l'efa-PC.</p>
+<h4>Synchronisation automatique des téléchargements</h4>
+ <p>Un PC efa qui modifie des données localement écrit également cette modification dans le système efaCloud.
+	à la base de données d'efaCloud. Si cela fonctionne toujours, il n'y a
+	n'a pas besoin de synchronisation en amont. Cependant, étant donné qu'il y a
+	Cependant, comme il y a toujours des interruptions dans l'opération, une synchronisation quotidienne des téléchargements est utilisée pour recharger la base de données de l'efaCloud.
+	est utilisée pour recharger les modifications qui n'ont pas été transférées de la base de données efa-Poud vers la base de données efaCloud.
+	transférées du PC efa au serveur efaCloud.
+La synchronisation ascendante a lieu sur le PC efa une fois par jour
+	en liaison avec la première synchronisation par téléchargement de la journée. Elle peut également être déclenchée par un système automatique.
+	Elle peut également être déclenchée par un processus automatique dans l'efa-PC.
+	déclenchée.</p>

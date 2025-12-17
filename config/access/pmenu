@@ -4,5 +4,6 @@ efaWeb;anonymous;9H3wls|Start efaWeb;../forms/login.php?goto=pages/efaWeb.php
 Login;anonymous;yQ1qgk|Start efaCloud;../forms/login.php
 Logout;.anonymous;tk0t49|Logout;../pages/logout.php
 ResetPW;.anonymous;DMXYCB|Password forgotten?;../forms/reset_password.php
-Hilfe;anonymous;yNm37C|Help;../public/help.php
+Hilfe;.anonymous;yNm37C|Help;../public/help.php
+Fahrtenbuch;anonymous;yFgddS|logbook;../public/fahrtenbuch.php
 Info;.anonymous;vkPG2M|Info;../public/info.php

@@ -1,4 +1,25 @@
 <?php
+/**
+ *
+ *       efaCloud
+ *       --------
+ *       https://www.efacloud.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 
 /**
  * class file for the security concept generation class.
@@ -110,6 +131,10 @@ class Sec_concept
         $menu_file_path = "../config/access/imenu";
         $audit_menu = new Tfyh_menu($menu_file_path, $this->toolbox);
         $this->variables["accessableWebPerRole"] = $audit_menu->get_allowance_profile_html($menu_file_path);
+        // accessableEfaWebperRole
+        $menu_file_path = "../config/access/wmenu";
+        $audit_menu = new Tfyh_menu($menu_file_path, $this->toolbox);
+        $this->variables["accessableEfaWebPerRole"] = $audit_menu->get_allowance_profile_html($menu_file_path);
         // accessableAPIperRole
         $menu_file_path = "../config/access/api";
         $audit_menu = new Tfyh_menu($menu_file_path, $this->toolbox);
@@ -232,7 +257,7 @@ class Sec_concept
             $template_html = str_replace("{#" . $key . "#}", $value, $template_html);
         }
         $saved_at = $pdf->create_pdf($template, i("W2wpqV|efaCloud Security Concep..."), 0, $this->variables);
-        $this->toolbox->logger->log(0, intval($_SESSION["User"]["Mitgliedsnummer"]), 
+        $this->toolbox->logger->log(0, intval($this->toolbox->users->session_user["@id"]), 
                 i("M4P1uK|Security concept created..."));
         return $saved_at;
     }

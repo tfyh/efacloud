@@ -1,0 +1,51 @@
+<h3>Utilisateurs et permissions</h3>
+<p></p>Les utilisateurs peuvent se voir attribuer des autorisations dans efa, efaCloud et efaWeb. L'attribution
+	L'attribution a l'effet suivant :</p>
+<ul>
+	<li><b>efa-Admins</b> : Modifier dans efa-PC.
+		<ol>
+			<li>Les utilisateurs sont créés localement dans le PC efa en tant que "efa-Admins".
+				Leurs droits ne prennent effet que sur le PC sur lequel efa est installé.</li>
+			<li>Un administrateur efa a également le nom de compte "admin". Il est le
+				Il est le "super-admin" local qui dispose de toutes les autorisations pour l'installation,
+				les transactions et l'installation, les transactions et les installations.</li>
+			<li>D'autres administrateurs efa peuvent être créés, en liaison avec efaCloud,
+				il est fortement recommandé de ne pas le faire.</li>
+			<li>Les rameurs / canoéistes sont appelés "personnes" dans l'efa et n'ont pas de droits d'utilisateur.
+				n'ont pas de droits d'utilisateur.</li>
+		</ol></li>
+	<li><b>utilisateurs efaCloud</b> : Modifier avec "efaCloud users &gt ; users.
+		Find &gt ; (options affichées dans le résultat de la recherche)"
+		<ol>
+			<li>Les utilisateurs efaCloud sont créés de manière centralisée dans le serveur.
+				Leurs droits sont définis par leur rôle ; il n'y a pas de permissions différenciées dans efaCloud.
+				Il n'y a pas de permissions différenciées dans efaCloud. Les utilisateurs ont un identifiant numérique
+				efaCludUserID, qui est utilisé pour se connecter au serveur. sur le serveur.
+				Exemple : efaCloudUserID '1142' pour 'Alex Admin'. Option : 'Change
+				Profil'</li>
+			<li>Les rôles sont les suivants : admin = (administrateur) peut tout
+				tout, en particulier les données de l'utilisateur ; board = (conseil d'administration)
+				peut tout voir, mais ne peut pas modifier les données des utilisateurs ; bths = (boathouse) peut
+				changer ce qu'un PC du hangar à bateaux peut changer ce qu'un PC du hangar à bateaux doit pouvoir changer ; member = (membre), qui a le droit d'accéder aux données du hangar à bateaux.
+				modifier ; member = (membre), jusqu'à présent pas prononcé ; anonymous = (anonyme) pas de droits.
+				(anonyme) pas de droits.
+			<li>Un utilisateur efaCloud peut être une personne ou un utilisateur technique (= un automate/PC).
+				automate/PC). utilisateur technique (= une machine/PC), par exemple le PC du hangar à bateaux.</li>
+			<li>Les utilisateurs d'efaCloud peuvent également se voir attribuer un droit d'administrateur efa.
+				Leurs droits sont alors définis dans le serveur de la même manière que dans l'interface efa.
+				que dans le PC efa et affecteront tous les PC efa connectés au serveur.
+				connectés au serveur. connectés au serveur. Pour ce faire, l'utilisateur efaCloud
+				Un nom d'administrateur efa est attribué à l'utilisateur efaCloud. Ce nom
+				peut être utilisé pour le login admin dans le PC efa connecté. Exemple
+				'alexa' pour 'Alex Admin'. Option "Modifier les autorisations de l'administrateur efa"</li>
+		</ol></li>
+	<li><b>utilisateurs efaWeb</b> : modifier avec 'efaCloud users &gt ; find
+		users. &gt ; (options affichées dans le résultat de la recherche)"
+		<ol>
+			<li>Un utilisateur efaWeb est identique à un utilisateur efaCloud et est créé comme tel.
+				créés en tant que tels.</li>
+			<li>Les utilisateurs efaWeb peuvent en outre se voir attribuer des autorisations différenciées.
+				Les utilisateurs efaWeb peuvent en outre se voir attribuer des autorisations différenciées. Option "Modifier les autorisations efaWeb".
+				La n'a de sens que dans le rôle "membre".</li>
+		</ol></li>
+</ul>

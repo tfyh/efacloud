@@ -1,0 +1,28 @@
+uid;parent;name;input_label;input_type;text_explanation;text_local_name;value_type
+tyfEXufG;;descriptor;;;;7e8PvY|data descriptor;branch
+NQ3AfGLG;tyfEXufG;uid;uid;text;cgLCXG|A unique id of this data...;SFwtQ4|uid;string
+DjdUeiLG;tyfEXufG;parent;parent;text;KNtj5Z|the uid of the parent it...;GL0dtv|parent;string
+iq4eZGLG;tyfEXufG;name;name;text;JNYIiw|the name of the data ite...;3cCdlO|name;string
+ZVArLGfR;tyfEXufG;column_reference;lookup reference;text;cstgfL|the table and id-column ...;KIa0GD|lookup reference;string
+584TfRpl;tyfEXufG;column_handling;column handling rules;text;MECqYn|the data management rule...;dIF5oo|column handling rules;string
+xtO8pl4i;tyfEXufG;node_addable_type;addable data type;text;aiXMzd|a list of types allowed ...;2KFOT2|addable types;string
+eeJQ4iei;tyfEXufG;node_permissions;node permissions;text;5mRVU3|the permissions for the ...;udrVVE|permissions;string
+DjdUei4a;tyfEXufG;text_local_name;local name;text;qPKfrG|the name in local langua...;F4oA4a|local name;string
+5Hji4akJ;tyfEXufG;text_explanation;explanatory text;textarea;UYJ0Pd|a text to explain what t...;elEmp3|explanation;string
+zgOg0GE5;tyfEXufG;value_type;the type of data to be used;select from config.dataTypes;L84szU|The type of data will be...;Qkc02h|data type;string
+6XvPsm7y;tyfEXufG;value_current;the value of the entry;text;RezS5F|The value using the give...;tO6SOM|current value;_of_value
+Uiuu7yxO;tyfEXufG;value_default;default value;text;YIb5od|the default value. If th...;L2Rm6H|default value;_of_value
+B88OxOyN;tyfEXufG;value_min;lower limit;text;hP04vV|the minimum value;MpNcRI|minimum value;_of_value
+lJqlyNl7;tyfEXufG;value_max;upper limit;text;odHfH6|the maximum value;Fz3Z4J|maximum value;_of_value
+g0GlqzgO;tyfEXufG;value_size;maximum string length;text;NlSd3l|the maximum length of st...;aqVgee|maximum size;int
+NTA0l7Zd;tyfEXufG;value_rules;checks to apply;text;MOlhLN|any applicable rule, lik...;vinzbZ|validation rules;string
+iq4eZdvi;tyfEXufG;sql_type;SQL type;text;ed2mNI|The SQL field definition...;x4sAVc|SQL type;string
+fPslviOr;tyfEXufG;sql_size;SQL size;text;sueaDh|The SQL field definition...;ECaqtw|SQL size;int
+N89pOrnD;tyfEXufG;sql_null;SQL null allowed;checkbox;pVECWY|The SQL field definition...;4qH4PV|SQL null allowed;boolean
+r5GpnDRQ;tyfEXufG;sql_default;SQL default;text;6hX0Dr|The SQL field definition...;jQVytp|SQL default;string
+lKLlRQr6;tyfEXufG;sql_indexed;SQL index type;text;gPF94C|Set u for unique and a f...;0X6pY6|SQL index type;string
+Pdhrr6uc;tyfEXufG;sql_trigger_event;SQL trigger event;text;KMhSNO|the event on which the d...;7D048T|SQL trigger event;string
+DlXkucBx;tyfEXufG;sql_trigger_value;SQL trigger value;text;2ZSpo5|the value it shall write...;tPpAO6|SQL trigger value;string
+gpPStew7;tyfEXufG;input_type;type of form input;text;tti0MT|the type used for the in...;0gN0FD|type of form input;string
+kAmAw7KG;tyfEXufG;input_class;class of form input;text;W9F5NE|the class used for the i...;cRiA2r|class of form input;string
+dfz0P34P;tyfEXufG;item_editForm;item edit form template;textarea;fkKgqu|the form template used f...;3MhYFA|item edit form template;text

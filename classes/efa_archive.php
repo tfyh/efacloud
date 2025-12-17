@@ -91,7 +91,7 @@ class Efa_archive
                 echo i(
                         "Pb2uDW|The order of the archive...", 
                         $for_table);
-                exit();
+                exit();  // realy exit, no test case left over
             }
             $id ++;
         }
@@ -278,9 +278,6 @@ class Efa_archive
      */
     private function create_archive_stub (String $tablename, int $archive_id, array $full_record)
     {
-        $is_efa2persons = strcmp($tablename, "efa2persons") == 0;
-        $is_efa2logbook = strcmp($tablename, "efa2logbook") == 0;
-        // if so, continue by creating the nominal stub
         include_once "../classes/efa_record.php";
         $nominal_stub = Efa_record::clear_record_for_delete($tablename, $full_record);
         $nominal_stub["LastModification"] = (self::$archive_settings[$tablename]["deleteAtOrigin"]) ? "delete" : "update";
@@ -327,11 +324,13 @@ class Efa_archive
         $last_modification = ($is_delete_stub) ? "delete" : "update";
         $min_age_secs = self::$archive_settings[$tablename]["MinAgeDays"] * 86400;
         $now = time();
+        // only correct those which have been archived in the last 30 days
+        $archived_limit = date("Y-m-d H:i:s", $now - 30 * 86400); 
         do {
             // Check all existing archived records
             $archive_records = $this->socket->find_records_sorted_matched("efaCloudArchived", 
-                    ["Table" => $tablename
-                    ], $chunk_size, "=", "ID", true, $start_row);
+                    ["Table" => $tablename, "Time" => $archived_limit
+                    ], $chunk_size, "=,>", "ID", true, $start_row);
             if ($archive_records !== false)
                 foreach ($archive_records as $archive_record) {
                     $checked ++;
@@ -467,7 +466,7 @@ class Efa_archive
             echo i(
                     "deBLXi|Efa_archive::versionized...", 
                     $table_name);
-            exit();
+            exit();  // realy exit, no test case left over
         }
         $pos_of_archive_id_in_list = $versionized_list->get_field_index(
                 self::$archive_settings[$table_name]["archiveID_at"]);
@@ -476,7 +475,7 @@ class Efa_archive
             echo i(
                     "4c2kZc|Efa_archive::versionized...", 
                     $table_name);
-            exit();
+            exit();  // realy exit, no test case left over
         }
         
         $versionized_rows = $versionized_list->get_rows();
@@ -487,7 +486,7 @@ class Efa_archive
         $this_id_to_archive = false; // default, the value will be set with the first not archived row.
         foreach ($versionized_rows as $versionized_row) {
             // the first record of an object is kept, thus needs special treatment.
-            $first_record_of_id = strcmp($versionized_row[$pos_field_for_uuid], $last_uuid) != 0;
+            $first_record_of_id = isset($versionized_row[$pos_field_for_uuid]) && (strcmp($versionized_row[$pos_field_for_uuid], $last_uuid) != 0);
             $invalidFromSecs = (is_null($versionized_row[$pos_field_for_invalidFrom])) ? 0 : Efa_tables::value_validity32(
                     $versionized_row[$pos_field_for_invalidFrom]);
             // check whether this object was already archived.
@@ -505,7 +504,7 @@ class Efa_archive
                 else
                     $count_failed ++;
             }
-            $last_uuid = $versionized_row[0];
+            $last_uuid = (isset($versionized_row[0])) ? $versionized_row[0] : "";
         }
         if (($count_archived + $count_failed) >= 0)
             return $table_name . ": " . $count_archived . "/" . strval($count_archived + $count_failed) . ", ";
@@ -630,6 +629,13 @@ class Efa_archive
             $failure_log = "";
             foreach ($restore_rows as $restore_row) {
                 $archive_record = $restore_list->get_named_row($restore_row);
+                $restore_result = $this->restore_one_from_archive($archive_record);
+                if (strlen($restore_result) == 0)
+                    $successes++;
+                else {
+                    $failed++;
+                    $failure_log .= $restore_result . "\n";
+                }
             }
             return i(
                     "0LiLBm|Restore completed for re...", 

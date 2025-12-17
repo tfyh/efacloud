@@ -1,5 +1,26 @@
 <?php
 /**
+ *
+ *       the tools-for-your-hobby framework
+ *       ----------------------------------
+ *       https://www.tfyh.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ */
+
+/**
  * The form for upload and import of multiple data records as csv-tables. Based on the Tfyh_form class, please
  * read instructions their to better understand this PHP-code part.
  * 
@@ -44,6 +65,10 @@ if ($done > 0) {
             // Special case upload error. Userfile can not be checked after
             // being entered, must be checked after upload was tried.
             $form_errors .= i("R8XI15|No file specified. Pleas...");
+        } elseif ($_FILES['userfile']['error'] > 0) {
+            // Special case upload error. Userfile can not be checked after
+            // being entered, must be checked after upload was tried.
+            $form_errors .= i("7N0gUC|The server respoded with...", $_FILES['userfile']['error']);
         } else {
             $tmp_upload_file = file_get_contents($_FILES['userfile']["tmp_name"]);
             if (! $tmp_upload_file)
@@ -60,7 +85,7 @@ if ($done > 0) {
         }
     }
 } elseif (isset($_SESSION["getps"][$fs_id]["dfile"])) {
-    $toolbox->return_file_to_user($_SESSION["getps"][$fs_id]["dfile"], "application/x-binary");
+    $toolbox->return_file_to_user($_SESSION["getps"][$fs_id]["dfile"]);
 } elseif (isset($_SESSION["getps"][$fs_id]["xfile"])) {
     $xfile = $_SESSION["getps"][$fs_id]["xfile"];
     $unlinkres = unlink($xfile);
@@ -96,7 +121,9 @@ echo $menu->get_menu();
 echo file_get_contents('../config/snippets/page_02_nav_to_body');
 
 // page heading, identical for all workflow steps
-echo i("ZAjY7v| ** File storage ** Alte...");
+echo "<!-- START OF content -->\n<div class='w3-container'>\n";
+echo "<h3>" . i("RdDQSD|File storage") . "</h3>";
+echo "<p>" . i("pfTPrH|upload a file or create ...") . "</p>";
 
 $fileupload_level_of_top = isset($_SESSION["fileupload_level_of_top"]) ? $_SESSION["fileupload_level_of_top"] : 1;
 echo $toolbox->get_dir_contents($cdir, $fileupload_level_of_top);
@@ -112,6 +139,6 @@ if ($todo == 1) {
 }
 
 // Help texts and page footer for output.
-echo i("AVZqHm|<!-- END OF form --></..."); ?>
+echo "<!-- END OF form -->\n</div>";
 end_script();
 

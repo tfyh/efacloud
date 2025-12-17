@@ -1,2 +1,1 @@
-php_value upload_max_filesize 4M
-php_value post_max_size 4M
+deny for all

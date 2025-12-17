@@ -1,5 +1,26 @@
 <?php
 /**
+ *
+ *       the tools-for-your-hobby framework
+ *       ----------------------------------
+ *       https://www.tfyh.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ */
+
+/**
  * The form for user profile self service. Based on the Tfyh_form class, please read instructions their to
  * better understand this PHP-code part.
  * 
@@ -84,7 +105,30 @@ echo $menu->get_menu();
 echo file_get_contents('../config/snippets/page_02_nav_to_body');
 
 // page heading, identical for all workflow steps
-echo i("NgPjw9| ** Change colour scheme...");
+echo "<!-- START OF content -->\n<div class='w3-container'>\n";
+echo "<h3>" . i("KDNuD3|Change colours and font") . "</h3>";
+
+// example elements
+echo "<h1>" . i("iX6ImJ|Example Headline 1") . "</h1>";
+echo "<h4>" . i("DybBcu|Example Headline 4") . "</h4>";
+echo "<p><a href='#'>" . i("HsHWSA|Example Link") . "</a></p>";
+echo "<label class='cb-container'>" . i("rTgJH2|Radio button checked") .
+         "<input type='radio' name='radioexample1' value='' checked /><span class='cb-radio'></span></label><br>";
+echo "<label class='cb-container'>" . i("SYuuyO|Radio button unchecked") .
+         "<input type='radio' name='radioexample2' value='' /><span class='cb-radio'></span></label><br>";
+echo "<label class='cb-container'>" . i("3MS3H9|Checkbox checked") .
+         "<input type='checkbox' name='checkboxexample1' value='' checked /><span class='cb-checkmark'></span></label><br>";
+echo "<label class='cb-container'>" . i("nMSzXi|Checkbox unchecked") .
+         "<input type='checkbox' name='checkboxexample1' value='' /><span class='cb-checkmark'></span></label><br>";
+echo "<select class='formselector' name='selectorexample' style='width: 15em'>";
+echo "<option value='option1'>" . i("5qx7Bd|option") . " #1</option>";
+echo "<option selected value='option2'>" . i("ZiS5as|option") . " #2</option>";
+echo "<option value='option3'>" . i("Rqkqic|option") . " #3</option>";
+echo "</select>\n<p>&nbsp;</p>\n<form method=POST action='?changecolors=1'>";
+
+// colour table
+echo "<table style='width: 70%'>\n<thead>\n<tr><th>" . i("CS3ieI|colour application") . "</th><th>" .
+         i("xmC7bW|colour value") . "</th></tr></thead><tbody>";
 foreach ($color_keys as $color_key) {
     if (strlen($color_key) > 0) {
         if (substr($color_key, 0, 1) == '#')
@@ -95,7 +139,9 @@ foreach ($color_keys as $color_key) {
         echo $row;
     }
 }
-echo i("5mFmma|    </tbody>   </table> ...");
+echo "    </tbody>\n   </table>\n   <p>\n" .
+         "    <input name='submit' value='Test' type='submit' class='formbutton' />\n" .
+         "   </p>\n  </form>\n  <p>";
 if (file_exists("../resources/app-colors-previous.txt")) {
     echo "<a href='?changecolors=2' class='formbutton'>" . i("OdDC93|Back to previous setting") . "</a>";
 }
@@ -103,5 +149,8 @@ if (file_exists("../resources/app-colors-default.txt")) {
     echo "&nbsp;&nbsp;&nbsp;<a href='?changecolors=3' class='formbutton'>" .
              i("j5CpiO|Back to standard colours") . "</a>";
 }
-echo i("s83mkb| ** Note: ** Usually the...");
+echo "</p>\n<p>";
+echo i(
+        "Z1rWgP|Note: Usually the browse...");
+echo "</p>\n</div>";
 end_script();

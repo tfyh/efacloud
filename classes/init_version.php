@@ -18,6 +18,11 @@ else {
     echo "da klappt was nicht. Abbruch.";
     exit();
 }
+
+// ===== restart session for 2.3.3_06+
+if (method_exists($toolbox->app_sessions,'web_session_start'))
+    $toolbox->app_sessions->web_session_start("init_version.php", $socket);
+    
 // ===== Basic data base class checks
 echo "Tabellen ...";
 include_once '../classes/efa_tables.php';
@@ -27,22 +32,15 @@ include_once '../classes/efa_tools.php';
 $efa_tools = new Efa_tools($toolbox, $socket);
 echo "ok ...<br>";
 
-// TODO remove obsolete code some day completely
-// Special case upgrade from 2.3.2_10 and lower: The member Id List is changed back to varchar(9300) instead of
-// now text.
-// =====================================================================================================================
-$member_id_list_to_text = $socket->query(
-        "ALTER TABLE `efa2groups` CHANGE `MemberIdList` `MemberIdList` TEXT NULL DEFAULT NULL;");
-if ($member_id_list_to_text === false)
-    echo "<b>HINWEIS</b>: Konnte die Anzahl der Gruppenmitglieder in der Liste 'efa2groups' leider nicht erweitern. ";
-
 // ===== Basic data base layout checks
 include_once '../classes/efa_db_layout.php';
 $db_audit_needed = "";
+$user_id = (isset($toolbox->users->session_user["@id"])) ? $toolbox->users->session_user["@id"] : ((isset(
+        $_SESSION["User"])) ? $_SESSION["User"][$toolbox->users->user_id_field_name] : - 1);
 if (intval(Efa_db_layout::$db_layout_version_target) !=
          intval($toolbox->config->get_cfg_db()["db_layout_version"]))
     $db_audit_needed .= "In der Konfiguration ist eine falsche Version für das Datenbank-Layout hinterlegt. ";
-if (! $efa_tools->update_database_layout($_SESSION["User"][$toolbox->users->user_id_field_name], 
+if (! $efa_tools->update_database_layout($user_id, 
         Efa_db_layout::$db_layout_version_target, true))
     $db_audit_needed .= "Die Auditierung meldet Abweichung in Details des Datenbank-Layouts. ";
 

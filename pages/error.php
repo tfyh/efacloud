@@ -1,9 +1,37 @@
 <?php
 /**
+ *
+ *       the tools-for-your-hobby framework
+ *       ----------------------------------
+ *       https://www.tfyh.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ */
+
+/**
  * Page display file. A generic error message display page.
  * 
  * @author mgSoft
  */
+
+// ===== redirect error repoting.
+$err_file = "../log/php_error.log";
+if (filesize($err_file) > 200000)
+    copy($err_file, $err_file . ".previous");
+error_reporting(E_ERROR | E_WARNING);
+ini_set("error_log", $err_file);
 
 // ===== initialize toolbox & internationalization.
 include_once "../classes/init_i18n.php"; // usually this is included with init.php
@@ -29,7 +57,6 @@ if (($last_error !== false) && (count(explode(";", $last_error)) >= 3)) {
     $text = i("Fy3Nzi|It was no longer possibl...");
     $get_params = "";
 }
-
 $file_path_elements = explode("/", $source_file);
 $index_last = count($file_path_elements) - 1;
 $login_goto = $file_path_elements[$index_last - 1] . "/" . $file_path_elements[$index_last] . "?" . $get_params;
@@ -44,7 +71,7 @@ if ($too_many_sessions) {
              "</p></body></html>";
     if (function_exists("end_script"))
         end_script();
-    exit();
+    exit(); // really exit. No test case left over.
 }
 
 // debug logging
@@ -72,17 +99,19 @@ if (strrpos($source_file, "error.php") === false) {
 } else {
     // if init.php is not run, initialize the menu and resume the session
     include_once '../classes/tfyh_menu.php';
+    include_once '../classes/tfyh_socket.php';
     $menu = new Tfyh_menu("../config/access/pmenu", $toolbox);
-    $session_open_result = $toolbox->app_sessions->session_open(- 1);
+    $socket = new Tfyh_socket($toolbox);
+    $toolbox->app_sessions->web_session_start("error.php", $socket);
 }
 
 // redirect to the login.php page on invalid sessionuser, but valid triggering page (usually a
 // session timeout event).
-$session_user_valid = (isset($_SESSION) && isset($_SESSION["User"]) &&
-         (strcasecmp($_SESSION["User"]["Rolle"], $toolbox->users->anonymous_role) != 0));
+$session_user_valid = (isset($toolbox->users->session_user) &&
+         (strcasecmp($toolbox->users->session_user["Rolle"], $toolbox->users->anonymous_role) != 0));
 if ((! $session_user_valid) && (strrpos($source_file, "login.php") === false) &&
          (strrpos($source_file, "no_source") === false))
-    header("Location: $app_root/forms/login.php?goto=" . urlencode($login_goto));
+    header("Location: $app_root/forms/login.php?onerror=1&goto=" . urlencode($login_goto));
 
 // ===== start page output
 echo file_get_contents('../config/snippets/page_01_start');
@@ -90,12 +119,14 @@ echo $menu->get_menu();
 echo file_get_contents('../config/snippets/page_02_nav_to_body');
 
 // page heading, identical for all workflow steps
-echo i("QsB6fc| ** Error ** Sorry, that...");
+echo "<!-- START OF content -->\n<div class='w3-container'>\n";
+echo "<h2>" . i("UCOyeY|Error") . "</h2>";
+echo "<h3>" . i("JmUvue|Sorry, that didn°t work.") . "</h3>";
 echo "<h3><br><br>" . $headline . "</h3>";
 echo "<p>" . $text . "</p>";
 if ($session_user_valid)
     echo "<p><br>" . i("9mmdUG|The session is still act...") . "</p>";
-echo i("JZKR1D|</div>");
+echo "</div>";
 if (function_exists("end_script"))
     end_script();
 else {

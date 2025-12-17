@@ -31,7 +31,7 @@ if ($done > 0) {
     include_once '../classes/efa_record.php';
     $efa_record = new Efa_record($toolbox, $socket);
     $valid_records = array();
-    $user_id = $_SESSION["User"][$toolbox->users->user_id_field_name];
+    $user_id = $toolbox->users->session_user["@id"];
     
     // application logic, step by step
     if (strlen($form_errors) > 0) {
@@ -55,7 +55,16 @@ if ($done > 0) {
                 if (! file_exists("../log/io"))
                     mkdir("../log/io");
                 file_put_contents("../log/io/" . $_SESSION["io_file"], $tmp_upload_file);
-                $records = $toolbox->read_csv_array("../log/io/" . $_SESSION["io_file"]);
+                // check for duplicate header fields
+                $header = explode("\n", $tmp_upload_file, 2)[0];
+                $fields = [];
+                foreach (explode(";", $header) as $fieldname)
+                    $fields[$fieldname] = (isset($fields[$fieldname])) ? $fields[$fieldname] + 1 : 1;
+                foreach ($fields as $name => $count)
+                    if ($count > 1)
+                        $import_check_errors .= i("o7TETm|The following data field...") . $name . "<br>";
+                $records = Tfyh_toolbox::static_read_csv_array("../log/io/" . $_SESSION["io_file"]);
+                // now check each record
                 $import_check_info = "";
                 $import_check_errors = "";
                 $r = 0;
@@ -69,8 +78,7 @@ if ($done > 0) {
                             if (! in_array($key, $field_names_table))
                                 $mismatching_names .= $key . ",";
                         if (strlen($mismatching_names) > 0)
-                            $import_check_errors .= i(
-                                    "qn2cjQ|The following data field...", 
+                            $import_check_errors .= i("qn2cjQ|The following data field...", 
                                     $mismatching_names) . "<br>";
                     }
                     // check records.
@@ -83,7 +91,10 @@ if ($done > 0) {
                     $existing_session = $socket->find_record_matched("efa2logbook", $data_key);
                     // perf_log("Fahrten importieren, prüfen, retrieved #" . $r);
                     $mode = ($existing_session == false) ? 1 : 2;
-                    $mode_explanation = ($mode == 1) ? i("rmbd4P|The trip is added.") : i("AyanBa|The trip is updated.");
+                    $mode_explanation = ($mode == 1) ? i("rmbd4P|The trip is added.") : i(
+                            "AyanBa|The trip is updated.");
+                    $record_resolved = $efa_record->map_and_remove_extra_name_fields($record_resolved, 
+                            "efa2logbook");
                     $validation1_result = $efa_record->check_unique_and_not_empty($record_resolved, 
                             "efa2logbook", $mode);
                     if (strlen($validation1_result) > 0)
@@ -94,8 +105,8 @@ if ($done > 0) {
                                 $record_resolved, $mode, $user_id);
                         if (is_array($validation2_result)) {
                             if ($validation2_result[1] && ! $validation2_result[2]) {
-                                $import_check_info .= $import_check_prefix .
-                                         " - ". i("ZF44WW|The trip already exists,..."). "<br>";
+                                $import_check_info .= $import_check_prefix . " - " .
+                                         i("ZF44WW|The trip already exists,...") . "<br>";
                             } else
                                 $import_check_info .= $import_check_prefix . " - $mode_explanation<br>";
                         } else
@@ -126,12 +137,14 @@ if ($done > 0) {
                 unset($record_resolved["EndDate"]);
             $r ++;
             $key_str = $record["Logbookname"] . ": " . $record["EntryId"];
-            $import_done_prefix = i("YEU1wy|Load row")." " . $r . ": " . $key_str;
+            $import_done_prefix = i("YEU1wy|Load row") . " " . $r . ": " . $key_str;
             $data_key = Efa_tables::get_data_key("efa2logbook", $record);
             $existing_session = $socket->find_record_matched("efa2logbook", $data_key);
             $mode = ($existing_session == false) ? 1 : 2;
             // perf_log("Fahrten importieren, Modus = $mode");
-            $mode_explanation = ($mode == 1) ? i("thc1PS|The trip has been added.") : i("KwSMMI|The trip has been update...");
+            $mode_explanation = ($mode == 1) ? i("thc1PS|The trip has been added.") : i(
+                    "KwSMMI|The trip has been update...");
+            $record_resolved = $efa_record->map_and_remove_extra_name_fields($record_resolved, "efa2logbook");
             $validation1_result = $efa_record->check_unique_and_not_empty($record_resolved, "efa2logbook", 
                     $mode);
             if (strlen($validation1_result) > 0)
@@ -144,8 +157,8 @@ if ($done > 0) {
                     $import_done_info .= $import_done_prefix . " - $validation2_result.<br>";
                 } else {
                     if ($validation2_result[1] && ! $validation2_result[2])
-                        $import_done_info .= $import_done_prefix .
-                                 " - ".i("Aujsqx|The trip already exists,...")."<br>";
+                        $import_done_info .= $import_done_prefix . " - " .
+                                 i("Aujsqx|The trip already exists,...") . "<br>";
                     else {
                         $change_count = (isset($record["ChangeCount"])) ? intval($record["ChangeCount"]) : 1;
                         $prepared_record = Efa_tables::register_modification($validation2_result[0], time(), 
@@ -186,7 +199,7 @@ echo $menu->get_menu();
 echo file_get_contents('../config/snippets/page_02_nav_to_body');
 
 // page heading, identical for all workflow steps
-echo i("atUZOz| ** Import trips ** Here..."); 
+echo i("atUZOz| ** Import trips ** Here...");
 if ($todo == 1) { // step 1. Texts for output
     echo i("JTl0ci| ** File format and fiel...");
     echo $toolbox->form_errors_to_html($form_errors);
@@ -196,7 +209,7 @@ if ($todo == 1) { // step 1. Texts for output
     echo i("7MLPuQ| ** The file upload and ...");
     // no form errors possible at this step. just a button clicked.
     echo $import_check_info;
-    echo i("0AKx35| ** In the next step, th..."); 
+    echo i("0AKx35| ** In the next step, th...");
     // no form errors possible at this step. just a button clicked.
     echo $form_to_fill->get_html(false);
     echo $form_to_fill->get_help_html();
@@ -206,5 +219,5 @@ if ($todo == 1) { // step 1. Texts for output
 }
 
 // Help texts and page footer for output.
-echo i("WfIlRT|</div>"); 
+echo "</div>";
 end_script();

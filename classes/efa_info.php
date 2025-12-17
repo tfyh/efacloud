@@ -1,4 +1,25 @@
 <?php
+/**
+ *
+ *       efaCloud
+ *       --------
+ *       https://www.efacloud.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 
 /**
  * class file for the specific handling of efainformation which is to be passed to different clients.
@@ -29,6 +50,39 @@ class Efa_info
         $this->socket = $socket;
         $this->toolbox = $toolbox;
         $this->no_entries_text = i("5DTJs0|currently no entries.");
+    }
+
+    /**
+     * get a list of all group of the groups to which identified crew members belong.
+     * 
+     * @param array $all_crew_ids
+     *            the UUIDs of all crew members
+     * @return number[] an associative array of the group names as key and the occurrences as value
+     */
+    private function get_crew_members_groups (array $all_crew_ids)
+    {
+        $all_crew_groups = [];
+        foreach ($all_crew_ids as $crew_member_id) {
+            $member_groups = $this->socket->find_records_sorted_matched("efa2groups", 
+                    ["MemberIdList" => "%" . $crew_member_id . "%"
+                    ], 10, "LIKE", "Name", true);
+            if ($member_groups !== false) {
+                foreach ($member_groups as $member_group) {
+                    if (! isset($all_crew_groups[$member_group["Name"]]))
+                        $all_crew_groups[$member_group["Name"]] = 0;
+                    $all_crew_groups[$member_group["Name"]] ++;
+                }
+            }
+        }
+        if (count($all_crew_groups) == 0)
+            return "-";
+        ksort($all_crew_groups);
+        $crew_groups = "";
+        foreach ($all_crew_groups as $crew_group_name => $crew_group_cnt)
+            $crew_groups .= $crew_group_name . "(" . $crew_group_cnt . ")" . ", ";
+        if (strlen($crew_groups) > 0)
+            $crew_groups = mb_substr($crew_groups, 0, mb_strlen($crew_groups) - 2);
+        return $crew_groups;
     }
 
     /**
@@ -156,6 +210,139 @@ class Efa_info
     }
 
     /**
+     * Get the header for the open trips table.
+     * 
+     * @param bool $get_empty_row
+     *            set true to get an empty row instead of the header
+     * @return array the non associative table header as array for the open trips table.
+     */
+    private function get_trip_header (bool $get_empty_row)
+    {
+        $trip_header = [];
+        $cfg = $this->toolbox->config->get_cfg();
+        $locale_names = Efa_tables::locale_names($cfg["language_code"]);
+        if ($cfg["public_tripdata_EntryId"])
+            $trip_header[] = ($get_empty_row) ? "-" : $locale_names["EntryId"];
+        if ($cfg["public_tripdata_BoatName"])
+            $trip_header[] = ($get_empty_row) ? "-" : $locale_names["BoatName"];
+        if ($cfg["public_tripdata_BoatAffix"])
+            $trip_header[] = ($get_empty_row) ? "-" : $locale_names["NameAffix"];
+        if ($cfg["public_tripdata_BoatType"])
+            $trip_header[] = ($get_empty_row) ? "-" : i("s6i5Ps|boat type");
+        if ($cfg["public_tripdata_CrewGroups"])
+            $trip_header[] = ($get_empty_row) ? "-" : i("iTj3F5|groups in crew");
+        if ($cfg["public_tripdata_StartTime"])
+            $trip_header[] = ($get_empty_row) ? "-" : $locale_names["StartTime"];
+        if ($cfg["public_tripdata_Destination"])
+            $trip_header[] = ($get_empty_row) ? "-" : $locale_names["DestinationName"];
+        if ($cfg["public_tripdata_Distance"])
+            $trip_header[] = ($get_empty_row) ? "-" : $locale_names["Distance"];
+        return $trip_header;
+    }
+
+    /**
+     * Check, whether trip data settings are provided. introduced with 2.3.2_17, August 2023. Remove some day,
+     * because all configs will have the default.
+     * 
+     * @return boolean true if a single trip_data setting is "on", else false.
+     */
+    private function is_empty_trip_data_settings ()
+    {
+        $cfg = $this->toolbox->config->get_cfg();
+        $public_tripdata_settings = 0;
+        foreach (array_keys($cfg) as $key)
+            if ((strpos($key, "public_tripdata_") !== false) && (strcasecmp($cfg[$key], "on") == 0))
+                $public_tripdata_settings ++;
+        return ($public_tripdata_settings == 0);
+    }
+
+    /**
+     * Set the trip data settings to default.
+     */
+    private function default_trip_data_settings ()
+    {
+        $cfg = $this->toolbox->config->get_cfg();
+        $cfg["public_tripdata_EntryId"] = "on";
+        $cfg["public_tripdata_BoatName"] = "on";
+        $cfg["public_tripdata_StartTime"] = "on";
+        $cfg["public_tripdata_Destination"] = "on";
+        $this->toolbox->config->store_app_config($cfg);
+        $this->toolbox->config->load_app_configuration();
+    }
+
+    /**
+     * get the table information for a single trip for a boat on the water in the open trips table.
+     * 
+     * @param String $boat_id
+     *            the Id of the boat, as is in the trip record.
+     * @param array $trip
+     *            the trip record
+     * @return array the non associative table row as array for the open trips table.
+     */
+    private function get_trip_row (String $boat_id, array $trip)
+    {
+        global $dfmt_d, $dfmt_dt;
+        $trip_row = [];
+        $cfg = $this->toolbox->config->get_cfg();
+        if ($cfg["public_tripdata_EntryId"])
+            $trip_row[] = strval($trip["EntryId"]);
+        $boat = $this->socket->find_record("efa2boats", "Id", $boat_id);
+        if ($cfg["public_tripdata_BoatName"]) {
+            $boatname = (($boat != false) && isset($boat["Name"])) ? $boat["Name"] : "Fremdboot";
+            $trip_row[] = $boatname;
+        }
+        if ($cfg["public_tripdata_BoatAffix"]) {
+            $boataffix = (($boat != false) && isset($boat["NameAffix"])) ? "(" . $boat["NameAffix"] . ")" : "";
+            $trip_row[] = $boataffix;
+        }
+        if ($cfg["public_tripdata_BoatType"]) {
+            $boattypes = (($boat != false) && isset($boat["TypeType"])) ? explode(";", $boat["TypeType"]) : [
+                    "OTHER"
+            ];
+            $boatvarianttype = (isset($trip["BoatVariant"]) &&
+                     (intval($trip["BoatVariant"]) <= count($boattypes))) ? $boattypes[intval(
+                            $trip["BoatVariant"]) - 1] : "OTHER";
+            include_once "../classes/efa_config.php";
+            $efa_config = new Efa_config($this->toolbox);
+            $cfgboattypes = $efa_config->types["BOAT"];
+            $boattype = "???";
+            foreach ($cfgboattypes as $cfgboattype)
+                if (strcasecmp($cfgboattype["Type"], $boatvarianttype) == 0)
+                    $boattype = $cfgboattype["Value"];
+            $trip_row[] = $boattype;
+        }
+        if ($cfg["public_tripdata_CrewGroups"]) {
+            $crew_groups = (isset($trip["AllCrewIds"]) && (strlen($trip["AllCrewIds"]) > 30)) ? $this->get_crew_members_groups(
+                    explode(",", $trip["AllCrewIds"])) : "-";
+            $trip_row[] = $crew_groups;
+        }
+        if ($cfg["public_tripdata_StartTime"]) {
+            $start_time = (strcmp(date("Y-m-d"), $trip["Date"]) != 0) ? date($dfmt_d, 
+                    strtotime($trip["Date"])) . " - " . $trip["StartTime"] : $trip["StartTime"];
+            $trip_row[] = $start_time;
+        }
+        if ($cfg["public_tripdata_Destination"]) {
+            $destination = (isset($trip["DestinationId"])) ? $trip["DestinationId"] : $trip["DestinationName"];
+            if (isset($trip["DestinationId"])) {
+                $destination_record = $this->socket->find_record("efa2destinations", "Id", 
+                        $trip["DestinationId"]);
+                $destination = (($destination_record != false) && isset($destination_record["Name"])) ? $destination_record["Name"] : "kein Ziel angegeben";
+            } else
+                $destination = $trip["DestinationName"];
+            if (is_null($destination) || (strlen($destination) == 0))
+                $destination = "-";
+            $trip_row[] = $destination;
+        }
+        if ($cfg["public_tripdata_Distance"]) {
+            $trip_row[] = (isset($trip["Distance"]) && (strlen($trip["Distance"]) > 0)) ? $trip["Distance"] : "-";
+        }
+        if ($cfg["public_tripdata_FreeUse1"]) {
+            $trip_row[] = (isset($trip["FreeUse1"]) && (strlen($trip["FreeUse1"]) > 0)) ? $trip["FreeUse1"] : "-";
+        }
+        return $trip_row;
+    }
+
+    /**
      * Return an html or csv representation of all boats on the water
      * 
      * @param int $mode
@@ -166,10 +353,15 @@ class Efa_info
     public function get_on_the_water (int $mode)
     {
         global $dfmt_d, $dfmt_dt;
+        
+        if ($this->is_empty_trip_data_settings())
+            $this->default_trip_data_settings();
+        
+        include_once "../classes/efa_tables.php";
         $boats_on_the_water = $this->socket->find_records("efa2boatstatus", "CurrentStatus", "ONTHEWATER", 
                 100);
         $table = [];
-        $table[] = explode(",", i("fKG3hw|EntryId,Boat,StartTime,D..."));
+        $table[] = $this->get_trip_header(false);
         if ($boats_on_the_water !== false) {
             // gather all data into an array
             foreach ($boats_on_the_water as $boat_on_the_water) {
@@ -177,33 +369,18 @@ class Efa_info
                 ];
                 $trips = $this->socket->find_records_sorted_matched("efa2logbook", $matching, 10, "=", "Date", 
                         false);
-                $boat = $this->socket->find_record("efa2boats", "Id", $boat_on_the_water["BoatId"]);
-                $boatname = (($boat != false) && isset($boat["Name"])) ? $boat["Name"] : "Fremdboot";
                 // If by an error $trips contain entries from different logbooks, filter for the current one.
                 if ($trips !== false)
                     foreach ($trips as $trip) {
-                        $destination = (isset($trip["DestinationId"])) ? $trip["DestinationId"] : $trip["DestinationName"];
-                        if (isset($trip["DestinationId"])) {
-                            $destination_record = $this->socket->find_record("efa2destinations", "Id", 
-                                    $trip["DestinationId"]);
-                            $destination = (($destination_record != false) &&
-                                     isset($destination_record["Name"])) ? $destination_record["Name"] : "kein Ziel angegeben";
-                        } else
-                            $destination = $trip["DestinationName"];
-                        if (is_null($destination) || (strlen($destination) == 0))
-                            $destination = "-";
                         // filter those of the current logbook by year
                         if (strcmp(date("Y"), substr($trip["Date"], 0, 4)) == 0) {
-                            $start_time = (strcmp(date("Y-m-d"), $trip["Date"]) != 0) ? date($dfmt_d, 
-                                    strtotime($trip["Date"])) . " - " . $trip["StartTime"] : $trip["StartTime"];
-                            $table[] = [strval($trip["EntryId"]),$boatname,$start_time,$destination
-                            ];
+                            $table[] = $this->get_trip_row($boat_on_the_water["BoatId"], $trip);
                         }
                     }
             }
         }
-        $table = $this->remove_unused_columns($table);
-        
+        if (count($table) == 1)
+            $table[] = $this->get_trip_header(true);
         if ($mode == - 1)
             $mode = 3;
         if (($mode & 0x1) > 0)
@@ -226,7 +403,10 @@ class Efa_info
                 "NOTAVAILABLE", 100);
         $boats_never_available = $this->socket->find_records("efa2boatstatus", "BaseStatus", "NOTAVAILABLE", 
                 100);
-        $boats_not_available = array_merge($boats_currently_not_available, $boats_never_available);
+        // array merge with false instead of empty array for no match.
+        $boats_not_available = (($boats_never_available === false) && ($boats_never_available === false)) ? [] : (($boats_never_available ===
+                 false) ? $boats_currently_not_available : array_merge($boats_currently_not_available, 
+                        $boats_never_available));
         $boats_shown = [];
         $table = [];
         $table[] = explode(",", i("3lHvNg|Boat,CurrentStatus,BaseS..."));

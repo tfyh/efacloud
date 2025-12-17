@@ -50,34 +50,30 @@ class Cron_jobs extends Tfyh_cron_jobs
                 $last_step_ended = time();
             }
             
-            // TODO fix for delete remainders from previous versions, Sept. 2022. Remove some day
-            // ADD MISSING LAST MODIFICATION
-            // -----------------------------
-            include_once "../classes/efa_record.php";
-            $efa_record = new Efa_record($toolbox, $socket);
-            include_once '../classes/efa_tools.php';
-            $efa_tools = new Efa_tools($toolbox, $socket);
-            
-            $added_lms = $efa_tools->add_last_modifications();
-            file_put_contents($cronlog, 
-                    date("Y-m-d H:i:s") . " +" . (time() - $last_step_ended) . ": Added " . $added_lms .
-                             " missing LastModification entries.\n", FILE_APPEND);
-            $last_step_ended = time();
-            // TODO fix for delete remainders from previous versions, Sept. 2022. Remove some day
-            
-            // ECRID AND VIRTUAL FIELD COMPLETION
+            // VIRTUAL FIELD COMPLETION
             // ----------------------------------
-            // add missing ecrids (just all. There must not be many left in April 2022.)
-            $added_ecrids = $efa_tools->add_ecrids(10000);
-            file_put_contents($cronlog, 
-                    date("Y-m-d H:i:s") . " +" . (time() - $last_step_ended) . ": Added " . $added_ecrids .
-                             " missing efaCloud record Ids.\n", FILE_APPEND);
-            $last_step_ended = time();
             // Add missing values in helper data fields which are build of multiple direct fields.
+            include '../classes/efa_record.php';
+            $efa_record = new Efa_record($toolbox, $socket);
             $added_virtuals = $efa_record->check_and_add_empty_virtual_fields($app_user_id);
             file_put_contents($cronlog, 
                     date("Y-m-d H:i:s") . " +" . (time() - $last_step_ended) .
                              ": Added missing virtual fields: " . $added_virtuals . ".\n", FILE_APPEND);
+            $last_step_ended = time();
+            
+            // END-DATE DELETION FOR END-DATE == DATE
+            // --------------------------------------
+            // Needed, because efa will not accept equal Date and EndDate in a logbook entry
+            $to_be_corrected = new Tfyh_list("../config/lists/efaAuditCorruptData", 17, "", $socket, $toolbox);
+            $to_be_corrected_rows = $to_be_corrected->get_rows();
+            $ecrid_index = $to_be_corrected->get_field_index("ecrid");
+            $end_date_index = $to_be_corrected->get_field_index("EndDate");
+            $record = [ "EndDate" => "" ];
+            foreach($to_be_corrected_rows as $row) {
+                $ecrid = $row[$ecrid_index];
+                $matching_keys = [ "ecrid" => $ecrid ];
+                $success = $socket->update_record_matched($app_user_id, "efa2logbook", $matching_keys, $record);
+            }
             $last_step_ended = time();
             
             // USAGE STATISTICS
@@ -100,6 +96,8 @@ class Cron_jobs extends Tfyh_cron_jobs
                     date("Y-m-d H:i:s") . " +" . (time() - $last_step_ended) . ": Archived: " . $archive_info .
                              ".\n", FILE_APPEND);
             $last_step_ended = time();
+            include_once "../classes/efa_tools.php";
+            $efa_tools = new Efa_tools($toolbox, $socket);
             $purge_info = $efa_tools->purge_outdated_deleted();
             file_put_contents($cronlog, 
                     date("Y-m-d H:i:s") . " +" . (time() - $last_step_ended) .
@@ -127,13 +125,6 @@ class Cron_jobs extends Tfyh_cron_jobs
                              ": Autocorrection of archive references completed.\n", FILE_APPEND);
             $last_step_ended = time();
             // end of fix for versions 2.3.1_11..2.3.2_00 later (inserted August 2022, 2.3.2_01)
-            
-            // manage corrupt records (TODO: this may be temporary, introduced October 2022).
-            $purge_corrupt_result = $efa_tools->purge_corrupt();
-            file_put_contents($cronlog, 
-                    date("Y-m-d H:i:s") . " +" . (time() - $last_step_ended) .
-                             ": Corrupt data records purged/total = $purge_corrupt_result.\n", FILE_APPEND);
-            $last_step_ended = time();
             
             // PARSE THE CLIENT CONFIGURATION
             // ------------------------------

@@ -1,5 +1,5 @@
 tags;required;name;value;label;type;class;size;maxlength
-<div class='w3-row'><div class='w3-col l2'>;*;efaCloudUserID;;;text;;90%;10
+<div class='w3-row'><div class='w3-col l2'>;*;efaCloudUserID;;zbSX9F|efaCloudUser ID;text;;90%;10
 </div><div class='w3-col l2'>;*;efaAdminName;;gl6P6y|Admin name in efa for ad...;text;;90%;250
 </div></div><div class='w3-row'><div class='w3-col l2'>;*;Vorname;;Y4qNDN|First name;text;;90%;250
 </div><div class='w3-col l2'>;*;Nachname;;l4txC2|Last name;text;;90%;250

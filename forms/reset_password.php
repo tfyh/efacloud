@@ -1,5 +1,26 @@
 <?php
 /**
+ *
+ *       the tools-for-your-hobby framework
+ *       ----------------------------------
+ *       https://www.tfyh.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ */
+
+/**
  * The form to reset a password. Based on the Tfyh_form class, please read instructions their to better
  * understand this PHP-code part.
  * 
@@ -91,10 +112,13 @@ if ($done > 0) {
         else {
             // password changes will change the last modified time stamp, because they have
             // no impact on the users data
-            $sql_cmd = "UPDATE `" . $toolbox->users->user_table_name . "` SET `Passwort_Hash` = '' " .
-                     "WHERE `" . $toolbox->users->user_table_name . "`.`" . $toolbox->users->user_id_field_name .
-                     "` = " . $app_user_id;
-            if ($socket->query($sql_cmd) === false)
+            $matching_keys = [$toolbox->users->user_id_field_name => $app_user_id
+            ];
+            $user_record[$toolbox->users->user_id_field_name] = $app_user_id;
+            $user_record["Passwort_Hash"] = "-";
+            $update_result = $socket->update_record_matched($app_user_id, $toolbox->users->user_table_name, 
+                    $matching_keys, $user_record);
+            if (strlen($update_result) > 0)
                 $form_errors .= i("ceZU15|The deletion of the pass...");
             else
                 $todo = $done + 1;
@@ -119,7 +143,12 @@ echo $menu->get_menu();
 echo file_get_contents('../config/snippets/page_02_nav_to_body');
 
 // page heading, identical for all workflow steps
-echo i("HKR5lY| ** Delete password ** D...");
+echo "<!-- START OF content -->\n<div class='w3-container'>\n";
+echo "<h3>" . i("6Eagok|Delete password") . "</h3>";
+echo "<p>" .
+         i(
+                "eaMVsh|Delete the permanent pas...") .
+         "</p>";
 echo $form_result;
 echo $toolbox->form_errors_to_html($form_errors);
 echo $form_to_fill->get_html();

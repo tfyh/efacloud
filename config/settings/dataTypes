@@ -1,0 +1,23 @@
+uid;parent;name;text_local_name;text_explanation;value_current;value_type;value_parse_as;value_default;value_min;value_max;value_size;value_rules;sql_type;sql_indexed;sql_size;sql_null;sql_default;input_type;input_class
+CjgFd4mQ;;dataTypes;I2igq8|data types;;;branch;none;;;;;;;;;;;;
+8NtgjOdG;CjgFd4mQ;none;twQEii|none;He8Npc|no value type, i.e. for ...;;none;string;;;;;;tinyint;;0;true;NULL;text;
+zs72fgjs;CjgFd4mQ;unknown;dQqTnf|unknown;clQGf1|unknown value type.;;unknown;string;;;;;;varchar;;256;true;NULL;text;
+KuW5mQjO;CjgFd4mQ;branch;QF011V|branch;RUZrAo|a branch for the configu...;;branch;none;;;;;;;;;;;;
+j4w6QC6g;CjgFd4mQ;object;emKdCs|object;6OmLBb|a configuration object;;object;none;;;;;;;;;;;;
+lJeGdG2A;CjgFd4mQ;boolean;Cu2G1y|yes/no;7biR4D|true or false, in SQL 1 ...;;boolean;boolean;false;;;;;tinyint;;0;false;false;checkbox;
+HG1w2n3Y;CjgFd4mQ;int;jFc7LF|integer;1hmAzF|an integer number (defau...;;int;int;0;-2147483648;2147483647;;;int;;0;false;0;text;
+12lfc8fK;CjgFd4mQ;long;yobRgF|integer (64bit);LEswoB|a long integer number - ...;;int;string;0;;;20;;bigint;;0;false;0;text;
+Y3sM3YQg;CjgFd4mQ;float;N3zJZS|floating point number;IK6lBG|a floating point number ...;;float;float;0;-3.40E+38;3.40E+38;;;float;;0;false;0;text;
+YQgU3sM3;CjgFd4mQ;double;qBIi8s|floating point number (6...;pdfAGv|a high precision floatin...;;double;float;;-1.79E+308;1.79E+308;;;double;;0;false;0;text;
+anMpQgwh;CjgFd4mQ;date;6fCAua|date;WAIZ9Z|a date without the time ...;;date;date;1970-01-01;1000-01-01;2999-01-01;;;date;;0;false;1970-01-01;date;
+59ugwh2M;CjgFd4mQ;time;reFIOv|time;N7zwJX|a time, either time of d...;;time;time;00:00:00;-99:59:59;99:59:59;;;int;;0;false;00:00:00;text;
+pMBU2M6F;CjgFd4mQ;datetime;uSKtHu|date plus time;ZTpM5O|date and time between 10...;;datetime;datetime;1970-01-01 00:00:00;1000-01-01 00:00:00;2999-12-31 23:59:59;;;datetime;;0;false;CURRENT_TIMESTAMP;text;
+QoDb6FgY;CjgFd4mQ;microtime;fUNLos|server timestamp;DpOAmY|the server time since th...;;microtime;float;0;0;9.3E+15;;;double;;0;false;0;text;
+o4y1HL2g;CjgFd4mQ;millis;HFZxrT|java timestamp;yCzEiS|the java time since the ...;;millis;string;0;;;20;;bigint;;0;false;0;text;
+gB8lgYiT;CjgFd4mQ;string;Qig0i8|string;NleMXL|a String of less than 40...;;string;string;;;;4096;;varchar;;4096;true;NULL;text;
+7GcgiTto;CjgFd4mQ;text;dNEp9w|text;Kf38QT|a String of less than 65...;;text;string;;;;65536;;text;;0;true;NULL;textarea;
+uNjVtoOe;CjgFd4mQ;identifier;Um89xR|identifier;Kr71pH|an identifier String, co...;;identifier;string;;;;64;identifier;varchar;;64;true;NULL;text;
+uhmHz7W1;CjgFd4mQ;autoinc;c19I5S|autoincrementing id;lmX2RZ|the sql table autoincrem...;;autoinc;int;;;;;;int;ua;0;false;(kein);text;display-bold
+104mOe99;CjgFd4mQ;uid;teKQFr|universal record id;waAoy8|a twelve characters rand...;;uid;string;;;;12;uid;varchar;;12;true;(kein);text;display-bold
+0XZ6qbJM;CjgFd4mQ;uuid;3HQTXe|universal unique id;PJaxsz|a standard 128 bit UUID,...;;uuid;string;;;;36;uuid;varchar;;36;true;(kein);text;
+r4g7FX4l;CjgFd4mQ;uuid_or_name;VM7UAz|uuid or plain text;cZoVKb|universal unique id or a...;;uuid_or_name;string;;;;120;;varchar;;128;true;NULL;text;

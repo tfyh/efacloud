@@ -1,5 +1,26 @@
 <?php
 /**
+ *
+ *       efaCloud
+ *       --------
+ *       https://www.efacloud.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
  * Page display file. Shows all mails available to public from ARB Verteler.
  * 
  * @author mgSoft
@@ -26,7 +47,7 @@ echo file_get_contents('../config/snippets/page_01_start');
 echo $menu->get_menu();
 echo file_get_contents('../config/snippets/page_02_nav_to_body');
 
-echo i("WlX6QJ|<!-- START OF content -..."); 
+echo "<!-- START OF content -->\n<div class='w3-container'>"; 
 
 if ($client_record !== false) {
     $filename = "../uploads/" . $client_id . "/$file_to_show";
@@ -52,6 +73,6 @@ if ($client_record !== false) {
 } else {
     echo "<h4>".i("fudXmI|This page was accessed w...")."</h4><p>";
 }
-echo "</p>";
-echo i("ToJ4AJ|</div><!-- END OF Cont..."); 
+echo "</p>\n</div>\n<!-- END OF Content -->";
+
 end_script();

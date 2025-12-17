@@ -1,5 +1,26 @@
 <?php
 /**
+ *
+ *       the tools-for-your-hobby framework
+ *       ----------------------------------
+ *       https://www.tfyh.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ */
+
+/**
  * The form for user mailing self service. Based on the Tfyh_form class, please read instructions their to
  * better understand this PHP-code part.
  * 
@@ -41,10 +62,10 @@ if ($done > 0) {
         // get mailto list
         include_once "../classes/tfyh_list.php";
         // there are two ways to select a "verteiler", either via the get-value "verteiler", or via
-        // the POST-value "To".
+        // the POST-value "To". Check permission.
         if ($verteiler == 0)
-            $list = new Tfyh_list("../config/lists/mailverteiler_lesen", 0, $entered_data["To"], $socket, 
-                    $toolbox);
+            $list = new Tfyh_list("../config/lists/mailverteiler_lesen", intval($entered_data["An"]), "", 
+                    $socket, $toolbox);
         else
             $list = new Tfyh_list("../config/lists/mailverteiler_lesen", $verteiler, "", $socket, $toolbox);
         if (! $list)
@@ -57,8 +78,8 @@ if ($done > 0) {
         $count_of_mails = 25;
         $form_info = "<p>" . i("NAOKEm|Here are the last %1 mai...", $count_of_mails, $list->get_list_name()) .
                  "</p>";
-        $mails_list = $socket->find_records("Mails", "Verteiler", substr($list->get_list_name(), 0, 64), 1000);
-        $mails_to_skip = count($mails_list) - $count_of_mails;
+        $mails_list = $socket->find_records("Mails", "Verteiler", $list->get_list_id(), 1000);
+        $mails_to_skip = ($mails_list === false) ? $count_of_mails : count($mails_list) - $count_of_mails;
         $todo = 2;
         $mails_formatted = "";
         $i = 1;
@@ -68,8 +89,8 @@ if ($done > 0) {
                         $toolbox->users->user_id_field_name, $mail_listed[$toolbox->users->user_id_field_name]);
                 $mailfrom = $mail_from_user["Vorname"] . " " . $mail_from_user["Nachname"];
                 $mailto = $list->get_list_name();
-                $subject = $mail_listed["Subject"];
-                $body = str_replace("\n", "<br>", $mail_listed["Message"]);
+                $subject = $mail_listed["Betreff"];
+                $body = str_replace("\n", "<br>", $mail_listed["Nachricht"]);
                 $mails_formatted = "<p>#" . $i . " <b>" . i("1393xk|Sent:") . "</b> " .
                          $mail_listed["versendetAm"] . "<br /><b>" . i("yhYGfZ|From:") . "</b> " . $mailfrom .
                          "<br /><b>" . i("6KXRE6|To:") . "</b> " . $mailto . "<br /><b>" . i(
@@ -99,14 +120,17 @@ echo $menu->get_menu();
 echo file_get_contents('../config/snippets/page_02_nav_to_body');
 
 // page heading, identical for all workflow steps
-echo i("47al0R| ** Read mails ** Here y...");
+echo "<!-- START OF content -->\n<div class='w3-container'>\n";
+echo "<h3>" . i("99XIGm|Read previousl sent mail...") . "</h3>";
+echo "<p>" . i("sN71rx|Please select the distri...") .
+         "</p>";
 echo $toolbox->form_errors_to_html($form_errors);
 echo $form_info;
 if ($todo == 1)
     echo $form_to_fill->get_html();
 elseif ($todo == 2)
     echo $mails_formatted; // enable file upload
-echo i("NEBbkz|<!-- END OF form --></..."); ?>
+echo "<!-- END OF form -->\n</div>";
 end_script();
 
     

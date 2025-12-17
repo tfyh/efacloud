@@ -24,6 +24,11 @@ class Efa_api
     private $debug_on;
 
     /**
+     * Debug level to add mor information for support cases.
+     */
+    private $api_session_id;
+
+    /**
      * public Constructor.
      * 
      * @param Tfyh_toolbox $toolbox
@@ -36,6 +41,17 @@ class Efa_api
         $this->toolbox = $toolbox;
         $this->socket = $socket;
         $this->debug_on = $toolbox->config->debug_level > 0;
+    }
+
+    /**
+     * Set the session id, which is used within the NOP response.
+     * 
+     * @param String $api_session_id
+     *            the id of the API-session
+     */
+    public function set_session_id (String $api_session_id)
+    {
+        $this->api_session_id = $api_session_id;
     }
 
     /* --------------------------------------------------------------------------------------- */
@@ -64,20 +80,20 @@ class Efa_api
     public function api_modify (array $client_verified, String $tablename, array $record, int $mode, 
             int $api_version = 1)
     {
-        // TODO: YYYYx logbook was introduced Jan 2023 and deprecated Feb 2023. Remove in 2024.
-        if ($this->summary_logbook_filter($tablename, $record) !== false)
-            return "304;" . i("ShX0Ie|records of a virtual sum...");
-        // TODO: YYYYx logbook was introduced Jan 2023 and deprecated Feb 2023. Remove in 2024.
         $mode_str = ($mode == 1) ? "insert" : (($mode == 2) ? "update" : "delete");
         if ($this->debug_on)
             file_put_contents(Tx_handler::$api_debug_log_path, 
                     date("Y-m-d H:i:s") . ": starting api_modify ($mode_str) for client " .
-                             $client_verified[$this->toolbox->users->user_id_field_name] . " at table " .
-                             $tablename . ".\n", FILE_APPEND);
+                             $client_verified[$this->toolbox->users->user_id_field_name] .
+                             " at table $tablename, API version: $api_version.\n", FILE_APPEND);
         $efaCloudUserID = $client_verified[$this->toolbox->users->user_id_field_name];
         $key_was_modified = false;
         include_once "../classes/efa_record.php";
         $efa_record = new Efa_record($this->toolbox, $this->socket);
+        if ($this->debug_on)
+            file_put_contents(Tx_handler::$api_debug_log_path, 
+                    date("Y-m-d H:i:s") . ": efa_record class created. API Version $api_version" . ".\n", 
+                    FILE_APPEND);
         
         // Pre-modification check
         // ----------------------
@@ -85,7 +101,7 @@ class Efa_api
         if ($api_version < 3) {
             // only existance and overwriting checks at API V1 and V2
             $pre_modification_check = $efa_record->validate_record_APIv1v2($tablename, $record, $mode, 
-                    $efaCloudUserID, true);
+                    $efaCloudUserID);
             // $force_refresh = true, for multiple API transaction in one container, values may change in
             // between.
             if (! is_array($pre_modification_check))
@@ -106,9 +122,20 @@ class Efa_api
             if (! is_array($pre_modification_check))
                 return "304;" . $pre_modification_check;
             $record = $pre_modification_check;
+            // add ChangeCount, if missing:
+            if (! isset($record["ChangeCount"])) {
+                $existing_record = $this->socket->find_record($tablename, "ecrid", $record["ecrid"]);
+                $record["ChangeCount"] = ($existing_record === false) ? "1" : $existing_record["ChangeCount"];
+            }
         }
         
-        // modify record
+        // unset empty dates and tmes
+        // TODO: This may be activated, iff needed, but was not yet tested (14.6.2025)
+        // $record = unsetEmptyDatesAndTimes ($record, $tablename);
+        
+        // register the modification in case the record is API level 3 and higher. efa will do that itself.
+        if ($api_version >= 3)
+            $record = Efa_tables::register_modification($record, time(), $record["ChangeCount"], $mode_str);
         $result = $efa_record->modify_record($tablename, $record, $mode, $efaCloudUserID, $api_version < 3);
         if (($mode == 3) && is_numeric($result))
             $result = "";
@@ -143,10 +170,33 @@ class Efa_api
         } else {
             if ($this->debug_on)
                 file_put_contents(Tx_handler::$api_debug_log_path, 
-                        date("Y-m-d H:i:s") . ": api_$mode_str: " . i("fposcc|Failed. Reason:") . " '" . $result .
-                                 "' \n", FILE_APPEND);
+                        date("Y-m-d H:i:s") . ": api_$mode_str: " . i("fposcc|Failed. Reason:") . " '" .
+                                 $result . "' \n", FILE_APPEND);
             return "502;" . $result; // 502 => "Transaction failed."
         }
+    }
+
+    /**
+     * Remove empty Strings for date and time fields.
+     * 
+     * @param array $record
+     *            the record to remove the empty date and tme fields from
+     * @param String $tablename
+     *            the name of the table the record belongs to
+     * @return array the cleansed record
+     */
+    // TODO Not yet tested
+    private function unsetEmptyDatesAndTimes (array $record, String $tablename)
+    {
+        if (isset(Efa_tables::$date_fields[$tablename]))
+            foreach (Efa_tables::$date_fields[$tablename] as $date_field_name)
+                if (isset($record[$date_field_name]) && (strlen($record[$date_field_name]) == 0))
+                    unset($record[$date_field_name]);
+        if (isset(Efa_tables::$time_fields[$tablename]))
+            foreach (Efa_tables::$time_fields[$tablename] as $date_field_name)
+                if (isset($record[$date_field_name]) && (strlen($record[$date_field_name]) == 0))
+                    unset($record[$date_field_name]);
+        return $record;
     }
 
     /**
@@ -163,9 +213,12 @@ class Efa_api
      */
     public function api_keyfixing (array $client_verified, String $tablename, array $fixed_record_reference)
     {
+        $logbookname = ((count($fixed_record_reference) == 1) && (strcasecmp($tablename, "efa2logbook") == 0) &&
+                 isset($fixed_record_reference["Logbookname"])) ? $fixed_record_reference["Logbookname"] : "";
         if ($this->debug_on)
             file_put_contents(Tx_handler::$api_debug_log_path, 
-                    date("Y-m-d H:i:s") . ": " . i("rmslRn|starting") . " api_keyfixing\n", FILE_APPEND);
+                    date("Y-m-d H:i:s") . ": " . i("rmslRn|starting") . " api_keyfixing for $tablename" .
+                             ((strlen($logbookname) > 0) ? " (" . $logbookname . ")" : "") . "\n", FILE_APPEND);
         
         if (! array_key_exists($tablename, Efa_tables::$efa_autoincrement_fields)) {
             // 304 => "Transaction forbidden.", if the key must not be fixed.
@@ -179,16 +232,14 @@ class Efa_api
                  (strlen($fixed_record_reference["ecrid"]) > 5)) {
             if ($this->debug_on)
                 file_put_contents(Tx_handler::$api_debug_log_path, 
-                        date("Y-m-d H:i:s") . ": api_keyfixing " . i("NHMrlY|aborted. Ecrid available...") . "\n", 
-                        FILE_APPEND);
+                        date("Y-m-d H:i:s") . ": api_keyfixing " . i("NHMrlY|aborted. Ecrid available...") .
+                         "\n", FILE_APPEND);
             return "304;" . i("SXW6e1|Keyfixing is not allowed...");
         }
         
         // identify, whether the keyfixing record is empty. Ignore the Logbookname field, because the
         // keyfixing record for the logbook always contains the Logbookname, even if there is no key to fix.
-        $is_empty_record = (count($fixed_record_reference) == 0) || ((count($fixed_record_reference) == 1) &&
-                 (strcasecmp($tablename, "efa2logbook") == 0) &&
-                 (isset($fixed_record_reference["Logbookname"])));
+        $is_empty_record = ((count($fixed_record_reference) == 0) || (strlen($logbookname) > 0));
         
         // keyfixing may be called with an empty keyfixing record to get the next mismatching
         // record's key. If, however, a key of a fixed record is provided, fix it
@@ -196,10 +247,9 @@ class Efa_api
             $server_key_of_fixed_record = Efa_tables::get_record_key($tablename, $fixed_record_reference);
             if ($server_key_of_fixed_record === false) {
                 // 304 => "Transaction failed." if the table must not be fixed.
-                return "304;" . $tablename . ": " .
-                         i("ny15Xd|incomplete key for fixin...", 
-                                json_encode($fixed_record_reference), 
-                                json_encode(Efa_tables::$efa_data_key_fields[$tablename]));
+                return "304;" . $tablename . ": " . i("ny15Xd|incomplete key for fixin...", 
+                        json_encode($fixed_record_reference), 
+                        json_encode(Efa_tables::$efa_data_key_fields[$tablename]));
             }
             // get record to fix
             $record_to_remove_clientsidekey = $this->socket->find_record_matched($tablename, 
@@ -215,26 +265,29 @@ class Efa_api
                 $res = $this->socket->update_record_matched(
                         $client_verified[$this->toolbox->users->user_id_field_name], $tablename, 
                         $server_key_of_fixed_record, $update_fields_for_fixed_record);
+                if (strlen($res) > 0)
+                    file_put_contents(Tx_handler::$api_error_log_path, 
+                            date("Y-m-d H:i:s") . ": api_keyfixing error " . $res . ".\n", FILE_APPEND);
                 if ($this->debug_on)
                     file_put_contents(Tx_handler::$api_debug_log_path, 
-                            date("Y-m-d H:i:s") . ": api_keyfixing " . i("cXYJJu|processed. Result:") . " " . $res .
-                                     ".\n", FILE_APPEND);
+                            date("Y-m-d H:i:s") . ": api_keyfixing " . i("cXYJJu|processed. Result:") . " " .
+                                     $res . ".\n", FILE_APPEND);
             }
         }
         
         // check for more key which need fixing
-        $return_message = $this->get_next_key_to_fix($client_verified, $tablename);
+        $return_message = $this->get_next_key_to_fix($client_verified, $tablename, $logbookname);
         if (! $return_message) {
             if ($this->debug_on)
                 file_put_contents(Tx_handler::$api_debug_log_path, 
-                        date("Y-m-d H:i:s") . ": api_keyfixing " . i("3Dhpv1|completed. No more keys ...") . "\n", 
-                        FILE_APPEND);
+                        date("Y-m-d H:i:s") . ": api_keyfixing " . i("3Dhpv1|completed. No more keys ...") .
+                                 "\n", FILE_APPEND);
             return "300;";
         } else {
             if ($this->debug_on)
                 file_put_contents(Tx_handler::$api_debug_log_path, 
-                        date("Y-m-d H:i:s") . ": api_keyfixing " . i("Sr2ozD|completed. More keys to ...") . " " .
-                                 $return_message . ".\n", FILE_APPEND);
+                        date("Y-m-d H:i:s") . ": api_keyfixing " . i("Sr2ozD|completed. More keys to ...") .
+                                 " " . $return_message . ".\n", FILE_APPEND);
             return "303;" . $return_message;
         }
     }
@@ -266,10 +319,13 @@ class Efa_api
     {
         if ($this->debug_on)
             file_put_contents(Tx_handler::$api_debug_log_path, 
-                    date("Y-m-d H:i:s") . ": " . i(
-                            "BbNX8o|starting api_select for ...", 
+                    date("Y-m-d H:i:s") . ": " . i("BbNX8o|starting api_select for ...", 
                             $client_verified[$this->toolbox->users->user_id_field_name], $table_name, 
                             $api_version) . "\n", FILE_APPEND);
+        // check first for special case retrieve efaCloud settings
+        if (strcasecmp($table_name, "efaCloudConfig") == 0)
+            return "300;" . file_get_contents("../config/settings_app");
+        
         $condition = "=";
         if (isset($filter["?"])) {
             $condition = $filter["?"];
@@ -280,7 +336,13 @@ class Efa_api
         $get_all_records_of_db = $get_record_counts_of_db && (strcasecmp($condition, "@All") == 0);
         $ret = "";
         if ($get_record_counts_of_db) {
-            $tnames = $this->socket->get_table_names(true);
+            /* $tnames = $this->socket->get_table_names(true); */
+            // boats and groups need duplicate loading to be able to resolve all references
+            $tnames = ['efa2autoincrement','efa2status','efa2waters','efa2destinations','efa2groups',
+                    'efa2boats','efa2boatstatus','efa2persons','efa2groups','efa2crews','efa2boats',
+                    'efa2sessiongroups','efa2boatdamages','efa2boatreservations','efa2logbook',
+                    'efa2fahrtenabzeichen','efa2clubwork','efa2statistics','efa2messages'
+            ];
             foreach ($tnames as $tname)
                 if (Efa_tables::is_efa_table($tname)) {
                     $record_count = $this->socket->count_records($tname, $filter, $condition);
@@ -300,26 +362,12 @@ class Efa_api
             
             if ($this->debug_on)
                 file_put_contents(Tx_handler::$api_debug_log_path, 
-                        date("Y-m-d H:i:s") . ": " . i("AxOnvy|continued api_select for...") . " $table_name.\n", 
-                        FILE_APPEND);
+                        date("Y-m-d H:i:s") . ": " . i("AxOnvy|continued api_select for...") .
+                                 " $table_name.\n", FILE_APPEND);
             // add the condition to match the logbook, if the logbookname is part of the filter,
             $isLogbooktable = (strcasecmp($tname, "efa2logbook") == 0);
-            // TODO: Remove the following comment for summary logbook from 2.3.2_13 onwards
-            // $isSummaryLogbook = false;
             if ($isLogbooktable) {
-                // TODO: Remove the following two lines of comment for summary logbook in 2024
-                // $summary_logbook_filter = $this->summary_logbook_filter($tname, $filter);
-                // was $condition .= ($summary_logbook_filter !== false) ? ",LIKE" : ",=";
-                // add the condition, efa will only provide one, which ist the '>' for the LastModified
                 $condition .= ",=";
-                // TODO: Remove he following block for summary logbook in 2024
-                // the summary logbook is YYYYx, YYYY being the four digit year. It includes all logbooks with
-                // a name containing the four digit year
-                // if ($summary_logbook_filter !== false) {
-                // $filter["Logbookname"] = $summary_logbook_filter;
-                // $logbooksequence = $this->list_logbooks_for_summary($summary_logbook_filter);
-                // $isSummaryLogbook = true;
-                // }
             }
             // add the condition to match the clubwork book, if the clubworkbookname is part of the filter,
             $isClubworkbooktable = (strcasecmp($tname, "efa2clubwork") == 0);
@@ -352,11 +400,13 @@ class Efa_api
             // 1. the server side key cache for keyfixing and AllCrewIds field, 2. the logbook and
             // clubworkbook selector, 3. the record history and the records copy recipients
             $fields_to_exclude_from_full = ",ClientSideEntryId,AllCrewIds," . "Logbookname,Clubworkbookname," .
-                     "ecrhis,";
-            // 4. if the client does not support the efacloud record management
-            // exclude record id, owner and additional copy to fields
+                     "ecrhis,ecrown,ecract,"; // 6.3.25: ecract is long obsolete and ecrown will not be used by
+                                             // the client.
+                                             // 4. if the client does not support the efacloud record
+                                             // management
+                                             // exclude record id, owner and additional copy to fields
             if (! $include_ecrm_fields)
-                $fields_to_exclude_from_full .= "ecrid,ecrown,ecract,";
+                $fields_to_exclude_from_full .= "ecrid,";
             // Note: it doesn't hurt to exclude fields which are not existing anyways.
             
             $isFirstRow = true; // filter to identify, whether a header shall be created
@@ -430,11 +480,12 @@ class Efa_api
         // cut off the last \n and return the result.
         if (strlen($csvtable) > 0)
             $csvtable = mb_substr($csvtable, 0, mb_strlen($csvtable) - 1);
+        
         if ($this->debug_on)
             file_put_contents(Tx_handler::$api_debug_log_path, 
                     date("Y-m-d H:i:s") . ": api_select " .
-                             i("Mfgl2o|for table %1 completed. ...", $table_name, $csv_rows_cnt) .
-                             "\n", FILE_APPEND);
+                             i("Mfgl2o|for table %1 completed. ...", $table_name, $csv_rows_cnt) . "\n", 
+                            FILE_APPEND);
         return "300;" . $csvtable;
     }
 
@@ -454,7 +505,7 @@ class Efa_api
      */
     public function api_list (array $client_verified, String $listname, array $record, int $last_modified_min)
     {
-        $logbookname = (isset($record["logbookname"])) ? $record["logbookname"] : date("Y");
+        $logbookname = (isset($record["Logbookname"])) ? $record["Logbookname"] : date("Y");
         if (! isset($record["setname"]))
             // this is not "304", because the record contains a configuration information, not efa data.
             return "502;" . i("dAwKF1|Missing name of set in r...");
@@ -534,13 +585,15 @@ class Efa_api
         $tx_response = "300";
         // add maximum API protocol version and session ID
         $tx_response .= ";max_api_version_server=$max_api_version_server";
-        if (isset($_SESSION["API_sessionid"]))
-            $tx_response .= ";API_sessionid=" . $_SESSION["API_sessionid"];
+        $tx_response .= ";API_sessionid=" . $this->api_session_id;
         // add the synchronisation period settings
         $cfg = $this->toolbox->config->get_cfg();
         $tx_response .= ";synch_check_period=" . intval($cfg["synch_check_period"]);
         $tx_response .= ";synch_period=" . intval($cfg["synch_period"]);
-        $tx_response .= ";user_concessions=" . intval($_SESSION["User"]["Concessions"]);
+        // logs_to_return was introduced with efaCloud v2.4.0_07, and may not be set. Default is 2 = all logs.
+        $tx_response .= ";logs_to_return=" .
+                 ((isset($cfg["logs_to_return"])) ? intval($cfg["logs_to_return"]) : 2);
+        $tx_response .= ";user_concessions=" . intval($client_verified["Concessions"]);
         // TODO the MemberIdList size adjustment is needed for efa 2.3.2_02 and lower.
         // add the efa2groups member id list field size
         $group_memberidlist_size = $this->column_size("efa2groups", "MemberIdList");
@@ -581,13 +634,9 @@ class Efa_api
             $login_field = $this->toolbox->users->user_id_field_name;
             $login_value = $record[$this->toolbox->users->user_id_field_name];
         } else
-            return "402;" . i(
-                    "vDf51g|Neither efaAdminName nor...", 
-                    $this->toolbox->users->user_id_field_name);
+            return "402;" . i("vDf51g|Neither efaAdminName nor...", $this->toolbox->users->user_id_field_name);
         if (! isset($record["password"]) || (strlen($record["password"]) < 8))
-            return "403;" .
-                     i(
-                            "7n26tL|No password provided or ...");
+            return "403;" . i("7n26tL|No password provided or ...");
         
         // get the user to verify the credentials for
         $user_to_verify = $this->socket->find_record($this->toolbox->users->user_table_name, $login_field, 
@@ -617,27 +666,12 @@ class Efa_api
         $user_keys_csv = mb_substr($user_keys_csv, 0, mb_strlen($user_keys_csv) - 1);
         $user_values_csv = mb_substr($user_values_csv, 0, mb_strlen($user_values_csv) - 1);
         $user_record_csv = $user_keys_csv . "\n" . $user_values_csv;
-        return ($verified) ? "300;" . $user_record_csv : "403:" .
-                 i("auPGvi|credentials in VERIFY tr...");
+        return ($verified) ? "300;" . $user_record_csv : "403:" . i("auPGvi|credentials in VERIFY tr...");
     }
 
     /* --------------------------------------------------------------------------------------- */
     /* ------------------ PRIVATE SUPPORT FUNCTIONS ------------------------------------------ */
     /* --------------------------------------------------------------------------------------- */
-    
-    // TODO: remove summary logbook function from 2.3.2_13 onwards
-    /**
-     * Return all logbook names matching the filter of the efa2logbook table as array
-     * 
-     * @param String $filter_like
-     *            the filter to look for, e.g. %2022%
-     * @return array all names found, an empty array on no match. private function list_logbooks_for_summary
-     *         (String $filter_like) { $res = $this->socket->query( "SELECT DISTINCT `Logbookname` FROM
-     *         `efa2logbook` WHERE `Logbookname` LIKE '" . $filter_like . "'"); $logbooksequence = []; $l = 1;
-     *         if (isset($res->num_rows) && (intval($res->num_rows) > 0)) { $row = $res->fetch_row(); while
-     *         ($row) { $logbooksequence[$row[0]] = $l; $l ++; $row = $res->fetch_row(); } } return
-     *         $logbooksequence; }
-     */
     
     /**
      *
@@ -777,32 +811,36 @@ class Efa_api
      *            the verified client which requests the execution
      * @param array $tablename
      *            the table out of which the record shall be updated.
-     * @param String $tablename            
+     * @param String $logbookname
+     *            the name of the logbook to use, if the key fixing applies to a logbook
      * @return the csv table with the new rtecord and the current key as it shall be returned to the client.
      *         False, if no further key mismatch exists for this table
      */
-    private function get_next_key_to_fix (array $client_verified, String $tablename)
+    private function get_next_key_to_fix (array $client_verified, String $tablename, String $logbookname)
     {
         
         // 2.3.2_09 and following: key fixing of message records will no more take place.
         // the client may, however, still ask for keys to be fixed. Return always none.
         if (strcasecmp($tablename, "efa2messages") == 0)
             return false;
-        
         $api_log_path = Tx_handler::$api_log_path;
+        
         // get all records which need fixing from this client
         // Note that the mismatching client side key of those always contains at least one ":"
         $client_key_filter = "%" . $client_verified[$this->toolbox->users->user_id_field_name] . ":%";
-        // Note that not more than a couple of keys shall be with a key to fix.
-        $mismatching_server_side_records = $this->socket->find_records_sorted_matched($tablename, 
-                ["ClientSideKey" => $client_key_filter
-                ], 100, "LIKE", false, true, false);
+        if (strcasecmp($tablename, "efa2logbook") == 0) {
+            // Note that not more than a couple of keys shall be with a key to fix.
+            $mismatching_server_side_records = $this->socket->find_records_sorted_matched($tablename, 
+                    ["ClientSideKey" => $client_key_filter,"Logbookname" => $logbookname
+                    ], 100, "LIKE,=", false, true, false);
+        } else {
+            // Note that not more than a couple of keys shall be with a key to fix.
+            $mismatching_server_side_records = $this->socket->find_records_sorted_matched($tablename, 
+                    ["ClientSideKey" => $client_key_filter
+                    ], 100, "LIKE", false, true, false);
+        }
         if (! $mismatching_server_side_records)
             return false;
-        
-        file_put_contents($api_log_path, 
-                "[" . date("Y-m-d H:i:s") . "] - " . i("JkJqGq|Transaction: %1 mismatch...", 
-                        count($mismatching_server_side_records)) . "\n", FILE_APPEND);
         
         // collect mismatching keys
         $mismatching_client_side_keys = [];
@@ -817,8 +855,7 @@ class Efa_api
                             json_encode($mismatching_server_side_key)) . "\n", FILE_APPEND);
             $mismatching_client_side_key_pair = explode(":", $mismatching_server_side_record["ClientSideKey"]);
             file_put_contents($api_log_path, 
-                    "[" . date("Y-m-d H:i:s") . "] - " . i(
-                            "irFk1J|Transaction: mismatching...", 
+                    "[" . date("Y-m-d H:i:s") . "] - " . i("irFk1J|Transaction: mismatching...", 
                             json_encode($mismatching_client_side_key_pair)) . "\n", FILE_APPEND);
             $mismatching_client_side_keys[] = $mismatching_client_side_key_pair[1];
             // add the comparable server side key to the record for later usage
@@ -844,16 +881,13 @@ class Efa_api
         // No such record was identified. That actually shall never happen. If so, abort fixing.
         if ($free_at_client === false) {
             file_put_contents($api_log_path, 
-                    "[" . date("Y-m-d H:i:s") . "] - " .
-                             i(
-                                    "ebzhv5|Transaction: could not f...") .
-                             "\n", FILE_APPEND);
+                    "[" . date("Y-m-d H:i:s") . "] - " . i("ebzhv5|Transaction: could not f...") . "\n", 
+                    FILE_APPEND);
             return "";
         }
         
         file_put_contents($api_log_path, 
-                "[" . date("Y-m-d H:i:s") . "] - " . i(
-                        "dTHKvl|Transaction: Key value °...", 
+                "[" . date("Y-m-d H:i:s") . "] - " . i("dTHKvl|Transaction: Key value °...", 
                         $free_at_client["ServerSideKey"]) . "\n", FILE_APPEND);
         
         // provide the record to delete at the client side and the record to insert instead.

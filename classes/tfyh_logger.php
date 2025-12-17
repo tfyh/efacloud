@@ -1,4 +1,25 @@
 <?php
+/**
+ *
+ *       the tools-for-your-hobby framework
+ *       ----------------------------------
+ *       https://www.tfyh.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ */
+
 
 /**
  * A utility class to log actions, warnings and login fails. Uses the constructor setting to identify the
@@ -107,27 +128,6 @@ class Tfyh_logger
         if (! file_exists($filename) || (filesize($filename) < 3))
             file_put_contents($filename, "timestamp;user;file;duration\n" . $timestamp);
         file_put_contents($filename, $timestamp, FILE_APPEND);
-    }
-
-    /**
-     * temporarily created access_web and access_api logs need to be removed. Introduced 09.02.2023. TODO
-     * remove some day.
-     */
-    public static function remove_obsolete_access_logs ()
-    {
-        $files = scandir("../log");
-        foreach ($files as $file) {
-            $obsolete = (strpos($file, "access_web_") !== false);
-            $obsolete = $obsolete || (strpos($file, "access_api_") !== false);
-            $obsolete = $obsolete || (strpos($file, "access_api_") !== false);
-            $obsolete = $obsolete || ((strpos($file, "api_errors.log.") !== false) &&
-                     (strcasecmp($file, "api_errors.log.previous") !== 0));
-            $obsolete = $obsolete || ((strpos($file, "api_info.log.") !== false) &&
-                     (strcasecmp($file, "api_info.log.previous") !== 0));
-            $obsolete = $obsolete || (strpos($file, "efa_tools_db_") !== false);
-            if ($obsolete)
-                unlink("../log/$file");
-        }
     }
 
     /**
@@ -382,7 +382,7 @@ class Tfyh_logger
     }
 
     /**
-     * log application information.
+     * log application information into app_info.log, app_warnings.log and app_errors.log.
      * 
      * @param int $type
      *            one of $TYPE_DONE ( == 0), $TYPE_WARN ( == 1), $TYPE_FAIL ( == 2)

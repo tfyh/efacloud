@@ -13,6 +13,10 @@ html {
 	overflow-x: hidden
 }
 
+body {
+	min-height: 100vh;
+} 
+
 footer, header, nav {
 	display: block
 }
@@ -28,31 +32,31 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-	font-size: 36px;
+	font-size: 2.25rem; /* 36px@16px=rem */
 }
 
 h2 {
-	font-size: 30px;
+	font-size: 1.875rem; /* 30px@16px=rem */
 }
 
 h3 {
-	font-size: 24px;
+	font-size: 1.5rem; /* 24px@16px=rem */
 }
 
 h4 {
-	font-size: 20px
+	font-size: 1.25rem; /* 20px@16px=rem */
 }
 
 h5 {
-	font-size: 18px
+	font-size: 1.125rem; /* 18px@16px=rem */
 }
 
 h6 {
-	font-size: 16px
+	font-size: 1rem; /* 16px@16px=rem */
 }
 
 p, textarea {
-	font-size: 16px
+	font-size: 1rem; /* 16px@16px=rem */
 }
 
 a {
@@ -70,43 +74,39 @@ img {
 }
 
 /* Font size and position formats */
-b {
-	font-weight: bolder
-}
-
 small {
-	font-size: 80%
+	font-size: 0.8rem;  /* 12.8px@16px=rem */
 }
 
 sub, sup {
-	font-size: 75%;
+	font-size: 0.75rem;  /* 12px@16px=rem */
 	line-height: 0;
 	position: relative;
 	vertical-align: baseline
 }
 
 sub {
-	bottom: -0.25em
+	bottom: -0.25rem
 }
 
 sup {
-	top: -0.5em
+	top: -0.5rem
 }
 
 .w3-small {
-	font-size: 12px !important
+	font-size: 0.75rem !important  /* 12px@16px=rem */
 }
 
 .w3-medium {
-	font-size: 15px !important
+	font-size: 0.9375rem !important   /* 15px@16px=rem */
 }
 
 .w3-large {
-	font-size: 18px !important
+	font-size: 1.125 !important   /* 18px@16px=rem */
 }
 
 .w3-xlarge {
-	font-size: 24px !important;
+	font-size: 1.5rem !important;   /* 16px@16px=rem */
 }
 
 .w3-center {
@@ -212,46 +212,46 @@ textarea {
 	}
 	/* full width */
 	.w3-col.l1 {
-		width: 99.99999%
+		width: 99.9%
 	}
 	/* half width */
 	.w3-col.l2 {
-		width: 49.99999%
+		width: 49.9%
 	}
 	/* a third width */
 	.w3-col.l3 {
-		width: 33.33333%
+		width: 33.3%
 	}
 	/* a third, two times */
 	.w3-col.l32 {
-		width: 66.66666%
+		width: 66.6%
 	}
 	/* a fourth width */
 	.w3-col.l4 {
-		width: 24.99999%
+		width: 24.9%
 	}
 	/* a fourth, three times. Note: a fourth, two times = a half */
 	.w3-col.l43 {
-		width: 74.99999%
+		width: 74.9%
 	}
 	/* a fifth with asf. */
 	.w3-col.l5 {
-		width: 19.99999%
+		width: 19.9%
 	}
 	.w3-col.l52 {
-		width: 39.99999%
+		width: 39.99%
 	}
 	.w3-col.l53 {
-		width: 59.99999%
+		width: 59.9%
 	}
 	.w3-col.l54 {
-		width: 79.99999%
+		width: 79.9%
 	}
 	.w3-col.l6 {
-		width: 16.66666%
+		width: 16.6%
 	}
 	.w3-col.l65 {
-		width: 83.33333%
+		width: 83.3%
 	}
 }
 
@@ -267,37 +267,37 @@ textarea {
 		margin-left: 220px !important;
 	}
 	.w3-col.l1 {
-		width: 99.99999%
+		width: 99.9%
 	}
 	.w3-col.l2 {
-		width: 49.99999%
+		width: 49.9%
 	}
 	.w3-col.l3 {
-		width: 33.33333%
+		width: 33.3%
 	}
 	.w3-col.l32 {
-		width: 66.66666%
+		width: 66.6%
 	}
 	.w3-col.l4 {
-		width: 49.99999%
+		width: 49.9%
 	}
 	.w3-col.l43 {
-		width: 99.99999%
+		width: 99.9%
 	}
 	.w3-col.l5 {
-		width: 33.33333%
+		width: 33.3%
 	}
 	.w3-col.l52 {
-		width: 66.66666%
+		width: 66.6%
 	}
 	.w3-col.l53 {
-		width: 99.99999%
+		width: 99.9%
 	}
 	.w3-col.l54 {
-		width: 99.99999%
+		width: 99.9%
 	}
 	.w3-col.l6 {
-		width: 33.33333%
+		width: 33.3%
 	}
 	.w3-col.l65 {
 		width: 99.99999%
@@ -316,34 +316,34 @@ textarea {
 		margin-left: 0 !important;
 	}
 	.w3-col.l1 {
-		width: 99.99999%
+		width: 99.9%
 	}
 	.w3-col.l2 {
-		width: 99.99999%
+		width: 99.9%
 	}
 	.w3-col.l3 {
-		width: 49.99999%
+		width: 49.9%
 	}
 	.w3-col.l32 {
-		width: 99.99999%
+		width: 99.9%
 	}
 	.w3-col.l4 {
-		width: 49.99999%
+		width: 49.9%
 	}
 	.w3-col.l43 {
-		width: 99.99999%
+		width: 99.9%
 	}
 	.w3-col.l5 {
-		width: 33.33333%
+		width: 33.3%
 	}
 	.w3-col.l52 {
-		width: 66.66666%
+		width: 66.6%
 	}
 	.w3-col.l53 {
-		width: 99.99999%
+		width: 99.9%
 	}
 	.w3-col.l54 {
-		width: 99.99999%
+		width: 99.9%
 	}
 	.w3-col.l6 {
 		width: 33.33333%
@@ -365,40 +365,40 @@ textarea {
 		margin-left: 0 !important;
 	}
 	.w3-col.l1 {
-		width: 99.99999%
+		width: 99.9%
 	}
 	.w3-col.l2 {
-		width: 99.99999%
+		width: 99.9%
 	}
 	.w3-col.l3 {
-		width: 99.99999%
+		width: 99.9%
 	}
 	.w3-col.l32 {
-		width: 99.99999%
+		width: 99.9%
 	}
 	.w3-col.l4 {
-		width: 99.99999%
+		width: 99.99%
 	}
 	.w3-col.l43 {
-		width: 99.99999%
+		width: 99.9%
 	}
 	.w3-col.l5 {
-		width: 49.99999%
+		width: 49.9%
 	}
 	.w3-col.l52 {
-		width: 99.99999%
+		width: 99.9%
 	}
 	.w3-col.l53 {
-		width: 99.99999%
+		width: 99.9%
 	}
 	.w3-col.l54 {
-		width: 99.99999%
+		width: 99.9%
 	}
 	.w3-col.l6 {
-		width: 49.99999%
+		width: 49.9%
 	}
 	.w3-col.l65 {
-		width: 99.99999%
+		width: 99.9%
 	}
 }
 

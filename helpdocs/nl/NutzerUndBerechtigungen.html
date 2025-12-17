@@ -1,0 +1,51 @@
+<h3>Users and permissions</h3>
+<p>Users can be given permissions in efa, efaCloud and efaWeb. The
+	assignment has the following effect:</p>
+<ul>
+	<li><b>efa-Admins</b>: Edit in efa-PC.
+		<ol>
+			<li>The users are created locally in the efa-PC as "efa-Admins".
+				Their rights only take effect on the PC on which efa is installed.</li>
+			<li>An efa admin also has the account name "admin". He is the
+				local "super-admin" who has all permissions for installation,
+				transactions and installation, transactions and facilities.</li>
+			<li>Further efa-Admins can be created, in connection efaCloud,
+				it is strongly recommended not to do so.</li>
+			<li>Rowers / canoeists are referred to as "persons" in efa and
+				have no user rights.</li>
+		</ol></li>
+	<li><b>efaCloud users</b>: Edit with "efaCloud users &gt; users.
+		Find &gt; (displayed options in the result of the search)"
+		<ol>
+			<li>The efaCloud users are created centrally in the server.
+				Their rights are defined by their role; differentiated There are no
+				differentiated permissions in efaCloud. The users have a numeric
+				efaCludUserID, which is used to login to the server. on the server.
+				Example: efaCloudUserID '1142' for 'Alex Admin'. Option: 'Change
+				Profile'</li>
+			<li>The roles are: admin = (administrator) can change
+				everything, especially user data; board = (board of directors) can
+				see everything, but cannot change user data; bths = (boathouse) can
+				change what a boathouse PC can that a boathouse PC must be able to
+				change; member = (member), so far not pronounced; anonymous =
+				(Anonymous) no rights.</li>
+			<li>An efaCloud user can be a person or a technical user (= an
+				automat/PC). user (= a machine/PC), for example the boathouse PC.</li>
+			<li>The efaCloud users can also be assigned an efa admin
+				permission. their rights are then set in the server in the same way
+				as in the efa efa-PC and will affect all efa-PCs connected to the
+				server. connected to the server. For this purpose the efaCloud user
+				is assigned an efa admin name is assigned to the efaCloud user. This
+				can be used for the admin login in the connected efa-PC. Example
+				'alexa' for 'Alex Admin'. Option 'Change efa admin permissions'</li>
+		</ol></li>
+	<li><b>efaWeb users</b>: edit with 'efaCloud users &gt; find
+		users. &gt; (displayed options in search result)"
+		<ol>
+			<li>An efaWeb user is the same as an efaCloud user and are
+				created as such.</li>
+			<li>efaWeb users can additionally be assigned differentiated
+				permissions. assigned to them. Option "Change efaWeb permissions".
+				The only makes sense in the role "member".</li>
+		</ol></li>
+</ul>

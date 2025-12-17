@@ -1,5 +1,26 @@
 <?php
 /**
+ *
+ *       the tools-for-your-hobby framework
+ *       ----------------------------------
+ *       https://www.tfyh.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ */
+
+/**
  * The login form for all activites on this application except registration. Based on the Tfyh_form class,
  * please read instructions their to better understand this PHP-code part.
  * 
@@ -16,9 +37,11 @@ $deeplink = "";
 if (isset($_SESSION["getps"][$fs_id]["goto"]) && (strlen($_SESSION["getps"][$fs_id]["goto"]) > 0))
     $deeplink = $_SESSION["getps"][$fs_id]["goto"];
 $use_as_role = "";
-if (isset($_SESSION["getps"][$fs_id]["as"]) && (strlen($_SESSION["getps"][$fs_id]["as"]) > 0)) {
+if (isset($_SESSION["getps"][$fs_id]["as"]) && (strlen($_SESSION["getps"][$fs_id]["as"]) > 0))
     $use_as_role = $_SESSION["getps"][$fs_id]["as"];
-}
+$onerror = "";
+if (isset($_SESSION["getps"][$fs_id]["onerror"]) && (intval($_SESSION["getps"][$fs_id]["onerror"]) == 1))
+    $onerror = true;
 
 // === APPLICATION LOGIC ==============================================================
 // if validation fails, the same form will be displayed anew with error messgaes
@@ -46,7 +69,9 @@ if (isset($_SESSION["getps"][$fs_id]["token"])) {
         } else {
             // Verification successful. Refresh all user data.
             $toolbox->logger->log_init_login_error("login");
-            $_SESSION["User"] = $user_to_login;
+            $toolbox->app_sessions->web_session_close("user change on login success");
+            $toolbox->users->set_session_user($user_to_login);
+            $toolbox->app_sessions->web_session_start("login.php/verified", $socket);
             $_SESSION["login_failures"] = 0;
             // redirect to user home page
             if (count($plain_text) < 4) { // no deep link parameter
@@ -108,7 +133,7 @@ if ($done > 0) {
             $form_errors .= i("c1Gjma|The user could not be id...");
         } else {
             // user was retrieved from data base
-            $passwort_hash = $user_to_login["Passwort_Hash"];
+            $passwort_hash = (isset($user_to_login["Passwort_Hash"])) ? $user_to_login["Passwort_Hash"] : "-";
             // if no password hash is available, check with alternative authentication provider
             $auth_provider_class_file = "../authentication/auth_provider.php";
             if ((strlen($passwort_hash) <= 10) && file_exists($auth_provider_class_file)) {
@@ -119,9 +144,10 @@ if ($done > 0) {
             }
             if (strlen($entered_data["Passwort"]) > 0) {
                 // password was provided
-                if (strlen($passwort_hash) > 10)
+                if (strlen($passwort_hash) > 10) {
                     // user has permanent password. Possibly provided by $auth_provider
                     $verified = password_verify($entered_data["Passwort"], $passwort_hash);
+                }
             } else {
                 // no password was provided
                 if (strlen($passwort_hash) > 10) {
@@ -199,17 +225,12 @@ if ($done > 0) {
         if ($verified == true) {
             // with password, verification finished. Refresh all user data.
             // Token verification see $done === 2
-            $_SESSION["User"] = $socket->find_record($toolbox->users->user_table_name, 
+            $session_user = $socket->find_record($toolbox->users->user_table_name, 
                     $toolbox->users->user_id_field_name, $user_to_login[$toolbox->users->user_id_field_name]);
+            $toolbox->users->set_session_user($session_user);
             // This exception is made in order to see the real user activities. Admin activities
-            // are anyway loogged in detail, thus successful admin logins are deemed non critical.
-            if ($user_to_login[$toolbox->users->user_id_field_name] != 1818)
-                $toolbox->logger->log_init_login_error("login");
-            if (isset($_SESSION["User"]["LastLogin"]))
-                $socket->update_record($_SESSION["User"][$toolbox->users->user_id_field_name], 
-                        $toolbox->users->user_table_name, 
-                        ["ID" => $_SESSION["User"]["ID"],"LastLogin" => time()
-                        ]);
+            // are anyway logged in detail, thus successful admin logins are deemed non critical.
+            $toolbox->logger->log_init_login_error("login");
             $todo = 3;
             $login_failures = 0;
             $_SESSION["login_failures"] = 0;
@@ -259,28 +280,32 @@ if ($done > 0) {
             // login successful
             $user_to_login = $socket->find_record($toolbox->users->user_table_name, 
                     $toolbox->users->user_id_field_name, $appUserID);
-            // transfer user now to session
-            $_SESSION["User"] = $user_to_login;
-            $toolbox->logger->log_init_login_error("login");
-            $verified == true;
             $todo = 3;
         }
     }
     
     if ($todo === 3) {
         if (strlen($use_as_role) > 0) {
-            if (! $menu->is_allowed_role_change($_SESSION["User"]["Rolle"], $use_as_role))
+            if (! $menu->is_allowed_role_change($toolbox->users->session_user["Rolle"], $use_as_role))
                 $toolbox->display_error(i("z7eGHS|Role not allowed."), 
                         i("xf8bTS|The user may not use the...", $use_as_role), $user_requested_file);
-            else
-                $_SESSION["User"]["Rolle"] = $use_as_role;
+            else {
+                $_SESSION["User_test_role"] = $use_as_role; // remember the role change
+                $toolbox->users->session_user["Rolle"] = $use_as_role;
+            }
         }
         
         // step 3: user is verified.
+        // transfer user now to session
+        $toolbox->logger->log_init_login_error("login");
+        $toolbox->app_sessions->web_session_close("user change on login success");
+        $toolbox->users->set_session_user($user_to_login);
+        $toolbox->app_sessions->web_session_start("login.php/verified", $socket);
+        
         // Use this to trigger daily jobs. It will only be performed once per day, so performance
         // impact is low.
         include_once ("../classes/cron_jobs.php");
-        Cron_jobs::run_daily_jobs($toolbox, $socket, $_SESSION["User"][$toolbox->users->user_id_field_name]);
+        Cron_jobs::run_daily_jobs($toolbox, $socket, $toolbox->users->session_user["@id"]);
         // now redirect to the deeplink or the users home page.
         if (strlen($deeplink) > 0)
             echo header("Location: ../" . str_replace("%2F", "/", $deeplink));
@@ -299,26 +324,45 @@ if (isset($form_filled) && ($todo == $form_filled->get_index())) {
 }
 
 // === PAGE OUTPUT ===================================================================
-
 // ===== start page output
-echo file_get_contents('../config/snippets/page_01_start');
+
+$legacy = $toolbox->config->mode_classic;
+$start_snippet = ($legacy) ? "page_01_start" : "page_01_start_no_menu";
+$nav_snippet = ($legacy) ? "page_02_nav_to_body" : "page_02_nav_to_body_no_menu";
+echo file_get_contents('../config/snippets/' . $start_snippet);
+$menu->set_style(($legacy) ? 1 : 3);
 echo $menu->get_menu();
-echo file_get_contents('../config/snippets/page_02_nav_to_body');
+echo file_get_contents('../config/snippets/' . $nav_snippet);
+if (! $legacy)
+    echo "<div class='splashscreen'>\n";
+
+// redirection to login page due to an error. Show the reason.
+if ($onerror && ($done == 0))
+    echo $toolbox->form_errors_to_html(explode(";", file_get_contents("../log/lasterror.txt"))[2], 
+            ($legacy) ? 1 : 2);
 
 // page heading, identical for all workflow steps
-echo i("VhzARg| ** Login for registered...");
+    $applogo = str_replace(">", " style='width:8rem'>", str_replace("_64", "", file_get_contents("../public/applogo")));
+$applogo = "<p style='text-align: center; line-height: 1.1rem'>$applogo</p>";
+$legacy_login_text = "<!-- START OF content -->\n<div class='w3-container'>" . "<h3>" .
+         i("XPLjLc|Login for registered use...") . "</h3>\n</div>\n<div class='w3-container'><p style='text-align:center;'>";
+echo ($legacy) ? $legacy_login_text : $applogo;
 echo $toolbox->form_errors_to_html($form_errors);
 echo $form_result;
 echo $form_to_fill->get_html();
 
 // ======== start with the display of either the next form, or the error messages.
 if ($todo == 1) { // step 1.
-    echo "<a href='../forms/reset_password.php'>" . i("SjwGi5|Password forgotten?") . "</a>";
+    echo "<p style='text-align: center'><a href='../forms/reset_password.php'>" .
+             i("SjwGi5|Password forgotten?") . "</a></p>";
 } elseif ($todo == 2) { // step 2. no special texts for output
 } elseif ($todo == 3) { // step 3.
 }
 
+// Help texts and page footer for output.
 echo $form_to_fill->get_help_html();
-echo i("79Iex2|</div>"); 
+if (! $legacy)
+    echo "</p></div>\n";
+echo "</div>";
 end_script();
 

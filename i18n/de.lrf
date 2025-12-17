@@ -95,17 +95,15 @@ QhtP9h|
 |</p>
 |</div>
 stfYYi|<li>'%1' mit Wert '%2' muss eindeutig sein, kommt aber vor in Datensätzen:
+HOPydU|<br>
+HjmWZW|<br>
+KbBLuc|<br>
+LzuvqD|<br>
+RIUYXm|<br>
+Untpor|<br>
 OoZfSs|Ein Einmal-Passwort kann jederzeit erneut angefordert werden.<br>Dazu melden Sie sich einfach von Anfang an an.
 mWiv2U|Es wird an die Mail-Adresse ein Einmalkennwort zugesendet.<br>Damit kann das Passwort gelöscht werden.
 foQQVH|Oberhalb der Bilder auf "Durchsuchen ..." klicken, Bilder auswählen, auf "Hochladen" klicken und <b>warten</b>. 10 -50 Sekunden pro Bild. Diese Seite wird erst aktualisiert, wenn der Upload abgeschlossen ist. Es ist besser, nicht mehr als 5 Bilder (nicht mehr als 20 MByte) auf einmal hochzuladen.
-UngRbx|
-|<!-- START OF content -->
-|<div class="w3-container">
-|<h3>Zugriffsstatistik</h3>
-|<p>
-|<b>Tabelle der nutzergetriebenen Aktivitäten:</b> Anmeldungen (login),
-|Seitenaufrufe (init), und Fehler (error).
-|</p>
 jToBj0|
 |<div class="w3-container">
 |<h4>Zugriffs-Statistik für Client #%1</h4>
@@ -120,12 +118,6 @@ nO9bzi|
 |anschließend unter "Mein Profil".
 |</p>
 yRK4pZ|<br>Hier sind alle Concessions aufgelistet.<br>
-JRi7Qo|
-|<!-- START OF content -->
-|<div class="w3-container">
-|<h3>Alle Berechtigungen</h3>
-|<h4>Eine Übersicht über die momentan vergebenen Berechtigungen</h4>
-|<p></p>
 qnvYay|<br>Hier sind alle Workflows aufgelistet.<br>
 uVS3Gb|
 |<ol>
@@ -153,10 +145,6 @@ uVS3Gb|
 |</div>
 |
 |<div class="w3-container">
-nLzqlz|<p>Ein Upgrade kann nicht rückgängig gemacht werden. Es wird daher empfohlen, vorher ein Backup des Codes zu ziehen.</p> 
-|<form action='?upgrade=1' method='post'> <input type='submit' class='formbutton' value='Jetzt auf - %1 - aktualisieren' /> </form>
-|<p>Bitte beachten Sie: der Vorgang startet mit dem Klick auf den Knopf
-|sofort und dauert nur wenige Sekunden.</p>
 DR7W5h|
 |<!-- START OF content -->
 |<div class="w3-container">
@@ -234,50 +222,6 @@ V1VijQ|
 |</div>
 |
 |<div class="w3-container">
-NgPjw9|
-|<!-- START OF content -->
-|<div class="w3-container">
-|<h3>Farbschema und Font ändern</h3>
-|<p>Hier kann das Farbschema und der Font der Applikation angepasst
-|werden.</p>
-|<h1>Beispiel Überschrift 1</h1>
-|<h4>Beispiel Überschrift 4</h4>
-|<p>
-|<a href='#'>Beispiel Link</a>
-|</p>
-|<label class="cb-container">Radiobutton checked<input type="radio"
-|name="radioexample1" value="" checked /><span class="cb-radio"></span></label><br>
-|<label class="cb-container">Radiobutton unchecked<input type="radio"
-|name="radioexample2" value="" /><span class="cb-radio"></span></label><br>
-|<label class="cb-container">Checkbox checked<input type="checkbox"
-|name="checkboxexample1" value="" checked /><span class="cb-checkmark"></span></label><br>
-|<label class="cb-container">Checkbox unchecked<input type="checkbox"
-|name="checkboxexample2" value="" /><span class="cb-checkmark"></span></label><br>
-|<select class="formselector" name="selectorexample" style="width: 15em">
-|<option value="option 1">option1</option>
-|<option selected value="option 2">dropdown options</option>
-|<option value="option 3">option3</option>
-|</select>
-|<p>&nbsp;</p>
-|<form method=POST action="?changecolors=1">
-|<table style='width: 70%'>
-|<thead>
-|<tr>
-|<th>Farbanwendung</th>
-|<th>Farbwert</th>
-|</tr>
-|</thead>
-|<tbody>
-E4weTW|
-|<!-- START OF content -->
-|<div class="w3-container">
-|<h3>Konfigurationsparameter ändern</h3>
-|<p>
-|Hier kann die Konfiguration angepasst werden. Die Topassung von Farben
-|und Schrifttyp ist <b><i><a href='../forms/farben_aendern.php'>hier</a></i></b>
-|möglich. Die Datenbankzugangsdaten können nur bei der Installation
-|Geändert werden.
-|</p>
 xnSRHk|
 |<!-- START OF content -->
 |<div class="w3-container">
@@ -294,27 +238,8 @@ hGHxvu|
 |</div>
 |
 |<div class="w3-container">
-qJk3Th|
-|<!-- START OF content -->
-|<div class="w3-container">
-|<h2>Änderungen von Daten</h2>
-|<h3>Hier ist die Liste der Änderungen von Daten in der Datenbank</h3>
-|<p>Jede Datenänderung wird mitgeschrieben, hier werden die letzten 100
-|Tage dargestellt. Verwendung gestattet nur zum geregelten Zweck.</p>
-QyymBR|
-|<!-- START OF content -->
-|<div class="w3-container">
-|<h3>Die aktuelle Datenstruktur prüfen</h3>
-|<p>Hier findest Du die aktuelle Datenstruktur der Server-Datenbank.</p>
-|</div>
 p2mcau|
 |<h4>Vereinsarbeitsbücher aller Clients</h4>
-2ecyll|
-|<!-- START OF content -->
-|<div class="w3-container">
-|<h3><br><br><br><br>Baustelle</h3>
-|<p>Die Seite ist noch nicht vorhanden, wir bauen noch.</p>
-|</div>
 gBlz7m|
 |<p>
 |<a href='../pages/show_logbooks.php'>Weitere Fahrten korrigieren.</a>
@@ -348,6 +273,7 @@ uVNY6O|
 |<a class='formbutton' href="?create=2">html download</a>&nbsp; &nbsp; 
 |<a class='formbutton' href="?create=3">PDF download</a>
 |</p>
+dXUBZv|<br>
 1qHoyA|<span class='configHead' onclick="toggleConfigGroup('Datenschutzkonzept')"><b>Datenschutzkonzept<sup class='eventitem' id='showhelptext_Datenschutzkonzept'>&#9432;</sup> ▾</b></span>
 dQzRS3|
 |<!-- START OF content -->
@@ -375,13 +301,6 @@ jmEZKD|
 |<div class="w3-container">
 |<h3>Datenbank %1 löschen und neu aufsetzen</h3>
 BkDaPm|Passwort löschen<br>geht für jeden User, die vordefinierten Passwort-Einträge bitte dann belassen.
-HKR5lY|
-|<!-- START OF content -->
-|<div class="w3-container">
-|<h2>Passwort löschen</h2>
-|<h3>Das permanente Passwort für die Anwendung löschen</h3>
-|</div>
-|<div class="w3-container">
 9Mf4oC|
 |<!-- START OF content -->
 |<div class="w3-container">
@@ -395,6 +314,9 @@ MPbwHx|<p>
 |<br />
 | <a href="../forms/nutzer_aendern.php?id= %1">Nutzer weiter ändern.</a>
 |</p>
+6E16M8|<h4>Anzeige eines Datensatzes aus der Tabelle %1</h4><p>Der Datensatz wird so,
+|wie er in der Datenbank hinterlegt ist, angezeigt.<br>Für mehr Information und Anpassen des Datensatzes:
+|<b><a target='_blank' href='../pages/view_record.php?table=%2&ecrid=%3'>Datensatz in neuem Tab anzeigen</a></b></p>
 bCVSSd|
 |<h4>Efa-Client Programmeinstellungen</h4>
 mYjQxu|<span class='configHead' onclick="toggleConfigGroup('efaReferenzclient')"><b>efa Referenzclient<sup class='eventitem' id='showhelptext_Stammdaten'>&#9432;</sup> ▾</b></span>
@@ -434,11 +356,7 @@ U1NXw3|
 |</ul>
 |<p>Über Feedback an support(at)efacloud.org freue ich mich immer!</p>
 |</div>
-QsB6fc|
-|<!-- START OF content -->
-|<div class="w3-container">
-|<h2>Fehler</h2>
-|<h3>Das hat leider nicht geklappt.</h3>
+ZknAAM|<h3><b>efaWeb</b> - DEMO OHNE GEWÄHR.<br></h3>
 8c5ooi|<b>Fehler</b><br>Das Tabellenlayout konnte nicht angepasst werden. Details siehe 'sys_db_audit.log'.
 POzcZe|
 |<p>Dateiformat und Feldnamen</p>
@@ -528,11 +446,6 @@ JTl0ci|
 |ist und was dabei geschehen wird.</li>
 |<li>Import bestätigen. Die Datensätze werden importiert.</li>
 |</ol>
-ZAjY7v|
-|<!-- START OF content -->
-|<div class="w3-container">
-|<h3>Dateiablage</h3>
-|<p>Alternativ kann auch ein Verzeichnis erstellt werden.</p>
 TN8gcV|
 |<!-- START OF content -->
 |<div class="w3-container">
@@ -590,18 +503,15 @@ a8iDlL|
 |<p><a href='?cdir=%1'>Hier</a> geht es zum nächsten Upload. </p>
 Bkefzy|<span class='configHead' onclick="toggleConfigGroup('Alle')"><b>Alle verbergen</b></span>
 HWpoVD|Wie viele Tage lang sollen Clients über die Löschung<sup class='eventitem' id='showhelptext_Loeschbenachrichtigung'>&#9432;</sup> eines Datensatzes informiert werden?
+poVH9D|Welche Protokolldateien<sup class='eventitem' id='showhelptext_UploadLogs'>&#9432;</sup> sollen auf den Server übertragen werden?
 yBbRP6|Id der Person in efa. <i>(ggf. automatisch ergänzt)</i>
+ie07jE|<br>
 fU75vS|
 |<!-- START OF content -->
 |<div class="w3-container">
 |<h3>Personen importieren</h3>
 |<p>Hier können Daten der efa-Tabelle Personen als Massentransaktion
 |modifiziert werden.</p>
-Yxab32|
-|<!-- START OF content -->
-|<div class="w3-container">
-|<h3>Tabelle importieren</h3>
-|<p>Hier kann eine Tabelle der Datenbank importiert werden.</p>
 atUZOz|
 |<!-- START OF content -->
 |<div class="w3-container">
@@ -618,16 +528,6 @@ zmwOIb|
 |<p>Im nächsten Schritt wird die Tabelle hochgeladen und so, wie
 |dargestellt, importiert. Bitte bestätige, dass der Import durchgeführt
 |werden soll (kein rückgängig möglich).</p>
-uDpZVK|
-|</div>
-|<div class="w3-container">
-|<h3>Informationen zum Datenschutz</h3>
-|<ul class="listWithMarker">
-|<li>Diese Information wird ausschließlich zum Kontrollzweck für
-|Funktionsträger in der Berechtigungsverwaltung bereitgestellt. Sie
-|darf nicht weitergeleitet werden.</li>
-|</ul>
-|</div>
 wLHGFz|
 |</div>
 |<div class="w3-container">
@@ -654,47 +554,13 @@ wLHGFz|
 |</ul>
 |</div>
 iAJ3Mj|<br><b>Bestandsdaten</b>
+CJ5hTv|Fahrtenbuch<br>z.B. 2021, oder JJJJ für das Jahr in einer beliebigen Zeichenkette z.B. 'JJJJ_Training'<br>kann leer gelassen werden, dann wird das aktuelle Kalenderjahr angenommen.
 TLKuVl|<span class='configHead' onclick="toggleConfigGroup('Fahrtenbuecher')"><b>Fahrtenbücher<sup class='eventitem' id='showhelptext_Fahrtenbuecher'>&#9432;</sup> ▾</b></span>
 pHuTRf|
 |<h4>Fahrtenbücher aller Clients</h4>
-FVAYy8|
-|
-|<!-- START OF content -->
-|<div class="w3-container">
-|<h3>
-|<br>
-|<br>
-|<br>
-|<br>Abgemeldet
-|</h3>
-|<p>
-|Die Abmeldung war erfolgreich.<br>
-|<br>
-|<br>&nbsp;
-|</p>
-|</div>
 YxcJ4k|Einloggen in den efaCloud-Server ist mit der efaCloud UserID oder alternativ dem efadmin-Namen bzw. der hinterlegten E-Mail Adresse und dem zugehörigen Kennwort möglich.<br> Zur Einrichtung der Nutzerkennung hilft in der Regel der Administrator des Fahrtenbuchs im Verein.<br><br>
 zdAPKK|Fehler beim Login.<br>Bereits %1 Fehlversuche. Bitte versuchen Sie es erneut, aber es dauert mit jedem Versuch länger.
-VhzARg|
-|<!-- START OF content -->
-|<div class="w3-container">
-|<h3>Login für registrierte Benutzer</h3>
-|</div>
-|
-|<div class="w3-container">
-Zb6TUk|
-|
-|<div class="w3-container">
-|<h3>
-|<br>
-|<br>
-|<br>
-|<br>
-|<br>Wartungsarbeiten
-|</h3>
-|<p>
-|Die Anwendung ist zur Zeit in Wartung bis voraussichtlich<br>
-|<b>
+bBnlvR|Login in das Fahrtenbuch ist nur mit der efaCloudUserID des Nutzers oder Boothaus-PCs und dessen Kennwort möglich.<br>Webnn das Kennwort nicht bekannt ist, wende Dich bitte an den efa-Administrator im Verein.<br><br>
 ffAkIP|<span class='configHead' onclick="toggleConfigGroup('Stammdaten')"><b>Stammdaten Verein<sup class='eventitem' id='showhelptext_Stammdaten'>&#9432;</sup> ▾</b></span>
 C1HUuR|
 |</ul>
@@ -706,17 +572,10 @@ C1HUuR|
 |</div>
 PfLbaB|Name</th><th>Fahrten</th><th>früheste Fahrt</th><th>späteste Fahrt</th>
 gyvihB|<i>Nicht empfohlen, verlangsamt den ersten Login des Tages deutlich:</i> Tabellen sichern bei der täglichen Routine
-s83mkb|
-|</p>
-|<p>
-|<b>Hinweis:</b> in der Regel hält der Browser die Farbeinstellungen im
-|Cache, dann wirkt sich die Änderung zunächst nicht sichtbar aus. Mit
-|F5 oder &lt;Strg&gt;-F5 nach der Aktualisierung kann der Cache bei den
-|meisten Browsern gelöscht werden und erst damit wird dann die neue
-|Farbeinstellung übernommen.
-|</p>
-|</div>
 leDYGI|<span class='configHead' onclick="toggleConfigGroup('Benachrichtigungen')"><b>Benachrichtigungen<sup class='eventitem' id='showhelptext_Benachrichtigungen'>&#9432;</sup> ▾</b></span>
+5V5NzT|Huch, da ist die Anwendung leider abgestürzt.<br>%1<br><br>
+|Wenn sich das wiederholen lässt, kannst Du der Entwicklung helfen mit einem Hinweis auf den Fehler.
+|<br><br><b>Aufrufhistorie</b><br>
 kyJIX0|<br><b>Sonstiges</b>
 OEps5V|
 |<!-- START OF content -->
@@ -735,6 +594,10 @@ NeJqoO| durchgeführt.</b>
 CDDC8L|</li>
 |<li>Zeitraum: 
 m4Yd1V|<span class='configHead' onclick="toggleConfigGroup('PersoenlichesFahrtenbuch')"><b>Persönliches Fahrtenbuch<sup class='eventitem' id='showhelptext_PersoenlichesFahrtenbuch'>&#9432;</sup> ▾</b></span>
+pjcJ07|<br>
+9Gd8YN|<br>Bitte den Schaden beschreiben: was und wo?
+0Jz4fV|Bitte bei "%1" eine gültige E-Mail-Adresse eingeben<br>
+G6wVsj|<br>Bitte hier die Nachricht eintragen
 IGCugZ|Bitte helfen Sie mit, die Software zu verbessern, indem Sie diese Informationen an Ihr Support-Team weitergeben.<br>Danke!
 dH58zd|
 |<p>Bitte lass mich Dein Anliegen oder einen Wunsch an die
@@ -767,26 +630,7 @@ MT1L4O|
 |festgelegt wurde. Wenn dort keine efaCloudUserID angegeben ist, werden
 |die Projekteinstellungen des Demo-Vereins RC Weiss-Blau verwendet.
 |</p>
-47al0R|
-|<!-- START OF content -->
-|<div class="w3-container">
-|<h3>Mails nachlesen</h3>
-|<h4>Hier besteht die Möglichkeit Mails an Verteiler nachzulesen.</h4>
 m2oeV3|<b>zweite Typvariante</b><br>Nummer
-XlbAYa|
-|<!-- START OF content -->
-|<div class="w3-container">
-|<h3>Mails an Verteiler versenden</h3>
-|<p>Die Mails werden einzeln versendet, immer mit nur einem
-|"To"-Recipient. Je nach Menge kann das etwas dauern und auch auf der
-|Recipientseite zu Spam-Einordnung führen. Daher bitte unbedingt
-|sparsam verwenden.</p>
-|<p>
-|<b>ACHTUNG:</b> Nach 10 Minuten endet die Sitzung, wenn nicht eine
-|neue Seite aufgerufen wird.
-|
-|
-|<p>
 rpXiYW|
 |<!-- START OF content -->
 |<div class="w3-container">
@@ -797,18 +641,10 @@ y1NFtw|
 |
 |<div class="w3-container">
 |<h3>Supportanfrage oder Feedback senden</h3>
-AAnHHF|
-|<!-- START OF content -->
-|<div class="w3-container">
-|<h3>Server-Meldungen</h3>
-|<p>Informationen, Warnungen und Fehler mit ID des auslösenden Nutzers.
-|Alles was die Anwendung protokolliert hat. Die dargestellte
-|Information kann persönliche Daten enthalten und darf nur im geregelten
-|Zweck verwendet werden.</p>
-|<div class='w3-row' style='padding: 10px;'>
 jYPnW7|<br>Einstellungen für efaWeb
 Cvnhnq|</li>
 |<li>Beginn des Sportjahres: 
+sx82uN|<br>
 cJuiTT|<span class='configHead' onclick="toggleConfigGroup('Synchronisation')"><b>Synchronisation<sup class='eventitem' id='showhelptext_Synchronisation'>&#9432;</sup> ▾</b></span>
 VK7X6Z|
 |<!-- START OF content -->
@@ -824,12 +660,6 @@ dm895V|
 EADCwd|
 |    <p>
 |<b>Die Datenänderung ist 
-jKbHGN|
-|<p>
-|Der Datei-Import wurde durchgeführt. <br /> <a
-|href="../pages/mein_profil.php">Hier</a> geht es zurück zur
-|persönlichen Startseite.
-|</p>
 02b3TQ|
 |<p>
 |Der Datei-Import wurde durchgeführt. <br />Das Protokoll dazu ist:
@@ -844,14 +674,6 @@ x1uDKx|
 7MLPuQ|
 |<p>Der Datei-Upload und die Daten-Prüfung war erfolgreich. Im Folgenden
 |ist dargestellt, was importiert wird.</p>
-MSsBTV|
-|<p>Der Datei-Upload war erfolgreich. Im Folgenden ist dargestellt, was
-|importiert wird. Bitte achte auf den Hinweis auf Importfehler, denn
-|das ist in der Regel ein Zeichen dafür, dass mit der Upload-Datei
-|irgendetwas nicht stimmt.</p>
-|<p>Im nächsten Schritt wird die Tabelle hochgeladen und so, wie
-|dargestellt, importiert. Bitte bestätige, dass der Import durchgeführt
-|werden soll.</p>
 sIOQ62|
 |<h4>Die folgenden Fahrten wurden endgültig gelöscht:</h4>
 v0PFwa|Das permanente Kennwort kann <a href='../forms/reset_password.php'>HIER gelöscht werden.</a>
@@ -874,13 +696,6 @@ D6jbrA|Art der Änderung<sup class='eventitem' id='showhelptext_VersionierteDate
 NxSz36|Art der Änderung<sup class='eventitem' id='showhelptext_VersionierteDatenAnpassen'>&#9432;</sup>
 ihbPIc|Art der Änderung<sup class='eventitem' id='showhelptext_VersionierteDatenAnpassen'>&#9432;</sup>
 vE4oO4|Art der Änderung<sup class='eventitem' id='showhelptext_VersionierteDatenAnpassen'>&#9432;</sup>
-HVtA0e|
-|
-|
-|<h3>Upgrade der %1-Anwendung</h3>
-|<p>Das Upgrade entpackt den Code und überschreibt dabei die vorhandenen
-|Code-Dateien. Alle Bestandsdaten, wie zum Beispiel logs, uploads,
-|backups usw. bleiben erhalten. Die Datenbank wird nicht modifiziert.</p>
 fzBHFZ|
 |<h3>Upgrade der efaCloud-Server-Anwendung</h3>
 |<p>Das Upgrade entpackt den Code und überschreibt dabei die vorhandenen
@@ -953,38 +768,22 @@ R5S35O|
 |</div>
 |
 |<div class="w3-container">
-2jun3e|.</b><br> Wir bitten eventuell
-|entstehende Unannehmlichkeiten zu entschuldigen.<br>
-|<br>
-|<br>
-|<br>&nbsp;
-|</p>
-|</div>
 UXT258|
 |
 |<!-- START OF content -->
 |<div class="w3-container">
 |<h3>Willkommen, %1</h3>
 xUZZ3E|Wie viele Tage darf die Archivierung maximal zurückliegen?<br>(0 = alle Archivdaten wiederherstellen):
-Bi1XKi|
-|<p>Beim Import muss in jedem Datensatz die ID angegeben sein.
-|Datensätze, die eine bestehende ID haben, werden überschrieben. Alle
-|Felder der Tabelle, die einem Feld in der Datenbanktabelle
-|entsprechen, werden überschrieben, also auch ggf. gelöscht.
-|Datensätze, die eine neue ID haben, werden neu angelegt.</p>
-|<p>Zu importierenden Tabellen müssen in der ersten Zeile die Feldnamen
-|der Datenbanktabelle ausweisen, Groß-Klein-Schreibung ist relevant.
-|Werden ungültige Feldnamen verwendet, kann der Import nicht
-|stattfinden. Zu importierenden Tabellen, die aus genau einer Spalte
-|bestehen, in der die ID steht, führen zum Löschen der kompletten
-|Datensätze mit der jeweiligen ID.</p>
-|<p>Im ersten Schritt wird die Tabelle hochgeladen und geprüft. Im
-|zweiten Schritt findet der Import statt. Dieser muss explizit
-|bestätigt werden.</p>
 wir4uQ|
 |<p>Mit der Bestätigung werden die ausgewählten Fahrten nun endgültig
 |gelöscht.</p>
+xmanWk|<br>
+MiKGnA| um 
+p2If4F| um 
 QRqTTI| parsing 
+E2CDwz|!
+bcRYbz|!
+kVI3tK|!
 Gg90pW|#Fehler mkdir fehlgeschlagen im Verzeichnis '%1'.
 6qoA8U|#Fehler beim Öffnen der Datei '%1'.
 Cd30Mz|#Fehler: Dekodierung der unmaskierten Sicherung '%1' fehlgeschlagen.
@@ -1002,7 +801,6 @@ CGJnuw|%1 Backup-Archiv mit einer Gesamtgröße von %2 MByte.
 Tu6j0f|%1 Bytes wurden hochgeladen.
 HlAWGl|%1 konnte nicht gelöscht werden.
 RTVMQw|%1 konnte nicht gelöscht werden.
-lT47yu|%1 ecrids wurden hinzugefügt. (Der Schritt aktualisiert maximal %2 Datensätze und muss ggf. wiederholt werden.)
 GsvRx8|%1 wurde geändert von '%2' auf '%3'.
 J8QheD|%1 wurde geändert von '%2' auf '%3'.
 ETWO97|%1 wurde gelöscht.
@@ -1019,6 +817,7 @@ WjRsQw|(leer)
 izUp6M|(leer)
 pMMn46|(leer)
 E0Klof|(für efa im Bootshaus ab Version 2.3.2)
+qZaY4N|(brauchte %1 Wiederholungen)
 gEQmZw|(Nummer: %1)
 9iFvXO|*Diese XML- oder zip-Datei importieren:
 7CXyyL|*Diese Datei hochladen:
@@ -1030,12 +829,7 @@ KcQ7EG|.htaccess-Dateien hinzugefügt.
 89mWdC|.htaccess-Dateien in Ordnung.
 H2g0xi|.htaccess-Dateien entfernt.
 011tZB|efa2messages
-01G01O|</div>
 06ISXt|efaWeb_fahrtenabzeichen
-08pBug|
-|<div class='w3-col l2'>
-|<a
-|href='../pages/show_history.php?
 0Kn6bl|efa logbook (Mitglieder, aktuelles Jahr)
 0Wguyh|</div>
 28oiYL|uuid_crews
@@ -1047,16 +841,10 @@ H2g0xi|.htaccess-Dateien entfernt.
 3hobFq|efa2clubwork
 4F2pUd|uuid_groups
 5DE143|uuid_persons
-5O1GIg|
-|</table>
-|</div>
-|<div class="w3-container">
-|<div class='w3-row'>
-5mFmma|    </tbody>   </table>   <p>    <input name='submit' value='Test' type='submit'     class='formbutton' />   </p>  </form>  <p>
 5snezC|efaWeb_own_sessions
 6AqUAc|audit_crews
+6OkOV2|efaWeb_fahrtenabzeichen
 77gvXM|</div>
-79Iex2|</div>
 7DoAKB|efa2waters
 7HQ9oh|archive_persons
 7IkKPl|uuid_boatdamages
@@ -1065,31 +853,19 @@ H2g0xi|.htaccess-Dateien entfernt.
 85h9K3|restore_records
 8fKtJg|audit_statistics
 8qQEHT|noValues
-9J3v6X|<p>&nbsp;</p>
-|<p>
-|<small>&copy; efacloud - nmichael.de</small>
-|</p>
-9TNFSL|
-|
-|</div>
+lD9JeK|<h5>Bitte die Schadensmeldung vollständig eintragen.</h5>
+SsHYiD|<h5>Bitte die Nachricht hier eintragen.</h5>
+NK1dHk|<h5>Bitte das Boot angeben, für das die Schadensmeldungen gesucht werden.</h5>
+RA89xO|<h5>Ein Boot einmalig reservieren</h5>
 EinecO|@Titel
-AVZqHm|
-|<!-- END OF form -->
-|</div>
 AecuMb|audit_groups
 BxvIay|efa boatdamages
-DiRyic|</div>
 Ec4cuQ|audit_destinations
 G8gfUr|audit_statistics
 HZyICm|efa logbook
-IDOKUa|
-|<!-- END OF Content -->
-|</div>
 IHM6iH|efa2boatdamages
 IrVjsR|audit_groups
 J7QkU7|leaving_members
-JZKR1D|
-|</div>
 Jmeusw|efa crews
 JwFqj0|
 |<!-- END OF Content -->
@@ -1097,28 +873,14 @@ JwFqj0|
 K3jC4w|
 |<!-- END OF Content -->
 |</div>
-KmCBHj|
-|<!-- END OF Content -->
-|</div>
-L6DB6I|
-|<!-- END OF Content -->
-|</div>
 L9Ym7M|efa boatstatus
 LDkjpT|efa2status
 LLIH9L|efa2boats
-LSoAtS|</div>
 LdZU5S|efa persons
 Ln40nr|audit_boats
 M7KYYi|efaWeb_messages
-MCB3HR|
-|<!-- START OF content -->
-|<div class="w3-container">
-|<h2>
 Mhni4P|efa autoincrement
 MzO39d|efa boats
-NEBbkz|
-|<!-- END OF form -->
-|</div>
 NvgW7Z|</div>
 OYvYwM|efa2crews
 OdmufW|uuid_statistics
@@ -1127,15 +889,7 @@ OkHOab|</div>
 P0YpJt|select config_error
 P1fAgB|audit_boatreservations
 PG51A2|efa destinations
-PMDKK5|
-|<!-- START OF content -->
-|<div class="w3-container">
 PTzhSt|audit_crews
-PZe0Fq|
-|<!-- END OF Content -->
-|</div>
-PhJ3L4|
-|</div>
 QkBmJq|efa2boatreservations
 RMcKPn|efaWeb_opentrips
 RTrgNa|Gelöschte Datensätze anzeigen
@@ -1144,32 +898,15 @@ SdHxry|efaWeb_boatstatus
 SgVvTy|archive_messages
 TElAlA|audit_sessiongroups
 TTt5oN|known_members
-ToJ4AJ|
-|</div>
-|<!-- END OF Content -->
 TvpBpw|uuid_destinations
 U2fWGk|new_members
 U6s9jf|select 0=?;1=no options available
 UNxVUo|efaWeb_boatreservations
 UnpGlv|clientName
-Uo3OuT|
-|<!-- END OF Content -->
-|</div>
 VKTHVY|audit_boatdamages
-VLBFN0|
-|</div>
-VNaOll|
-|<!-- END OF form -->
-|
-|</div>
 Vcxli6|efaWeb_destinations
 VeRvIJ|efa status
 W1J7N5|efaWeb_persons
-WfIlRT|
-|</div>
-WlX6QJ|
-|<!-- START OF content -->
-|<div class="w3-container">
 X1Ie8W|audit_waters
 XkjFUN|uuid_logbooks
 Y6Vy5J|
@@ -1183,7 +920,6 @@ YzWJOY|
 Z5hMom|efaWeb_groups
 ZQt0Ty|efaWeb_boatdamages
 ZtD0fF|efa sessiongroups
-Wixvhp|[Voreinstellung bei Erstellung]
 ZjgTv2|[efa] Neue Bootsreservierung für das Boot %1
 Q49rLD|[efa] Neuer Bootsschaden für das Boot
 5KSMXt|[efa] Neue Nachricht an ADMIN von %1, Betreff:
@@ -1191,9 +927,10 @@ J33vQj|[Feld mit Datenschlüssel]
 pUUKZR|[Schlüsselfeld mit zentraler Korrektur]
 m5fazU|[Liste der Objekt-IDs]
 r6ReJu|[kein Referenz-Client definiert, bitte Einstellungen prüfen.]
-353Us1|[nicht vorhanden]
 pRZsYG|[nicht vorhanden]
 VpjI4B|[nicht definiert]
+IaAJhC|[nicht gefunden]
+yIasNs|[nicht gefunden]
 75hzYb|[mehrere Möglichkeiten]
 YXYsQR|[undefiniert]
 Ct5cWh|Ein * vor einer Feldbezeichnung gibt an, dass ein Eintrag erforderlich ist.
@@ -1211,11 +948,13 @@ PXYG2n|eine neue Version konnte nicht erzeugt werden. Die Datenbank meldet:
 GzZrqa|eine neue Version wurde erzeugt.
 B0quSZ|Ein Datensatz mit der eindeutigen Kennung '%1' wurde in %2 erzeugt.
 uUKDIW|Ein Datensatz mit der eindeutigen Kennung '%1' wurde in %2 erzeugt.
+OA3Igv|Ein Datensatz mit diesem Schlüssel existiert bereits.
 62cGIf|Kürzel
 uhcKky|Abgebrochen, siehe sys_db_audit.log
 NHMrlY|Abgebrochen. Ecrid verfügbar.
 ytlK51|Abgebrochen. Nicht erlaubt für %1.
 WcL0zL|Zugriffsstatistik
+l5E880|Zugriff auf die Statistiken
 Apulhe|Der Zugang zu dieser Information wurde nicht gestattet.
 hNikUk|Der Zugang zu dieser Information wurde nicht gestattet.
 UU8ZrV|Zugriffe der letzten %1 Tage
@@ -1231,6 +970,9 @@ F7t6Jn|Aktion
 Z4VNs0|Aktive Clients
 A3XyqV|Aktive Tage (Anzahl)
 2IHJZD|aktiv
+zus4hq|Ids hinzufügen
+vnRXNL|Kilometer nachtragen
+YQWXLB|Mitgliedsnummern hinzufügen
 H5p5xA|Eigenschaft auto increment zu `%1`.`%2` hinzugefügt.
 xw01aj|Spalte `%1`.`%2` mit aktueller Definition hinzugefügt.
 S1nQio|Eindeutige Eigenschaft zu `%1`.`%2` hinzugefügt.
@@ -1254,15 +996,20 @@ TCnjRe|Alter in Tagen:
 y10Kn9|Alter in Tagen:
 d3o4EA|Album nicht gefunden. Abbrechen.
 ceZwjN|Alle Berechtigungen
-O8zMCW|alles erledigt.
 Q4c8jW|Alle Ids
 2kJu6N|Alle Module der Referenzinstallation sind vorhanden.
 rARwTp|Alle Namen
-oR4Ytj|Alle Fahrten für %1 im Fahrtenbuch '%2' bis jetzt:
+1GPSPQ|Alle Berechtigungen
+oR4Ytj|Alle Fahrten für %1 bis jetzt:
 7TpRPM|Alle Nutzer
 JS8Dme|Alle Nutzer
+CiHNBM|Auch die behobenen?
 2JgEKN|Beim Speichern der Datei '%1' an den Ort '%2' ist ein Fehler aufgetreten.
 usHKvV|Es wurde eine ungültige Formularfolgenummer oder ein ungültiges Formularfolgen-Token angegeben.
+bg8Rz4|Ein Objekt %1 ist bereits in %2 vorhanden.
+JJ0FEo|Ein Objekt %1 ist noch nicht in %2 vorhanden.
+3Ju6sc|Eine Übersicht über die aktuell zugewiesenen Berechtigungen
+9dBgWW|Ein Upgrade kann nicht rückgängig gemacht werden. Es wird daher empfohlen, vorher ein Backup des Codes zu ziehen.
 CW7uhM|anonyme Anfrage für kein Formular: %1/%2
 8FHeg0|anonyme
 gwpsJR|API Zugriffsstatistik
@@ -1274,10 +1021,13 @@ rcxg1I|Überlast der Anwendung
 KWQvhQ|Anwendung
 CZ56mL|Der Archivdatensatz #%1 konnte nicht wiederhergestellt werden. Grund: Die Dekodierung des Datensatzes ist gescheitert.
 i0VBLI|archiviert
+ORKVw1|um (Uhrzeit)
 9hnY2G|auf
+MZ2hdv|am
 mlOh7N|Anlage 1:
 8dh5sK|Anlage 2:
 hv0TyN|Anlage:
+rHyH4e|ACHTUNG: Nach 10 Minuten endet die Sitzung, wenn nicht eine neue Seite aufgerufen wird.
 0Q3eYq|Audit abgeschlossen.
 yDwhyh|Prüfung abgeschlossen
 xeigZw|Datenbank auditieren
@@ -1295,6 +1045,7 @@ tuglOc|Nachrichten an Admin automatisch als gelesen markieren
 HLqSDT|Nachrichten an Bootswart automatisch als gelesen markieren
 QWR8R7|Nachrichten an Bootswart automatisch als gelesen markieren
 De1RPi|verfügbar zum Download als csv.
+A5JJSu|verfügbar
 xf8yxL|Durchschnitt
 bNnasv|noValues
 yAZlsH|Hin- und zurück
@@ -1311,33 +1062,59 @@ V4T3Wv|Backups
 202buq|AbzeichenAB
 hCB0jI|Abzeichen
 s0IJfr|Da diese Mail an niemanden gesendet werden konnte, wurde sie nicht in den gesendeten Mails gespeichert.
+OrsZ7Z|Da Sie kein Sportler sind - oder der Link zu Ihrem Datensatz nicht gesetzt ist, wird kein Logbuch gesendet.
 VyQSE6|Geburtstag oder Jahr
 2oRhAT|Boot (Id)
 RlaAwv|Bootsschäden, Berichtsdatum
 98y3IF|Bootsschäden
 QxUXcf|Bootsschäden
+a7nGz6|Bootskilometer im aktuellen Jahr, sortiert nach Namen
+RzxkTt|Bootskilometer im aktuellen Jahr, sortiert nach Strecke
 MPgCdU|Boots-km nach Distanz
+oo2aIk|Bootsname Zusatz
+fYPl0H|Bootsname
 japu2o|Bootsreservierungen, Startdatum
 61cAaQ|Bootstyp
 IeBMNG|Bootstyp
 ZJB7XX|Bootsvariante
+fiuCPT|Bootstyp
 iPlaKi|Bootstyp
+s6i5Ps|Bootstyp
 tCnBmJ|Bootstyp
 3lHvNg|Boot,AktuellerStatus,BasisStatus
 zkm1hq|Boot,DatumVon,DatumBis
 wOD59L|Boot,Beschreibung
 YgIziQ|Boots-km nach Name
 3BgOTw|Boot
+98KJLf|Boot
+9SKlbu|Boot
+17gEGM|Boot:
 GEVnOt|Boot
+JbuHVF|Boot
+R9ViN9|Boot
 U2OtU4|Boot
+XmM2FP|Boot
+ZBJmMh|Boot
+a67Dyd|Boot
 bWQfY3|Boot
+dPH3Mp|Boot
+hRKeQX|Boot
+mqExyG|Boot
+rYAeb3|Boot
+R827cX|Boote nicht verfügbar
+OgP0Hp|Boote nicht nutzbar
+BR9BZ3|Boote reserviert
 GvnWap|Boote
 KMnmP4|buchende Person
 HY5ek8|Massentransaktionen der letzten %1 Tage
 EJN8bL|Bulk-Transaktionen
 pvrbnx|nach Startzeit
 Re0a6b|nach Fahrtnummer
+ALdpUI|Fahrt abbrechen
+UgbntI|Fahrt abbrechen
 yFzxZ7|Fahrt abrechen
+3wyma0|Kann die Fahrt nicht abbrechen, unvollständige Daten.
+DuRfHc|Kann die Fahrt nicht beenden, unvollständige Daten.
 uZon0P|Datensatz kann nicht gelöscht werden. Kein Datensatz für Schlüssel [%1] in %2 gefunden.
 ak6ZuS|Datensatz kann nicht eingefügt werden, ecrid-Bereitstellung ist bei API-Version unter 3 verboten.
 Gc2E76|Datensatz kann nicht eingefügt werden. Ist bereits über 30 Tage alt (%1) und der angegebene Schlüssel [%2] ist bereits in Gebrauch.
@@ -1345,15 +1122,20 @@ CRISZB|Datensatz kann nicht eingefügt werden. Der angegebene Schlüssel [%1] wi
 tdVyu3|Sitzung kann nicht eingefügt werden: %1 (Logbuch %2). Sie ist der vorhandenen zu ähnlich, daher darf der Schlüssel nicht korrigiert werden, um eine Duplizierung von Sitzungen zu vermeiden.
 x6zeNt|Datensatz kann nicht geändert werden. Periodenverletzung in %1. Grund: %2.
 bNidHS|Datensatz kann nicht aktualisiert werden. Kein Datensatz für Schlüssel [%1] in %2 gefunden.
+8oVJix|Kann die Fahrt nicht aktualisieren, unvollständige Daten.
 ey9S8D|Aufstellung der Listen
+vKw9sL|Ursache
 03zAeI|Obmann/Obfrau
 WpnNE8|Obmann/Obfrau
 QQRAVY|Change- und App-Info|Warnungen|Fehler-Log-Einträge Bereinigung abgeschlossen
 YpUO6w|Geprüfte Änderungsmeldung.
 PfOrhR|Vereinslogo ändern
 RQpeAQ|Farbschema ändern
+KDNuD3|Farben und Schriftart ändern
+elJM8q|Konfigurationsparameter ändern
 i0SFzf|Änderungszähler ungültig
 FE4Of4|Änderungszähler fehlt
+pDysSn|Daten für '%1' ändern
 QipHX2|Efa admin Berechtigungen ändern
 BmvSBP|efa Datensatz ändern
 NL410D|efa-Rechte ändern
@@ -1370,7 +1152,10 @@ lvGRAt|Profil/Passwort ändern
 DAwDVx|Profil ändern
 nc58pc|Datensatz ändern
 xBbzbd|Datensatz ändern
+VL3y28|Ändern Sie hier die Anwendungskonfiguration. Ändern Sie das Thema bei %1. Der Datenbankzugriff muss bei der Installation konfiguriert werden.
+c1Kttz|Ändern Sie die Nachricht.
 A3uBQ0|Das Profil von %1 ändern
+SjX5zz|Fahrt ändern
 dD2G5j|Nutzer ändern
 G4gfja|Nutzer jetzt ändern
 vskZuv|ändern/löschen
@@ -1378,12 +1163,15 @@ vskZuv|ändern/löschen
 sNh3bq|Spalte `%1`.`%2` wurde in die aktuelle Definition geändert.
 gjYPBf|Geänderte ID:
 nxPrrc|Changelog (auch für Security-Concept)
+jkjFR8|Änderungen an Daten
 84qqTb|Änderungen
 E6z7DI|Änderungen
 DkY0nv|Zeichen lang.
 42jTgj|Prüfe Zeile
 cKcnOB|Prüfe Zeile
 XBFzrv|Markieren Sie das Kästchen für Bilder und klicken Sie auf "Download" unter den Bildern. Alle Bilder werden in einem Zip-Archiv bereitgestellt, das je nach Browsereinstellungen direkt in den Ordner "Downloads" geschrieben werden kann.
+3MS3H9|Checkbox angekreuzt
+nMSzXi|Checkbox nicht angekreuzt
 XIGJqp|Geprüfte/Gesamtzahl: %1/%2, keine Korrekturen erforderlich
 mfU3JA|geprüft: %1, korrigiert: %2, Korrektur fehlgeschlagen: %3, dublets im Archiv: %4, keine Prüfung oder kein Verweis erforderlich: $skipped.
 a5ador|geprüft: %1, korrigiert: %2, gescheitert: %3.
@@ -1393,8 +1181,10 @@ p4z2js|Gelöschte veraltete Sitzungen. Verbleibend:
 25nrUp|Aktivitäten der Clients
 O00zsH|Client-Konfigurationen:
 CXR0Eq|Clientmeldungen
+cbHhdY|Fehler in der POST-Anfrage des Clients
 A8OMxk|Client
-59YAGh|PHP-Sitzung '%1' geschlossen
+ofYJXP|geschlossen:
+lsbpkz|Schließen von '%1': Keine solche Api-Fahrt zum Entfernen.
 W353w8|Vereinslogo
 bjIgH7|Vereinsarbeit, die nicht zur Periode des Vereinsarbeitsbuchs passt.
 r8hjy3|Vereinsarbeitsbuch
@@ -1402,11 +1192,14 @@ rXpZ9D|Vereinsarbeitsbücher
 2jDemj|Vereinsarbeitsbücher
 R3tJPp|Vereinsarbeit, Durchführungsdatum
 EoJitr|Farbe (Hex Code RGB)
+CS3ieI|Farbe Anwendung
+xmC7bW|Farbwert
 2Tgeqq|Spaltenauswahl und -reihenfolge
 n0VQUK|Unternehmen, das die Site betreibt (Hoster)
 Ne1yvo|Vergleiche Version
 iRfNHa|abgeschlossen für Referenzmandant %1
 6QCftb|Update_table_layout(%1) abgeschlossen.
+HAqb4l|abgeschlossen. Größe der Datei
 Sr2ozD|abgeschlossen. Weitere Schlüssel zu korrigieren:
 3Dhpv1|abgeschlossen. Keine weiteren Schlüssel zu korrigieren.
 deuFgY|Abgeschlossen.
@@ -1421,6 +1214,7 @@ ww1i98|efa konfigurieren
 BN4UxH|verbunden als
 7DhJc1|Verbindung
 rH1lEJ|Verbindung
+hpz1IT|Baustelle
 xZpcQw|Kontakt
 3oww70|Weiter
 S5pVS3|Weiter
@@ -1437,15 +1231,28 @@ Z6itd3|Datensatz korrigieren
 IfdaoB|Korrigiere virtuelle Felder für Datensatz mit ecrid '%1'.
 fTom5D|Korrupte Datensätze behoben.
 mazy61|konnte nicht gelöscht werden. Fehlermeldung:
+9e4GGB|Konnte keinen Hilfetext finden für
 8N2N5h|Anzahl der Zugriffe
 8fGF1t|Anzahl der nicht-privilegierten Rollen:
 OPc8WE|Anzahl der privilegierten Rollen:
 MzZXhV|Anzahl der Datensätze
 HmXvbp|Zähler für
+0j7S8g|Steuermann
+7wmNgN|Am Steuer
+8lIkQ4|Am Steuer
+pLwP12|Am Steuer:
+CFgig5|Am Steuer
+Hy621r|Am Steuer
+jCOfC8|Am Steuer
+kHt6C4|Steuermann
 ovmMoC|Einen neuen efaCloud-Nutzer
+8ugV2E|Eine neue Version für '%1' anlegen
 kl2r3O|Backup erstellen
 wA7mOS|Backup erstellen
+eV5HYx|Jetzt neu anlegen
+ntQ6xA|Jetzt neu anlegen
 RUOkfa|neu anlegen
+eazTTs|neu anlegen
 0dYrp9|Datensatz anlegen
 9opurV|Statistiken erstellen
 GLB0lW|Statistiken erstellen
@@ -1453,17 +1260,24 @@ wpf4AI|Tabelle `%1` mit allen Spalten gemäß dem aktuellen Layout erstellen.
 sBbPVu|Nutzer anlegen
 Tix00e|erstellt:
 WRvThr|Leere neue Tabelle `%1` erstellen...
+K6OO1w|Neue Fahrtsdatei erstellen 
 fukYdH|Das Erstellen von Meldedateien in öffentliche Statistiken ist nicht erlaubt.
 auPGvi|Berechtigungsnachweise in VERIFY-Transaktionsdatensatz konnten nicht verifiziert werden.
 rhWBec|Cronjobs gestartet (Zeitpunkt der letzten Ausführung: %1)
+2M0mte|csv ist mit Pipe (|) als Trennzeichen, und ohne Anführungszeichen
 tOvSot|Währung Kaufpreis
 TeD6Nm|Aktuelle und kommende Reservierungen
 5zkQ5A|aktueller Status
+Fkzrl9|Aktueller Websession-Benutzer '%1'
 ZC5KSz|Derzeit installiert:
 VDv9EA|Aktuell angemeldet als
 5DTJs0|aktuell keine Einträge.
 WfHwY7|Schaden pro Boot
 MaWHhj|Schadensmeldung Nr.
+ESu4U2|Schadensmeldungen für
+HmMA1O|Schadensmeldungen
+UgusMQ|Schadensmeldungen
+hTuxng|Schaden
 c6Z279|Datenbank-Audit
 zwn7oV|Datenbank-Audit
 vCGSbJ|Datenbank-Verbindungsfehler:
@@ -1531,10 +1345,12 @@ MyjroH|Verzeichnis löschen, falls leer
 MxrIKd|efa Datensatz löschen
 c32XmM|Datei löschen
 3nkQKY|aus diesem Fahrtenbuch löschen
+6Eagok|Passwort löschen
 rVVVg2|Passwort löschen
 8Y01p6|Datensatz löschen
 MNpvhU|Datensatz löschen
 vdj8vx|Ausgewählte Fahrten löschen
+eaMVsh|Löschen Sie das permanente Passwort für Ihr Konto. Anschließend können Sie ein neues Einmal-Passwort anfordern.
 sSO9vY|löschen?
 161Fzy|Gelöscht
 WqXFAz|Gelöscht
@@ -1549,10 +1365,22 @@ oMccPH|Beschreibung (Bitte kein ';' verwenden)
 B9EOmx|Beschreibung:
 OJFiWA|Beschreibung
 PFX4fS|Beschreibung
+Shxb5M|Beschreibung
+o8Gra7|Beschreibung
 W9iqqC|Bezeichnung des Status
 fRvtL4|Bezeichnung der Wanderfahrt
+0Qq93T|Ziel
+7eSHFJ|Ziel
+9UjNdu|Ziel
+JOGpo7|Ziel
 QEQS9z|Ziel
+c5gYBM|Ziel
 hxPAgo|Ziel
+jabwQd|Ziel
+mFYJcy|Zielort
+nr240s|Ziel
+uaNNl7|Ziel
+k1aGJk|Zerstörung der Fahrt '%1'.
 0ymNar|Details
 BuukBt|Direkteinstieg
 ZNvHsT|Direktzugriff
@@ -1562,16 +1390,29 @@ mvC38h|Versand erfolgreich für:
 Ladp2w|Versand an %1 Adressse erfolgreich.
 UrEE7g|Datenstruktur anzeigen
 ht5yHC|Entfernung (z. B. 10 km)
+0YFLpN|Entfernung (z. B. 12 km)
+2yMlSU|Entfernung (z. B. 12 km)
+8x1P9Y|Entfernung (z. B. 12 km)
+DFV5H3|Entfernung (z. B. 12 km)
+Yrgfjt|Entfernung (z. B. 12 km)
+7yTSSm|Entfernung
+GwV0aU|Entfernung
+JbTXKT|Distanz
 OoCAVz|Entfernung
+vOt1pZ|Entfernung
 dlOC9f|audit_boatreservations
+SEZB6S|nicht anzeigen
 miz0SV|Erledigt.
+u2Ih6w|Erledigt:
 cmjKme|Datei herunterladen
 2FZhhA|Herunterladen:
 YEcCUE|Herunterladen
+SXiDCM|heruntergeladen
 TQrqJw|Tabelle `%1` löschen.
 TuOggl|Veraltete Spalte `%1`.`%2` wurde gelöscht.
 zQY162|Veralteter Index `%1`.`%2` wurde gelöscht.
 2p7kEh|Lösche Tabelle `%1`...
+zjQaio|Wegen Überlastantwort vom efaCloud-Server ist jetzt leider Pause.
 XRCLkB|Dublettencheck
 dyCw0A|Duplikate geprüft.
 0zU8XJ|Dauer: %1 Sekunden.
@@ -1582,6 +1423,7 @@ tZIRPY|Dauer: %1 Sekunden.
 xnRS5I|Dauer: %1 Sekunden.
 zxvnvd|Dauer: %1 Sekunden.
 oK13vo|E-Mail
+jvNIEJ|Jede Änderung der Daten wird aufgezeichnet, die letzten 100 Tage werden hier angezeigt. Verwendung nur für den vorgeschriebenen Zweck erlaubt.
 uxuAAD|Ecrid fehlt. Kein Ändern oder Löschen von Datensätzen ohne ecrid in API V3 und höher.
 mhjGNl|Ecrid-Angabe fehlt
 VbeC4b|Bootsschäden bearbeiten
@@ -1620,7 +1462,10 @@ WpcBzB|efaAdminName muss zwischen 4 und 10 Zeichen lang sein.
 W2wpqV|efaCloud Sicherheitskonzept
 PlK3cE|efaCloud Nutzer
 zqMZlN|efaCloud-Nutzer können auch eine efa-Admin-Berechtigung zugewiesen bekommen, ihre Rechte werden dann im Server genauso wie im efa-PC eingstellt und wirken auf alle efa-PC, die mit dem Server verbunden sind. Zu diesem Zweck muss dem efaCloud-Nutzer ein efa-Admin-Name zugeordnet werden. Dieser kann für den Admin-login im angeschlossenen efa-PC verwendet werden. Beispiel 'alexa' für 'Alex Admin'. Option 'efa Admin-Berechtigungen ändern'
+zbSX9F|efaCloudBenutzer-ID
+6lYbjM|efaCloudUser Passwort
 15iRSs|efaCloudUserID - oder -
+PfwuLC|efaWeb ist zur Zeit ist nur eine Demo. Ob efaWeb Anwendung weiterentwickelt wird, hängt von Eurem Feedback an 'info@efacloud.org' ab.
 5GosWb|efaWeb: Das Fahrtenbuch anzeigen
 fIyhiE|efaWeb: Das Fahrtenbuch anzeigen
 4JGwyS|efaWeb: Fahrten in das Fahrtenbuch für Bootshaus #3 eintragen
@@ -1643,29 +1488,40 @@ DCulJk|efaWeb: Boote reservieren
 rq8s1c|efaWeb: Boote reservieren
 CowNyK|efaWeb: Schadensmeldungen abgeben
 yyPnCq|efaWeb: Schadensmeldungen abgeben
-WwI0Sx|Entweder ist Ihre Server-URL falsch, oder der Server hat einen internen Serverfehler.
 GTufO2|elektronisches Fahrtenheft
 6cZFHd|EMail
 8wfvuE|Email
 LMFCXE|EMail
 eiCoTk|leere Datenfelder
 Oju3Ki|leere Tabelle
+3skGH2|unterwegs
 InlfaA|Ende (Zeit)
 MFU1ZD|Ende (mehrtägige Fahrt)
+1TUhfr|Ende um
+4ReiZl|Ende um
+JH8SKy|Ende am
+JQVD9x|Ende am
+QCQnSa|Ende am
+gIkHBc|Ende um
+nJr5rv|Ende um
+yl6jQr|Ende am
 uE7sbD|Ende am
+4h7ttJ|Fahrt beenden
 5cu4oU|Fahrt beenden
+TUlSJq|Fahrt beenden
 7YoQfb|Ende
 H6xh5s|einen Wert eingeben.
 wwLnzB|Fahrt eintragen
+VVqvPA|eingetragen von
 pfu2ta|Einträge anderer Jahre
 M7SjbB|Einträge dieses Jahres
-fKG3hw|Fahrtnummer,Boot,Abfahrt,Ziel
-BqM9Lt|Fahrtnummer,Datum,Boot,Steuermann,Mannschaft,Abfahrt,Ankunft,Ziel,Kilometer
+BqM9Lt|Fahrtnummer,Datum,Boot,Steuermann,Mannschaft,Abfahrt,Ankunft,Ziel,Kilometer,Gewässer
 BVliju|Fehler 502: kein gültiger Informationstyp angegeben.
 3vkMSJ|Fehler bei der Überprüfung der Daten:
 edML3Q|Fehler beim Ausführen einer Datenbank SELECT-Anweisung.
 WWu9LQ|Fehler bei der Abfolge von Formularen.
 EvZXbc|Fehler beim Aktualisieren des Datensatzes in %1. Datensatz mit Schlüssel konnte nicht gefunden werden:
+e5oX3g|Fehler bei der Abfrage der Daten vom Server.
 2dhcic|Fehler bei
 6HrzgB|Fehler: Datei '%1' nicht gefunden.
 8XihSu|Fehler: Datei '%1' nicht gefunden.
@@ -1674,9 +1530,11 @@ sgBY7F|Fehler: Bei der Abfrage wurde kein Tabellenname angegeben.
 jVHp9d|Fehler: Der Datensatz in der Tabelle '%1' mit der ecrid '%2' existiert nicht.
 vB1jX7|Fehler: Nutzer hat nicht ausreichend Rechte, um die Datenbank zu initialisieren.
 NLNSFH|Fehler:
+UCOyeY|Fehler
 qZ10EG|Fehler
-RwHQSN|Überschreitung der maximalen inaktiven Zeit von %1 Minuten.
-1ZDOoa|Überschreitung der maximalen Sitzungsdauer von &1 Stunden.
+iX6ImJ|Beispiel Überschrift 1
+DybBcu|Beispiel Überschrift 4
+HsHWSA|Beispiel Link
 2srRi7|bei Wettbewewerben ausschließen
 ayX9bN|Bei Vereinsarbeit ausschließen
 uMWKvT|Bei Statistiken ausschließen
@@ -1700,15 +1558,13 @@ WsILpP|Archivierung der Id fehlgeschlagen: %1 für %2. Kein passender Datensatz 
 Ll1PcH|Id. konnte nicht kopiert werden: %1 für %2 ins Archiv kopieren. Grund:
 3tX6IN|Datensatz konnte nach der Archivierung nicht geleert oder gelöscht werden: %1 für %2. Grund:
 3Srdaj|Vorhandene Sitzungsdatei konnte nicht gelesen werden:
-INS7kx|Sitzungsdatei '%1' konnte nicht entfernt werden.
-Mi1B56|Schreiben einer neuen Sitzungsdatei fehlgeschlagen:
-kGf6KR|Aufgefrischte Sitzungsdatei konnte nicht geschrieben werden:
-nLVyxC|Aufgefrischte Sitzungsdatei konnte nicht geschrieben werden:
 fposcc|Fehlgeschlagen. Grund:
+H4WzFD|Gescheitert
 avyj0D|Feld
 0SC9ay|Die Datei existiert nicht.
 5Crr2x|Dateiberechtigungen für
 Vu1bh5|Dateiberechtigungen für
+RdDQSD|Dateispeicher
 JCP71T|Datei: %1
 |  Nutzer nach Überprüfung der Sitzung appUserID %2, Rolle: %3.
 wdLerX|Datei
@@ -1719,12 +1575,14 @@ SxaQ2N|efa Datensatz finden
 AFfNO8|Nutzer finden
 2MRXpo|Finden
 JLWDeX|Finden
+r9v9Cg|Finden
 xCemhH|Vor- und Nachname
 TY6MFV|Vorname - oder -
 PU7fh8|Vorname
 Y4qNDN|Vorname
 zOaP8F|Vorname
 8e7Bmw|Behoben um
+ZOkbht|Behoben
 zgUx5E|Behoben
 NARfje|Fußzeile unter Mails, die vom System erzeugt werden
 gF0grL|Für %1 feht die Kategorie %2.
@@ -1733,6 +1591,7 @@ EwvOZD|Für %1 fehlen in %2 : %3.
 5jgFwZ|Für %1 ist die Kategorie %2 ohne Inhalt.
 iwE1Bg|Für %1 sind die Werte beim Parameter %2 nicht identisch.
 8ZhsQk|Für efaWeb können dem efaCloud Nutzer zusätzlich differenziert Berechtigungen zugewiesen werden. Das ergibt allerdings nur Sinn in der Rolle 'member'.
+UTmyA8|Zum Importieren muss in jedem Datensatz eine ID angegeben werden. Datensätze mit einer bestehenden ID werden überschrieben, auch wenn sie gelöscht werden. Datensätze mit einer leeren ID werden neu angelegt.
 xjjbhP|Für neue Schadensmeldungen nutze bitte efaWeb.
 Cf48Vk|Für neue Nachrichten nutze bitte efaWeb.
 j2CGJe|Für neue Objekte darf die Gültigkeit nicht begrenzt werden.
@@ -1759,8 +1618,8 @@ zZ6QxD|Aus technischen Gründen wird das Formular bei fehlerhaften Angaben kompl
 ffkuoc|Für die Suche muss mindestens ein Feld einen Eintrag enthalten.
 mwgz0K|Für die noch vorhandene Konfiguration des clients %1 gibt es keinen efaCloud user mehr.
 JIIqc3|Für diesen Nutzer stehen die folgenden Aktionen zur Verfügung (bitte auf den Link klicken):
-jY9jZE|für Benutzer
 iti1xU|Für welchen Client?
+d8C17W|Für wen?
 0kFZ0X|Zugriff auf verbotene Verzeichnisse prüfen ...
 obg4CF|Formulardatenschlüssel '%1' entspricht nicht einem Feldschlüssel des Formulars %2, Schritt %3
 v9Y9Xk|Format:
@@ -1771,31 +1630,33 @@ ODxMEM|Freifeld 2
 trUBiT|Freifeld 2
 gTYQjX|Freifeld 3
 nGKaUU|Freifeld 3
-1t2W9I|aus anonymer Sitzung.
+LVtdZf|Von (Tag)
+QAA0gV|Von (Zeit)
 KZunv7|Von Datum
 C3bKnx|aus der Datei
 1i1RBL|von Zeit
 mymSDY|Von:
 yhYGfZ|Von:
+QRmJ0b|von
 c2yXTk|Von
 lJpyEt|Volltextsuche
 kgufgC|Funktion
 UGlDe1|Weitere Systemzähler können nicht ergänzt werden.
 gFMPPA|uuid_boats
-gPmeyF|
-|             </p>
 gXEDSy|
 |<div class='w3-col l2'>
 gdHeK9|efa2clubwork
 9CKxCr|Geschlecht
 OrvMhQ|als csv-Download-Datei holen:
+xbEOuX|Logbuch abrufen
 oGFs8D|Viel Erfolg!
 zPZZ34|Grund
+kHUZax|Gruppen im Boot
+iTj3F5|Gruppen in der Mannschaft
 hFXbhB|audit_boatstatus
-hPmRBV|
-|</div>
 hS2MVC|efa2boatstatus
 4Bzo0W|Handhabungsfehler. %1 konnte aus %1 nicht gelöscht werden, weil man seinen eigenen Benutzer nicht löschen darf.
+kfjKRc|Schwere
 dF0DWJ|Hallo %1 %2,
 yNm37C|Hilfe
 NAOKEm|Hier sind die letzten %1 Mails an %2.
@@ -1825,6 +1686,7 @@ fFviiD|Ein Einmalkennwort kann jedoch nur in Kombination mit der E-Mail Adresse 
 iL8k6A|efa2groups
 rBRXe8|Id nicht definiert
 LOWEsI|ID
+kta1VG|Ids und Mitgliedsnummern werden am Ende als _ getrennte Liste angefügt
 gvdW5g|Wenn ein dauerhaftes Passwort definiert ist, können Sie kein Einmalpasswort verwenden.
 KiFMhh|Wenn die Nutzer ID (oberstes Feld) angegeben wird, wird der Rest ignoriert
 14r3x2|Wenn du kein Einmalkennwort bekommen hast, kannst du es noch einmal von vorne probieren.
@@ -1833,15 +1695,24 @@ LNrNwl|Wenn dein permanentes Passwort gelöscht ist, kannst du dich mit einem Ei
 LhyISC|Backup einspielen
 qUU4YM|Backup einspielen
 KJallV|Personendaten importieren
+17392l|Tabelle importieren
 k0MUQb|Fahrten importieren
 AC50KL|Nutzer importieren
 1P07E8|Das Importieren von Mitgliedern ist unter einem separaten Menüpunkt möglich.
 taO63K|in Datensatz mit der ID
 XUdGql|In Summe %1 Referenzen auf Objekt IDs in der Datenbank.
 0nSbjg|in Summe [%1] Datensätze in %2 Tabellen.
+A6nZ8o|Im Boot:
+TUic0A|Im Boot:
+YKoKON|Im Boot:
+fkjeG8|Im Boot:
+hsozbd|Im Boot:
+q2flvV|im Boot
 BtUecZ|in der Datenbank
 TOfV45|in der Datenbank
 o6WA71|Bitte wählen Sie im ersten Schritt die Verteilerliste aus, die die Mails mit diesem Empfänger erhalten soll.
+FFjdFF|Im nächsten Schritt wird die Tabelle hochgeladen und wie gezeigt importiert. Bitte bestätigen Sie, dass der Import durchgeführt werden soll.
+2e6zhz|In diesem Logbuch wurden keine Informationen zur öffentlichen Anzeige zugelassen.
 Kzbcet|Insgesamt %1 Tabellen mit %2 Datensätzen
 5Bd5LG|Insgesamt %1 Benutzer.
 AkTh7r|Insgesamt %1 Benutzer.
@@ -1856,7 +1727,9 @@ Gcji2b|Information über Bootsreservierungen ohne login sichtbar
 meZ7oy|Information über Boote auf dem Wasser ohne login sichtbar
 Mi3MiT|Information über Boote mit Bootsschaden ohne login sichtbar
 HzhgbZ|Information über nicht verfügbare Boote ohne login sichtbar
+NWE4ur|Informationen zum Datenschutz
 mBOQpn|Angabe zur Art der letzten Änderung (LastModification) fehlt
+y6vpqj|Informationen, Warnungen und Fehler mit ID des auslösenden Benutzers, alles was von der Anwendung protokolliert wird. Die angezeigten Informationen können personenbezogene Daten enthalten und dürfen nur für den vorgeschriebenen Zweck verwendet werden.
 Y1BObA|Information
 vkPG2M|Info
 1HO6kz|Init-, Login- und Fehlerstatistiken gesammelt (letzter Schritt).
@@ -1865,6 +1738,7 @@ RfjVOh|Init-, Login- und Fehlerstatistiken gesammelt.
 CWEDJn|Einfügen:
 b5wSVV|Installiert bei:
 uz08Wi|Installierte PHP-Module wurden überprüft.
+BPMzAk|Versicherungsschaden?
 Bc1JCp|Versicherungsschaden
 OkL5GN|Versicherungswert
 cq6KYu|Ungültiger Aufruf
@@ -1874,9 +1748,11 @@ GUOWvb|Ungültige Feld-ID in settings_tfyh:
 hfr2Zo|Ungültige Mailverteilerliste
 X6z2gz|Ungültiger Name des Sets im Datensatz
 rLfaDg|Ungültiges Startdatum: %1. Fahrten können maximal 5 Tage im Voraus eingetragen werden.
+x9Civl|Ungültiger Typ '%1' in der Serverantwort.
 4OEKwB|Unsichtbar
 IPD1Fr|Unsichtbar
 VicTNV|Unsichtbar
+sOsPSN|geändert wird:
 ftBV4E|Es kann nicht aktualisiert werden.
 43SSV8|Dabei spielt es keine Rolle, ob die Buchstaben groß- oder kleingeschrieben sind.
 OO3p6S|es wird nicht empfohlen, Datensätze in der Tabelle Fahrtenabzeichen in efaCloud zu modifizieren.<hr>
@@ -1894,10 +1770,13 @@ mDzsS8|Schlüssel fehlt
 SXW6e1|Keyfixing ist für Datensätze mit einer efaCloud-Datensatz-ID (ecrid) nicht erlaubt.
 oBavoZ|KilometerAB
 iJOhK4|Kilometer
+Dh0sXn|km
+xyou4Y|km
 l8nz8C|audit_boats
 lIzc0X|noListForThisRole
-lTMUZN|</div>
-|<div class='w3-row' style='padding: 10px;'>
+JDIy8G|Bezeichnung
+xwnvtw|Letzte 50 Fahrten, nach Startzeit
+CvP0GD|Letzte 50 Fahrten, nach Fahrtnummer
 4fsAVc|letzte Aktivität nicht bekannt
 z1kw92|letzte Aktivität:
 p3eN5N|letzte Änderung
@@ -1928,6 +1807,8 @@ oH9DoY|letzte Fahrten
 imsQg3|Angabe zum Zeitpunkt der letzten Änderung (LastModified) fehlt
 Nf88wl|Kilometernachtrag
 z5D2q8|Letzte Sicherung von %1.
+F7Ctd4|Begrenzung '%1' für '%2'
+To1Ea4|Begrenzung '%1' für '%2'
 zkwDI7|Zeilen
 ZmqZlm|Liste nach %1 Datensätzen gekappt.
 CBjPta|Listenkonfiguration nicht gefunden. Fehler in der Anwendungskonfiguration.
@@ -1940,43 +1821,57 @@ jgDFp0|Nutzer auflisten
 ljq1Qx|uuid_clubwork
 R74F98|Lastschutz für
 YEU1wy|Lade Zeile
+Bwa5WS|Laden des Quellcodes von
 KOipdt|Anmelden 
+fbtgjS|Einloggen
 gsVOpm|Anmelden 
 XCjlyh|Protokollrotation und -analyse abgeschlossen
+mk7MTm|Fahrtenbuch %1 und ggf. weitere eigene Fahrten
 xhJ9cc|Fahrtenbuch %1, Fahrt #%2
 V0q9le|Fahrtenbuch Bootshaus 1 (muss JJJJ enthalten)
 lFAuqp|Fahrtenbuch Bootshaus 2 (muss JJJJ enthalten)
 S84YVk|Fahrtenbuch Bootshaus 3 (muss JJJJ enthalten)
 FHeG0D|Fahrtenbuch Bootshaus 4 (muss JJJJ enthalten)
+FgbY7p|Logbuch exportieren
+JI3PO8|Logbuch exportieren
 tNO7yZ|Fahrtenbuchtext
 9gZllT|Fahrtenbuch
 A6NWPJ|Fahrtenbuch
+SdGfhU|Fahrtenbuch
+UHtvgt|Fahrtenbuch
+VaINZs|Fahrtenbuch
 cGZgv4|Fahrtenbuch
 kqKRmK|Fahrtenbuch
+kxrdSA|Fahrtenbuch
+pVuPbJ|Fahrtenbuch
+r0b4Hy|Fahrtenbuch
 4aLEcN|Fahrtenbücher
 R0W8GE|Fahrtenbücher
 UEM4kg|Fahrtenbücher
 tAZZwi|Fahrtenbuch
 u6KRSK|Fahrtenbuch
 vb5sne|Fahrtenbuch
+y2bjFM|Fahrtenbuch
+yFgddS|Fahrtenbuch
+cxAly0|Abgemeldet
 OzqrOs| efaCloudUserID
+XPLjLc|Login für registrierte Benutzer
 eAyB1z|Login token an Nutzer: %1 (%2) konnte nicht gesendet werden.
 o94iyq|Login token versendet an Nutzer:
+zJ6HDF|Anmeldungen (login), Seitenaufrufe (init), und Fehler (error)
+bvy48a|Die Abmeldung war erfolgreich.
 4RX8ec|Abmelden
 4viwOG|Abmelden
 sOWvNq|Abmelden
 tk0t49|Abmelden
 O1N4lu|Mitglied nachschlagen
-mA4mRY|
-|</div>
-mCCQdU|
-|<!-- END OF Content -->
-|</div>
 UbM9MJ|Mail-Adresse Kopie-Empfänger von Workflowbenachrichtigungen.
+rt5Zt3|Mailadresse für neue Mes...
 IwDHk3|Mail-Adresse für Hinweise auf neue Nachricht an admin
 ciH3c2|Mail-Adresse für Hinweise auf neuen Bootsschaden
 bZPxRq|Mail-Adresse für Hinweise auf neue Bootsreservierung
 QvmvUh|Mails an die gewählte Mailingliste können von dem aktuell registrierten Benutzer nicht gelesen werden.
+u7mzai|Wartung
 8I1Ul0|Falsch formatierte Sitzungsdatei:
 08PLC8|Admins verwalten
 bljsmA|Admins verwalten
@@ -1997,6 +1892,7 @@ ct8Zr0|Mitgliederliste
 M9JjE6|Mitglied
 D1T6Ho|Mitgliedsnummer
 8hLYiU|Mitgliedschaft
+Gjq53k|Nachricht ist für
 6OvfoX|Nachricht Nummer
 OMRZJ7|Meldung:
 ZdR7Gs|Nachrichten der letzten 50 Tage
@@ -2037,17 +1933,21 @@ Nza13s|Jüngstes Backup von %1.
 Ksm76W|Mein Profil
 n6ky2H|Byte.
 nRHHwb|audit_destinations
+XrnRSE|Name des Bootes
+tusipi|Name des Bootes
 9vGHkQ|Bezeichnung des Vereins
 hJ7Bsi|Name dessen, der betriebsverantwortlich ist
 dO0l4o|Namenszusatz
 eZWzUq|Namesnzusatz
 9HtXZo|Name
 FZawRf|Name
+bDOscN|Name
 cTStCe|Name
 hvLW0s|Name
 vDf51g|Weder efaAdminName noch %1 im VERIFY-Transaktionsdatensatz angegeben. Verifizierung unmöglich.
 0Bc3sn|Neuer Eintrag
 cIKrjx|Neues Passwort
+uL8Ig1|Keine aktive Web-Sitzung zum Entfernen.
 ZH4LGD|kein Boot angegeben
 SMOZBB|Keine Änderungen protokolliert.
 5rekMK|Keine Änderungen vorgenommen.
@@ -2074,10 +1974,12 @@ U24lUJ|Kein passender Nutzer gefunden.
 Vpmha6|Keine passende Version gefunden. Details siehe unten sowie in der Datei
 I3zknU|Keine Metadaten gefunden.
 JjCWn9|Es wurden keine veränderten Daten eingegeben, oder es liegen Fehler vor. Es wurde daher nichts geändert.
+6gdISg|keine weiteren Aktualisierungen, zu nah am Ende der Lebensdauer.
 pXgPvV|Mit der Benutzernummer als Kontoinformation kann kein Einmalpasswort angefordert werden.
 0xh80B|Es kann kein Einmalpasswort mit der Benutzernummer als Anmeldeinformation angefordert werden.
 355gfL|Niemand
 DEPfjp|Niemand
+UGb3Ss|keine offenen Schäden.
 5LFPnH|Bei der Initialisierung während des Aufrufs wurde keine Seitenkennung gefunden.
 7n26tL|Kein Kennwort oder zu kurzes Kennwort im VERIFY-Transaktionsdatensatz angegeben. Verifizierung unmöglich.
 vI6UBA|Keine Bilder in diesem Album vorhanden.
@@ -2085,18 +1987,29 @@ KFwEDL|Keine Datensätze gefunden.
 nDkWmB|Keine Datensätze gefunden.
 bKEeu8|keine zu archivierenden Datensätze.
 V7c5k8|kein Referenzmandant identifiziert
+3nigIB|Keine Serverantwort im zurückgegebenen Transaktionsantwort-Container.
 BwU3GN|Keine Serverversion gefunden. Ist dies vielleicht der localhost?
 M4AobL|Kein Speicherplatz, Testmodus.
+AvRL61|kein solches Feld: %1
 VTLYoN|keine solche Tabelle.
 0471BS|keine gelöschten Datensätze zu bereinigen
+v5F8j0|Keine Fahrten im Fahrtenbuch %1 gefunden.
 1gFUrv|Es wurden keine Fahrten ausgewählt und daher auch keine Fahrten gelöscht
 4C9I5e|Keine Benutzer für
 wyHjxb|Keine Benutzer für
 nWooch|keine Werte gesetzt für
 JTclLO|Keine Versionshistorie verfügbar.
 Xn806o|Keine Versionshistorie verfügbar.
+051mwt|Nr. %1 für Boot %2 ab %3 um %4 bis %5 um %6. Grund: %7
+JaxQHa|Nr. %1 für Boot %2. Schwere %3. Beschreibung: %4
+TSjHTS|nein.
+kt6n6T|Nummer
+tVC5cs|Nummer
 7TSRnp|keine.
 7mUP2w|keine
+c5k6Ou|NOP-Response received:
+|%1
+|Maximum API version of server is V%2
 5UcqeO|Nicht zulässig.
 8ARdau|Nicht zulässig.
 9R86C3|Nicht zulässig.
@@ -2109,6 +2022,7 @@ aalScL|Nicht zulässig.
 lTNFEv|Nicht erlaubt.
 uBlPNN|Nicht zulässig.
 yMxAqF|Nicht zulässig.
+zP6A0Y|nicht verfügbar
 2t62D0|nicht definiert
 dB1fLF|Nicht definiert
 FHyizx|Nicht gefunden.
@@ -2116,17 +2030,20 @@ M19SkN|Nicht gefunden.
 PBQQGF|Nicht gefunden.
 VvUAbG|Nicht gefunden.
 d5YI7D|Nicht gefunden.
+aSbA0d|nicht geladen.
 1Pq6VT|NICHT OK.
 XJvUh4|NICHT OK.
-FEabHF|NICHT OK
 2hvcxV|noch angegeben.
 eGLG1w|nicht gesetzt
 LlqlPF|nicht verwendet.
-l3xH18|noch nicht aufgefrischt, für Benutzer
+b1g10I|noch nicht 
+ncPBhO|noch nicht 
 N2DEyA|HINWEIS: Anhänge wurden entfernt und müssen wieder angehängt werden.
 AGFCdm|Hinweis: Die Spracheinstellungen werden erst mit dem nächsten Klick übernommen.
+Z1rWgP|Hinweis: In der Regel speichert der Browser die Farbeinstellungen im Cache, so dass die Änderung zunächst keine sichtbaren Auswirkungen hat. Mit F5 oder &lt;Strg&gt;-F5 kann nach der Aktualisierung in den meisten Browsern der Cache geleert und die neue Farbeinstellung übernommen werden. 
 T8bnu4|Hinweis:
 p71s5H|Hinweis:
+WlrZp9|Hinweise:
 fD6eVJ|Anmerkungen
 rT8wtF|nicht
 46r1cW|Nummer 1 - 12
@@ -2145,9 +2062,6 @@ zN9uFR|Anzahl Sitze
 K1NJOq|Anzahl der Varianten
 Jl8rPJ|Nummer
 nv2Oy2|efa statistics
-o5pCKD|</div>
-|<!-- END OF Content -->
-|</div>
 3jcnUv|Objekt Id
 BrYHfg|Objekt Id
 QWboNj|Objekt Id
@@ -2163,7 +2077,6 @@ FjaAjn|Objekt IDs in
 wJIXR7|Objekt Id
 WdYaFk|Objekt gültig bis:
 kKEQHN|Behinderung
-EAfgop|Ok. Alle Datensätze enthalten die erforderliche ecrid-Information.
 CfkyuH|Ok. Konfigurationsparameter Layout Version
 sk2yd0| version %1.
 O1BjoP|ok.
@@ -2180,20 +2093,29 @@ hiQjLL|Einmaliges Kennwort an den Benutzer gesendet.
 gTp06U|Einmalkennwort
 OdAp4b|Online-Update
 T06lHl|Online-Update
+6vuCGA|Nur ein Benutzeradministrator kann Benutzereinträge löschen.
 nchfyO|nur für Gruppe
 R0wh6L|nur in Bootsaus mit Id (Zahl)
 SKkVXe|Nur in Bootshaus mit Nummer
 cg2vkM|Nur Personen, die im Fahrtenbuch hinterlegt sind, können ein Boot reservieren.
 jnk5Ij|nur mit Steuermann
 Pj5VdW|Huch! Ein fataler Fehler.
+4vmcDx|Ups
 RMYTH2|Offene Fahrten dürfen nur in efaWeb oder im PC-Programm bearbeitet werden.
 0Ne1yX|Offene Bootsschäden
+Ze3H2S|Offene Bootsschäden:
 Y0Nnwo|Offene Bootsschäden
+j5yRXe|Offene Bootsschäden
 Rqub4S|Offene Schadensmeldungen
 aBfAtM|Bootslisten öffnen/schließen
 A0aN1k|Offen
+Zuiu0O|Öffnen
+5qx7Bd|Option
+Rqkqic|Option
+ZiS5as|Option
 ai7VD4|Oder es hat keinen aktuell güligen Datensatz mehr. Ggf. ist auch der angegebene Name nicht eindeutig. Es kann nicht aktualisiert werden. Dazu muss erst die letzte vorhandene Version wieder gültig gesetzt werden.
 Kxg8sl|Reihenfolge der Namen
+Hwcezs|entstanden am
 2iK73T|Unser Verein nutzt efaCloud und darf auf efacloud.org als nutzender Verein benannt werden.
 DJV8m7|efa Tabelle ausgeben
 MBZSgY|Ausgabe der zuletzt hochgeladenen Log-Datei
@@ -2201,12 +2123,16 @@ MBZSgY|Ausgabe der zuletzt hochgeladenen Log-Datei
 cpLo7L|Überlast-Diagnosedaten. Ereignis wurde ausgelöst durch '%1', für '%2'.
 HIkuMt|Übersicht über Fahrtenbücher und Vereinsarbeitsbücher
 FalTMo|Übersicht
+O1emyI|Eigene Fahrten in diesem Jahr
+VB2mdP|Eigene Fahrten in diesem Jahr
 QDV6IR|Eigentümer
 zcNkU0|Die Seite '%1' muss als Folgeseite mit einer Datensatzidentifikation aufgerufen werden.
 6skWc5|Die Seite '%1' muss als Folgeseite von Datensatz finden aufgerufen werden.
 b1CfJu|Die Seite '%1' muss als Folgeseite von Datensatz finden aufgerufen werden.
 5bm14Z|Die Seite '%1' muss mit der Angabe der efaCloudUserID des zu berichtenden Clients aufgerufen werden.
 ov4KAp|Die Seite '%1' muss mit der Angabe der id oder efaCloudUserID des zu ändernden Nutzers aufgerufen werden.
+yTgnip|parameter_nicht_initialisiert
+iyQl8o|parameter_nicht_initialisiert
 EomIlN|passierte Schleusen
 DMXYCB|Passwort vergessen?
 SjwGi5|Passwort vergessen?
@@ -2214,6 +2140,9 @@ aSg4LC|Passwort
 wfb4w9|Passwort
 QxUPtc|Vergangene Reservierungen nach Boot
 Ech3QZ|Vergangene Reservierungen nach Person
+c7OduW|Ausstehende Warteschlange
+rog2FV|Ausstehende Reservierungen
+2V7GRC|Ausstehend:
 bqGw5V|Wartungsroutinen durchführen (Geduld)
 pYGgkq|Berechtigung
 joG6ef|Berechtigungen für efa Nachrichten und efaWeb
@@ -2226,27 +2155,40 @@ D9NwwV|Telefon
 RJ96L3|Namenszusätze wie 'von' o. ä. bitte im Nachnamen eintragen (z. B. 'Eckhard' – 'von Hirschhausen')
 dmdcpx|Namenszusätze wie 'von' o. ä. bitte im Nachnamen eintragen (z. B. 'Eckhard' – 'von Hirschhausen')
 AdwVBx|Bitte bei "
+0zluAo|Bitte wählen Sie Ihre Optionen und erhalten Sie den Export als gezippte csv-Datei.
 arUUZe|Bitte geben Sie ein gültiges Datum bei "%2" ein (nicht "%2")
+rYOCmN|Bitte bei "%1" eine gültiges Datum eingeben (nicht "%2")
 6ytHoP|Bitte geben Sie eine gültige E-Mail-Adresse bei "%1" ein.
+ANAREj|Bitte bei "%1" einen Wert eingeben.
 CLnsaZ|Hier bitte das eben Dir per E-Mail gesendete Einmalkennwort eintragen, um dich zu autorisieren.
 qxoh5L|Hier bitte das eben gesendete Einmalkennwort eintragen, um dein permanentes Passwort zu löschen.
 2hxIEV|Im Anhang finden Sie die Datensicherung der Anwendung wie konfiguriert. Behandeln Sie diese Daten wie in Ihrem Datenschutzregelwerk definiert. Dazu gehört in der Regel das Löschen nach einer kurzen Zeitspanne.
 OI0hj9|Bitte melde Dich nun ab und neu an, das Passwort ist immer noch das gleiche.
 s6B4AE|Bitte beachte, dass dieser Weg maximal %1 Tage lang funktioniert. Danach wird er aus Sicherheitsgründen gesperrt.
+d0xnMU|Bitte beachten Sie: der Vorgang startet mit dem Klick auf den Button sofort und dauert nur wenige Sekunden.
 TxBnFe|BITTE BEACHTEN SIE: Verwenden Sie die bereitgestellten Informationen nur für den vorgesehenen Zweck. Die Weitergabe der hier exportierten Listen ist nicht gestattet.
 Fiwrt1|Bitte beachten Sie
 RuxnkA|Bitte achten Sie auf die erforderliche Syntax, es finden keine technischen Prüfungen statt.
+T3CqRg|Antwort bitte an (Mail)
+sN71rx|Bitte wählen Sie den Verteiler aus, von dem Sie die zuvor versendeten Mails lesen möchten.
 2wp4Nk|Bitte den Log auswählen.
+4yJ56h|Bitte wähle das Fahrtenbuch, in welchem Du Eintragungen vornehmen willst.
+jMcbIg|bitte auswählen
 IjHmYc|bitte als Mail versenden
 RYw5AW|Bitte festlegen in Menü 'efaCloud einstellen / Parameter einstellen'.
+YYs5Cm|Bitte bei "%1" den Haken setzen.
 1ci7d1|Bitte benutzen Sie den Filter oder laden Sie die komplette Liste herunter.
 CYEWjP|Bitte verwenden Sie die Mailadresse als Kontoinformation.
 kL1ygA|Bitte verwenden Sie die Mailadresse als Kontoinformation.
 fn5jng|Bitte verwenden Sie die Mailadresse als Login-Information.
 liKdKf|Hinweis:
+jNyppd|hier möglich
+8ySDU0|Zeitüberschreitung der Postanforderung
+tCbfEH|vorheriges Jahr
 itE88b|Privilegierte Nutzer (auch für Security-Concept)
 cXYJJu|verarbeitet. Ergebnis:
 YonxH0|Verarbeitung von Datensätzen ab #%1.
+3LxQTm|Verarbeitung:
 a8gRBK|Profil geändert.
 vOVG5E|Verbot Boote zu nutzen
 Zknloz|Projektdatensätze dürfen in efaCloud nicht bearbeitet werden. Bitte verwende dafür efa.
@@ -2254,14 +2196,14 @@ ugf7Xy|Eigenschaft
 JX2kP6|Bereitgestellt am %1 durch %2 bis %3. Das Weiterleiten und Kopieren dieser Liste ist nicht erlaubt.
 CMC17q|PS: Im Benutzerprofil ist es möglich, ein dauerhaftes Passwort zu hinterlegen.
 O1HWlA|Zugriff auf öffentlich zugängliche Verzeichnisse prüfen ...
+EJRxHO|Öffentlich zugänglicher Logbuchinhalt
 CTGqm4|Kaufpreis
-w7VUs5|Gelöschte, verbleibende Datensätze:
+w7VUs5|verbleibende gelöschte Datensätze:
 qhU3kM|efa2statistics
 qraFMw|</div>
 r3NxLY|Information abfragen
-r3pK7A|
-|  </p>
-|</div>
+rTgJH2|Radio-Button angehakt
+SYuuyO|Radiobutton nicht angekreuzt
 BG4WZl|Datensätze lesen
 VOmyV3|Datensätze lesen
 VR0oRs|Datensätze lesen
@@ -2269,40 +2211,47 @@ VR0oRs|Datensätze lesen
 MITE9y|Nachrichten an Admin lesen
 G4T8O5|Nachrichten an Bootswart lesen
 GETdvw|Nachrichten an Bootswart lesen
+99XIGm|Vorherige gesendete Mails lesen
 kJ6gZq|Gelesen
 vp2UUx|bereit.
+N6KBST|Reservierungsgrund
 mINcAx|Grundstatus
+xnmmBE|Grund
 vQfgCq|Datenbank neu aufsetzen
 za2NmI|Empfänger des persönlichen Logbuchs
 ZmVUvv|Empfänger:
 ZgWLaf|Datensatz gelöscht am
 MJ2srE|Datensatz nicht vorhanden.
+UhbQ08|Versionshistorie
 S9MHHT|Der zu löschende Datensatz wurde nicht gefunden.
 1NueuX|Datensatz Versionen
+U9eMQ0|Record with ecrid already exists and therefore can not be inserted.
+CtV7qB|Record with ecrid does not exist and therefore can not be updated.
 FmQZaR|Datensatz:
 C94hEq|Datensätze gefunden.
 zYFpuX|Datensätze gefunden.
-ShX0Ie|Datensätze eines virtuellen Summenlogbuchs können nicht geändert werden.
 ltxpNk|Datensätze pro Tabelle:
-YOdyR9|Datensätze ohne ecrid
 jnzy2g|Datensätze
 xhYaXI|Datensätze
 uMJF7t|Referenzkonfiguration
 lW1weM|Referenzen gesammelt
 vWuyPP|Referenzen auf Objekt IDs in
-twIq91|Aufgefrischte Sitzung:
-Hq7qsl|aufgefrischt
-RhKowz|aufgefrischt
-vOFqk1|Abgelehnt, eine neue Sitzung zu starten für: %1, da derzeit %2 Sitzungen geöffnet sind.
+WunktC|aufgefrischt
 PSgWyn|Relevant für die Wiederherstellung ist das Datum der Archivierung, im Gegensatz dazu ist für die Archivierung das Alter des Datensatzes relevant. Beide Werte können deutlich voneinander abweichen. Der Grund dafür ist, dass bei versionierten Daten dieses Alter nicht trivial zu bestimmen ist.
+0ZqZ7H|Bemerkungen
+O6tNqN|Bemerkungen
+THke0j|Bemerkungen
+qfNiOq|Bemerkungen
+rfBQGI|Bemerkungen
 uDZ8bh|Bemerkungen
 lrang0|Behoben durch
 lKMzP1|Behoben am
 liztYS|Remote Zugriff über efaRemote
 zE951V|Remote Zugriff über efaRemote
-UDQgXV|App-Sitzungsdatei '%1' entfernt
 B9Tygk|Entfernen von Dateien, die nicht mehr benötigt werden.
 tpeQge|Entfernt Dateien.
+AsPYhV|Entfernen der Sitzung '%1'.
+legYF5|Entfernen der Sitzung '%1'.
 NfubnI|Dubletten umbenennen
 V5XtIe|Datensatz wieder öffnen
 angZst|Reparaturkosten
@@ -2313,13 +2262,19 @@ fOZSP1|Antwort an (Mail)
 1YO1yW|Schaden melden
 CAX8fi|Fehler melden
 pqL2ki|Berichtet um
+SWNkdA|gemeldet durch
 cuF2PJ|Gemeldet durch
 JwgzHG|Gemeldet am
 1TZFAm|Reservierung Nr.
 l3VrzO|Reservierungsart
+3fUKdZ|Reservierungen für
+QjeBHO|Reservierungen
+dVZFby|Reservierungen
 hhDEh2|Reservierungen
 yxCXqW|Reservierungen
 GFqP0A|Boot reservieren
+FqOHte|Jetzt reservieren
+iQkZZG|reserviert
 p3vqAi|Reservieren
 Zt0ZqG|Verantwortlich (Name)
 FFLOHR|Die Wiederherstellung kann dauern, bitte etwas Geduld ...
@@ -2332,6 +2287,8 @@ AmEL6s|Wiederherstellen der bestehenden Konfiguration
 e5VOu1|Ergebis der Layoutprüfung
 NrXqXo|Ergebnis der Konfigurationsprüfung
 ArvB70|Ergebnis der Periodenkonformitätsprüfung
+YcDS4y|Ergebnis: 
+oaIKyl|Zurückgegebene Transaktion ist #%1. Erwartet wurde diese #%2
 DwVsCD|Riggerung
 lmwgwD|Riggerung
 tVF58f|Riggerung
@@ -2340,6 +2297,8 @@ z7eGHS|Rolle nicht erlaubt.
 P47vFY|Rolle
 8RhH9W|Rollen
 gtLFK0|Route
+wK7b6i|Ruderkilometer im aktuellen Jahr, sortiert nach Strecke
+VF7QDt|Ruderkilometer im aktuellen Jahr, sortiert nach Namen
 rqm7uR|efa fahrtenabzeichen
 sHl4hd|audit_logbooks
 aBry6x|Verkaufspreis
@@ -2350,26 +2309,32 @@ M4P1uK|Sicherheitskonzept erzeugt.
 saSTkk|Bilder zum Hochladen auswählen:
 YhyKTz|Tabelle auswählen
 epwaIX|wählen Sie Syntaxfehler in der Formulardefinition verwenden.
+xbtBBx|select use Syntaxfehler in der Formulardefinition.
 rOaloE|wählen/aktualisieren
 1vgJ3q|Gewählte Tabelle:
 jIay6a|efaCloud Login token versenden
 VkSSmT|Anmelde-Token senden
+W5VoZs|Mails an eine Verteilerliste senden
 sVUA3S|nur bei Schadensklasse 'unbenutzbar' versenden
 L9ZdPG|Die API-Logs und den Auditlog mit senden (erforderlich bei einer Supportanfrage)
 3tUUPL|Sicherung per Mail senden.
 zmsFb6|Senden fehlgeschlagen für: '%1'.
+Z5LcTj|gesendet: 
 1393xk|Gesendet:
 akyasw|Gesendet:
 SvaKYg|Seriennummer
-JMdyYP|Serverzugriff komplett fehlgeschlagen.
 hOqvCZ|Server-Anwendung
 hjdoBL|Server-Anwendung
 qwMH39|Servermeldungen
+rjunmx|Server-Meldungen
+KM1cke|Server Overload detected, more than the allowed actions or errors within the last hour.
+EJM8uI|Server hat Statuscode 500 zurückgegeben
 IEwtHj|Service / Feedback
-26flZh|Sitzung geprüft:
 RHGlRZ|Sitzungskontext: %1, aktuell: %2
 7MQHkj|Wanderfahrtengruppe
-Ukfuhg|session_open - initialisiert PHP-Session-Array.
+K7p76O|Zeitüberschreitung bei Inaktivität der Sitzung
+n6IV9Y|Ende der Fahrtsdauer
+Wkz0N4|Fahrt beendet.
 nWbfxq|automatisch mit Alter setzen
 LjCmY9|Setze den Standard für `%1`.`%2` von NULL zu %3
 vHyDe6|Fehlende Pflichtfelder auf Default setzen
@@ -2377,11 +2342,10 @@ K1bZta|Kennwort für efaCloud setzen
 iPXyEn|Setzen des Häkchens.
 ydOyJW|efaCloud einstellen
 rObLc3|gesetzt
-cmOGiF|Setzen der Zugriffsberechtigung auf die erstellte Dateistruktur.
 CD3PrG|Einstellungen für efaCloud
+RKsX0G|Schwere
 Z6AXS3|Archivdaten anzeigen
 Wzrjo6|Archivdatensatz anzeigen
-JUw3H1|Aktuellen Datensatz anzeigen
 dnQoBs|Schadensmeldungen anzeigen
 ZKVVWo|Gelöschten Datensatz anzeigen
 sRQXxQ|Details anzeigen
@@ -2397,8 +2361,10 @@ J6CBlP|Datensatz anzeigen
 4l5FTD|Papierkorb anzeigen
 32t78v|Reservierungen anzeigen
 KHeqx2|Reservierungen anzeigen
+KLjWQP|Fahrt anzeigen
 htDoQ0|Fahrten anzeigen
 Qgr3Gt|Nutzer anzeigen
+UcNTLA|Versionen anzeigen
 uo2ViI|zeige
 u9WjgW|Herunterfahren von %1. Skript gestartet bei %2
 LQkc0F|Unterschrift unter Mails, die vom System erzeugt werden
@@ -2407,28 +2373,44 @@ NKmdC2|Größenprüfung: Tabellen und Datensätze
 MnUz4K|Größe Anfragen
 bq7XVl|Größe Antworten
 bciyl7|Fehlende %1 %2 überspringen
+JmUvue|Tut mir leid, das hat nicht funktioniert.
+cuE4RE|Leider bist Du nicht berechigt, eine Fahrt zu schließen.
 nLel3k|Sortieren mit einem Klick auf die Spaltenüberschrift (nur teilweise), Umschalten von aufsteigend auf absteigend mit einem zweiten Klick.
 sp2W9z|efa2persons
 SomMhj|Sportbetrieb
 ROnbpI|Standardziel
 9reeG3|Standard Mannschaft
 LB0r2L|Beginn (Zeit)
+9fffoj|Beginn um
+C1Bsg1|Beginn um
+bK30UC|Beginn um
+kBTQNR|Beginn um
+skkCdt|Beginn um
 yQ1qgk|efaCloud starten
 9H3wls|efaWeb starten
 7QPJ0h|Start ist Bootshaus
 d7WN8G|Beginn des Überwachungszeitraums:
+6Vh9NF|Beginn am
+L6rvsh|Beginn am
+Nfckze|Beginn am
 dnQznW|Beginn am
+e6eYdw|Beginn am
+kQc9LT|Beginn am
+xOxZIm|Startzeit
 Ef9qFy|Fahrt beginnen
-gS4qXx|Neue Sitzung gestartet:
-Q843R8|gestartet
-W81e1T|gestartet
-mGzOgz|gestartet
+fpTiN4|Fahrt beginnen
+Z64jAf|Start
+i2FITf|Start
 BbNX8o|Starten von api_select für Mandant %1 bei Tabelle %2 und Api-Version %3.
 h00O8b|Beginn der Prüfung bei:
 7tTMfJ|Start der Datensicherung.
 mrO2j6|Start der täglichen Aufträge.
 X2GfIo|Start der Integritätsprüfung der Datenbank.
+AGz4Iv|Vorhandene Web-Sitzung '%1' für '%2' von '%3' starten
 Yx56GO|Startet init_efa_data_base().
+bYhMEv|Neue Api-Sitzung '%1' starten
+Z9Ncn1|Starten einer neuen Sitzung '$session_id'. Derzeit offen sind:
+a9ihqL|Start einer neuen Web-Sitzung '%1' für '%2' von '%3'
 8hPspQ|Start von
 YPmPF9|Start von
 mrY3PQ|Start von
@@ -2446,9 +2428,12 @@ HCNOra|Betreff:
 XMHPag|Betreff:
 NeJuR0|Betreff
 OymftT|absenden
+VIEH0Z|Absenden
+qMKgTz|Absenden
 wTnmiM|Subskriptionen, Maske 
 id0bwJ|Erfolgreich.
 vsbqU2|erfolgreich.
+8bTeiG|Erfolgreich
 xeTyR1|Support / Upgrade
 iiTAZJ|Ohne Angabe des Namens und des Vereins werden Supportanfragen nicht bearbeitet. Die Reaktionszeit beträgt in der Regel unter einer Woche, in Urlaubszeiten schon mal länger.
 PAIiKT|mit KanuEfb synchonisieren
@@ -2462,12 +2447,15 @@ uwYaTR|Prüfung der Tabellenkonfiguration ...
 bYc0uP|Tabelle in die Daten wiederhergestellt werden sollen:
 0i10mg|Tabellenname;Spaltenname;Datentyp;Datenlänge
 xRpQLT|Tabellenname;Tabelle versioniert;Spaltenname;Datentyp;Datenlänge;Objekt-ID;Schlüssel;Schlüsselkorrektur
+m5y8pv|Tabelle der benutzergesteuerten Aktivitäten:
 AFDcif|Tabelle:
 k55LAo|Tabelle:
 TjrkjA|Tabelle
 WWOePq|Tabelle
 bJ44LM|Tabellen und Datensätze
 bxlpav|Tabellen und Datensätze
+nBgz5e|Die zu importierenden Tabellen müssen in der ersten Zeile die Feldnamen der Datenbanktabelle enthalten, Groß-/Kleinschreibung ist relevant. Werden ungültige Feldnamen verwendet, kann der Import nicht durchgeführt werden.
+A0zktK|Zu importierende Tabellen, die aus genau einer Spalte bestehen, in der die ID angegeben ist, führen zur Löschung der kompletten Datensätze mit der jeweiligen ID.
 G5m6Ej|Jetzt übernehmen
 HLbrnw|Jetzt übernehmen
 aa9tiK|Jetzt übernehmen
@@ -2477,7 +2465,10 @@ jPAGA4|Ziele
 pOzbf5|Steuermann auf Listenposition Nummer
 xJzfix|Steuermann auf Listenposition Nummer
 1yAYIE|Mannschaftsname
+28WNdA|Mannschaft
 ClrV6N|Mannschaft
+E315aG|Mannschaft
+l5FrCm|Telefon für Rückfragen
 DCYvxF|Schnittstelle testen
 P7qqn3|persönliches Fahrtenbuch testen
 liBwB2|Text zum Boot
@@ -2489,11 +2480,15 @@ BwRlFt|zu findender Text
 pYJiV8|Die Seite '%1' muss mit der Angabe der id des anzuzeigenden Datensatzes aufgerufen werden.
 hYvVME|Die Abkürzung, die für Euren Verein verwendet werden soll
 J54Euo|Die Transaktionsmengen und Zeiten als Pivot-Tabelle
+O31g1E|Die Anwendung befindet sich derzeit in der Wartung, bis sie erwartet wird:
 VG4gUV|Der Archivdatensatz #%1 konnte nicht wiederhergestellt werden. Grund:
 o1UBxC|Der Archivdatensatz #%1 konnte nicht wiederhergestellt werden. Grund:
 0mLtWK|Der Verein, bei dem efaCloud eingesetzt wird
 KAPg7y|Das autoinkrementierte Feld '%1' darf in einem Datensatz bei API V3 nicht gesetzt werden
+er1dlc|Das Boot ist nicht verfügbar.
+EAWdTO|Das Boot ist nicht zu verwenden.
 AebG0R|Das Boot ist belegt mit der Buchung: %1 vom %2 %3 bis %4 %5.
+4GOL90|Das Boot ist auf dem Wasser.
 0CIAFU|Das Boot ist
 N2MgjZ|Die Änderung wird unmittelbar in die Datenbank übernommen und gleichzeitig im log registriert..
 YWg7T3|Die Änderung wird unmittelbar in die Datenbank übernommen und gleichzeitig im log registriert..
@@ -2542,7 +2537,9 @@ HFNMBp|Das erwartete Kalenderjahr konnte aus dem Namen nicht ermittelt werden.
 Q77SFy|Das Feld 'ActiveDays' hat einen ungültigen Wert.
 ZjU51G|Die Datei '%1' wurde hochgeladen.
 fUMqe5|Die Datei konnte nicht hochgeladen werden. Fehlerbeschreibung: '%1'.
+KLYCCf|Der Datei-Import wurde durchgeführt. Sehen Sie, was importiert wurde.
 AE2Uq5|Der Datei-Upload war erfolgreich. Bitte links prüfen, ob die Darstellung so passt.
+Fg6pWu|Der Datei-Upload war erfolgreich. Sehen Sie, was importiert werden soll. Bitte achten Sie auf Importfehler.
 kXZ9rj|Die folgenden %1 der in Summe %2 Objekt IDs werden nicht (mehr) verwendet:
 U7JDda|Folgendes Ergebnis der Aktivität wurde mitgeschrieben:
 WOnK0g|Folgendes Ergebnis der Aktivität wurde mitgeschrieben:
@@ -2550,10 +2547,12 @@ WOnK0g|Folgendes Ergebnis der Aktivität wurde mitgeschrieben:
 8gVWmU|Die folgenden Änderungen wurden beim Import durchgeführt:
 9mww2x|Folgende Änderungen wurden vorgenommen:
 cFEi41|Folgende Änderungen wurden vorgenommen:
+o7TETm|Das folgende Datenfeld ist doppelt vorhanden: 
 qn2cjQ|Folgende Datenfelder sind keine Felder der Fahrtenbücher-Tabelle: %1.
 4SVUF8|Die folgenden Module fehlen auf dem Server im Vergleich zur Referenzinstallation:
 GCD6OA|Die Volltextsuche sucht den angegebenen Text in allen Einträgen eines Datensatzes der Nutzer
 9jRxQE|Das Geschlecht muss entweder 'MALE' oder 'FEMALE' sein.
+H3jSfa|Die implementierte Datenstruktur
 x76oqA|Die Sprache
 slCqRl|Die Liste '%1' darf nicht für die Rolle '%2' oder die für den aktuellen Benutzer erlaubten Abonnements oder Workflows (%3 %4) ausgegeben werden.
 hFKtKU|Die Liste ist nach Namen sortiert und es wird die jeweils letzte gültige Version des Objekts angezeigt.
@@ -2564,8 +2563,10 @@ QZLbIG|Die Logdatei
 hxETBN|Das Fahrtenbuch %1 (Fahrtnummer: '%2') ist nicht bekannt.
 dIcKzE|Das Fahrtenbuch %1 ist nicht bekannt.
 wOmMPf|Das Fahrtenbuch
+OSpHxl|Die Mails werden einzeln verschickt, immer mit nur einem "An"-Empfänger. Je nach Menge kann das eine Weile dauern und auch zu einer Spam-Klassifizierung auf der Empfängerseite führen. Bitte gehen Sie daher sparsam damit um.
 RxkkKI|Die Nachricht wurde an %1 Mitglieder gesendet und mit dem Ergebnis in der Datenbank gespeichert:
 iSCF3X|Der wahrscheinlichste Grund ist, dass im Fahrtenbuch keine Fahrten sind, alternativ könnte noch sein, dass die Email-Adresse als efaCloudUser nicht mit der E-Mail-Adresse übereinstimmt, die in efa hinterlegt ist.
+yJhC53|Der Name "%1" wurde in der Liste "%2" nicht gefunden, muss aber dort enthalten sein.
 VFh57f|die notwendigen Angaben '%1' fehlen im Datensatz: %2.
 n47bZV|Die notwendigen Angaben '%1' fehlen im Datensatz: '%2'.
 LdOZnH|Die neue Version schließt nicht an es an (Abweichung > 2 Minuten).
@@ -2587,33 +2588,40 @@ yR7zed|Das Kennwort kann nur für neue Nutzer und Nutzer mit der Rolle 'bths' ge
 655rFb|Das Kennwort wurde geändert.
 b25fYT|Das Kennwort wurde geändert.
 W37MTN|Das Kennwort ist in "%1" nicht sicher genug. %2
+johtdS|Das Passwort ist nicht ausreichend sicher in "%1" %2
+PJE9Iu|Das Kennwort muss mindestens 8 Zeichen lang sein. 
 6617qN|Das Kennwort muss mindestens 8 Zeichen lang sein. Im Kennwort müssen Zeichen aus drei Gruppen der folgenden vier Gruppen enthalten sein: Ziffern, Kleinbuchstaben, Großbuchstaben, Sonderzeichen. Zulässige Sonderzeichen sind !&quot;#$%&'*+,-./:;<=>?@[\]^_`{|}~
 9p9GjU|Das Kennwort muss zwischen 8 und 32 Zeichen lang sein und von den Zeichengruppen 'Kleinbuchstaben', 'Großbuchstaben', 'Zahlen' und 'Sonderzeichen' mindestens drei enthalten.
 aJ5Cy9|Das Kennwort muss zwischen 8 Zeichen und 32 Zeichen lang sein.
+38RQi1|Im Kennwort müssen Zeichen aus drei Gruppen der folgenden vier Gruppen enthalten sein: Ziffern, Kleinbuchstaben, Großbuchstaben, Sonderzeichen. Zulässige Sonderzeichen sind !"#$%&'*+,-./:;<=>?@[]^_`{|}~
 iJUmCH|Das Passwort muss Zeichen aus drei der folgenden vier Gruppen enthalten: Ziffern, Kleinbuchstaben, Großbuchstaben, Sonderzeichen. Zulässige Sonderzeichen sind !"#$%&'*+,-./:;<=>?@[]^_`{|}~.
 scIPSc|Die Passwörter müssen übereinstimmen. Das Passwort wird nicht geändert.
 xVSLCZ|Die Passwörter müssen übereinstimmen. Das Passwort wird nicht geändert.
 ZgYTwD|Die Periode von ist kürzer als ein Jahr.
 HEhURD|Die Berechtigungen werden an alle angeschlossenen efa-Clients beim Admin-Login mitgeteilt, du solltest sie im Client also nicht mehr setzen..
 hL4rxQ|Die Berechtigungen habe keine Auswirkungen auf angeschlossene efa-Clients oder die efaCloud-Server-Anwendung.
+UvnyFU|Die Person '%1' ist bereits in der Gruppe enthalten.
 4hdqAF|Der Vorgang ist damit abgeschlossen.
 GkURzg|Der Datensatz in der Tabelle '%1' mit der Datensatz-ID '%2' konnte nicht gefunden werden.
 hWh4Y3|Dem Datensatz fehlt das auf Eindeutigkeit zu prüfende Feld '%1'.
 xh2TM5|Der zu ändernde Datensatz mit der ecrid '%1' konnte in der Tabelle %2 nicht gefunden werden.
-oSuy4P|Der Datensatz wurde nicht erzeugt. Das Formular wurde zurückgesetzt.
-sYfgN8|Der Datensatz wurde nicht erzeugt. Das Formular wurde zurückgesetzt.
+oSuy4P|Der Datensatz wurde nicht erzeugt.
+sYfgN8|Der Datensatz wurde nicht erzeugt.
 xq5ret|Der Datensatz mit der %1 '%2' aus der Tabelle %3 konnte nicht gelöscht werden. Die Datenbank meldet:
 AUhcRm|Der Datensatz mit der %1 '%2' aus der Tabelle %3 ist bereits ein Löscheintrag.
 uf5AMD|Der Datensatz mit der %1 '%2' aus der Tabelle %3 wurde gelöscht.
 cAP24j|Der Datensatz
 fZg2zo|Die Registrierung muss noch durch den Administrator abgeschlossen werden. Erst dann kann ein Einmalpasswort verschickt werden.
-BFNYBY|Die angeforderte Transaktion befindet sich nicht im Container.
 NeU2jA|Das erforderliche Feld '%1' darf bei neuen Datensätzen nicht leer sein.
 bZbb82|Die Wiederherstellung für Datensätze aus %1, die vor weniger als %2 Tagen archiviert wurden, hat leider zu folgendem Fehler geführt:
 D7SPTM|Die Rolle '%1' hat keine Berechtigung für die Aktion '%2'. Weder in den Unterbeschreibungen noch in den Workflows konnte eine passende Berechtigung gefunden werden.
 xS4f0M|Die ausgewählte Mailingliste wurde nicht gefunden.
+7N0gUC|Der Server hat mit dem Fehlercode '%1' geantwortet
+XFpiuh|Der Server gibt einen allgemeinen Fehlercode zurück (500).
 9mmdUG|Die Sitzung ist noch aktiv, weiter geht es mit einer beliebigen Aktion aus dem Menü.
+EGWtVL|Die Sitzung wurde beendet oder die Aktion ist für einen anonymen Benutzer nicht erlaubt.
 5dqGwa|Die Sitzung wurde aktualisiert.
+tndDZK|Die Website ist noch nicht verfügbar, wir sind noch im Aufbau.
 QVV55u|Die Größe des Quellcode-Archivs ist zu klein. Beim Herunterladen ist etwas schief gelaufen. Deshalb bricht der Prozess hier ab.
 uuZ8U8|Die Größe des Quellcode-Archivs ist zu klein. Beim Herunterladen ist etwas schief gelaufen. Deshalb bricht der Prozess hier ab.
 mo19gA|Die Angabe '%1' stellt keine gültige E-Mail-Adresse dar.
@@ -2627,7 +2635,6 @@ xo9xjE|Die Tabelle zeigt alle in der Rolle %1 verfügbaren Listen mit der zur An
 qJ3tRL|Der Text wird immer als Teil des Datenfeldinhalts gesucht, so zum Beispiel Findet man in den Fahrtenbüchern mit der Angabe "123" der Fahrtnummer auch die Fahrten 1230, 1231, 1232, 2123, 3123, ... .
 RqYBEi|Die Transaktion kann nicht ausgeführt werden, der Schlüssel wird bereits verwendet.
 dN1n95|Die Transaktion kann nicht ausgeführt werden, der Schlüssel wird bereits verwendet.
-bJGu9Q|Die Transaktion wurde noch nicht gesendet oder wartet noch auf eine Antwort.
 mY35PB|Die Fahrt %1 mit Beginn %2 und Ende %3 liegt nicht im gültigen Zeitraum für das Fahrtenbuch %4 (%5 - %6)
 Aujsqx|Die Fahrt gibt es bereits, sie kann nicht neu angelegt werden.
 ZF44WW|Die Fahrt gibt es bereits, sie kann nicht neu angelegt werden.
@@ -2635,12 +2642,14 @@ thc1PS|Die Fahrt wurde hinzugefügt.
 KwSMMI|Die Fahrt wurde aktualisiert.
 rmbd4P|Die Fahrt wird hinzugefügt.
 6tD5vO|Die Fahrt liegt nicht im gültigen Zeitraum für die Fahrtengruppe '%1'.
+m0ItOz|Die Fahrt ist offen und darf daher nicht geändert werden.
 AyanBa|Die Fahrt wird aktualisiert.
 h2NkfK|Die Fahrt mit Beginn %1 und Ende %2 liegt nicht im gültigen Zeitraum für das Fahrtenbuch '%3' (%4 - %5)
 Uqbi57|Die Typendefinition für %1 konnte nicht geladen werden.
 hBPwLR|Die Typendefinition für %1 ist nicht vorhanden.
 R1C9sE|Das eindeutige Feld '%1' ist nicht eindeutig. Weiteres Vorkommen im Objekt mit Id '%2'.
 kiqQLC|Das eindeutige Feld '%1' ist nicht eindeutig. Weiteres Vorkommen im Datensatz mit ecrid '%2'.
+YYlWr8|Das Upgrade entpackt den Code und überschreibt dabei die vorhandenen Codedateien. Alle Bestandsdaten, wie Protokolle, Uploads, Backups usw. bleiben erhalten. Die Datenbank wird nicht verändert.
 jdB8fj|Das hochgeladene Bild #%1 ist von:
 ZQSvHw|Der Benutzer konnte nicht identifiziert werden.
 c1Gjma|Der Benutzer konnte nicht identifiziert werden.
@@ -2653,11 +2662,15 @@ GJLu3j|Der Nutzerdatensatz zur ID '%1' konnte nicht gefunden werden.
 pbDY3P|Die alte Version wurde in der Gültigkeit begrenzt.
 Yhu6l5|Der Gültigkeitsbeginn wurde nicht richtig erfasst, bitte noch einmal versuchen.
 21KOoL|Die Version des Objekts '%1'
+rGyRdy|Der allerletzte Benutzer darf nicht aus der Benutzertabelle gelöscht werden.
 SPDW0F|Die Zip-Datei '%1' konnte nicht erstellt werden.
 ATSnFO|Es sind im Moment zu viele Benutzer angemeldet. Bitte versuchen Sie es später noch einmal. Wir bitten um Ihr Verständnis.
 2AaqLH|Für die Tabelle Vereinsarbeitsbuch gibt es noch kein Bearbeitungsformular
 R2ORRQ|Für die Tabelle Statistikkonfigurationen gibt es kein Bearbeitungsformular. Die Statistikkonfigurationen werden in efaCloud nicht verwendet, editiere sie bitte im PC-Client.
 r4yqil|Dei Einstellungen haben keine Auswirkung auf die Nuzung von efaCloud oder efaWeb.
+p4vCuA|Mit diesem Formular wird eine Tabelle in die Datenbank importiert.
+u34D4y|Diese Informationen werden ausschließlich zu Kontrollzwecken für Funktionsinhaber in der autorisierten Verwaltung bereitgestellt. Sie dürfen nicht weitergegeben werden.
+e2gF2y|Dies ist das Ergebnis eines SQL-Aufrufs an die Datenbank, wie sie derzeit vorliegt.
 fudXmI|Diese Seite wurde ohne Angabe der Client-ID aufgerufen.
 AicQjQ|Dieser Datensatz wurde gelöscht. Es ist nur noch der Löschrest vorhanden.
 scNlB8|Zeit in Sekunden zwischen zwei automatischen Änderungschecks. Standard ist 60, abschalten mit 0.
@@ -2665,9 +2678,11 @@ nlanLa|Zeit in Sekunden zwischen zwei automatischen Download-Synchronisationen. 
 rFKAAZ|Zeit jetzt:
 R9sv8M|Zeit:
 ACEfVr|Uhrzeit
+jcQMrv|Zeit
 x8hxVv|Zeitüberschreitung aufgrund von Inaktivität.
 kbRZ71|mal
 TMSdWl|Zeitstempel dort:
+0uPvqR|Titel
 NLPzjP|Titel
 0K9Ayf|Zur Ergänzung der Fahrtenabzeichen muss efa als PC-Programm genutzt werden.
 P4Mt4D|Zur Ergänzung von Statistiken muss efa als PC-Programm genutzt werden.
@@ -2692,8 +2707,7 @@ nDBbCc|Gesamt
 wNrHCN|Gesamt
 tpwI4a|archive_damages
 52B267|Verkehrsmengen der letzten Tage zu Nutzern mit der Rolle 'bths' (Bootshaus)
-S0Lse6|Fehler im Transaktionscontainer:
-ipgDJE|Transaktion ignoriert.
+7dNVv9|Transaktionsantwort-Container fehlgeschlagen.
 JkJqGq|Transaktion: %1 nicht übereinstimmende_server_side_records.
 ebzhv5|Transaktion: Es konnte kein freier Schlüssel gefunden werden, der auf der Client-Seite für die Schlüsselkorrektur verwendet werden kann. Schlüsselkorrektur abgebrochen.
 dTHKvl|Transaktion: Schlüsselwert '%1' wurde als frei_am_Client erkannt.
@@ -2702,16 +2716,32 @@ nrTQdY| %1
 w6LYgh|Übertragung an den efaCloud Server gescheitert.
 qECzxn|Backup anstoßen
 KbKtBC|Cronjobs anstoßen
+BHIE6r|Fahrt #%1 nicht gefunden.
 BJR12l|Fahrt im Fahrtenbuch, Startdatum
+g7bm3l|Fahrt-Nr.
+pZJGGP|Fahrt Nummer %1 konnte nicht gefunden werden.
+sgXmXy|Fahrt Nummer %1 konnte nicht gefunden werden.
+xr32Rc|Fahrt Nummer %1 konnte nicht gefunden werden.
+8NzTOB|Fahrt Nummer
+TOtJ3P|Fahrt Nummer
 dGLZjB|Fahrt Nummer
 exItow|Fahrt Nummer
+h6WIfD|Fahrt Nummer
+mvC9cO|Fahrt Nummer
+o3t6qP|Fahrt Nummer
 8zAeYI|Fahrt
+KHQUlC|Fahrt
+UGK5ph|Fahrt
+riKHM5|Fahrt
 dfJUi2|Fahrten aus %1 als einzige
 QufYal|Fahrten aus %1
+HwkHkB|Fahrten der letzten 30 Tage in unbekannten Booten
 8CQaLz|Fahrten der letzten 30 Tage
+HX2QQd|Fahrten auf dem Wasser
 8QYlfo|Fahrten, die nicht zur Fahrtenbuchperiode passen.
 Kracb7|Fahrten
 rckzWH|Fahrten
+yFN5nV|Fahrt
 4cenTr|Art der letzten Änderung
 5sDUxa|Art der letzten Änderung
 8L1JOu|Art der letzten Änderung
@@ -2731,17 +2761,20 @@ o7RIYt|Art der letzten Änderung
 uiPb75|Art der letzten Änderung
 TNUH68|Typ des Status
 Il6Xae|Art der Fahrt
+TBQosa|Art der Fahrt
+ZBqWHN|Art der Fahrt
+bBjPpk|Art der Fahrt
+lDZYQi|Art der Fahrt
+ul1Rji|Art der Fahrt
 5yN29k|Typ
 uD4TTa|audit_persons
-uPD1Dz|
-|</table>
-|</div>
-YRkM5b|Inaktive Anwendungssitzung '%1' kann nicht entfernt werden
 CVStxl|Undefinierter Fehler
 phvRfA|undefiniert
+BPGG04|Unterwegs nach %1 seit %2 um %3 mit %4 als Fahrt Nr. %5 im Fahrtenbuch %6.
 KARSRU|unbestimmter Fehler, bitte Datensatz prüfen.
 0xNazF|Ein Papierkorbeintrag konnte leider nicht erstellt werden.
 yf8erz|Leider kann die Formularverarbeitung nicht fortgesetzt werden, weil eine Formularseite zu lange nicht gespeichert wurde.
+0krLhr|Der Hilfetext zum Thema '%2' konnte unter '%2' leider nicht gefunden werden.
 V8fLMV|Der Datenbsatz kann leider nicht angezeigt werden, weil mindestens ein Schlüsselfeld fehlt.
 pH7Sis|Leider ist für diesen Datensatz keine Änderungsghistorie vorhanden.
 BnxvUl|Dies hat leider nicht funktioniert. Das angegebene Login-Token ist nicht oder nicht mehr gültig.
@@ -2763,6 +2796,7 @@ e68r97|eindeutige Datensatz-Referenz (ecrid)
 eIq8Xc|eindeutige Datensatz-Referenz (ecrid)
 eaRT3T|eindeutige Datensatz-Referenz (ecrid)
 ltX3IU|eindeutige Datensatz-Referenz (ecrid)
+jWjTrj|Unbekanntes Boot
 NwyE88|unbekanntes Boot
 7qmVxb|Unbekannter Fehler beim Hochladen. bitte noch einmal versuchen.
 R64uhq|Unbekannter Fehler beim Hochladen. bitte noch einmal versuchen.
@@ -2773,19 +2807,27 @@ Yel8jV|Unbekannter Fehler beim Erstellen des Verzeichnisses: '%1'.
 w2qoFy|Unbekannter Fehler beim Hochladen nach '%1'.
 IzCLZv|unbekannte ID
 VCdF1p|unbekannt
+G3eyoN|unbegrenzt
 AvnsF9|efa entsperren
 k8VdhO|efa entsperren
 GuEiQo|Entpacken und Kopieren des Quellcode-Archivs
 v32JTG|Ungelesene Nachrichten
+pAkBVq|Bis (Tag)
+CD7KnS|Bis (Zeit)
 PXDvBO|bis Datum
 Eqz3VC|Bis Zeit
+YcDgVT|bis
 aGIzxm|bis
 UU1TV0|Aktualisieren Sie %1 mit: %2
 iCqOma|Update nach Upload
 Y9hsnl|Datensatz aktualisieren
+M4MjRw|Aktualisierung auf Version - %1
 eG5Cqz|Fahrt aktualisieren
-tzrcLT|aktualisieren:
+fNfZHA|Fahrt aktualisieren
+s0hHTA|Vorhandene Api-Sitzung '%1' aktualisiert
 hB8ltL|AKTUALISIEREN
+w2PJel|Upgrade der Anwendung %1
+pfTPrH|Hochladen einer Datei oder Erstellen eines neuen Verzeichnisses.
 234kPR|Jetzt hochladen und prüfen
 31anwS|Jetzt hochladen und prüfen
 75KimF|Jetzt hochladen und prüfen
@@ -2794,7 +2836,10 @@ XtuNgZ|Jetzt hochladen
 KLgQSh|Hochladen:
 chH4U9|Hochgeladen:
 txXT1g|Hochladen
-XPbBHm|Verwendeter Paramter der Liste:
+1XEmuB|Nutzbar:
+XPbBHm|Verwendeter Parameter der Liste:
+AxGDip|Benutzer %1 hat versucht, die ungültige Sitzung %2 zu verwenden.
+t4W3bN|Benutzer %1 hat versucht, Sitzung %2 von Benutzer %3 zu verwenden. Die Sitzung wurde entfernt.
 eI2ua5|Benutzer nach DB-Prüfung: appUserID: %1, Rolle: 
 PI741T|Benutzer hat keinen Passwort-Hash in seinem Profil gesetzt.
 a9d5U7|Der Benutzer ist kein Admin und darf daher nichts ändern. Abbruch.
@@ -2812,13 +2857,18 @@ e8yebR|Nutzer
 eTvuhh|Benutzer und Zugriffsrechte prüfen
 8E9X2M|Nutzer mit efa-Admin Rechten (auch für Security-Concept)
 awmNYz|übliche Variante
+xACtaq|V%1 Container gebaut: %2 Transaktionen in %3 base64 Zeichen
 v9YvYn|archive_clubwork
+SI9WWD|Gültig für '%1' ändern
+CYJVN3|Gültig ab Datum
+rjnGAp|Gültig ab Zeit
 Zjd3XU|gültig ab
 gFHiKG|gültig ab
 qlbSpW|gültig ab
 vGrXlG|gültig ab
 7998Uw|gültig
 afDbIr| (wildcard *):
+TcVep5|Wert
 W1p3g6|Wert
 ulIoAv|Verifizierung fehlgeschlagen. Spalte %1.%2 extra.
 rxMN98|Verifizierung fehlgeschlagen. Spalte %1.%2 fehlt.
@@ -2872,12 +2922,19 @@ R223pr|Virtuelle Felder korrigiert.
 vxUq2O|efaWeb_status
 wUV9W1|efaWeb
 wXtjdR|efa2fahrtenabzeichen
+ui3jKY|WARNUNG: API-Version des Containers: %1 nicht unterstützt. Maximale API-Stufe: %2
 uvau7j|WARNUNG: Das Skript hat die Fußzeile der Seite nicht erreicht.
 ZS7PdQ|Warnung: Die Lastabwehr der Anwendung %1 wurde ausgelöst.
 |Details:
 sbWQdK|Warnungen
 Xi3PrW|Gewässerliste
+V1zYIE|Gewässer
+WPx45J|Gewässer
+dza8cR|Gewässer
+eVc6qC|Gewässer
 jNHmSX|Gewässer
+qApQ6x|Gewässer
+FwRbeh|Wir entschuldigen uns für etwaige Unannehmlichkeiten, die dadurch entstehen können.
 nBd1Oa|Wochentag (nur bei wöchentlichen Reservierungen)
 ZfnDtn|Wann startet das Fahrtenbuchjahr?
 G3BLoW|mit %1 Datensätzen
@@ -2889,14 +2946,18 @@ Ei35rV|mit der Datensatz Id
 IVseh0|Workflows, Maske 
 wpvByz|efa2destinations
 cBjbuk|Nachricht schreiben
+Wv9xkv|Sitzung '%1' schreiben
+Uor5pE|Falscher Fahrtenbuchname? Bei entsprechender Berechtigung kannst Du im Menü Fahrtenbuch links ein anderes Fahrtenbuch auswählen.
 KY7F6q|Falsches Passwort bei der Anmeldung.
 sZKXYK|Falsches Passwort bei der Anmeldung.
 xknZlx|audit_sessiongroups
 xxdpER|efa2logbook
 yGorGi|noListForThisRole
 ylwGEq|archive_reservations
-3oq4XF|Du kannst zwischen allen Clients auswählen, für die eine Statistik vorliegt. 	Wenn einer fehlt, hat der Server von diesem Client keine Statistik empfangen.
-iydGls|Du kannst zwischen allen Clients auswählen, für die eine Statistik vorliegt. 	Wenn einer fehlt, hat der Server von diesem Client keine Statistik empfangen.
+3oq4XF|Du kannst zwischen allen Clients auswählen, für die eine Statistik vorliegt.   Wenn einer fehlt, hat der Server von diesem Client keine Statistik empfangen.
+iydGls|Du kannst zwischen allen Clients auswählen, für die eine Statistik vorliegt.   Wenn einer fehlt, hat der Server von diesem Client keine Statistik empfangen.
+83vPn1|In der Beschreibung kannst Du die Fahrtnummer angeben.
+ZbjL4D|Sie haben keinen zugehörigen efa-Personendatensatz.
 eNwq9h|Deine E-Mail-Adresse für die Kontaktaufnahme durch den Support
 G4czbF|Dein Vorname
 T1m6yT|Dein Nachname

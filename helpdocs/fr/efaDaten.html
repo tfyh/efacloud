@@ -1,0 +1,153 @@
+<h3>Les données efa</h3>
+<p>Le programme PC efa contient toutes les données dans 17 tableaux avec un total de 491 champs de données.
+	491 champs de données. total de 491 champs de données.</p>
+<h4>Tableaus</h4>
+<p>Quatre tables dans efa sont "versionnées", c'est-à-dire qu'elles contiennent des objets
+	avec plusieurs enregistrements de données, chacun ayant une période de validité. ont une période de validité.
+	période de validité. Dans dix des 17 tables, un identifiant d'objet (UUID) sert de clé à l'enregistrement de données ou - pour les 17 tables - à l'enregistrement de données.
+	de l'enregistrement de données ou - pour les tables versionnées - de l'objet.</p> <p>Trois tables dépendent de l'enregistrement de données et de l'objet.
+<p>Trois tables dépendent de la table de démarrage : Statut de l'amorçage - il
+	Il y a exactement un ensemble de données par bateau, par avarie de bateau et par réservation,
+	qui, en plus du compteur, ont également l'ID de l'objet (UUID) du bateau comme clé.
+	du bateau comme clé, de sorte qu'un numéro de réservation peut apparaître plus d'une fois,
+	mais cela n'arrive généralement pas. cela n'arrive généralement pas.</p>
+<table>
+	<tr>
+		<th>Contenu</th>
+		<th>Table</th>
+		<th>Version</th>
+		<th>Identification de l'objet</th>
+		<th>Champs de données</th>
+	</tr>
+	<tr>
+		<td>Compteurs techniques</td>
+		<td>efa2autoincrement</td>
+		<td></td>
+		<td></td>
+		<td>8</td>
+	</tr>
+	<tr>
+		<td>Dommages au bateau</td>
+		<td>efa2dommages au bateau</td>
+		<td></td>
+		<td></td>
+		<td>25</td>
+	</tr>
+	<tr>
+		<td>Réservations</td>
+		<td>efa2boatreservations</td>
+		<td></td>
+		<td></td>
+		<td>23</td>
+	</tr>
+	<tr>
+		<td>bateaux</td>
+		<td>efa2bateaux</td>
+		<td>X</td>
+		<td>X</td>
+		<td>46</td>
+	</tr>
+	<tr>
+		<td>état du bateau</td>
+		<td>efa2boatstatus</td>
+		<td></td>
+		<td></td>
+		<td>16</td>
+	</tr>
+	<tr>
+		<td>livre de travail sur les clubs</td>
+		<td>efa2clubwork</td>
+		<td></td>
+		<td>X</td>
+		<td>19</td>
+	</tr>
+	<tr>
+		<td>vis</td>
+		<td>efa2crews</td>
+		<td></td>
+		<td>X</td>
+		<td>34</td>
+	</tr>
+	<tr>
+		<td>destinations</td>
+		<td>efa2destinations</td>
+		<td>X</td>
+		<td>X</td>
+		<td>21</td>
+	</tr>
+	<tr>
+		<td>insigne de conduite (DRV)</td>
+		<td>efa2fahrtenabzeichen</td>
+		<td></td>
+		<td></td>
+		<td>27</td>
+	</tr>
+	<tr>
+		<td>groupes</td>
+		<td>efa2groups</td>
+		<td>X</td>
+		<td>X</td>
+		<td>14</td>
+	</tr>
+	<tr>
+		<td>livre de bord</td>
+		<td>efa2logbook</td>
+		<td></td>
+		<td></td>
+		<td>82</td>
+	</tr>
+	<tr>
+		<td>messages</td>
+		<td>efa2messages</td>
+		<td></td>
+		<td></td>
+		<td>17</td>
+	</tr>
+	<tr>
+		<td>personnes</td>
+		<td>efa2personnes</td>
+		<td>X</td>
+		<td>X</td>
+		<td>41</td>
+	</tr>
+	<tr>
+		<td>groupes de session</td>
+		<td>efa2sessiongroups</td>
+		<td></td>
+		<td>X</td>
+		<td>15</td>
+	</tr>
+	<tr>
+		<td>modèles de statistiques</td>
+		<td>efa2statistiques</td>
+		<td></td>
+		<td>X</td>
+		<td>80</td>
+	</tr>
+	<tr>
+		<td>types de statuts d'adhésion</td>
+		<td>efa2status</td>
+		<td></td>
+		<td>X</td>
+		<td>13</td>
+	</tr>
+	<tr>
+		<td>Eaux</td>
+		<td>efa2waters</td>
+		<td></td>
+		<td>X</td>
+		<td>10</td>
+	</tr>
+</table>
+<h4>Règles de validité</h4>
+<p>Outre l'unicité des clés, d'autres règles de validité sont appliquées aux enregistrements.
+	règles de validité qui sont appliquées aux enregistrements. Si elles ne sont pas respectées, l'efa
+	ne peut pas enregistrer l'enregistrement. Par conséquent, ces règles doivent également être vérifiées dans
+	efaCloud. Si la vérification n'est pas effectuée exactement de la même manière, il peut arriver que les enregistrements entre le PC efa et efaCloud ne soient pas sauvegardés.
+	Si la vérification n'est pas effectuée exactement de la même manière, il peut arriver que les enregistrements entre le PC efa et le serveur efaCloud ne deviennent pas synchrones.
+	ne deviennent pas synchrones.</p>
+<h4>Édition de données</h4>
+<p>L'édition de données dans efaCloud est possible mais n'est pas encore recommandée.
+	pas encore recommandé. La raison en est la mise en œuvre encore incomplète du contrôle de validité dans efaCloud.
+	la mise en œuvre du contrôle de validité dans efaCloud - des problèmes de synchronisation pourraient survenir après l'édition.
+	des problèmes de synchronisation pourraient survenir après l'édition.</p>

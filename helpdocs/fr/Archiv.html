@@ -1,0 +1,43 @@
+<h3>Les archives d'efaCloud</h3>
+<p>EfaCloud archive les données qui dépassent un certain âge. L'archivage
+	sert d'étape préliminaire à une procédure de suppression au sens du
+	du règlement général sur la protection des données de l'UE, en vertu de laquelle les données ne sont pas supprimées et ne sont pas retirées de la base de données.
+	initialement non supprimées et non retirées de l'application. Une véritable
+	Une véritable suppression n'est pas effectuée.</p> <p>La suppression de l'archivage est une étape préliminaire à une procédure de suppression au sens du
+<p>La suppression de l'archive est planifiée dans un deuxième temps, une fois que l'archivage s'est imposé comme procédure.
+	l'archivage s'est établi en tant que procédure et fonctionne de manière fiable dans le logiciel.
+	dans le logiciel. dans le logiciel.</p>
+<h4>Données archivées</h4>
+</p> <p>Les enregistrements sont archivés sur les tables : Dommages aux bateaux
+	(efa2boatdamages), réservations de bateaux (efa2boatreservations), travail en club
+	(efa2clubwork), journal de bord (efa2logbook), messages (efa2messages) et
+	personnes (efa2persons). Les autres tableaux de l'efa ne contiennent pas de données à caractère personnel et ne nécessitent donc pas d'être traités par l'efa.
+	données à caractère personnel et ne nécessitent donc pas de procédure de suppression.
+	procédure de suppression.</p>
+<p>Les enregistrements de données individuelles ou, dans le cas des personnes, toutes les versions ou périodes de validité associées sont archivés.
+	les personnes, toutes les versions ou périodes de validité associées sont archivées.
+	versions ou périodes de validité associées.
+</p> <p>Pour les tableaux de dommages aux bateaux et de personnes, les références d'archives
+	sont conservées de manière permanente, pour les autres tableaux, elles sont
+	pour les autres tableaux. Dans la référence d'archive du tableau des avaries de bateau
+	la description de l'avarie est conservée parce qu'elle ne contient pas de données à caractère
+	données personnelles (en règle générale), mais qu'elle est pertinente pour l'historique des dommages subis par le bateau.
+	du bateau.</p>
+<h4>Configuration</h4>
+<p>Pour chaque table, il est possible de définir à partir de quel âge un enregistrement de données ou un objet (uniquement pour les personnes) doit être conservé.
+	objet (uniquement pour les personnes) doit être archivé. La date limite pertinente
+	pour l'âge est à:</p>
+<ul>
+	<li>Dommages au bateau : Date du rapport (ReportDate)</li>
+	<li>Réservations de bateaux : Date de début (DateFrom)</li>
+	<li>Travaux du club, journal de bord, messages : Date de l'événement, Début (Date)</li>
+	<li>Personnes : la date de fin de la période de validité la plus récente
+		période de validité la plus récente (InvalidFrom)</li>
+</ul>
+<h4>Récupération</h4>
+<p>Les données archivées peuvent être restaurées par table, en spécifiant l'âge de l'archive.
+	Les données archivées peuvent être restaurées par table, en spécifiant l'âge des archives.
+	Les données d'archives d'une table doivent être restaurées. Il est également possible de restaurer toutes les données d'archives d'une table.
+	restaurées.</p>
+<h4>Autorisation</h4>
+<p>Les opérations d'archivage ne sont possibles qu'avec le rôle d'administrateur.</p>

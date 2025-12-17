@@ -1,5 +1,27 @@
 <?php
 /**
+ *
+ *       efaCloud
+ *       --------
+ *       https://www.efacloud.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+/**
  * The form for user profile self service. Based on the Tfyh_form class, please read instructions their to
  * better understand this PHP-code part.
  * 
@@ -22,7 +44,7 @@ if (! isset($_SESSION["getps"][$fs_id]["table"]) || ! isset($_SESSION["getps"][$
 $tablename = $_SESSION["getps"][$fs_id]["table"];
 $ecrid = $_SESSION["getps"][$fs_id]["ecrid"];
 $add_new = strcasecmp($ecrid, "new") == 0;
-$app_user_id = $_SESSION["User"][$toolbox->users->user_id_field_name];
+$app_user_id = $toolbox->users->session_user["@id"];
 if ($add_new) {
     $record = ["ValidityFromDate" => date("Y-m-d"),"ValidityFromTime" => date("H:i")
     ];
@@ -41,6 +63,7 @@ $form_templates = ["efa2autoincrement" => 2,"efa2boatdamages" => 3,"efa2boatrese
         "efa2persons" => 14,"efa2sessiongroups" => 15,"efa2statistics" => 16,"efa2status" => 17,
         "efa2waters" => 18
 ];
+$todo_complete = 20;
 
 // the lookup tables needed as in efaWeb to auto-fill the id/name fields
 $lookups_needed = ["efa2autoincrement" => "",
@@ -125,6 +148,8 @@ if ($done == 0) {
                         if (in_array($key, $column_names))
                             $new_record[$key] = $changed_data[$key];
                     }
+                    $new_record = Efa_tables::add_system_fields_APIv3($new_record, $tablename, 1, 
+                            $toolbox->users->session_user["@id"], $socket);
                     $new_record = Efa_tables::register_modification($new_record, time(), 0, "insert");
                     $validated_record = $efa_record->validate_record_APIv3($tablename, $new_record, 1, 
                             $app_user_id, false);
@@ -133,13 +158,13 @@ if ($done == 0) {
                                 $app_user_id, false);
                     else
                         $modify_result = $validated_record;
-                    if (strlen($modify_result) == 0) {
+                        if ((strlen($modify_result) == 0) && ($modify_result !== false)) {
                         $new_ecrid = $validated_record["ecrid"];
-                        $changes .= i("B0quSZ|A record with the unique...", $new_ecrid, $tablename) . " " .
+                        $changes .= i("B0quSZ|A record with the unique...", $new_record["ecrid"], $tablename) . " " .
                                  "<a href='../pages/view_record.php?table=" . $tablename . '&ecrid=' .
                                  $new_ecrid . "'>" . i("FlfcWr|view") . "</a>. ";
                         if (strcasecmp($tablename, "efa2boats") == 0)
-                            $new_boat = $validated_record["Id"]; // add a new boat status below.
+                            $new_boat = $validated_record; // add a new boat status below.
                     } else
                         $form_errors .= $modify_result . "<br>" . i("sYfgN8|The record was not creat...");
                 }
@@ -199,6 +224,8 @@ if ($done == 0) {
                     if (strlen($form_errors) == 0) {
                         $record = Efa_tables::register_modification($record, time(), $record["ChangeCount"], 
                                 "update");
+                        if ($wayOfChange == 1)
+                            unset($record["ValidFrom"]);
                         $validated_record = $efa_record->validate_record_APIv3($tablename, $record, 2, 
                                 $app_user_id, false);
                         if (is_array($validated_record))
@@ -217,11 +244,12 @@ if ($done == 0) {
         // -------------- non versionized records -------------------------------------------------
         // ----------------------------------------------------------------------------------------
         // no "else", because for a new boat both the boat and the boat status record will be added
-        if (! $is_versionized_table || ($new_boat != false)) {
+        if (! $is_versionized_table || ($new_boat !== false)) {
             if ($add_new) {
                 $new_record = [];
-                if ($new_boat != false) {
-                    $new_record["BoatId"] = $new_boat;
+                if ($new_boat !== false) {
+                    $new_record["BoatId"] = $new_boat["Id"];
+                    $new_record["BoatText"] = $new_boat["Name"];
                     $new_record["BaseStatus"] = "AVAILABLE";
                     $new_record["CurrentStatus"] = "AVAILABLE";
                     $new_record["ShowInList"] = "AVAILABLE";
@@ -254,7 +282,6 @@ if ($done == 0) {
                         $new_boat = $validated_record["Id"]; // add a new boat status below.
                 } else
                     $form_errors .= $modify_result . "<br>" . i("oSuy4P|The record was not creat...");
-                $modify_result = $efa_record->modify_record($tablename, $new_record, 1, $app_user_id, false);
             } else {
                 $record = Efa_tables::register_modification($record, time(), $record["ChangeCount"], "update");
                 $validated_record = $efa_record->validate_record_APIv3($tablename, $record, 2, $app_user_id, 
@@ -285,9 +312,11 @@ $type_categories = ["BOAT" => "TypeType","COXING" => "TypeCoxing","NUMSEATS" => 
 ];
 
 // ==== continue with the definition and eventually initialization of form to fill for the next step
-if (isset($form_filled) && ($todo < count($form_templates) + 2)) {
+if (isset($form_filled) && ($todo == $form_templates[$tablename])) {
     // redo the 'done' form, if the $todo == $done, i. e. the validation failed.
     $form_to_fill = $form_filled;
+    if ($add_new)
+        $form_to_fill->preset_values($new_record);
 } else {
     // if it is the start or all is fine, use a form for the coming step.
     $form_to_fill = new Tfyh_form($form_layout, $socket, $toolbox, $todo, $fs_id);
@@ -318,10 +347,11 @@ if (isset($form_filled) && ($todo < count($form_templates) + 2)) {
         
         // add a set of boat variant input fields, one per variant
         if (strcasecmp("efa2boats", $tablename) == 0) {
+            $variant_count = count(explode(";", $record["TypeVariant"]));
+            $preset["VariantCount"] = $variant_count;
             foreach (["TypeVariant","TypeType","TypeCoxing","TypeSeats","TypeRigging","TypeDescription"
             ] as $field_name) {
                 $values = explode(";", $record[$field_name]);
-                $preset["VariantCount"] = count($values);
                 for ($i = 1; $i <= 4; $i ++)
                     $preset[$field_name . $i] = (isset($values[$i - 1])) ? $values[$i - 1] : null;
             }
@@ -364,7 +394,7 @@ if ($todo < count($form_templates) + 2) { // step 1. No special texts for output
             $listname = "efaWeb_boats"; // the variant list will be created within the Javascrip Code for
                                         // efaClouzd & efaWeb
         $include_csv = new Tfyh_list("../config/lists/efaWeb", 0, $listname, $socket, $toolbox, $list_args);
-        $csv_str = $include_csv->get_csv($_SESSION["User"]);
+        $csv_str = $include_csv->get_csv($toolbox->users->session_user);
         $csv_str = str_replace("`", "\`", $csv_str);
         echo "formLookupsCsv['" . $listname . "'] = `" . $csv_str . "`;\n";
     }
@@ -373,9 +403,7 @@ if ($todo < count($form_templates) + 2) { // step 1. No special texts for output
 } else { // the very last form for all edits
     echo i("dm895V| ** The data change is %...", (($form_errors) ? "nicht" : ""));
     echo $changes;
-    echo "<br><a href='../pages/view_record.php?table=$tablename&ecrid=" . $current_record_ecrid . "'>" .
-             i("JUw3H1|Show current record") . "</a>";
-    echo i("gPmeyF|             </p>");
+    echo "</p>";
 }
-echo i("DiRyic|</div>");
+echo "</div>";
 end_script();

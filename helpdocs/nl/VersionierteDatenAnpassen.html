@@ -1,0 +1,21 @@
+<h3>Modifying Versionized Data</h3>
+<p>Efa uses tables with entries that have multiple versions with
+	successive validity. The tables are: Groups, Waters, Persons and
+	Targets.</p>
+<p>In these tables, only the last version can be changed. can be
+	changed. There are three modes of change:</p>
+<ol>
+	<li>Change contents:<br>The validity period remains the same,
+		The content of the data record is changed (e.g. new e-mail address.).
+	</li>
+	<li>Change valid until:<br>The end of the validity period is
+		changed. No contents are changed, any changes entered are ignored.
+		changes are ignored. To achieve unlimited validity, the validity date
+		must be blank.
+	</li>
+	<li>Create a new version: the 'Valid until' value of the record is
+		value of the data record is set as specified, a new version is which
+		is valid directly afterwards and then indefinitely as a copy of the
+		current version. No contents are changed, any changes entered are
+		ignored. entered changes are ignored.</li>
+</ol>

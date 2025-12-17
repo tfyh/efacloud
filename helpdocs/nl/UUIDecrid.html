@@ -1,0 +1,21 @@
+<h3>Ecrid and Object ID (UUID)</h3>
+<p>Efa uses so-called "keys" to find records uniquely. find. Two
+	keys play a special role:</p>
+<ul>
+	<li>UUID = Universally Unique Identifier for many objects, like
+		boats or such as boats or people, in efa. These objects sometimes have
+		have several versions with delimited periods of validity, in which
+		case the the validity period must also be specified in addition to the
+		object ID. validity period must also be specified. In its normal form,
+		a UUID looks like this: '550e8400-e29b-11d4-a716-446655440000', They
+		are randomly generated as a 128-bit number and are therefore unique
+		worldwide. unique. 4 bits are encoded per row, the '-'s are of no
+		meaning.</li>
+	<li>ecrid = efacloud record ID. This key uniquely references
+		uniquely references a record, for example, a personal record in a
+		specific validity period or a trip in a specific logbook. specific
+		logbook. The key is also randomly generated as a 72-bit number, so
+		that global uniqueness can also be assumed for the ecrid key.
+		uniqueness can be assumed for the ecrid key. An example is
+		'5wVSJezbhzro'. 6 bits are encoded per character.</li>
+</ul>

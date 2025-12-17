@@ -1,4 +1,5 @@
-tags;required;name;value;label;type;class;size;maxlength
+
+tags;required;name;TcVep5|value;JDIy8G|label;type;class;size;maxlength
 <span id='vSpanSystemData'><div class='w3-row'><div class='w3-col l3'>;;EntryId;;dGLZjB|Trip number;text;display-bold;90%;36
 </div><div class='w3-col l3'>;;Logbookname;;A6NWPJ|Logbook;text;display-bold;90%;20
 </div><div class='w3-col l3'>;;ecrid;;PM0Z7L|unique record reference ...;text;display-bold;90%;20
@@ -10,7 +11,7 @@ tags;required;name;value;label;type;class;size;maxlength
 </div><div class='w3-col l3'>;;EndDate;;MFU1ZD|End (trip lasting severa...;date;;10;20
 </div></div><div class='w3-row'><div class='w3-col l3'>;;StartTime;;LB0r2L|Start (time);text;;8;10
 </div><div class='w3-col l3'>;;EndTime;;InlfaA|End (time);text;;8;10
-</div><div class='w3-col l3'><br>;;Open;;A0aN1k|Open;checkbox;;;
+</div><div class='w3-col l3'><br>;!;Open;;A0aN1k|Open;checkbox;;;
 </div></div><div class='w3-row'><div class='w3-col l2' id='startSession-BoatId'>;;BoatId;;U2OtU4|boat;text;;90%;100
 </div>;;BoatName;;;hidden;;;
 <div class='w3-col l2'>;;BoatVariant;;ZJB7XX|Boat type;text;display-bold;10;12
@@ -71,8 +72,8 @@ tags;required;name;value;label;type;class;size;maxlength
 </div></div><div class='w3-row'><div class='w3-col l2'>;;DestinationId;;QEQS9z|Destination;text;;90%;100
 ;;DestinationName;;;hidden;;;
 </div><div class='w3-col l2'>;;DestinationVariantName;;v8r9C2|Target variant number;"select 0=;1=1;2=2;3=3;4=4;5=5";;10;100
-</div></div><div class='w3-row'><div class='w3-col l2'>;;WatersIdList;;jNHmSX|Waters;text;#bFormInput-WatersIdList;90%;100
-</div><div class='w3-col l2'>;;Distance;;OoCAVz|Distance;text;#bFormInput-Distance;10;100
+</div></div><div class='w3-row'><div class='w3-col l2'>;;WatersIdList;;jNHmSX|Waters;text;#cFormInput-WatersIdList;90%;100
+</div><div class='w3-col l2'>;;Distance;;OoCAVz|Distance;text;#cFormInput-Distance;10;100
 </div></div><div class='w3-row'><div class='w3-col l2'>;;Comments;;uDZ8bh|Remarks;textarea;;4;
 </div><div class='w3-col l2'>;;SessionType;;Il6Xae|Type of trip;select $options;;90%;100
 </div></div><div class='w3-row'><div class='w3-col l2'>;;SessionGroupId;;7MQHkj|Session group;text;;90%;100

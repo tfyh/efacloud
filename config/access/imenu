@@ -12,6 +12,7 @@ _efaDaten_new;board;TyHyOI|efa data record new;../pages/datensatz_neu.php
 _efaDaten_find;board;SxaQ2N|find efa record;../forms/datensatz_finden.php
 _efaDaten_delete;.admin;MxrIKd|Delete efa data record;../pages/datensatz_loeschen.php
 _efaDaten_tableexp;board;DJV8m7|Output efa table;../pages/show_lists.php?satz=efaExportTables
+_efaDaten_logbookexport;admin;JI3PO8|Logbook export;../forms/fahrtenbuch_exportieren.php
 _efaDaten_dbAudit;admin;xeigZw|Audit database;../pages/db_audit.php
 _efaDaten_importPersons;admin;KJallV|Import personal data;../forms/personen_importieren.php
 _efaDaten_importSessions;admin;k0MUQb|Import trips;../forms/fahrten_importieren.php
@@ -66,4 +67,5 @@ home;member;Ksm76W|My profile;
 _home_Startseite;member;m9CO2y|Homepage;../pages/home.php
 _home_ProfilAnzeigen;member;5sCN40|Show profile;../pages/mein_profil.php
 _home_ProfilAendern;member;lvGRAt|Change profile/password;../forms/profil_aendern.php
+_home_PersLogbook;member;P7qqn3|Test personal logbook;../pages/test_pers_logbook.php
 logout;member;4viwOG|Logout;../pages/logout.php

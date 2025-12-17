@@ -1,4 +1,25 @@
 <?php
+/**
+ *
+ *       the tools-for-your-hobby framework
+ *       ----------------------------------
+ *       https://www.tfyh.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ */
+
 
 /**
  * This class provides a form segment for a web file. <p>The definition must be a CSV-file, all entries
@@ -52,14 +73,14 @@ class Tfyh_form
      * $named_options' as form layout.
      */
     public $select_options;
-    
-        /**
-     * Pass the radio options to this String programmatically as array, e. g. [ "y=yes", "n=no",
-     * "d=dunno" ] and use 'radio $options' as form layout.
+
+    /**
+     * Pass the radio options to this String programmatically as array, e. g. [ "y=yes", "n=no", "d=dunno" ]
+     * and use 'radio $options' as form layout.
      */
     public $radio_options;
 
-/**
+    /**
      * The index of this form in a multistep form.
      */
     private $layout_file;
@@ -90,14 +111,24 @@ class Tfyh_form
     public function __construct (String $file_path, Tfyh_socket $socket, Tfyh_toolbox $toolbox, int $index, 
             String $fs_id)
     {
+        $this->layout_file = $file_path;
         $this->socket = $socket;
         $this->toolbox = $toolbox;
+        $this->index = $index;
         $this->fs_id = $fs_id;
-        $this->layout_file = $file_path;
-        if ($index === 1) {
-            $form_definition = $toolbox->read_csv_array($file_path);
+        $this->init($index, $fs_id);
+    }
+
+    /**
+     * Initialize the form. Separate function to keep aligned with the javascript twin code, in which external
+     * initialization of a form is used.
+     */
+    private function init ()
+    {
+        if ($this->index === 1) {
+            $form_definition = $this->toolbox->read_csv_array($this->layout_file);
         } else {
-            $form_definition = $toolbox->read_csv_array($file_path . "_" . $index);
+            $form_definition = $this->toolbox->read_csv_array($this->layout_file . "_" . $this->index);
         }
         
         // in order to be able to reference the field definition by its name, create
@@ -107,7 +138,11 @@ class Tfyh_form
         $field_index = 0;
         $this->form_definition = [];
         foreach ($form_definition as $field_definition) {
+            
             // check whether i18n replacement is needed
+            // NB: "value" is the form definition default and may be replaced
+            // by programmatic presetting or previous forms step to provide
+            // a string for display..
             if ($this->toolbox->is_valid_i18n_reference($field_definition["value"]))
                 $field_definition["value"] = i($field_definition["value"]);
             if ($this->toolbox->is_valid_i18n_reference($field_definition["label"]))
@@ -139,11 +174,11 @@ class Tfyh_form
             }
             $field_index ++;
         }
-        
         $this->validities = null;
-        $this->index = $index;
-        if ($toolbox->config->debug_level > 0) {
-            $form_to_dump = $_SESSION["forms"][$this->fs_id];
+        if ($this->toolbox->config->debug_level > 0) {
+            $form_to_dump = (isset($_SESSION["forms"])) ? $_SESSION["forms"][$this->fs_id] : [
+                    "form" => "empty"
+            ];
             // do not show sensitive data within the log.
             foreach ($form_to_dump as $key => $value)
                 if (strpos(strtolower($key), "passw") !== false)
@@ -151,8 +186,9 @@ class Tfyh_form
                             "Lorem_ipsum_dolor_sit_amet_consectetur_adipisici_elit_sed_eiusmod_tempor_incidunt_", 
                             0, strlen($value));
             file_put_contents("../log/debug_app.log", 
-                    date("Y-m-d H:i.s") . " - Form " . $file_path . " (" . $this->fs_id . "|" . $index . "): " .
-                             json_encode(str_replace("\"", "\\\"", $form_to_dump)) . "\n", FILE_APPEND);
+                    date("Y-m-d H:i.s") . " - Form " . $this->layout_file . " (" . $this->fs_id . "|" .
+                             $this->index . "): " . json_encode(str_replace("\"", "\\\"", $form_to_dump)) .
+                             "\n", FILE_APPEND);
         }
     }
 
@@ -178,7 +214,7 @@ class Tfyh_form
                 if (strpos($value, $identifier) !== false)
                     foreach ($service as $skey => $svalue)
                         $field_definition_service[$key] = str_replace($identifier . $skey, $svalue, 
-                                $field_definition_service[$key]);
+                                i($field_definition_service[$key]));
             $this->form_definition[$field_definition_service["name"]] = $field_definition_service;
         }
     }
@@ -200,7 +236,9 @@ class Tfyh_form
                         $this->toolbox->config->settings_tfyh["config"]["parameter_table_name"], "Name", 
                         $parameter_name);
             if ($options_list) {
-                $values = explode(",", $options_list["Value"]);
+                // compatibility to tfyh1 w/o i18n
+                $values = explode(",", 
+                        (isset($options_list["Value"])) ? $options_list["Value"] : $options_list["Wert"]);
                 $select_string = "select ";
                 foreach ($values as $value)
                     $select_string .= $value . "=" . $value . ";";
@@ -222,10 +260,13 @@ class Tfyh_form
                 $select_string = "";
                 foreach ($list_definitions as $list_definition) {
                     $list_name = $list_definition["name"];
-                    $test_list = new Tfyh_list("../config/lists/" . $lookup[1], 0, $list_name, $this->socket, 
+                    if ($this->toolbox->is_valid_i18n_reference($list_name))
+                        $list_name = i($list_name);
+                    $list_id = intval($list_definition["id"]);
+                    $test_list = new Tfyh_list("../config/lists/" . $lookup[1], $list_id, "", $this->socket, 
                             $this->toolbox);
                     if ($this->toolbox->users->is_allowed_item($test_list->get_permission()))
-                        $select_string .= $list_name . "=" . $list_name . ";";
+                        $select_string .= $list_id . "=" . $list_name . ";";
                 }
                 if (strlen($select_string) == 0)
                     $select_string = i("lIzc0X|noListForThisRole") . "=" . i("yGorGi|noListForThisRole");
@@ -326,31 +367,36 @@ class Tfyh_form
         else
             $form = '		<form action="?fseq=' . $this->fs_id . $this->index . $get_parameter .
                      '" method="post">' . "\n";
-        // ----------------------------------------------------------
-        // Buld form as a table of input fields. Tags defibne columns
-        // ----------------------------------------------------------
+        // ---------------------------------------------------------
+        // Buld form as a table of input fields. Tags define columns
+        // ---------------------------------------------------------
         foreach ($this->form_definition as $f) {
             // start the input field with the label
             $mandatory_flag = (strlen($f["required"]) > 0) ? "*" : "";
             // horizontal radio buttons
-            $is_radioh = (strpos($f["type"], "radioh") === 0);
-            $inline_label = (strcasecmp("radio", $f["type"]) === 0) || $is_radioh ||
+            $inline_label = (strcasecmp("radio", $f["type"]) === 0) ||
                      (strcasecmp("checkbox", $f["type"]) === 0) || (strcasecmp("input", $f["type"]) === 0) ||
                      (strlen($f["label"]) === 0);
+            
             // the form defintion contains both the form and some help text, usually displayed
             // within a right border frame. The help text shall not be returned in this function
             $help_text = isset($f["name"]) && (strpos($f["name"], "_help_text") === 0);
             $no_input = isset($f["name"]) && (strpos($f["name"], "_no_input") === 0);
-            // provide border an label styling in case of invalid input.
+            
+            // provide border an label styling. Include case of invalid input.
+            $style_str = "";
+            $validity_label_style_open = "";
+            $validity_label_style_close = "";
             if (! is_null($this->validities) && $this->validities[$f["name"]] === false) {
-                $validity_border_style = "style=\"border:1px solid #A22;border-radius: 0px;\" ";
+                $style_str = 'style="' . $style_str . ';border:1px solid #A22;border-radius: 0px;" ';
                 $validity_label_style_open = "<span style=\"color:#A22;\">";
                 $validity_label_style_close = "</span>";
-            } else {
-                $validity_border_style = "";
-                $validity_label_style_open = "";
-                $validity_label_style_close = "";
-            }
+            } elseif (strpos($f["type"], "textarea") !== false)
+                $style_str .= ' "cols="' . $f["maxlength"] . '" rows="' .
+                         ((isset($f["size"]) && (intval($f["size"]) > 0)) ? $f["size"] : 4) . '" ';
+            elseif (strlen($f["size"]) > 0)
+                $style_str = 'style="width:' . $f["size"] . ';" ';
+            
             // show label for input
             if (! $help_text) {
                 if ($inline_label) // radio and checkbox
@@ -359,40 +405,54 @@ class Tfyh_form
                     $form .= $f["tags"] . $validity_label_style_open . $mandatory_flag . $f["label"] .
                              $validity_label_style_close . "<br>\n";
             }
-            // now provide the field. Wrap with htmlSpecialChars to prevent from XSS
+            // now provide the previously entered or programatically provided value. Wrap with
+            // htmlSpecialChars to prevent from XSS
             // https://stackoverflow.com/questions/1996122/how-to-prevent-xss-with-html-php
-            $preset = (isset($_SESSION["forms"][$this->fs_id][$f["name"]]) &&
+            // $_SESSION["forms"][$this->fs_id][$f["name"]] reflects the previously entered String
+            $for_display = (isset($_SESSION["forms"][$this->fs_id][$f["name"]]) &&
                      is_string($_SESSION["forms"][$this->fs_id][$f["name"]])) ? htmlspecialchars(
                             $_SESSION["forms"][$this->fs_id][$f["name"]], ENT_QUOTES, 'UTF-8') : false;
-            if (! $preset && $f["value"]) {
+            // if there is no previously entered field, but a default value set by the form, use
+            // this
+            // default.
+            if (($for_display === false) && isset($f["value"])) {
                 if (strpos($f["value"], "\$now") === 0)
-                    $preset = date("Y-m-d");
+                    // special case date of now
+                    $for_display = date("Y-m-d");
                 else
-                    $preset = $f["value"];
+                    // all other cases
+                    $for_display = $f["value"];
             }
+            
+            // compile all attribute definitions
+            $type_str = (strlen($f["type"]) > 0) ? 'type="' . $f["type"] . '" ' : "";
+            $name_str = (strlen($f["name"]) > 0) ? 'name="' . $f["name"] . '" ' : "";
+            $id_str = 'id="cFormInput-' . $f["name"] . '" ';
+            // do not use the name for the submit button as id
+            if (strpos(strtolower($f["type"]), "submit") !== false)
+                $id_str = 'id="cFormInput-submit" ';
+            // set default first
+            $class_str = 'class="forminput" ';
+            if (strlen($f["class"]) > 0) {
+                // special case: dedicated ID attribute within the class field
+                if (strpos($f["class"], '#') === 0)
+                    $id_str = 'id="' . substr($f["class"], 1) . '" ';
+                else
+                    $class_str = 'class="' . $f["class"] . '" ';
+            }
+            $disabled_flag = (strcmp($f["required"], "!") == 0) ? "disabled" : "";
+            
             // do not use invalid values for preset
             if (! is_null($this->validities) && ($this->validities[$f["name"]] === false))
-                $preset = null;
+                $for_display = null;
             // special case: select field.
             if (strpos($f["type"], "select") !== false) {
                 // ---------------------------
                 // special case: select field.
                 // ---------------------------
-                $form .= "<select " . $validity_border_style;
-                if (strlen($f["class"]) > 0) {
-                    if (strpos($f["class"], '#') === 0) {
-                        $form .= 'id="' . substr($f["class"], 1) . '" ';
-                        $form .= 'class="formselector" ';
-                    } else
-                        $form .= 'class="' . $f["class"] . '" ';
-                } else
-                    $form .= 'class="formselector" ';
-                if (strlen($f["name"]) > 0)
-                    $form .= 'name="' . $f["name"] . '" ';
-                if (strlen($f["size"]) > 0)
-                    $form .= 'style="width: ' . $f["size"] . '">' . "\n";
-                else
-                    $form .= 'style="width:90%">' . "\n";
+                $class_str = 'class="formselector" ';
+                $form .= "<select " . $name_str . $style_str . $class_str . $id_str . $disabled_flag . ">\n";
+                
                 // split type definition into 'select' and options
                 $options = substr($f["type"], strpos($f["type"], " ") + 1);
                 if (strcasecmp($options, "\$options") == 0)
@@ -406,14 +466,12 @@ class Tfyh_form
                 if (is_array($options_array))
                     foreach ($options_array as $option) {
                         $nvp = explode("=", $option);
-                        if (strcasecmp($nvp[0], $preset) !== 0)
-                            $form .= '<option value="' . trim($nvp[0]) . '">' . trim($nvp[1]) . "</option>\n";
-                        else
-                            $form .= '<option selected value="' . trim($nvp[0]) . '">' . trim($nvp[1]) .
-                                     "</option>\n";
+                        $selected = (strcasecmp($nvp[0], $for_display) == 0) ? "selected " : "";
+                        $form .= '<option ' . $selected . 'value="' . trim($nvp[0]) . '">' . trim($nvp[1]) .
+                                 "</option>\n";
                     }
                 $form .= "</select>\n";
-            } elseif ($is_radioh || (strpos($f["type"], "radio") !== false)) {
+            } elseif ((strpos($f["type"], "radio") !== false)) {
                 // --------------------------------------------------------
                 // special case: radio group (similar to select field case)
                 // --------------------------------------------------------
@@ -424,81 +482,55 @@ class Tfyh_form
                 else
                     $options_array = explode(";", $options);
                 // code all options as defined
+                $o = 1;
                 foreach ($options_array as $option) {
                     $nvp = explode("=", $option);
-                    if ($is_radioh)
-                        $form .= '<div class="w3-col l6">';
+                    $checked = ((strcasecmp($nvp[0], $for_display) === 0)) ? "checked " : "";
                     $form .= '<label class="cb-container">' . $f["label"] . "\n";
-                    $form .= '<input type="radio" name="' . $f["name"] . '" value="' . $nvp[0] .
-                             $validity_border_style;
-                    if (strcasecmp($nvp[0], $preset) === 0)
-                        $form .= '" checked>' . $nvp[1];
-                    else
-                        $form .= '">' . $nvp[1];
-                    if (! $is_radioh)
-                        $form .= "<br>\n";
-                    $form .= '<span class="cb-radio"></span></label>';
-                    if ($is_radioh)
-                        $form .= '</div>';
+                    // no style or class definitions allowed for radio selections
+                    $form .= '<input type="radio" ' . $name_str . $style_str . 'value="' . $nvp[0] . '" ' .
+                             $checked . str_replace('" ', '-' . $o ++ . '" ', $id_str) . $disabled_flag . '>' .
+                             $nvp[1];
+                    $form .= '<span class="cb-radio"></span></label>' . "\n";
                 }
             } elseif (strpos($f["type"], "checkbox") !== false) {
                 // -----------------------------
                 // special case: checkbox input
                 // -----------------------------
+                // In case of a checkbox, set checked for value "on" and set the class to checked-on
+                // or off to keep track of the state. This is needed due to the CSS styles using the
+                // ::after
+                // property which can not be queried.
+                $checked = ((strlen($for_display) > 0) && (strcmp($for_display, "false") != 0)) ? 'checked class="checked-on" ' : 'class="checked-off" ';
                 $form .= '<label class="cb-container">' . $f["label"] . "\n";
-                $form .= '<input type="checkbox" name="' . $f["name"] . '"';
-                // In case of a checkbox, set checked for value "on".
-                if (strlen($f["value"]) > 0)
-                    $form .= (strcasecmp($f["value"], "on") == 0) ? " checked id='checked-on'" : " id='checked-off'";
-                elseif (strlen($preset) > 0)
-                    $form .= (strcasecmp($preset, "on") == 0) ? " checked id='checked-on'" : " id='checked-off'";
-                else
-                    $form .= " id='checked-off'";
-                $form .= '><span class="cb-checkmark"></span></label>';
+                // no class definitions allowed for checkboxes
+                $form .= '<input ' . $type_str . $name_str . $style_str . $checked . $id_str . $disabled_flag .
+                         '>';
+                $form .= '<span class="cb-checkmark"></span></label>';
             } elseif (strpos($f["type"], "textarea") !== false) {
                 // -----------------------------
                 // special case: text area input
                 // -----------------------------
-                $class_str = "";
-                if (strlen($f["class"]) > 0) {
-                    if (strpos($f["class"], '#') === 0) {
-                        $class_str .= 'id="' . substr($f["class"], 1) . '" ';
-                        $class_str .= 'class="forminput" ';
-                    } else
-                        $class_str .= 'class="' . $f["class"] . '" ';
-                } else
-                    $class_str .= 'class="forminput" ';
-                $form .= '<textarea name="' . $f["name"] . '" cols="' . $f["maxlength"] . '" rows="' .
-                         $f["size"] . '" ' . $class_str . '>' . $preset . '</textarea><br>' . "\n";
+                if ($for_display === false)
+                    $for_display = "";
+                $box_size = ' cols="' . $f["maxlength"] . '" rows="' . $f["size"] . '"';
+                $form .= '<textarea ' . $name_str . $box_size . $class_str . $id_str . $disabled_flag . '>' .
+                         $for_display . '</textarea><br>' . "\n";
             } elseif (! $help_text && ! $no_input && (strlen($f["name"]) > 0)) {
+                // -----------------------------
                 // default input type
-                $form .= "<input " . $validity_border_style;
-                if (strlen($f["type"]) > 0)
-                    $form .= 'type="' . $f["type"] . '" ';
-                if (strlen($f["class"]) > 0) {
-                    if (strpos($f["class"], '#') === 0) {
-                        $form .= 'id="' . substr($f["class"], 1) . '" ';
-                        $form .= 'class="forminput" ';
-                    } else
-                        $form .= 'class="' . $f["class"] . '" ';
-                } else
-                    $form .= 'class="forminput" ';
-                if (strlen($f["size"]) > 0)
-                    $form .= 'style="width: ' . $f["size"] . '" ';
+                // -----------------------------
+                $form .= "<input " . $type_str . $name_str . $style_str . $class_str;
                 if (strlen($f["maxlength"]) > 0)
                     $form .= 'maxlength="' . $f["maxlength"] . '" ';
-                if (strlen($f["name"]) > 0)
-                    $form .= 'name="' . $f["name"] . '" ';
                 // set value.
-                if (strlen($preset) > 0)
-                    $form .= 'value="' . $preset . '" ';
-                elseif (strlen($f["value"]) > 0)
-                    $form .= 'value="' . $f["value"] . '" ';
+                if (strlen($for_display) > 0)
+                    $form .= 'value="' . $for_display . '" ';
+                $form .= $id_str . $disabled_flag . ">\n";
+                // add the inline label.
                 if ($inline_label)
-                    $form .= ">&nbsp;" . $validity_label_style_open . $mandatory_flag . $f["label"] .
+                    $form .= "&nbsp;" . $validity_label_style_open . $mandatory_flag . $f["label"] .
                              $validity_label_style_close . "\n";
-                else
-                    $form .= ">\n";
             }
         }
         // ----------------------------
@@ -577,12 +609,12 @@ class Tfyh_form
      * @param $keep_hidden_defaults bool
      *            set true to keep the default values for hidden fields rather than to overwrite them
      */
-    public function preset_values (array $values, bool $keep_hidden_defaults = false)
+    public function preset_values (array $values_record, bool $keep_hidden_defaults = false)
     {
         foreach ($this->form_definition as $f) {
-            if (isset($values[$f["name"]]) && (! $keep_hidden_defaults ||
+            if (isset($values_record[$f["name"]]) && (! $keep_hidden_defaults ||
                      (isset($f["type"]) && (strcasecmp($f["type"], "hidden") != 0)))) {
-                $_SESSION["forms"][$this->fs_id][$f["name"]] = strval($values[$f["name"]]);
+                $_SESSION["forms"][$this->fs_id][$f["name"]] = strval($values_record[$f["name"]]);
             }
         }
     }
@@ -595,17 +627,18 @@ class Tfyh_form
      * 
      * @param $key String
      *            key of field to be preset
-     * @param $value String
-     *            value to be preset. Must be a UTF-8 encoded String. for inputs of type select it can b '~n'
+     * @param $value_str String
+     *            value to be preset. Must be a UTF-8 encoded String. for inputs of type select it can be '~n'
      *            with n being the index of the value to be selected.
      */
-    public function preset_value (String $key, String $value)
+    public function preset_value (String $key, String $value_str)
     {
         foreach ($this->form_definition as $f)
             // only set the value, if field name is existing.
             if (strcmp($f["name"], $key) === 0) {
-                if ((strpos($f["type"], "select") !== false) && (substr($value, 0, 1) == '~')) {
-                    $pos = intval(substr($value, 1)) - 1;
+                if ((strpos($f["type"], "select") !== false) && (substr($value_str, 0, 1) == '~')) {
+                    // if the value starts with '~' it refers to the index of the option
+                    $pos = intval(substr($value_str, 1)) - 1;
                     $options = substr($f["type"], strpos($f["type"], " ") + 1);
                     if (strcasecmp($options, "\$options") == 0)
                         $options_array = $this->select_options;
@@ -615,7 +648,7 @@ class Tfyh_form
                         $options_array = explode(";", $options);
                     $_SESSION["forms"][$this->fs_id][$key] = trim(explode("=", $options_array[$pos])[0]);
                 } else {
-                    $_SESSION["forms"][$this->fs_id][$key] = $value;
+                    $_SESSION["forms"][$this->fs_id][$key] = $value_str;
                 }
             }
     }
@@ -634,6 +667,19 @@ class Tfyh_form
     public function get_labels ()
     {
         return $this->labels;
+    }
+
+    /**
+     * get the definition of a field with the given name and its current value.
+     */
+    public function get_field (String $name)
+    {
+        if (! isset($this->form_definition[$name]))
+            return null;
+        $field = [];
+        foreach ($this->form_definition[$name] as $key => $value)
+            $field[$key] = $value;
+        return $field;
     }
 
     /**
@@ -669,7 +715,7 @@ class Tfyh_form
         foreach ($_SESSION["forms"][$this->fs_id] as $key => $value) {
             $definition = isset($this->form_definition[$key]) ? $this->form_definition[$key] : false;
             if ($definition === false)
-                $this->toolbox->logger->log(1, $_SESSION["User"][$this->toolbox->users->user_id_field_name], 
+                $this->toolbox->logger->log(1, $this->toolbox->users->session_user["@id"], 
                         i("obg4CF|Form data key °%1° does ...", $key, $this->layout_file, 
                                 strval($this->index)));
             else {
@@ -679,7 +725,7 @@ class Tfyh_form
                     // input is empty
                     if (strlen($definition["required"]) > 0) {
                         // input is required
-                        $form_errors .= i('AdwVBx|Please at °') . $definition["label"];
+                        $form_errors .= i("AdwVBx|Please at °") . $definition["label"];
                         if (strcmp($definition["type"], "checkbox") === 0)
                             $form_errors .= '" ' . i('iPXyEn|set the tick.') . '<br>';
                         else

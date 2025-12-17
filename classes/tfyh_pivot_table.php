@@ -1,4 +1,25 @@
 <?php
+/**
+ *
+ *       the tools-for-your-hobby framework
+ *       ----------------------------------
+ *       https://www.tfyh.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ */
+
 
 /**
  * class file for the Tfyh_pivot_table class, providing pivot tables for Lists (Tfyh_list class). Currently
@@ -44,7 +65,7 @@ class Tfyh_pivot_table
 
     /**
      * The contructor. Reas the list and builds the table upon construction.
-     * 
+     *
      * @param Tfyh_list $list
      *            the list to be pivoted
      * @param String $rowfield
@@ -52,12 +73,12 @@ class Tfyh_pivot_table
      * @param String $columnfield
      *            the column items field
      * @param String $datafield
-     *            the data field (must be numeric)
-     * @param String $datafield
+     *            the data field (must be numeric for aggregation method "sum")
+     * @param String $aggregation
      *            the data aggregation method ("sum" or "cnt")
      */
-    public function __construct (Tfyh_list $list, String $rowfield, String $columnfield, String $datafield, 
-            String $aggregation)
+    public function __construct (Tfyh_list $list, String $rowfield, String $columnfield, 
+            String $datafield, String $aggregation)
     {
         $i = 0;
         $this->aggregation = $aggregation;
@@ -97,7 +118,7 @@ class Tfyh_pivot_table
 
     /**
      * Aggregate a pivot data value.
-     * 
+     *
      * @param array $row
      *            list row with data
      * @param int $rc
@@ -128,7 +149,7 @@ class Tfyh_pivot_table
 
     /**
      * Extract the pivot set of a column of the list
-     * 
+     *
      * @param Tfyh_list $list
      *            list which shall be pivoted
      * @param int $pc
@@ -155,32 +176,56 @@ class Tfyh_pivot_table
 
     /**
      * Get the pivot table as html string for web display.
-     * 
+     *
      * @param String $format
-     *            number format for data, see native sprintf() for format String definitions. Default is "%d".
+     *            number format for data, see native sprintf() for format String definitions.
+     *            Default is "%d".
      * @return string pivot table as html String.
      */
     public function get_html (String $format = "%d")
     {
-        // print header
-        $html = "<table style='border: 2px solid'><tr><td style='padding-right: 5px;border: 1px solid;'>&nbsp;</td>"; // top
-                                                                                                                      // left
-                                                                                                                      // corner
-                                                                                                                      // is
-                                                                                                                      // empty
+        // print header, top left corner is empty
+        $html = "<table style='border: 2px solid'><tr><td style='padding-right: 5px;border: 1px solid;'>&nbsp;</td>";
         foreach ($this->cItems as $cItem) {
             $html .= "<td style='padding-right: 5px;border: 1px solid;'>" . $cItem . "</td>";
         }
         $html .= "</tr>\n";
         // print rows
+        ksort($this->ptable);
         foreach ($this->ptable as $rItem => $prow) {
             $html .= "<tr><td style='padding-right: 5px;'>" . $rItem . "</td>";
             foreach ($prow as $value)
-                $html .= "<td style='padding-right: 5px;text-align:center'>" . sprintf($format, $value) .
-                         "</td>";
+                $html .= "<td style='padding-right: 5px;text-align:center'>" .
+                         sprintf($format, $value) . "</td>";
             $html .= "</tr>\n";
         }
         return $html . "</table>";
+    }
+
+    /**
+     * Get the pivot table as csv-String for download.
+     *
+     * @param String $format
+     *            number format for data, see native sprintf() for format String definitions.
+     *            Default is "%d".
+     * @return string pivot table as csv String.
+     */
+    public function get_csv (String $format = "%d")
+    {
+        // print header, top left corner is empty
+        $csv = "";
+        foreach ($this->cItems as $cItem)
+            $csv .= ";" . $cItem;
+        $csv .= "\n";
+        // print rows
+        ksort($this->ptable);
+        foreach ($this->ptable as $rItem => $prow) {
+            $csv .= $rItem;
+            foreach ($prow as $value)
+                $csv .= ";" . sprintf($format, $value);
+            $csv .= "\n";
+        }
+        return $csv;
     }
 }
     

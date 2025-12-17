@@ -1,5 +1,26 @@
 <?php
 /**
+ *
+ *       the tools-for-your-hobby framework
+ *       ----------------------------------
+ *       https://www.tfyh.org
+ *
+ * Copyright  2018-2024  Martin Glade
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ */
+
+/**
  * The application software upgrade page.
  * 
  * @author mgSoft
@@ -8,6 +29,7 @@
 // ===== initialize toolbox and socket and start session.
 $user_requested_file = __FILE__;
 include_once "../classes/init.php";
+include_once '../classes/tfyh_audit.php';
 
 // Source Code path.
 // ====== Depends on the ../config/settings_tfyh file.
@@ -30,14 +52,43 @@ echo file_get_contents('../config/snippets/page_01_start');
 echo $menu->get_menu();
 echo file_get_contents('../config/snippets/page_02_nav_to_body');
 if (! isset($_GET["upgrade"])) {
-    echo i("HVtA0e| ** Upgrade of the %1 ap...", $toolbox->config->app_name);
+    echo "<h3>" . i("w2PJel|Upgrade of the %1 applic...", $toolbox->config->app_name) . "</h3>";
+    echo "<p>" . i("YYlWr8|The upgrade unpacks the ...") . "</p>";
     if (strlen($version_server) == 0)
         echo "<h4>" . i("BwU3GN|No server version found....") . "</h4>";
     echo "<p>" . i("ZC5KSz|Currently installed:") . " <b>" . $current_version . "</b><br>" .
              i("b5wSVV|Installed at:") . " <b>" . date($dfmt_dt, $current_version_installed) . "</b></p>";
-    
-    echo i("nLzqlz| ** An upgrade cannot be...", $version_server);
+    echo "<p>" . i("9dBgWW|An upgrade cannot be und...") . "</p>";
+    echo "<p>" . i("d0xnMU|Please note: the process...") . "</p>";
+    echo "<form action='?upgrade=1' method='post'>\n <input type='submit' class='formbutton' value='" .
+             i("M4MjRw|Update to version - %1", $version_server) . "' /> </form>";
 } else {
+    
+    // ==============================================================================================
+    // register upgrade
+    // ==============================================================================================
+    // see https://stackoverflow.com/questions/5647461/how-do-i-send-a-post-request-with-php
+    $app_url = $toolbox->config->app_url;
+    if (strlen($app_url) > 0) {
+        echo "<p>" . i("YNja1L|Your update to °%1° will...", $version_server, $app_root, 
+                (new DateTime())->format("Y-m-d H:i:a")) . "'<br>";
+        $url = $app_url . '/registration.php';
+        $data = array('version' => $version_server,'server' => $app_root
+        );
+        // use key 'http' even if you send the request to https://...
+        $options = array(
+                'http' => array('header' => "Content-type: application/x-www-form-urlencoded\r\n",
+                        'method' => 'POST','content' => http_build_query($data)
+                )
+        );
+        $context = stream_context_create($options);
+        $result = file_get_contents($url, false, $context);
+        if ($result)
+            echo " - successful registered to $url.</p>";
+        else 
+            echo " - failed to register to $url.</p>";
+    } else
+        echo "<p>" . i("oelARg|no URL to register upgra...") . "</p>";
     
     // ==============================================================================================
     // check loaded modules
@@ -57,35 +108,91 @@ if (! isset($_GET["upgrade"])) {
         if (! $contained)
             $missing[] = $rcfg;
     }
-    echo "<p>" . i("uz08Wi|Installed PHP modules we...") . "<br>";
+    echo "<p>" . i("kfB6Rx|Installed PHP modules ch...");
     if (count($missing) > 0) {
-        echo i("4SVUF8|The following modules ar...") . "<br>";
+        echo "<br>" . i("4SVUF8|The following modules ar...") . "<br>";
         foreach ($missing as $m)
             echo "'" . $m . "', ";
-        echo i("HxsB1x|It is possible that %1 a...", $toolbox->config->app_name) . "<br><br>";
+        echo i("HxsB1x|It is possible that %1 a...", $toolbox->config->app_name) . "</p>";
     } else
-        i("2kJu6N|All modules of the refer...") . "<br><br>";
+        i("Zg9SKd|ok") . "</p>";
     
     // ==============================================================================================
     // fetch program source
     // ==============================================================================================
-    echo "Lade den Quellcode von: " . $app_src_path . " ...<br>";
+    echo "<p>" . i("Bwa5WS|Loading the source code ...") . ": " . $app_src_path . " ...<br>";
     file_put_contents("src.zip", file_get_contents($app_src_path));
-    echo " ... abgeschlossen. Dateigröße: " . filesize("src.zip") . ".<br><br>";
+    echo " ... " . i("HAqb4l|completed. File size") . ": " . filesize("src.zip") . ".</p>";
     if (filesize("src.zip") < 1000) {
-        echo "</p><p>" . i("uuZ8U8|The size of the source c...") . "</p></body></html>";
-        exit();
+        echo "<p>" . i("uuZ8U8|The size of the source c...") . "</p></body></html>";
+        exit(); // really exit. No test case left over.
     }
     
     // read settings, will be used as cache
-    echo i("iM0FxL|Saving the existing conf...") . " ...<br>";
-    $settings_db = file_get_contents("../config/settings_db");
-    $settings_app = file_get_contents("../config/settings_app");
+    $mode_classic = file_exists("../config/settings_db");
     $settings_colors = file_get_contents("../resources/app-colors.txt");
+    echo "<p>" . i("iM0FxL|Saving the existing conf...") . " ...<br>";
+    if ($mode_classic) {
+        $settings_db = file_get_contents("../config/settings_db");
+        $settings_app = file_get_contents("../config/settings_app");
+    } else {
+        $cached_settings_files = ["appSettings" => false,"dbSettings" => false,"clubSettings" => false,
+                "uiSettings" => false
+        ];
+        $settings_dir = "../config/settings";
+        foreach ($cached_settings_files as $filename => $contents) {
+            echo $filename . ": ";
+            if (file_exists("$settings_dir/$filename")) {
+                $cached_settings_files[$filename] = file_get_contents($settings_dir . "/" . $filename);
+                echo strlen($cached_settings_files[$filename]) . "bytes, ";
+            } else {
+                echo "-, ";
+            }
+        }
+    }
+    echo "</p>";
+    
+    // Delete server side files.
+    // ==============================================================================================
+    echo "<p>" . i("rve23X|Deleting old code") . " ...<br>";
+
+    function rrmdir ($dir)
+    {
+        if (is_dir($dir)) {
+            $objects = scandir($dir);
+            foreach ($objects as $object) {
+                if ($object != "." && $object != "..") {
+                    if (is_dir($dir . DIRECTORY_SEPARATOR . $object) && ! is_link($dir . "/" . $object))
+                        rrmdir($dir . DIRECTORY_SEPARATOR . $object);
+                    else
+                        unlink($dir . DIRECTORY_SEPARATOR . $object);
+                }
+            }
+            rmdir($dir);
+        }
+    }
+    // delete js_ branches
+    $topleveldirs = scandir("..");
+    foreach ($topleveldirs as $topleveldir) {
+        if (strcmp(substr($topleveldir, 0, 3), "js_") == 0) {
+            echo $topleveldir . " ... ";
+            rrmdir($topleveldir);
+        }
+    }
+    // delete other code
+    $dirs_to_delete = ["api","classes","config","forms","install","log","pages","public","resources"
+    ];
+    foreach ($dirs_to_delete as $dir_to_delete) {
+        if (is_dir("../$dir_to_delete")) {
+            echo $dir_to_delete . " ... ";
+            rrmdir($dir_to_delete);
+        }
+    }
+    echo "<br>" . i("ag2Cwk|Done") . "</p>";
     
     // Unpack source files
     // ==============================================================================================
-    echo i("GuEiQo|Unpacking and copying th...") . " ...<br>";
+    echo "<p>" . i("GuEiQo|Unpacking and copying th...") . " ...<br>";
     $zip = new ZipArchive();
     $res = $zip->open('src.zip');
     if ($res === TRUE) {
@@ -101,51 +208,47 @@ if (! isset($_GET["upgrade"])) {
         echo ' ... ' . i('vp2UUx|ready.') . ' ... <br><br>';
     } else {
         echo "</p><p>" . i("QVV55u|The size of the source c...") . "</p></p></body></html>";
-        exit();
+        exit(); // really exit. No test case left over.
     }
     unlink("src.zip");
     echo i("AmEL6s|restoring the existing c...") . " ...<br>";
     
     // restore settings of data base connection, app-parameters and colors
-    if ($settings_db)
-        file_put_contents("../config/settings_db", $settings_db);
-    if ($settings_app)
-        file_put_contents("../config/settings_app", $settings_app);
+    if ($mode_classic) {
+        if ($settings_db)
+            file_put_contents("../config/settings_db", $settings_db);
+        if ($settings_app)
+            file_put_contents("../config/settings_app", $settings_app);
+    } else {
+        foreach ($cached_settings_files as $filename => $contents) {
+            if ($contents !== false) {
+                file_put_contents($settings_dir . "/" . $filename, $contents);
+                echo $filename . " ... ";
+            } else {
+                echo " (not " . $filename . ") ... ";
+            }
+        }
+    }
+    // restore settings of colors
     if ($settings_colors)
         file_put_contents("../resources/app-colors.txt", $settings_colors);
+    echo "</p>";
     
-    // Set directories' access rights.
-    // ==============================================================================================
-    echo i("cmOGiF|Setting the access autho...") . " ...<br>";
-    $restricted = ["all_mails_localhost","attachments","classes","config","install","log","pdfs","tcpdf",
-            "templates","uploads"
-    ];
-    $open = ["api","forms","js","labels","pages","public","resources"
-    ];
-    foreach ($restricted as $dirname) {
-        // some directories may not exist, because they do not contain source code.
-        if (! file_exists("../" . $dirname))
-            mkdir("../" . $dirname);
-        chmod("../" . $dirname, 0700);
-    }
-    foreach ($open as $dirname) {
-        // some directories may not exist, because they do not contain source code.
-        if (! file_exists("../" . $dirname))
-            mkdir("../" . $dirname);
-        chmod("../" . $dirname, 0755);
-    }
-    echo ' ... ' . i('O8zMCW|all done.') . '<br></p>';
-    
-    // Audit result
+    // Set directory access rights and audit the upgrade result.
     // ==============================================================================================
     include_once "../classes/tfyh_audit.php";
     $audit = new Tfyh_audit($toolbox, $socket);
+    $audit->set_dirs_access_rights();
     $audit->run_audit();
-    echo "<h5>" . i("RHFSbA|Checking the result") . "</h5><p>" . i("wTWCqf|Audit protocol:") . '</p><p>';
-    echo str_replace("\n", "<br>", 
-            str_replace("<", "&lt;", 
-                    str_replace(">", "&gt;", 
-                            str_replace("&", "&amp;", file_get_contents("../log/app_audit.log")))));
-    echo "<br>" . i("4plJZf|That was it.") . "</p>";
+    echo "<h5>" . i("RHFSbA|Checking the result") . "</h5><p>" . i("RGjcvy|Done. For the audit prot...") .
+             '</p>';
+    // update the installation timestamp, which is the filemtime of "../public/version"
+    file_put_contents("../public/version", file_get_contents("../public/version"));
+    
+    // ==============================================================================================
+    // initialize the version, if the respective script is available.
+    // ==============================================================================================
+    if (file_exists("../classes/init_version.php"))
+        include "../classes/init_version.php";
 }
 end_script();
