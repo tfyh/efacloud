@@ -214,8 +214,8 @@ jobs:
 
       - name: Run installation simulation test
         run: |
-          # Execute the installation test script
-          php tests/Integration/InstallationTest.php
+          # Execute the installation test script (standalone, not PHPUnit)
+          php tests/scripts/InstallationTest.php
         env:
           DB_HOST: 127.0.0.1
           DB_PORT: 3306

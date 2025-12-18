@@ -16,6 +16,7 @@
 /phpunit.xml                export-ignore
 /phpstan.neon               export-ignore
 /psalm.xml                  export-ignore
+/composer.json              export-ignore
 
 # Docker test environment
 /Dockerfile.test            export-ignore

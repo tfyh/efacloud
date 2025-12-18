@@ -9,10 +9,38 @@
 // Define that we are in testing mode
 define('EFACLOUD_TESTING', true);
 
-// Load Composer autoloader
-$composerAutoload = __DIR__ . '/../vendor/autoload.php';
+// Store the repository root for reference
+define('EFACLOUD_TEST_ROOT', realpath(__DIR__ . '/..'));
+
+// Load Composer autoloader (using absolute path before changing directory)
+$composerAutoload = EFACLOUD_TEST_ROOT . '/vendor/autoload.php';
 if (file_exists($composerAutoload)) {
     require_once $composerAutoload;
+}
+
+// ============================================================================
+// Simulate web server context for code coverage
+// ============================================================================
+// efaCloud uses relative paths like '../classes/' throughout the codebase.
+// These paths assume scripts run from subdirectories (public/, pages/, forms/, api/).
+// By changing to 'public/', these paths resolve correctly:
+//   ../classes/init.php -> classes/init.php
+//
+// This matches how the application runs on a real web server where
+// public/index.php is the entry point.
+// ============================================================================
+chdir(EFACLOUD_TEST_ROOT . '/public');
+
+// Create required directories if they don't exist
+$logDir = EFACLOUD_TEST_ROOT . '/log';
+if (!is_dir($logDir)) {
+    @mkdir($logDir, 0755, true);
+}
+
+// Create config directory if it doesn't exist
+$configDir = EFACLOUD_TEST_ROOT . '/config';
+if (!is_dir($configDir)) {
+    @mkdir($configDir, 0755, true);
 }
 
 // Load the internationalization stub for testing

@@ -9,12 +9,18 @@ tests/
 ├── Unit/                    # Unit tests (no database required)
 │   └── EfaTablesTest.php    # Tests for Efa_tables class
 ├── Integration/             # Integration tests (requires MySQL)
-│   └── InstallationTest.php # Tests the installation process
+│   └── (future tests)       # PHPUnit-based integration tests
+├── scripts/                 # Standalone test scripts (not PHPUnit)
+│   └── InstallationTest.php # Simulates browser-based installation
 ├── fixtures/                # Test data and database schemas
 │   └── test_database.sql    # Minimal test database schema
 ├── bootstrap.php            # PHPUnit bootstrap file
 └── README.md                # This file
 ```
+
+**Note:** The `scripts/` directory contains standalone PHP scripts that simulate
+real-world scenarios (like browser-based installation). These are run directly
+by GitHub Actions, not through PHPUnit.
 
 ## Requirements for Running Tests
 
