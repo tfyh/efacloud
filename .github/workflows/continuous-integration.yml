@@ -1,0 +1,252 @@
+name: Continuous Integration
+
+# Trigger on ANY push to ANY branch
+on:
+  push:
+    branches:
+      - '**'  # All branches
+  pull_request:
+    branches:
+      - '**'  # All branches
+
+jobs:
+  php-syntax-check:
+    name: PHP Syntax Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP environment
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+
+      - name: Validate PHP syntax
+        run: |
+          echo "Checking PHP syntax in all PHP files..."
+          error_count=0
+          while IFS= read -r -d '' file; do
+            if ! php -l "$file" > /dev/null 2>&1; then
+              echo "Syntax error in: $file"
+              php -l "$file"
+              error_count=$((error_count + 1))
+            fi
+          done < <(find . -name "*.php" -not -path "./vendor/*" -not -path "./tcpdf/*" -print0)
+
+          if [ $error_count -gt 0 ]; then
+            echo "Found $error_count files with syntax errors"
+            exit 1
+          fi
+          echo "All PHP files passed syntax check."
+
+  static-analysis:
+    name: Static Code Analysis
+    runs-on: ubuntu-latest
+    needs: php-syntax-check
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP environment
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          tools: phpstan
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Run PHPStan static analysis
+        run: vendor/bin/phpstan analyse --error-format=github || true
+        continue-on-error: true
+
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    needs: php-syntax-check
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP environment
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: mysqli, fileinfo, mbstring
+          coverage: xdebug
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Execute unit tests
+        run: vendor/bin/phpunit --testsuite unit --colors=always
+
+  integration-tests:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    needs: php-syntax-check
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: test
+          MYSQL_DATABASE: efacloud_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP environment
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: mysqli, fileinfo, mbstring
+          coverage: xdebug
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Wait for MySQL to be ready
+        run: |
+          echo "Waiting for MySQL..."
+          for i in {1..30}; do
+            if mysqladmin ping -h"127.0.0.1" -P3306 --silent 2>/dev/null; then
+              echo "MySQL is ready!"
+              break
+            fi
+            echo "Attempt $i: MySQL not ready yet..."
+            sleep 2
+          done
+
+      - name: Initialize test database
+        run: |
+          if [ -f "tests/fixtures/test_database.sql" ]; then
+            mysql -h127.0.0.1 -P3306 -uroot -ptest efacloud_test < tests/fixtures/test_database.sql
+          fi
+        env:
+          MYSQL_PWD: test
+
+      - name: Execute integration tests
+        run: vendor/bin/phpunit --testsuite integration --colors=always
+        env:
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_DATABASE: efacloud_test
+          DB_USERNAME: root
+          DB_PASSWORD: test
+
+  installation-test:
+    name: Installation Process Test
+    runs-on: ubuntu-latest
+    needs: php-syntax-check
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: testinstall
+          MYSQL_DATABASE: efacloud_install_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP environment
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: mysqli, fileinfo, mbstring
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Wait for MySQL to be ready
+        run: |
+          echo "Waiting for MySQL..."
+          for i in {1..30}; do
+            if mysqladmin ping -h"127.0.0.1" -P3306 --silent 2>/dev/null; then
+              echo "MySQL is ready!"
+              break
+            fi
+            sleep 2
+          done
+
+      - name: Create required directories
+        run: |
+          mkdir -p log
+          mkdir -p config
+          chmod 755 log config
+
+      - name: Start PHP built-in server
+        run: |
+          cd $GITHUB_WORKSPACE
+          php -S 127.0.0.1:8080 -t . > /tmp/php-server.log 2>&1 &
+          echo $! > /tmp/php-server.pid
+          sleep 3
+          echo "PHP server started with PID $(cat /tmp/php-server.pid)"
+
+      - name: Test installation endpoint accessibility
+        run: |
+          echo "Testing if installation pages are accessible..."
+
+          # Test that setup_db_connection.php is accessible
+          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:8080/install/setup_db_connection.php || echo "000")
+          echo "setup_db_connection.php returned HTTP $HTTP_CODE"
+
+          if [ "$HTTP_CODE" = "000" ]; then
+            echo "Server not responding, checking logs..."
+            cat /tmp/php-server.log || true
+            exit 1
+          fi
+
+      - name: Run installation simulation test
+        run: |
+          # Execute the installation test script
+          php tests/Integration/InstallationTest.php
+        env:
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_DATABASE: efacloud_install_test
+          DB_USERNAME: root
+          DB_PASSWORD: testinstall
+
+      - name: Verify database tables created
+        run: |
+          echo "Verifying database tables..."
+          TABLES=$(mysql -h127.0.0.1 -P3306 -uroot -ptestinstall efacloud_install_test -e "SHOW TABLES;" 2>/dev/null | tail -n +2 | wc -l)
+          echo "Found $TABLES tables in database"
+
+          if [ "$TABLES" -lt 10 ]; then
+            echo "Warning: Expected at least 10 tables, found $TABLES"
+            mysql -h127.0.0.1 -P3306 -uroot -ptestinstall efacloud_install_test -e "SHOW TABLES;" || true
+          fi
+        env:
+          MYSQL_PWD: testinstall
+
+      - name: Stop PHP server
+        if: always()
+        run: |
+          if [ -f /tmp/php-server.pid ]; then
+            kill $(cat /tmp/php-server.pid) 2>/dev/null || true
+          fi
+
+      - name: Upload PHP server logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: php-server-logs
+          path: /tmp/php-server.log
+          retention-days: 7

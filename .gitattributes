@@ -1,0 +1,66 @@
+# Git attributes for efaCloud
+# https://git-scm.com/docs/gitattributes
+
+# ============================================================================
+# EXPORT-IGNORE: Files excluded from ZIP downloads
+# ============================================================================
+# These files are used for development and testing only.
+# When end users download the repository as a ZIP from GitHub releases,
+# these files will be automatically excluded to keep the installation clean.
+#
+# Developers who clone the repository will still have access to all files.
+# ============================================================================
+
+# Testing infrastructure
+/tests/                     export-ignore
+/phpunit.xml                export-ignore
+/phpstan.neon               export-ignore
+/psalm.xml                  export-ignore
+
+# Docker test environment
+/Dockerfile.test            export-ignore
+/docker-compose.test.yml    export-ignore
+
+# GitHub Actions and CI/CD configuration
+/.github/                   export-ignore
+
+# Development documentation
+/CLAUDE.md                  export-ignore
+
+# Editor and IDE configurations
+/.editorconfig              export-ignore
+/.vscode/                   export-ignore
+/.idea/                     export-ignore
+
+# ============================================================================
+# LINE ENDING NORMALIZATION
+# ============================================================================
+# Ensure consistent line endings across different operating systems
+
+# Auto detect text files and normalize line endings
+* text=auto
+
+# Force specific file types to use LF (Unix-style) line endings
+*.php text eol=lf
+*.js text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+*.xml text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.sql text eol=lf
+*.sh text eol=lf
+
+# Denote binary files that should not be modified
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.gz binary
+*.tar binary

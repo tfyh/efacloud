@@ -1,0 +1,116 @@
+name: Security Scanning
+
+on:
+  schedule:
+    # Runs weekly on Sunday at midnight UTC
+    - cron: '0 0 * * 0'
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+    # Allow manual trigger from GitHub Actions interface
+
+jobs:
+  dependency-vulnerability-scan:
+    name: Dependency Vulnerability Scan
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP environment
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Run Snyk security scan
+        uses: snyk/actions/php@master
+        continue-on-error: true
+        env:
+          # REQUIRED: Add SNYK_TOKEN to repository secrets
+          # Go to: Repository Settings → Secrets and variables → Actions → New repository secret
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high
+
+      - name: Run OWASP Dependency Check
+        uses: dependency-check/Dependency-Check_Action@main
+        continue-on-error: true
+        with:
+          project: 'efacloud'
+          path: '.'
+          format: 'HTML'
+          out: 'reports'
+
+      - name: Upload OWASP Dependency Check report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dependency-check-report
+          path: reports/
+          retention-days: 30
+
+  code-security-analysis:
+    name: Code Security Analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP environment
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Run Psalm security analysis
+        run: |
+          vendor/bin/psalm --taint-analysis --report=psalm-security-report.json || true
+        continue-on-error: true
+
+      - name: Upload Psalm security report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: psalm-security-report
+          path: psalm-security-report.json
+          retention-days: 30
+
+  php-security-checker:
+    name: PHP Security Checker
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP environment
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          tools: composer
+
+      - name: Check for known security vulnerabilities in dependencies
+        run: |
+          composer audit --format=json > security-audit.json || true
+          cat security-audit.json
+        continue-on-error: true
+
+      - name: Upload security audit report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: composer-security-audit
+          path: security-audit.json
+          retention-days: 30

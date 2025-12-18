@@ -1,1 +1,50 @@
+# macOS
 .DS_Store
+
+# IDEs and Editors
+.vscode
+.idea
+*.swp
+*.swo
+
+# Claude Code
+.claude
+CLAUDE.md
+
+# Composer dependencies
+/vendor/
+composer.lock
+
+# PHPUnit
+.phpunit.cache/
+.phpunit.result.cache
+coverage/
+
+# PHPStan
+.phpstan.cache/
+
+# Psalm
+.psalm/
+
+# Testing artifacts
+tests/fixtures/*.generated.*
+
+# Runtime logs (keep structure, ignore contents)
+log/*.log
+log/*.log.previous
+log/sessions/
+log/lra/
+log/lwa/
+
+# User uploads and generated files
+uploads/*
+!uploads/.gitkeep
+attachements/*
+!attachements/.gitkeep
+pdfs/*
+!pdfs/.gitkeep
+
+# Environment-specific configuration
+.env
+.env.local
+.env.testing

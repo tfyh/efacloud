@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<psalm
+    errorLevel="4"
+    resolveFromConfigFile="true"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+    findUnusedBaselineEntry="false"
+    findUnusedCode="false"
+>
+    <projectFiles>
+        <directory name="classes" />
+        <directory name="api" />
+        <directory name="forms" />
+        <directory name="pages" />
+        <ignoreFiles>
+            <directory name="vendor" />
+            <directory name="tcpdf" />
+            <directory name="tests" />
+            <directory name="install" />
+        </ignoreFiles>
+    </projectFiles>
+
+    <issueHandlers>
+        <!-- Suppress common issues in legacy code -->
+        <MissingReturnType errorLevel="suppress" />
+        <MissingParamType errorLevel="suppress" />
+        <MissingPropertyType errorLevel="suppress" />
+        <MixedAssignment errorLevel="suppress" />
+        <MixedArgument errorLevel="suppress" />
+        <MixedMethodCall errorLevel="suppress" />
+        <MixedArrayAccess errorLevel="suppress" />
+        <MixedOperand errorLevel="suppress" />
+        <MixedReturnStatement errorLevel="suppress" />
+        <MixedInferredReturnType errorLevel="suppress" />
+
+        <!-- Allow undefined functions (like i() for internationalization) -->
+        <UndefinedFunction errorLevel="suppress" />
+
+        <!-- Allow undefined global variables (legacy code pattern) -->
+        <UndefinedGlobalVariable errorLevel="suppress" />
+        <PossiblyUndefinedGlobalVariable errorLevel="suppress" />
+    </issueHandlers>
+
+    <plugins>
+        <!-- Enable taint analysis for security scanning -->
+    </plugins>
+</psalm>
