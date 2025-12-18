@@ -8,8 +8,6 @@ This directory contains the testing infrastructure for efaCloud development. The
 tests/
 ├── Unit/                    # Unit tests (no database required)
 │   └── EfaTablesTest.php    # Tests for Efa_tables class
-├── Integration/             # Integration tests (requires MySQL)
-│   └── (future tests)       # PHPUnit-based integration tests
 ├── scripts/                 # Standalone test scripts (not PHPUnit)
 │   └── InstallationTest.php # Simulates browser-based installation
 ├── fixtures/                # Test data and database schemas
@@ -19,8 +17,9 @@ tests/
 ```
 
 **Note:** The `scripts/` directory contains standalone PHP scripts that simulate
-real-world scenarios (like browser-based installation). These are run directly
-by GitHub Actions, not through PHPUnit.
+real-world scenarios (like browser-based installation). These scripts properly
+set up the web server context (by changing to the correct directory) before
+loading efaCloud classes. They are run directly by GitHub Actions, not through PHPUnit.
 
 ## Requirements for Running Tests
 
@@ -109,9 +108,12 @@ Tests run automatically on every push to any branch via GitHub Actions. The work
 | PHP Syntax Validation | Checks all PHP files for syntax errors | Every push |
 | Static Code Analysis | Runs PHPStan for type checking | Every push |
 | Unit Tests | Runs PHPUnit unit test suite | Every push |
-| Integration Tests | Runs PHPUnit with MySQL | Every push |
-| Installation Process Test | Simulates full installation | Every push |
+| Installation Process Test | Simulates full browser-based installation with MySQL | Every push |
 | Security Scanning | Snyk, OWASP, Psalm taint analysis | Weekly + master pushes |
+
+**Note:** Code coverage is currently disabled because efaCloud's `init.php` has a shutdown
+handler that crashes when loaded outside of a proper web server context. The unit tests
+still run and pass, but coverage reports are not generated.
 
 ## Writing New Tests
 

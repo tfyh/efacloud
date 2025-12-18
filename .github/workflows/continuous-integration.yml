@@ -82,65 +82,9 @@ jobs:
       - name: Execute unit tests
         run: vendor/bin/phpunit --testsuite unit --colors=always
 
-  integration-tests:
-    name: Integration Tests
-    runs-on: ubuntu-latest
-    needs: php-syntax-check
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ROOT_PASSWORD: test
-          MYSQL_DATABASE: efacloud_test
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup PHP environment
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.1'
-          extensions: mysqli, fileinfo, mbstring
-          coverage: xdebug
-
-      - name: Install Composer dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest
-
-      - name: Wait for MySQL to be ready
-        run: |
-          echo "Waiting for MySQL..."
-          for i in {1..30}; do
-            if mysqladmin ping -h"127.0.0.1" -P3306 --silent 2>/dev/null; then
-              echo "MySQL is ready!"
-              break
-            fi
-            echo "Attempt $i: MySQL not ready yet..."
-            sleep 2
-          done
-
-      - name: Initialize test database
-        run: |
-          if [ -f "tests/fixtures/test_database.sql" ]; then
-            mysql -h127.0.0.1 -P3306 -uroot -ptest efacloud_test < tests/fixtures/test_database.sql
-          fi
-        env:
-          MYSQL_PWD: test
-
-      - name: Execute integration tests
-        run: vendor/bin/phpunit --testsuite integration --colors=always
-        env:
-          DB_HOST: 127.0.0.1
-          DB_PORT: 3306
-          DB_DATABASE: efacloud_test
-          DB_USERNAME: root
-          DB_PASSWORD: test
+  # Note: PHPUnit integration tests removed - database integration testing
+  # is now done via the installation-test job which runs a standalone script
+  # that properly simulates the web server context.
 
   installation-test:
     name: Installation Process Test

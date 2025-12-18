@@ -66,18 +66,28 @@ $_SERVER['HTTP_HOST'] = 'localhost';
 $_SERVER['REQUEST_URI'] = '/test';
 $_SERVER['HTTPS'] = 'off';
 
-// Change to the application root directory
-chdir(__DIR__ . '/../..');
+// Store the repository root path
+$repoRoot = realpath(__DIR__ . '/../..');
 
-// Include required files
-require_once 'classes/init_i18n.php';
-require_once 'classes/tfyh_toolbox.php';
+// Create log directory if it doesn't exist
+$logDir = $repoRoot . '/log';
+if (!is_dir($logDir)) {
+    mkdir($logDir, 0755, true);
+}
+
+// Change to the install directory to simulate installation context
+// efaCloud uses relative paths like '../classes/' which require running from a subdirectory
+chdir($repoRoot . '/install');
+
+// Include required files (paths are relative to install/ directory)
+require_once '../classes/init_i18n.php';
+require_once '../classes/tfyh_toolbox.php';
 
 $toolbox = new Tfyh_toolbox();
 echo "  ✓ Toolbox initialized\n";
 
-// Include socket class
-require_once 'classes/tfyh_socket.php';
+// Include socket class (path relative to install/ directory)
+require_once '../classes/tfyh_socket.php';
 $socket = new Tfyh_socket($toolbox);
 
 // Test socket connection
@@ -105,8 +115,8 @@ $adminUser = [
 $toolbox->users->set_session_user($adminUser);
 echo "  ✓ Admin session configured\n";
 
-// Load efa_tools and initialize database
-require_once 'classes/efa_tools.php';
+// Load efa_tools and initialize database (path relative to install/ directory)
+require_once '../classes/efa_tools.php';
 $efa_tools = new Efa_tools($toolbox, $socket);
 
 // Initialize all efa2 tables, efaCloud tables, and efaCloudUsers

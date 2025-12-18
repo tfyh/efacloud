@@ -18,14 +18,17 @@
         <testsuite name="unit">
             <directory>tests/Unit</directory>
         </testsuite>
-        <testsuite name="integration">
-            <directory>tests/Integration</directory>
-        </testsuite>
+        <!-- Integration tests moved to tests/scripts/ as standalone scripts -->
+        <!-- They run via GitHub Actions directly, not through PHPUnit -->
         <testsuite name="api">
             <directory>tests/Api</directory>
         </testsuite>
     </testsuites>
 
+    <!-- Code coverage disabled: efaCloud's init.php has a shutdown handler that
+         crashes when loaded outside of web context. Enable when running with
+         proper application bootstrap. -->
+    <!--
     <coverage cacheDirectory=".phpunit.cache/code-coverage"
               processUncoveredFiles="true">
         <include>
@@ -44,6 +47,7 @@
             <clover outputFile="coverage/clover.xml"/>
         </report>
     </coverage>
+    -->
 
     <php>
         <env name="APP_ENV" value="testing"/>
