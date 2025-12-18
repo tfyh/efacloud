@@ -1,0 +1,51 @@
+# Docker Compose configuration for local testing
+# Usage: docker-compose -f docker-compose.test.yml up -d
+#        docker-compose -f docker-compose.test.yml exec php-test vendor/bin/phpunit
+
+version: '3.8'
+
+services:
+  php-test:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    volumes:
+      - .:/var/www/html
+      - ./vendor:/var/www/html/vendor
+    depends_on:
+      mysql-test:
+        condition: service_healthy
+    environment:
+      # Safe: local ephemeral test container
+      - EFACLOUD_DB_HOST=mysql-test
+      - EFACLOUD_DB_USER=root
+      - EFACLOUD_DB_PASS=test
+      - EFACLOUD_DB_NAME=efacloud_test
+      - APP_ENV=testing
+    networks:
+      - efacloud-test
+
+  mysql-test:
+    image: mysql:8.0
+    environment:
+      # Safe: local ephemeral test container
+      MYSQL_ROOT_PASSWORD: test
+      MYSQL_DATABASE: efacloud_test
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-test-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - efacloud-test
+
+networks:
+  efacloud-test:
+    driver: bridge
+
+volumes:
+  mysql-test-data:

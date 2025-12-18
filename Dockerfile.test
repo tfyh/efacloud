@@ -1,0 +1,43 @@
+# Dockerfile for efaCloud testing environment
+# This container is used for running PHPUnit tests locally
+
+FROM php:8.1-cli
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    unzip \
+    libzip-dev \
+    default-mysql-client \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install PHP extensions
+RUN docker-php-ext-install \
+    mysqli \
+    pdo \
+    pdo_mysql \
+    zip
+
+# Install fileinfo extension (usually enabled by default, but ensure it)
+RUN docker-php-ext-enable mysqli
+
+# Install Composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# Set working directory
+WORKDIR /var/www/html
+
+# Copy composer files first for better layer caching
+COPY composer.json ./
+
+# Install dependencies
+RUN composer install --prefer-dist --no-progress --no-interaction || true
+
+# Copy the rest of the application
+COPY . .
+
+# Set permissions
+RUN chmod -R 755 /var/www/html
+
+# Default command runs PHPUnit
+CMD ["vendor/bin/phpunit", "--colors=always"]

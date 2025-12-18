@@ -1,0 +1,36 @@
+parameters:
+    # Start with level 3 for legacy codebase, increase gradually
+    level: 3
+
+    paths:
+        - classes
+        - api
+        - forms
+        - pages
+
+    excludePaths:
+        - vendor
+        - tcpdf
+        - tests
+        - install
+
+    # Ignore errors in third-party code
+    ignoreErrors:
+        # Common patterns in legacy code
+        - '#Variable \$[a-zA-Z_]+ might not be defined#'
+        - '#Function i not found#'
+
+    # Bootstrap files that define globals
+    bootstrapFiles:
+        - tests/bootstrap.php
+
+    # Treat these as universal object crates (dynamic properties allowed)
+    universalObjectCratesClasses:
+        - stdClass
+
+    # Report unmatched ignored errors
+    reportUnmatchedIgnoredErrors: false
+
+    # Check for missing typehints (disabled for legacy code)
+    checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false

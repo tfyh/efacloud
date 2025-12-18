@@ -1,0 +1,49 @@
+{
+    "name": "tfyh/efacloud",
+    "description": "efaCloud server - Cloud-based solution for rowing club data management extending efa (elektronisches Fahrtenbuch)",
+    "type": "project",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Martin Glade",
+            "email": "info@efacloud.org"
+        }
+    ],
+    "homepage": "https://www.efacloud.org",
+    "support": {
+        "issues": "https://github.com/tfyh/efacloud/issues",
+        "source": "https://github.com/tfyh/efacloud"
+    },
+    "require": {
+        "php": ">=7.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.6",
+        "phpstan/phpstan": "^1.10",
+        "vimeo/psalm": "^5.0",
+        "guzzlehttp/guzzle": "^7.0"
+    },
+    "autoload": {
+        "classmap": [
+            "classes/"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "test:unit": "phpunit --testsuite unit",
+        "test:integration": "phpunit --testsuite integration",
+        "test:coverage": "phpunit --coverage-html coverage/",
+        "analyse": "phpstan analyse",
+        "psalm": "psalm",
+        "lint": "find . -name '*.php' -not -path './vendor/*' -exec php -l {} \\;"
+    },
+    "config": {
+        "sort-packages": true,
+        "optimize-autoloader": true
+    }
+}
