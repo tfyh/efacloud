@@ -33,6 +33,10 @@
 /.vscode/                   export-ignore
 /.idea/                     export-ignore
 
+# Repository documentation (not needed on production servers)
+/README.md                  export-ignore
+/.gitignore                 export-ignore
+
 # ============================================================================
 # LINE ENDING NORMALIZATION
 # ============================================================================
