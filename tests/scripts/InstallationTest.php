@@ -45,12 +45,27 @@ if (!is_dir($configDir)) {
     mkdir($configDir, 0755, true);
 }
 
+// Helper function to encode password (same as Tfyh_toolbox::swap_lchars)
+// This is a symmetric character substitution for lowercase letters
+function swap_lchars(string $p): string {
+    $P = "";
+    for ($i = 0; $i < strlen($p); $i++) {
+        if ((ord($p[$i]) >= 97) && (ord($p[$i]) <= 122)) {
+            $P .= chr(219 - ord($p[$i]));
+        } else {
+            $P .= $p[$i];
+        }
+    }
+    return $P;
+}
+
 // Create settings_db in the format expected by efaCloud
+// The password must be encoded with swap_lchars before storing
 $dbConfig = [
     'db_host' => $dbHost,
     'db_name' => $dbName,
     'db_user' => $dbUser,
-    'db_up' => $dbPass  // Note: In production this would be swapped/encoded
+    'db_up' => swap_lchars($dbPass)  // Password is encoded for storage
 ];
 
 $configContent = base64_encode(serialize($dbConfig));
